@@ -1,27 +1,57 @@
 const HTML_CONTENT = `
 <!DOCTYPE html>
-<html lang="zh-CN" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Card Tab - 我的导航</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20128%20128%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22grad%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%3Cstop%20offset%3D%220%25%22%20style%3D%22stop-color%3A%2310b981%3Bstop-opacity%3A1%22%20%2F%3E%3Cstop%20offset%3D%22100%25%22%20style%3D%22stop-color%3A%230d9488%3Bstop-opacity%3A1%22%20%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22128%22%20height%3D%22128%22%20rx%3D%2224%22%20fill%3D%22url%28%23grad%29%22%2F%3E%3Cpath%20d%3D%22M64%2024l12.36%2025.04L104%2054.1l-20%2020.48%204.72%2027.52L64%2088.89%2039.28%20101.1%2044%2073.58%2024%2054.1l27.64-5.06L64%2024z%22%20fill%3D%22white%22%2F%3E%3C%2Fsvg%3E">
+    <title>Card Tab - RENVDER NAV</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20128%20128%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22grad%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%3Cstop%20offset%3D%220%25%22%20style%3D%22stop-color%3A%23a855f7%3Bstop-opacity%3A1%22%20%2F%3E%3Cstop%20offset%3D%22100%25%22%20style%3D%22stop-color%3A%237e22ce%3Bstop-opacity%3A1%22%20%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22128%22%20height%3D%22128%22%20rx%3D%2224%22%20fill%3D%22url%28%23grad%29%22%2F%3E%3Cpolyline%20points%3D%2234%2C40%2060%2C64%2034%2C88%22%20fill%3D%22none%22%20stroke%3D%22white%22%20stroke-width%3D%2211%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3Crect%20x%3D%2268%22%20y%3D%2282%22%20width%3D%2230%22%20height%3D%2211%22%20rx%3D%222%22%20fill%3D%22white%22%2F%3E%3C%2Fsvg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['Share Tech Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+                        display: ['Orbitron', 'ui-sans-serif', 'sans-serif'],
+                    },
                     colors: {
                         glass: {
-                            border: 'rgba(255, 255, 255, 0.2)',
-                            darkBorder: 'rgba(255, 255, 255, 0.1)',
-                        }
+                            border: 'rgba(168, 85, 247, 0.25)',
+                            darkBorder: 'rgba(168, 85, 247, 0.15)',
+                        },
+                        // Cyberpunk terminal neutrals: purple-black instead of blue-grey
+                        slate: {
+                            50: '#f6f1ff', 100: '#ece2fd', 200: '#d7c3fb', 300: '#bb96f2',
+                            400: '#9c6de6', 500: '#8347d1', 600: '#6931ab', 700: '#4c1f80',
+                            800: '#2a1147', 900: '#170a29', 950: '#0a0414',
+                        },
+                        // Primary accent: neon purple/violet replacing the old green
+                        emerald: {
+                            50: '#faf0ff', 100: '#f3d9ff', 200: '#e6b3ff', 300: '#d685ff',
+                            400: '#c04dff', 500: '#a855f7', 600: '#9333ea', 700: '#7e22ce',
+                            800: '#5b1798', 900: '#3b0764',
+                        },
+                        // Secondary accent: neon cyan for contrast against the purple field
+                        blue: {
+                            100: '#cffafe', 300: '#67e8f9', 400: '#22d3ee',
+                            600: '#0891b2', 900: '#083344',
+                        },
+                        teal: {
+                            600: '#d926c9',
+                        },
+                        gray: {
+                            100: '#f3edfb', 200: '#e6d9f7', 300: '#d0bdf0', 600: '#5f3a94',
+                        },
                     },
                     
                     boxShadow: {
-                        'glass': '0 4px 30px rgba(0, 0, 0, 0.1)',
-                        'glass-hover': '0 10px 40px rgba(0, 0, 0, 0.2)',
+                        'glass': '0 4px 30px rgba(168, 85, 247, 0.15)',
+                        'glass-hover': '0 10px 40px rgba(168, 85, 247, 0.25)',
                     }
                 }
             }
@@ -33,12 +63,12 @@ const HTML_CONTENT = `
         ::-webkit-scrollbar-thumb { background: rgba(156, 163, 175, 0.3); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(156, 163, 175, 0.6); }
 
-        .loading-spinner-track { border: 4px solid #e2e8f0; }
-        .dark .loading-spinner-track { border-color: #334155; }
-        .loading-spinner-arc { border: 4px solid transparent; border-top-color: #10b981; }
-        .dark .loading-spinner-arc { border-top-color: #34d399; }
-        .icon-spinner { border: 2px solid #cbd5e1; border-top-color: #10b981; }
-        .dark .icon-spinner { border-color: #475569; border-top-color: #34d399; }
+        .loading-spinner-track { border: 4px solid #e9d5ff; }
+        .dark .loading-spinner-track { border-color: #2a1b42; }
+        .loading-spinner-arc { border: 4px solid transparent; border-top-color: #a855f7; }
+        .dark .loading-spinner-arc { border-top-color: #c084fc; }
+        .icon-spinner { border: 2px solid #ddd6fe; border-top-color: #a855f7; }
+        .dark .icon-spinner { border-color: #3b2354; border-top-color: #c084fc; }
 
         @media (max-width: 640px) {
             ::-webkit-scrollbar { display: none; }
@@ -48,7 +78,7 @@ const HTML_CONTENT = `
         .card.dragging {
             opacity: 0.8;
             transform: scale(1.05);
-            border: 2px dashed #10b981;
+            border: 2px dashed #a855f7;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             z-index: 50;
             position: relative;
@@ -77,7 +107,7 @@ const HTML_CONTENT = `
         }
         
         .card-clone-dragging {
-            pointer-events: none !important; /* 关键：让触摸穿透克隆体 */
+            pointer-events: none !important; /* Key: let touch pass through the clone */
             z-index: 9999 !important;
         }
         
@@ -119,15 +149,15 @@ const HTML_CONTENT = `
         input:-webkit-autofill:active {
             -webkit-transition: background-color 99999s ease-out;
             -webkit-transition-delay: 99999s;
-            -webkit-text-fill-color: #475569 !important; 
+            -webkit-text-fill-color: #3b2354 !important; 
         }
 
         html.dark input:-webkit-autofill,
         html.dark input:-webkit-autofill:hover, 
         html.dark input:-webkit-autofill:focus, 
         html.dark input:-webkit-autofill:active {
-            -webkit-text-fill-color: #CBD5E1 !important;
-            box-shadow: 0 0 0px 1000px #1e293b inset !important;
+            -webkit-text-fill-color: #DDD6FE !important;
+            box-shadow: 0 0 0px 1000px #170a29 inset !important;
             transition: background-color 5000s ease-in-out 0s;
         }
         
@@ -162,13 +192,14 @@ const HTML_CONTENT = `
             color: #fbbf24;
         }
         .card-status-tag.online {
-            background: rgba(16, 185, 129, 0.15);
-            color: #059669;
+            background: rgba(34, 197, 94, 0.15);
+            color: #16a34a;
         }
         html.dark .card-status-tag.online {
-            color: #34d399;
+            color: #4ade80;
+            text-shadow: 0 0 6px rgba(74, 222, 128, 0.6);
         }
-        /* 延迟偏慢（300~1000ms）：橙色 */
+        /* Slightly slow latency (300–1000ms): orange */
         .card-status-tag.slow {
             background: rgba(249, 115, 22, 0.15);
             color: #ea580c;
@@ -183,36 +214,120 @@ const HTML_CONTENT = `
         html.dark .card-status-tag.offline {
             color: #f87171;
         }
+
+        /* ================= Cyberpunk Terminal Theme ================= */
+        html.dark body {
+            background-color: #0a0414;
+        }
+        body {
+            letter-spacing: 0.01em;
+        }
+        /* Subtle purple scanlines + grid, dark mode only */
+        html.dark body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -5;
+            pointer-events: none;
+            background-image:
+                repeating-linear-gradient(0deg, rgba(168,85,247,0.05) 0px, rgba(168,85,247,0.05) 1px, transparent 1px, transparent 3px),
+                linear-gradient(rgba(168,85,247,0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(168,85,247,0.07) 1px, transparent 1px);
+            background-size: auto, 42px 42px, 42px 42px;
+            opacity: 0.5;
+            mix-blend-mode: screen;
+        }
+        html.dark ::selection {
+            background: rgba(168, 85, 247, 0.4);
+            color: #f6f1ff;
+        }
+        html.dark .card {
+            box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.12), 0 8px 24px -8px rgba(168, 85, 247, 0.15);
+        }
+        html.dark .card:hover {
+            box-shadow: 0 0 0 1px rgba(192, 77, 255, 0.45), 0 0 22px 0 rgba(168, 85, 247, 0.35), 0 12px 28px -10px rgba(0,0,0,0.5);
+        }
+        html.dark input:focus, html.dark button:focus-visible {
+            box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.5), 0 0 12px rgba(168, 85, 247, 0.4);
+        }
+        html.dark #dialog-box, html.dark #password-dialog-box, html.dark #custom-alert-box,
+        html.dark #custom-confirm-box, html.dark #category-dialog-box,
+        html.dark #profile-dropdown, html.dark .card-menu-dropdown, html.dark #search-engine-menu,
+        html.dark #category-select-menu {
+            box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.35), 0 0 30px rgba(168, 85, 247, 0.2), 0 25px 50px -12px rgba(0,0,0,0.7);
+        }
+        .font-display, #back-to-top-btn svg {
+            font-family: 'Orbitron', 'Share Tech Mono', monospace;
+        }
+        /* Blinking terminal caret after the brand label, dark mode only */
+        html.dark a[onclick="location.reload()"] span::after {
+            content: '_';
+            margin-left: 2px;
+            color: #c084fc;
+            animation: nav-caret-blink 1.1s steps(1) infinite;
+        }
+        @keyframes nav-caret-blink { 50% { opacity: 0; } }
+        html.dark #search-input::placeholder { color: #8347d1; }
+        /* ================ End Cyberpunk Terminal Theme ================ */
     </style>
-    <script>
-        (function () {
-            let isDark;
-            const savePreferences = localStorage.getItem('savePreferences');
-            if (savePreferences === 'true') {
-                const savedTheme = localStorage.getItem('theme');
-                isDark = savedTheme === 'dark';
-            } else {
-                const hour = new Date().getHours();
-                isDark = (hour >= 21 || hour < 6);
-            }
-            window.isDarkTheme = isDark;
-            if (isDark) document.documentElement.classList.add('dark');
+        <script>
+        // --- 主題管理邏輯 ---
+        (() => {
+            const htmlEl = document.documentElement;
+            const storageKey = 'theme_preference';
+
+            const setTheme = (theme) => {
+                if (theme === 'dark') {
+                    htmlEl.classList.add('dark');
+                } else if (theme === 'light') {
+                    htmlEl.classList.remove('dark');
+                }
+                localStorage.setItem(storageKey, theme);
+            };
+
+            const applyInitialTheme = () => {
+                const savedTheme = localStorage.getItem(storageKey);
+                if (savedTheme) {
+                    setTheme(savedTheme);
+                } else {
+                    // 如果沒有手動選過，就根據系統偏好來決定
+                    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                        setTheme('dark');
+                    } else {
+                        setTheme('light');
+                    }
+                }
+            };
+
+            // 立即執行，確保網頁一載入就顯示正確顏色（防止閃爍）
+            applyInitialTheme();
+
+            // 監聽系統主題的實時變動
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+                // 除非使用者已經手動選過主題，否則才跟隨系統切換
+                if (!localStorage.getItem(storageKey)) {
+                    setTheme(e.matches ? 'dark' : 'light');
+                }
+            });
+
+            // 提供給 UI 按鈕使用的全域方法
+            window.updateTheme = (theme) => setTheme(theme);
         })();
     </script>
 </head>
 
 <body class="min-h-screen font-sans text-slate-800 dark:text-slate-100 selection:bg-emerald-200 dark:selection:bg-emerald-900 transition-colors duration-300">
     
-    <!-- 背景层 -->
-    <div class="fixed inset-0 -z-10 h-full w-full overflow-hidden bg-gray-100 dark:bg-[#0f172a]">
-        <div class="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-[#0f172a] dark:to-[#1e293b]"></div>
+    <!-- Background layer -->
+    <div class="fixed inset-0 -z-10 h-full w-full overflow-hidden bg-gray-100 dark:bg-[#0a0414]">
+        <div class="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-[#0a0414] dark:to-[#170a29]"></div>
         <div class="absolute top-[-10%] left-[-10%] w-[800px] h-[800px] bg-emerald-300/30 dark:bg-indigo-600/20 rounded-full blur-[150px]"></div>
         <div class="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-blue-300/30 dark:bg-purple-600/20 rounded-full blur-[120px]"></div>
     </div>
 
-    <!-- 顶部固定导航 -->
+    <!-- Top fixed navigation -->
     <div class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-        <div class="backdrop-blur-md bg-gray-100/80 dark:bg-[#0f172a]/85 border-b border-slate-200/40 dark:border-slate-700/40 shadow-sm [transform:translateZ(0)]">
+        <div class="backdrop-blur-md bg-gray-100/80 dark:bg-[#0a0414]/85 border-b border-slate-200/40 dark:border-slate-700/40 shadow-sm [transform:translateZ(0)]">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16 gap-4">
                     
@@ -223,7 +338,7 @@ const HTML_CONTENT = `
                                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
                             </svg>
                         </div>
-                        <span class="font-bold text-lg tracking-wide text-slate-700 dark:text-slate-100 hidden sm:block">我的导航</span>
+                        <span class="font-bold text-lg tracking-wide text-slate-700 dark:text-slate-100 hidden sm:block">RENVDER NAV</span>
                     </a>
 
                     <!-- Search Bar -->
@@ -233,26 +348,26 @@ const HTML_CONTENT = `
                             <!-- Custom Search Engine Dropdown -->
                             <div class="relative h-full" id="search-engine-wrapper">
                                 <button id="search-engine-btn" class="h-full pl-3 pr-2 flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 hover:text-emerald-500 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded-l-xl transition-colors outline-none w-auto md:min-w-[5.5rem]">
-                                    <!-- 默认显示本站图标 -->
+                                    <!-- Show this site's icon by default -->
                                     <span id="current-engine-icon" class="flex-shrink-0 w-5 h-5 flex items-center justify-center">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                                     </span>
-                                    <span id="current-engine-label" class="font-medium truncate hidden md:block">本站</span>
+                                    <span id="current-engine-label" class="font-medium truncate hidden md:block">This site</span>
                                     <svg class="w-3 h-3 opacity-60 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                 </button>
                                 
                                 <!-- Dropdown Menu -->
-                                <div id="search-engine-menu" class="hidden absolute top-full left-0 mt-2 w-24 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden z-50 dropdown-enter">
+                                <div id="search-engine-menu" class="hidden absolute top-full left-0 mt-2 w-40 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden z-50 dropdown-enter">
                                     <div class="py-1" id="search-engine-list">
-                                        <div class="px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">搜索引擎</div>
-                                        <!-- JS 自动插入按钮 -->
+                                        <div class="px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Search Engine</div>
+                                        <!-- JS auto-inserted buttons -->
                                     </div>
                                 </div>
                             </div>
 
                             <div class="h-4 w-px bg-slate-200 dark:bg-slate-600 mx-1"></div>
                             
-                            <input type="text" id="search-input" class="flex-1 bg-transparent border-none text-slate-700 dark:text-slate-200 text-sm focus:ring-0 placeholder-slate-400 h-full w-full outline-none px-2" placeholder="搜索">
+                            <input type="text" id="search-input" class="flex-1 bg-transparent border-none text-slate-700 dark:text-slate-200 text-sm focus:ring-0 placeholder-slate-400 h-full w-full outline-none px-2" placeholder="Search">
                             
                             <button id="clear-search-button" class="hidden p-1.5 mr-1 rounded-full text-slate-400 hover:text-red-500 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all">
                                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"></path></svg>
@@ -271,53 +386,53 @@ const HTML_CONTENT = `
                                 <div class="w-7 h-7 rounded-full bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-600 flex items-center justify-center shadow-inner">
                                      <svg class="w-4 h-4 text-slate-500 dark:text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                                 </div>
-                                <span id="menu-toggle" class="hidden md:inline">设置</span>
+                                <span id="menu-toggle" class="hidden md:inline">Settings</span>
                             </button>
                             
                             <!-- Dropdown Menu -->
-                            <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-60 bg-white dark:bg-[#1e293b] rounded-xl shadow-xl ring-1 ring-black/5 dark:ring-white/10 overflow-hidden transform origin-top-right transition-all z-50 dropdown-enter">
+                            <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-60 bg-white dark:bg-[#170a29] rounded-xl shadow-xl ring-1 ring-black/5 dark:ring-white/10 overflow-hidden transform origin-top-right transition-all z-50 dropdown-enter">
                                 <div class="p-2 space-y-1">
                                     <!-- Edit Mode -->
                                     <button id="edit-mode-btn" onclick="toggleEditMode()" class="w-full text-left px-3 py-2.5 rounded-lg text-sm text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-slate-700/50 hover:text-emerald-600 transition-colors flex items-center gap-3 font-medium">
                                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                                        编辑模式
+                                        Edit Mode
                                     </button>
 
-                                    <!-- 一键检测 -->
+                                    <!-- One-Click Check -->
                                     <div id="check-all-menu" class="hidden border-t border-slate-100 dark:border-slate-700/50 my-1 pt-1">
                                         <button id="check-all-btn" onclick="checkAllSites()" class="w-full text-left px-3 py-2.5 rounded-lg text-sm text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-slate-700/50 hover:text-emerald-600 transition-colors flex items-center justify-between gap-3 font-medium">
                                             <span class="flex items-center gap-3">
                                                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                                                一键检测
+                                                One-Click Check
                                             </span>
                                             <span id="check-all-status" class="text-xs font-normal text-slate-400 dark:text-slate-500"></span>
                                         </button>
                                     </div>
 
-                                    <!-- 导入导出 (仅登录显示) -->
+                                    <!-- Import/Export (login only) -->
                                     <div id="data-tools-menu" class="hidden border-t border-slate-100 dark:border-slate-700/50 my-1 pt-1">
                                          <button onclick="exportData()" class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 dark:text-slate-200 hover:bg-amber-50 dark:hover:bg-slate-700/50 hover:text-amber-600 transition-colors flex items-center gap-3">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                                            导出配置
+                                            Export Config
                                         </button>
                                         <button onclick="importData()" class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 dark:text-slate-200 hover:bg-green-50 dark:hover:bg-slate-700/50 hover:text-green-600 transition-colors flex items-center gap-3">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4-4m0 0l-4 4m4-4v12"></path></svg>
-                                            导入配置
+                                            Import Config
                                         </button>
-                                        <!-- 文件输入框 (隐藏) -->
+                                        <!-- File input (hidden) -->
                                         <input type="file" id="import-file-input" accept=".json,.html,.htm" class="hidden">
                                     </div>
                                     
                                     <div class="h-px bg-slate-100 dark:bg-slate-700/50 mx-1 my-1"></div>
 
-                                    <!-- 【新增】APP 布局切换 -->
+                                    <!-- [New] APP Layout Toggle -->
                                     <div class="px-3 py-2.5 flex items-center justify-between text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/30 rounded-lg group">
                                         <span class="flex items-center gap-3">
                                             <svg class="w-4 h-4 text-slate-400 group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect>
                                                 <rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect>
                                             </svg>
-                                            APP 视图
+                                            APP View
                                         </span>
                                         <label class="relative inline-flex items-center cursor-pointer">
                                             <input type="checkbox" id="layout-switch-checkbox" onchange="toggleAppLayout()" class="sr-only peer">
@@ -328,7 +443,7 @@ const HTML_CONTENT = `
                                     <div class="px-3 py-2.5 flex items-center justify-between text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/30 rounded-lg group">
                                         <span class="flex items-center gap-3">
                                             <svg class="w-4 h-4 text-slate-400 group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                                            深色模式
+                                            Dark Mode
                                         </span>
                                         <label class="relative inline-flex items-center cursor-pointer">
                                             <input type="checkbox" id="theme-switch-checkbox" class="sr-only peer">
@@ -338,7 +453,7 @@ const HTML_CONTENT = `
                                     <div class="px-3 py-2.5 flex items-center justify-between text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/30 rounded-lg group">
                                         <span class="flex items-center gap-3">
                                             <svg class="w-4 h-4 text-slate-400 group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-                                            记住设置
+                                            Remember Settings
                                         </span>
                                         <label class="relative inline-flex items-center cursor-pointer">
                                             <input type="checkbox" id="save-preference-checkbox" class="sr-only peer">
@@ -348,7 +463,7 @@ const HTML_CONTENT = `
                                     <div class="h-px bg-slate-100 dark:bg-slate-700/50 mx-1 my-1"></div>
                                     <button id="login-Btn" onclick="toggleLogin()" class="w-full text-left px-3 py-2.5 rounded-lg text-sm text-slate-700 dark:text-slate-200 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 transition-colors flex items-center gap-3 font-medium">
                                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-                                        登录 / 退出
+                                        Login / Logout
                                     </button>
                                 </div>
                             </div>
@@ -356,69 +471,69 @@ const HTML_CONTENT = `
                     </div>
                 </div>
                 
-                <!-- 快捷分类栏 -->
+                <!-- Quick Category Bar -->
                 <div id="category-buttons-container" class="py-2 flex gap-2 overflow-x-auto no-scrollbar mask-gradient items-center">
-                    <!-- JS 生成按钮 -->
+                    <!-- JS generated buttons -->
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 主要内容区 -->
+    <!-- Main Content Area -->
     <main class="pt-36 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen">
-        <!-- 添加分类按钮 (仅编辑模式显示) -->
+        <!-- Add Category button (edit mode only) -->
         <div id="add-category-container" class="hidden mt-12 mb-8">
             <button onclick="addCategory()" class="w-full py-4 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:border-emerald-500 hover:text-emerald-600 dark:hover:border-emerald-500 dark:hover:text-emerald-500 hover:bg-emerald-50/50 dark:hover:bg-slate-800/50 transition-all flex items-center justify-center gap-2 group">
                 <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/30 flex items-center justify-center transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                 </div>
-                <span class="font-medium text-lg">新建分类</span>
+                <span class="font-medium text-lg">New Category</span>
             </button>
         </div>
 
-        <!-- 内容渲染容器 -->
+        <!-- Content Render Container -->
         <div id="sections-container" class="space-y-10"></div>
 
-        <!-- 返回顶部按钮独立放置 -->
+        <!-- Back-to-top button, placed separately -->
         <div class="fixed bottom-8 right-8 z-50">
-            <button id="back-to-top-btn" onclick="scrollToTop()" class="hidden w-12 h-12 rounded-2xl bg-white/90 dark:bg-slate-800/90 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shadow-lg backdrop-blur-sm flex items-center justify-center transition-all hover:scale-110 hover:bg-slate-50 dark:hover:bg-slate-700 has-tooltip group" data-tooltip="返回顶部">
+            <button id="back-to-top-btn" onclick="scrollToTop()" class="hidden w-12 h-12 rounded-2xl bg-white/90 dark:bg-slate-800/90 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shadow-lg backdrop-blur-sm flex items-center justify-center transition-all hover:scale-110 hover:bg-slate-50 dark:hover:bg-slate-700 has-tooltip group" data-tooltip="Back to top">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
             </button>
         </div>
         
     </main>
 
-    <!-- 模态框：添加/编辑链接 -->
+    <!-- Modal: Add/Edit Link -->
     <div id="dialog-overlay" class="fixed inset-0 z-[60] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 overlay-hidden">
-        <div id="dialog-box" class="bg-white dark:bg-[#1e293b] rounded-2xl shadow-2xl w-full max-w-md p-6 transform transition-all duration-300 border border-slate-100 dark:border-slate-700 dialog-scale-hidden">
+        <div id="dialog-box" class="bg-white dark:bg-[#170a29] rounded-2xl shadow-2xl w-full max-w-md p-6 transform transition-all duration-300 border border-slate-100 dark:border-slate-700 dialog-scale-hidden">
             <h3 class="text-xl font-bold mb-5 text-slate-800 dark:text-slate-100 flex items-center gap-2">
                 <span class="w-1 h-6 bg-emerald-500 rounded-full"></span>
-                编辑信息
+                Edit Info
             </h3>
             <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">名称 <span class="text-red-500">*</span></label>
-                    <input type="text" id="name-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="网站名称">
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Name <span class="text-red-500">*</span></label>
+                    <input type="text" id="name-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Site name">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">地址 <span class="text-red-500">*</span></label>
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">URL <span class="text-red-500">*</span></label>
                     <input type="text" id="url-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="https://...">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">描述</label>
-                    <input type="text" id="tips-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="简短的描述...">
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Description</label>
+                    <input type="text" id="tips-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="A short description...">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">图标 URL</label>
-                    <input type="text" id="icon-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="留空自动获取">
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Icon URL</label>
+                    <input type="text" id="icon-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Leave blank to auto-fetch">
                 </div>
                 
                 <!-- Custom Category Dropdown -->
                 <div class="relative z-20" id="category-select-wrapper">
-                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">分类</label>
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Category</label>
                     <input type="hidden" id="category-select-value">
                     <button id="category-select-btn" class="w-full px-4 py-2.5 text-left rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 outline-none transition-all text-slate-700 dark:text-white flex items-center justify-between">
-                        <span id="category-select-text">请选择分类</span>
+                        <span id="category-select-text">Select a category</span>
                         <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
                     <!-- Dropdown List -->
@@ -429,63 +544,63 @@ const HTML_CONTENT = `
 
                 <div class="flex items-center gap-2 pt-2">
                     <input type="checkbox" id="private-checkbox" class="w-5 h-5 text-emerald-500 rounded focus:ring-emerald-500 border-gray-300 bg-gray-100">
-                    <label for="private-checkbox" class="text-sm text-slate-600 dark:text-slate-300 font-medium">设为私密链接 (仅登录可见)</label>
+                    <label for="private-checkbox" class="text-sm text-slate-600 dark:text-slate-300 font-medium">Set as private link (visible only when logged in)</label>
                 </div>
             </div>
             <div class="flex justify-end gap-3 mt-8">
-                <button id="dialog-cancel-btn" class="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 transition-colors">取消</button>
-                <button id="dialog-confirm-btn" class="px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-emerald-500 hover:bg-emerald-600 shadow-lg shadow-emerald-500/25 transition-all hover:translate-y-[-1px]">确定</button>
+                <button id="dialog-cancel-btn" class="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 transition-colors">Cancel</button>
+                <button id="dialog-confirm-btn" class="px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-emerald-500 hover:bg-emerald-600 shadow-lg shadow-emerald-500/25 transition-all hover:translate-y-[-1px]">Confirm</button>
             </div>
         </div>
     </div>
 
-    <!-- 密码弹窗 -->
+    <!-- Password Dialog -->
     <div id="password-dialog-overlay" class="fixed inset-0 z-[70] bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 overlay-hidden">
-        <div id="password-dialog-box" class="bg-white dark:bg-[#1e293b] rounded-2xl shadow-2xl p-8 w-full max-w-sm border border-slate-100 dark:border-slate-700 text-center transform transition-all duration-300 dialog-scale-hidden">
+        <div id="password-dialog-box" class="bg-white dark:bg-[#170a29] rounded-2xl shadow-2xl p-8 w-full max-w-sm border border-slate-100 dark:border-slate-700 text-center transform transition-all duration-300 dialog-scale-hidden">
             <div class="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mx-auto mb-4 text-emerald-500">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
             </div>
-            <h3 class="text-xl font-bold mb-2 text-slate-800 dark:text-white">身份验证</h3>
-            <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">请输入管理员密码以继续操作</p>
-            <input type="password" id="password-input" placeholder="访问密码" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none mb-6 dark:text-white text-center tracking-widest text-lg transition-all">
+            <h3 class="text-xl font-bold mb-2 text-slate-800 dark:text-white">Authentication</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Please enter the admin password to continue</p>
+            <input type="password" id="password-input" placeholder="Access password" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none mb-6 dark:text-white text-center tracking-widest text-lg transition-all">
             <div class="flex gap-3">
-                <button id="password-cancel-btn" class="flex-1 py-2.5 rounded-xl text-slate-600 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600 font-medium transition-colors">取消</button>
-                <button id="password-confirm-btn" class="flex-1 py-2.5 rounded-xl text-white bg-emerald-500 hover:bg-emerald-600 shadow-lg shadow-emerald-500/25 font-medium transition-colors">确认登录</button>
+                <button id="password-cancel-btn" class="flex-1 py-2.5 rounded-xl text-slate-600 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600 font-medium transition-colors">Cancel</button>
+                <button id="password-confirm-btn" class="flex-1 py-2.5 rounded-xl text-white bg-emerald-500 hover:bg-emerald-600 shadow-lg shadow-emerald-500/25 font-medium transition-colors">Confirm Login</button>
             </div>
         </div>
     </div>
 
-    <!-- 自定义 Alert -->
+    <!-- Custom Alert -->
     <div id="custom-alert-overlay" class="fixed inset-0 z-[110] bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 overlay-hidden">
-        <div id="custom-alert-box" class="bg-white dark:bg-[#1e293b] rounded-2xl shadow-2xl p-6 max-w-sm w-full border border-slate-100 dark:border-slate-700 transform transition-all duration-300 dialog-scale-hidden">
-            <h3 id="custom-alert-title" class="text-lg font-bold mb-2 text-slate-800 dark:text-white">提示</h3>
+        <div id="custom-alert-box" class="bg-white dark:bg-[#170a29] rounded-2xl shadow-2xl p-6 max-w-sm w-full border border-slate-100 dark:border-slate-700 transform transition-all duration-300 dialog-scale-hidden">
+            <h3 id="custom-alert-title" class="text-lg font-bold mb-2 text-slate-800 dark:text-white">Notice</h3>
             <p id="custom-alert-content" class="text-slate-600 dark:text-slate-300 mb-6 text-sm leading-relaxed"></p>
             <div class="flex justify-end">
-                <button id="custom-alert-confirm" class="px-5 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-sm font-medium transition-colors shadow-lg shadow-emerald-500/20">我知道了</button>
+                <button id="custom-alert-confirm" class="px-5 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-sm font-medium transition-colors shadow-lg shadow-emerald-500/20">Got it</button>
             </div>
         </div>
     </div>
 
-    <!-- 自定义 Confirm -->
+    <!-- Custom Confirm -->
     <div id="custom-confirm-overlay" class="fixed inset-0 z-[80] bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 overlay-hidden">
-        <div id="custom-confirm-box" class="bg-white dark:bg-[#1e293b] rounded-2xl shadow-2xl p-6 max-w-sm w-full border border-slate-100 dark:border-slate-700 transform transition-all duration-300 dialog-scale-hidden">
-            <h3 class="text-lg font-bold mb-3 text-slate-800 dark:text-white">确认操作</h3>
+        <div id="custom-confirm-box" class="bg-white dark:bg-[#170a29] rounded-2xl shadow-2xl p-6 max-w-sm w-full border border-slate-100 dark:border-slate-700 transform transition-all duration-300 dialog-scale-hidden">
+            <h3 class="text-lg font-bold mb-3 text-slate-800 dark:text-white">Confirm Action</h3>
             <p id="custom-confirm-message" class="text-slate-600 dark:text-slate-300 mb-6 text-sm"></p>
             <div class="flex justify-end gap-3">
-                <button id="custom-confirm-cancel" class="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-xl dark:text-slate-400 dark:hover:bg-slate-700 transition-colors font-medium">取消</button>
-                <button id="custom-confirm-ok" class="px-4 py-2 text-sm text-white bg-emerald-500 hover:bg-emerald-600 rounded-xl shadow-lg shadow-emerald-500/20 transition-colors font-medium">确定</button>
+                <button id="custom-confirm-cancel" class="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-xl dark:text-slate-400 dark:hover:bg-slate-700 transition-colors font-medium">Cancel</button>
+                <button id="custom-confirm-ok" class="px-4 py-2 text-sm text-white bg-emerald-500 hover:bg-emerald-600 rounded-xl shadow-lg shadow-emerald-500/20 transition-colors font-medium">Confirm</button>
             </div>
         </div>
     </div>
 
-    <!-- 分类输入弹窗 -->
+    <!-- Category Input Dialog -->
     <div id="category-dialog" class="fixed inset-0 z-[65] bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 overlay-hidden">
-        <div id="category-dialog-box" class="bg-white dark:bg-[#1e293b] rounded-2xl p-6 w-full max-w-sm shadow-2xl border border-slate-100 dark:border-slate-700 transform transition-all duration-300 dialog-scale-hidden">
-            <h3 id="category-dialog-title" class="text-lg font-bold mb-4 text-slate-800 dark:text-white">分类名称</h3>
-            <input type="text" id="category-name-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500 outline-none mb-6 dark:text-white transition-all" placeholder="输入分类名称">
+        <div id="category-dialog-box" class="bg-white dark:bg-[#170a29] rounded-2xl p-6 w-full max-w-sm shadow-2xl border border-slate-100 dark:border-slate-700 transform transition-all duration-300 dialog-scale-hidden">
+            <h3 id="category-dialog-title" class="text-lg font-bold mb-4 text-slate-800 dark:text-white">Category Name</h3>
+            <input type="text" id="category-name-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500 outline-none mb-6 dark:text-white transition-all" placeholder="Enter category name">
             <div class="flex justify-end gap-3">
-                <button id="category-cancel-btn" class="px-4 py-2 text-sm rounded-xl text-slate-600 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-300 font-medium">取消</button>
-                <button id="category-confirm-btn" class="px-4 py-2 text-sm rounded-xl text-white bg-emerald-500 hover:bg-emerald-600 shadow-md font-medium">确定</button>
+                <button id="category-cancel-btn" class="px-4 py-2 text-sm rounded-xl text-slate-600 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-300 font-medium">Cancel</button>
+                <button id="category-confirm-btn" class="px-4 py-2 text-sm rounded-xl text-white bg-emerald-500 hover:bg-emerald-600 shadow-md font-medium">Confirm</button>
             </div>
         </div>
     </div>
@@ -495,7 +610,7 @@ const HTML_CONTENT = `
             <div class="absolute inset-0 w-full h-full rounded-full loading-spinner-track"></div>
             <div class="absolute inset-0 w-full h-full rounded-full loading-spinner-arc animate-spin"></div>
         </div>
-        <p class="mt-4 text-emerald-600 dark:text-emerald-400 font-medium animate-pulse tracking-wide">加载中...</p>
+        <p class="mt-4 text-emerald-600 dark:text-emerald-400 font-medium animate-pulse tracking-wide">Loading...</p>
     </div>
 
     <!-- Tooltip Container -->
@@ -539,7 +654,7 @@ const HTML_CONTENT = `
         tag.classList.remove('checking', 'online', 'slow', 'offline');
         if (state === 'checking') {
             tag.classList.add('checking', 'visible');
-            tag.textContent = '检测中...';
+            tag.textContent = 'Checking...';
             tag.title = '';
         } else if (state && state.online) {
             const latency = Number(state.latency) || 0;
@@ -552,11 +667,11 @@ const HTML_CONTENT = `
                 tag.classList.add('online', 'visible');
             }
             tag.textContent = latency + 'ms';
-            tag.title = state.status != null ? ('HTTP ' + state.status + '，耗时 ' + latency + 'ms') : ('在线 ' + latency + 'ms');
+            tag.title = state.status != null ? ('HTTP ' + state.status + ', ' + latency + 'ms') : ('Online ' + latency + 'ms');
         } else {
             tag.classList.add('offline', 'visible');
-            tag.textContent = '离线';
-            tag.title = state && state.status != null ? ('HTTP ' + state.status) : '离线或超时';
+            tag.textContent = 'Offline';
+            tag.title = state && state.status != null ? ('HTTP ' + state.status) : 'Offline or timeout';
         }
     }
 
@@ -601,29 +716,31 @@ const HTML_CONTENT = `
                 img.onload = () => finish({ online: true, status: 200, source: 'local' });
                 img.onerror = () => {};
                 const cleanUrl = new URL(url).origin;
-                img.src = cleanUrl + '/favicon.ico?_t=' + Date.now();
+                // 優化點：優先嘗試抓取高清的 apple-touch-icon.png
+                // 如果網站沒提供，瀏覽器會自動處理，且這樣能大幅提升手機端的清晰度
+                img.src = cleanUrl + '/apple-touch-icon.png?_t=' + Date.now();
             } catch (e) {
                 img = null;
             }
         });
     }
 
-    // 一键检测：最大并发 5 的队列，检测全部站点
+    // One-click check: a queue with max concurrency 5, checks every site
     async function checkAllSites() {
-        if (!isLoggedIn) { alert('请先登录后再使用检测功能'); return; }
+        if (!isLoggedIn) { alert('Please log in first to use the check feature'); return; }
         if (checkAllRunning) return;
-        if (!await customConfirm('确定要检测全部站点的存活与延迟吗？')) return;
+        if (!await customConfirm('Check liveness and latency for all sites?')) return;
         checkAllRunning = true;
 
         const statusEl = document.getElementById('check-all-status');
-        if (statusEl) statusEl.textContent = '检测中...';
+        if (statusEl) statusEl.textContent = 'Checking...';
 
         const links = getAllLinks().filter((l) => l && l.url);
         const total = links.length;
 
         if (total === 0) {
             checkAllRunning = false;
-            if (statusEl) statusEl.textContent = '0 个站点';
+            if (statusEl) statusEl.textContent = '0 sites';
             return;
         }
 
@@ -639,7 +756,7 @@ const HTML_CONTENT = `
         function updateProgress() {
             if (!statusEl) return;
             const now = Date.now();
-            // 限制进度文本每 100ms 最多刷新一次，或者全部完成时强制刷新
+            // Throttle the progress text to refresh at most once per 100ms, or force a refresh when everything is done
             if (now - lastProgressUpdate > 100 || doneCount === total) {
                 statusEl.textContent = doneCount + '/' + total;
                 lastProgressUpdate = now;
@@ -688,31 +805,31 @@ const HTML_CONTENT = `
         console.log(\`\${new Date().toISOString()}: \${action} - \`, details);
     }
 
-    // 搜索引擎
+    // Search Engine
     const searchEngines = {
-        baidu: "https://www.baidu.com/s?wd=",
+        duckduckgo: "https://duckduckgo.com/?q=",
         bing: "https://www.bing.com/search?q=",
         google: "https://www.google.com/search?q=",
         site: ""
     };
     
-    // 搜索引擎显示名称映射
+    // Search engine display name mapping
     const searchEngineLabels = {
-        baidu: "百度",
-        bing: "必应",
-        google: "谷歌",
-        site: "本站"
+        duckduckgo: "DuckDuckGo",
+        bing: "Bing",
+        google: "Google",
+        site: "This site"
     };
 
-    // 搜索引擎图标映射 (SVG路径)
+    // Search engine icon mapping (SVG paths)
     const searchEngineIcons = {
         site:   '<svg width="16" height="16" fill="#FFD700" stroke="#FFD700" viewBox="0 0 24 24"><path fill="#FFD700" stroke="#FFD700" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>',
-        baidu:  '<svg width="16" height="16" viewBox="0 0 32 32"><path fill="#4285F4" d="M5.749 16.864c3.48-.744 3-4.911 2.901-5.817c-.172-1.401-1.823-3.853-4.057-3.656c-2.812.249-3.224 4.323-3.224 4.323c-.385 1.88.907 5.901 4.38 5.151zm6.459-6.984c1.923 0 3.475-2.213 3.475-4.948C15.683 2.213 14.136 0 12.214 0c-1.916 0-3.479 2.197-3.479 4.932s1.557 4.948 3.479 4.948zm8.281.328c2.573.344 4.213-2.401 4.547-4.479c.333-2.068-1.333-4.484-3.145-4.896c-1.823-.421-4.079 2.5-4.307 4.401c-.24 2.333.333 4.651 2.895 4.979zm10.178 3.505c0-.995-.817-3.995-3.88-3.995c-3.057 0-3.48 2.828-3.48 4.828c0 1.907.157 4.563 3.98 4.48c3.807-.095 3.391-4.319 3.391-5.319zm-3.864 8.714s-3.985-3.077-6.303-6.4c-3.145-4.901-7.62-2.907-9.115-.423c-1.489 2.511-3.812 4.084-4.14 4.505c-.333.412-4.797 2.823-3.803 7.224c1 4.401 4.479 4.323 4.479 4.323s2.557.251 5.548-.416c2.984-.667 5.547.161 5.547.161s6.943 2.333 8.864-2.147c1.896-4.495-1.083-6.812-1.083-6.812z"/></svg>',
+        duckduckgo: '<svg width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#DE5833"/><ellipse cx="10.5" cy="14.3" rx="5.2" ry="4.1" fill="#fff"/><circle cx="15" cy="9" r="3.3" fill="#fff"/><path d="M17.9 8.4l3.1-1.1-1.5 2.9z" fill="#F4A93B"/><circle cx="16" cy="8.1" r="0.75" fill="#14181c"/></svg>',
         bing:   '<svg width="16" height="16" viewBox="0 0 32 32"><path fill="#008373" d="m4.807 0l6.391 2.25v22.495l9.005-5.193l-4.411-2.073l-2.786-6.932l14.188 4.984v7.245L11.204 32l-6.396-3.563z"/></svg>',
         google: '<svg width="16" height="16" viewBox="0 0 256 262"><path fill="#4285F4" d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622l38.755 30.023l2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"/><path fill="#34A853" d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055c-34.523 0-63.824-22.773-74.269-54.25l-1.531.13l-40.298 31.187l-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"/><path fill="#FBBC05" d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82c0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602z"/><path fill="#EB4335" d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0C79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"/></svg>'
     };
 
-    const engineList = ['site', 'baidu', 'bing', 'google'];
+    const engineList = ['site', 'duckduckgo', 'bing', 'google'];
 
     function renderSearchEngineMenu() {
         const container = document.getElementById('search-engine-list');
@@ -728,7 +845,7 @@ const HTML_CONTENT = `
             btn.className = "w-full text-left px-3 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-slate-700 hover:text-emerald-600 transition-colors flex items-center gap-3";
             btn.onclick = () => selectSearchEngine(key, label);
             
-            btn.innerHTML = \`\${icon}<span>\${label}</span>\`;
+            btn.innerHTML = \`<span class="flex-shrink-0 w-4 h-4 flex items-center justify-center">\${icon}</span><span class="whitespace-nowrap">\${label}</span>\`;
             
             container.appendChild(btn);
         });
@@ -740,7 +857,7 @@ const HTML_CONTENT = `
     }
 
     function updateSearchEngineUI(value) {
-        const label = searchEngineLabels[value] || "本站";
+        const label = searchEngineLabels[value] || "This site";
         const icon = searchEngineIcons[value] || searchEngineIcons['site'];
         
         document.getElementById('current-engine-label').textContent = label;
@@ -883,7 +1000,7 @@ const HTML_CONTENT = `
             elements.searchInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') elements.searchButton.click();
             });
-            // 实时搜索防抖：避免每次输入都触发全量重渲染
+            // Debounce live search: avoid a full re-render on every keystroke
             let searchDebounceTimer = null;
             elements.searchInput.addEventListener('input', (e) => {
                 if (e.target.value) {
@@ -895,14 +1012,14 @@ const HTML_CONTENT = `
                 searchDebounceTimer = setTimeout(() => {
                     const q = e.target.value.trim();
                     if (!q) {
-                        // 清空关键词时恢复全量展示（不清输入框）
+                        // Restore the full listing when the keyword is cleared (without clearing the input)
                         renderCategorySections({ renderButtons: true });
                         return;
                     }
                     if (currentEngine === 'site') {
                         elements.clearSearchButton.classList.remove('hidden');
                         const filtered = getFilteredCategoriesByKeyword(q);
-                        // 实时搜索直接渲染，避免每次无结果都弹 alert，干扰连续输入
+                        // Render live search results directly, avoiding an alert popup on every empty result which would interrupt continuous typing
                         renderCategorySections({ renderButtons: true, searchMode: true, filteredCategories: filtered });
                     }
                 }, 220);
@@ -963,7 +1080,7 @@ const HTML_CONTENT = `
             updateUIState();
         } catch (error) {
             console.error('Error loading links:', error);
-            await customAlert('加载链接时出错，请刷新页面重试');
+            await customAlert('Error loading links, please refresh the page and try again');
         }
     }
 
@@ -979,33 +1096,33 @@ const HTML_CONTENT = `
 
             if (response.status === 401) {
                 logout();
-                await customAlert('登录凭证已过期，请重新登录');
+                await customAlert('Your login credentials have expired, please log in again');
                 throw new Error('Unauthorized');
             }
 
             const result = await response.json();
             if (!result.success) throw new Error('Failed to save');
-            logAction(actionName + '成功', {});
+            logAction(actionName + ' succeeded', {});
         } catch (error) {
-            logAction(actionName + '失败', { error: error.message });
+            logAction(actionName + ' failed', { error: error.message });
             if (error.message !== 'Unauthorized') {
-                 await customAlert(actionName + '失败，请重试');
+                 await customAlert(actionName + ' failed, please try again');
             }
         }
     }
 
     async function saveLinks() {
         if (isEditMode) {
-            await saveDataToServer('保存数据', categories);
+            await saveDataToServer('Save data', categories);
         }
     }
     
     async function addCategory() {
         if (!await validateTokenOrRedirect()) return;
-        const categoryName = await showCategoryDialog('请输入新分类名称');
+        const categoryName = await showCategoryDialog('Please enter a new category name');
         if (!categoryName) return;
         if (categories[categoryName]) {
-            await customAlert('该分类已存在');
+            await customAlert('This category already exists');
             return;
         }
         categories[categoryName] = { isHidden: false, links: [] };
@@ -1017,10 +1134,10 @@ const HTML_CONTENT = `
 
     async function editCategoryName(oldName) {
         if (!await validateTokenOrRedirect()) return;
-        const newName = await showCategoryDialog('请输入新的分类名称', oldName);
+        const newName = await showCategoryDialog('Please enter the new category name', oldName);
         if (!newName || newName === oldName) return;
         if (categories[newName]) {
-            await customAlert('该名称已存在');
+            await customAlert('This name already exists');
             return;
         }
 
@@ -1048,7 +1165,7 @@ const HTML_CONTENT = `
 
     async function deleteCategory(category) {
         if (!await validateTokenOrRedirect()) return;
-        if (await customConfirm(\`确定删除 "\${category}" 分类及其所有链接吗？\`)) {
+        if (await customConfirm(\`Delete "\${category}" category and all its links?\`)) {
             delete categories[category];
             updateCategorySelect();
             renderCategories();
@@ -1136,7 +1253,7 @@ const HTML_CONTENT = `
             section.id = sectionId(category);
             section.dataset.category = category;
 
-            // 标题区域
+            // Title area
             const titleContainer = document.createElement('div');
             titleContainer.className = 'flex items-center gap-3 mb-5 pb-2 border-b border-slate-200/60 dark:border-slate-700/60';
             
@@ -1147,37 +1264,37 @@ const HTML_CONTENT = `
             title.append(badge, ' ' + category);
             titleContainer.appendChild(title);
 
-            // 编辑模式下的标题栏操作
+            // Title bar actions in edit mode
             if (isEditMode) {
                 const controls = document.createElement('div');
                 controls.className = 'flex items-center gap-1 ml-auto bg-slate-300/50 dark:bg-slate-800/50 p-1 rounded-xl border border-slate-300/50 dark:border-slate-700/50 backdrop-blur-sm';
                 const btnBase = "w-8 h-8 flex items-center justify-center rounded-lg transition-all duration-200 hover:scale-105 active:scale-95";
                 
                 controls.innerHTML = \`
-                    <!-- 编辑名称 -->
-                    <button class="\${btnBase} text-slate-500 hover:text-blue-600 hover:bg-blue-100 dark:text-slate-400 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 has-tooltip" data-tooltip="重命名" data-action="edit" data-category="\${escAttr(category)}">
+                    <!-- Edit name -->
+                    <button class="\${btnBase} text-slate-500 hover:text-blue-600 hover:bg-blue-100 dark:text-slate-400 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 has-tooltip" data-tooltip="Rename" data-action="edit" data-category="\${escAttr(category)}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                     </button>
                     
                     <div class="w-px h-4 bg-slate-300 dark:bg-slate-600 mx-0.5"></div>
 
-                    <!-- 排序组 -->
-                    <button class="\${btnBase} text-slate-500 hover:text-emerald-600 hover:bg-emerald-100 dark:text-slate-400 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-400 has-tooltip" data-tooltip="上移" data-action="move" data-dir="-1" data-category="\${escAttr(category)}">
+                    <!-- Sort group -->
+                    <button class="\${btnBase} text-slate-500 hover:text-emerald-600 hover:bg-emerald-100 dark:text-slate-400 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-400 has-tooltip" data-tooltip="Move up" data-action="move" data-dir="-1" data-category="\${escAttr(category)}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
                     </button>
-                    <button class="\${btnBase} text-slate-500 hover:text-emerald-600 hover:bg-emerald-100 dark:text-slate-400 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-400 has-tooltip" data-tooltip="下移" data-action="move" data-dir="1" data-category="\${escAttr(category)}">
+                    <button class="\${btnBase} text-slate-500 hover:text-emerald-600 hover:bg-emerald-100 dark:text-slate-400 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-400 has-tooltip" data-tooltip="Move down" data-action="move" data-dir="1" data-category="\${escAttr(category)}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
-                    <button class="\${btnBase} text-slate-500 hover:text-amber-600 hover:bg-amber-100 dark:text-slate-400 dark:hover:bg-amber-900/30 dark:hover:text-amber-400 has-tooltip" data-tooltip="置顶" data-action="pin" data-category="\${escAttr(category)}">
+                    <button class="\${btnBase} text-slate-500 hover:text-amber-600 hover:bg-amber-100 dark:text-slate-400 dark:hover:bg-amber-900/30 dark:hover:text-amber-400 has-tooltip" data-tooltip="Pin to top" data-action="pin" data-category="\${escAttr(category)}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3h14M18 13l-6-6l-6 6M12 7v14"></path></svg>
                     </button>
 
                     <div class="w-px h-4 bg-slate-300 dark:bg-slate-600 mx-0.5"></div>
 
-                    <!-- 隐藏开关 -->
-                    <div class="flex items-center justify-center w-8 h-8 has-tooltip cursor-pointer" data-tooltip="\${isHidden ? '显示分类' : '隐藏分类'}">
+                    <!-- Hide toggle -->
+                    <div class="flex items-center justify-center w-8 h-8 has-tooltip cursor-pointer" data-tooltip="\${isHidden ? 'Show category' : 'Hide category'}">
                         <label class="relative inline-flex items-center cursor-pointer">
-                            <!-- 下面这一行增加了 DOM 属性更新逻辑 -->
+                            <!-- The line below adds DOM attribute update logic -->
                             <input type="checkbox" data-action="toggleHidden" data-category="\${escAttr(category)}" \${isHidden ? 'checked' : ''} 
                                 class="sr-only peer">
                             <div class="w-3.5 h-3.5 rounded-full border-2 border-slate-400 peer-focus:outline-none peer dark:border-slate-500 peer-checked:bg-slate-500 peer-checked:border-slate-500 transition-colors"></div>
@@ -1186,26 +1303,26 @@ const HTML_CONTENT = `
 
                     <div class="w-px h-4 bg-slate-300 dark:bg-slate-600 mx-0.5"></div>
 
-                    <!-- 删除 -->
-                    <button class="\${btnBase} text-slate-400 hover:text-red-600 hover:bg-red-100 dark:text-slate-500 dark:hover:bg-red-900/30 dark:hover:text-red-400 has-tooltip" data-tooltip="删除分类" data-action="delete" data-category="\${escAttr(category)}">
+                    <!-- Delete -->
+                    <button class="\${btnBase} text-slate-400 hover:text-red-600 hover:bg-red-100 dark:text-slate-500 dark:hover:bg-red-900/30 dark:hover:text-red-400 has-tooltip" data-tooltip="DeleteCategory" data-action="delete" data-category="\${escAttr(category)}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                     </button>
                 \`;
                 titleContainer.appendChild(controls);
             }
 
-            // 卡片网格
+            // Card grid
             const cardContainer = document.createElement('div');
-            // 根据布局模式调整 Grid 列数
-            // APP 模式下，手机端一行4个，平板6个，大屏8-10个
+            // Adjust the grid column count based on layout mode
+            // APP mode: 4 per row on mobile, 6 on tablet, 8-10 on large screens
             const gridClasses = isAppLayout 
                 ? 'grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-x-2 gap-y-6' 
                 : 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4';
             
             cardContainer.className = \`grid \${gridClasses} card-container relative\`;
-            cardContainer.id = gridId(category); // 与 section.id 区分，避免同页面 id 重复
+            cardContainer.id = gridId(category); // Distinguish from section.id to avoid duplicate ids on the same page
 
-            // 卡片离屏构建后一次性挂载，减少 reflow
+            // Build cards off-screen then mount them once, to reduce reflow
             const cardsFragment = document.createDocumentFragment();
             links.forEach(link => {
                 const card = createCard(link);
@@ -1263,7 +1380,7 @@ const HTML_CONTENT = `
         const hasMatchingLinks = Object.values(filteredData).some(c => c.links.length > 0);
 
         if (!hasMatchingLinks) {
-            await customAlert('没有找到相关站点。');
+            await customAlert('No matching sites found.');
             return;
         }
         clearBtn.classList.remove('hidden');
@@ -1302,7 +1419,7 @@ const HTML_CONTENT = `
         return window.matchMedia('(hover: none)').matches || ('ontouchstart' in window);
     }
 
-    // 分类按钮容器超出宽度后支持鼠标拖动横向滚动
+    // When the category button container overflows, support mouse-drag horizontal scrolling
     function setupDragScroll(container) {
         if (!container || container._dragScroll) return;
         container._dragScroll = true;
@@ -1375,13 +1492,13 @@ const HTML_CONTENT = `
             container.style.userSelect = '';
             container.style.scrollSnapType = '';
             if (captured) { try { container.releasePointerCapture(e.pointerId); } catch (_) {} }
-            // 拖拽超过阈值时阻止本次点击误触分类按钮
+            // When drag exceeds the threshold, prevent this click from mistakenly triggering the category button
             if (moved) {
                 container.addEventListener('click', (ce) => {
                     ce.stopPropagation();
                     ce.preventDefault();
                 }, { capture: true, once: true });
-                // 惯性滚动
+                // Inertia scrolling
                 if (Math.abs(vx) > 0.25) {
                     inertiaId = requestAnimationFrame(inertiaLoop);
                 }
@@ -1436,7 +1553,7 @@ const HTML_CONTENT = `
         });
     }
 
-    // --- 遮罩层过渡辅助函数 ---
+    // --- Overlay transition helper functions ---
     function toggleOverlay(id, show) {
         const overlay = document.getElementById(id);
         const box = overlay.querySelector('div[id$="-box"]'); 
@@ -1476,8 +1593,8 @@ const HTML_CONTENT = `
         const checkAllMenu = document.getElementById('check-all-menu');
         
         loginBtn.innerHTML = isLoggedIn ? 
-            '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> 退出登录' : 
-            '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg> 登录';
+            '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Logout' : 
+            '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg> Login';
         
         if(isLoggedIn) {
             loginBtn.classList.replace('text-red-500', 'text-slate-700');
@@ -1489,13 +1606,13 @@ const HTML_CONTENT = `
         }
         
         if (isEditMode) {
-            editModeBtn.innerHTML = '<span class="text-red-500 flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>退出编辑</span>';
+            editModeBtn.innerHTML = '<span class="text-red-500 flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>Exit Edit</span>';
             document.body.classList.add('edit-mode');
             if(addCategoryContainer) addCategoryContainer.classList.remove('hidden');
         } else {
             editModeBtn.innerHTML = isLoggedIn ? 
-                '<span class="flex items-center gap-3"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>进入编辑模式</span>' : 
-                '<span class="flex items-center gap-3 text-slate-400"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>编辑模式 (需登录)</span>';
+                '<span class="flex items-center gap-3"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>Enter Edit Mode</span>' : 
+                '<span class="flex items-center gap-3 text-slate-400"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>Edit Mode (login required)</span>';
             document.body.classList.remove('edit-mode');
             if(addCategoryContainer) addCategoryContainer.classList.add('hidden');
         }
@@ -1520,23 +1637,23 @@ const HTML_CONTENT = `
         return box;
     }
 
-    // HTML 属性转义：防止用户数据中的引号破坏模板属性（配合 data-* 委托使用）
+    // HTML attribute escaping: prevents quotes in user data from breaking template attributes (used together with data-* delegation)
     function escAttr(v) {
         return String(v).replace(/[&<>"']/g, c => ({
             '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
         }[c]));
     }
 
-    // 把用户分类名转成合法且稳定的 DOM id，避免把任意用户数据拼进 id
+    // Convert a user category name into a valid, stable DOM id, avoiding embedding arbitrary user data into an id
     function slugId(v) {
         const s = String(v).trim().replace(/[^A-Za-z0-9\u4e00-\u9fa5_-]+/g, '-').replace(/^-+|-+$/g, '');
         return (s || 'cat') + '-' + Math.abs([...String(v)].reduce((h, c) => (h * 31 + c.charCodeAt(0)) | 0, 0));
     }
-    // 供 scrollToCategory / renderCategoryGrid 复用，与渲染时的 slugId 保持一致
+    // Reused by scrollToCategory / renderCategoryGrid, kept consistent with the slugId used at render time
     function gridId(category) { return 'grid-' + slugId(category); }
     function sectionId(category) { return 'sec-' + slugId(category); }
 
-    // 只放行 http/https，其余返回 null（拦截 javascript:/data: 等）
+    // Only allow http/https; everything else returns null (blocks javascript:/data: etc.)
     function safeUrl(raw) {
         try {
             const u = new URL(String(raw), location.href);
@@ -1552,7 +1669,7 @@ const HTML_CONTENT = `
         
         let cardBaseClass = isAppLayout 
             ? 'flex flex-col items-center justify-start py-1 gap-1.5 hover:z-10' 
-            : 'flex flex-col p-4 bg-white/90 dark:bg-[#1e293b]/60 backdrop-blur-sm bg-white/80 border border-gray-200 dark:border-slate-700/50 hover:border-emerald-500/50 dark:hover:border-emerald-400/50 shadow-sm hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.1)] dark:shadow-none dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.4)] hover:-translate-y-1.5';
+            : 'flex flex-col p-4 bg-white/90 dark:bg-[#170a29]/60 backdrop-blur-sm bg-white/80 border border-gray-200 dark:border-slate-700/50 hover:border-emerald-500/50 dark:hover:border-emerald-400/50 shadow-sm hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.1)] dark:shadow-none dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.4)] hover:-translate-y-1.5';
             
         if (link.isPrivate && !isAppLayout) {
             cardBaseClass += ' ring-1 ring-amber-400/40 bg-amber-50/80 dark:bg-amber-900/10 !border-amber-200 dark:!border-amber-700/50';
@@ -1574,14 +1691,14 @@ const HTML_CONTENT = `
             ? 'flex flex-col items-center justify-center w-full relative' 
             : 'flex items-center gap-3 mb-2.5 w-full';
         
-        // 图标占位容器：图标加载完成前显示 spinner
+        // Icon placeholder container: shows a spinner before the icon finishes loading
         const iconWrap = document.createElement('div');
         const iconWrapClass = isAppLayout
             ? 'relative w-14 h-14 sm:w-16 sm:h-16'
             : 'relative w-9 h-9';
         iconWrap.className = iconWrapClass;
 
-        // 加载中的 spinner（居中，位于图标底层）
+        // Loading spinner (centered, beneath the icon)
         const spinner = document.createElement('span');
         spinner.className = 'absolute inset-0 flex items-center justify-center pointer-events-none';
         spinner.innerHTML = '<span class="block icon-spinner rounded-full animate-spin" style="width:60%;height:60%;aspect-ratio:1/1;"></span>';
@@ -1592,16 +1709,16 @@ const HTML_CONTENT = `
         icon.setAttribute('width', isAppLayout ? 64 : 36); 
         icon.setAttribute('height', isAppLayout ? 64 : 36);
         
-        // 图标样式
+        // Icon style
         let iconClass = 'relative w-full h-full opacity-0 transition duration-300';
         if (isAppLayout) {
-             // APP 风格：大图标、白底、大圆角、阴影
+             // APP style: large icon, white background, large corner radius, shadow
              iconClass += ' rounded-[1.2rem] object-contain bg-slate-100 dark:bg-slate-600 p-2 shadow-md hover:shadow-lg group-hover:scale-105 group-active:scale-95 z-10';
              if (link.isPrivate) {
                  iconClass += ' ring-2 ring-amber-400';
              }
         } else {
-             // 列表风格：小图标、淡底
+             // List style: small icon, light background
              iconClass += ' rounded-lg object-contain bg-slate-100 dark:bg-slate-900 p-1 border border-slate-200 dark:border-slate-700 transition-transform group-hover:scale-105 pointer-events-none';
         }
         icon.className = iconClass;
@@ -1621,14 +1738,14 @@ const HTML_CONTENT = `
         } else {
             icon.src = resolvedSrc;
             icon.onload = function() {
-                // 图标加载完成后淡入并隐藏 spinner
+                // Fade in the icon and hide the spinner once loading completes
                 this.classList.add('opacity-100');
                 this.classList.remove('opacity-0');
                 spinner.remove();
             };
             icon.onerror = function() {
                 iconFailed.add(resolvedSrc);
-                this.onerror = null; // 防止替换后再出错进入死循环
+                this.onerror = null; // Prevent an infinite loop if it errors again after being replaced
                 this.replaceWith(createIconFallback(this));
                 spinner.remove();
             };
@@ -1691,16 +1808,16 @@ const HTML_CONTENT = `
             menuBtn.innerHTML = '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>';
             
             const dropdown = document.createElement('div');
-            dropdown.className = 'hidden absolute right-0 top-6 w-28 bg-white dark:bg-[#1e293b] rounded-xl shadow-xl ring-1 ring-black/5 dark:ring-white/10 overflow-hidden transform origin-top-right transition-all z-50 flex flex-col p-1 card-menu-dropdown';
+            dropdown.className = 'hidden absolute right-0 top-6 w-28 bg-white dark:bg-[#170a29] rounded-xl shadow-xl ring-1 ring-black/5 dark:ring-white/10 overflow-hidden transform origin-top-right transition-all z-50 flex flex-col p-1 card-menu-dropdown';
             
             dropdown.innerHTML = \`
                 <button class="menu-edit w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-slate-700/50 hover:text-emerald-600 transition-colors flex items-center gap-2">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-                    编辑
+                    Edit
                 </button>
                 <button class="menu-delete w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 transition-colors flex items-center gap-2">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                    删除
+                    Delete
                 </button>
             \`;
 
@@ -1745,7 +1862,7 @@ const HTML_CONTENT = `
         return card;
     }
 
-    // 卡片级事件委托：drag/touch 只在容器上绑定一次，监听器数量与卡片数解耦
+    // Card-level event delegation: drag/touch listeners are bound once on the container, decoupling listener count from card count
     function setupCardDelegation(container) {
         if (!container || container._cardDelegation) return;
         container._cardDelegation = true;
@@ -1770,7 +1887,7 @@ const HTML_CONTENT = `
             touchStart(e);
         }, { passive: false });
 
-        // 全局关闭卡片菜单
+        // Globally close the card menu
         if (!window.hasAddedCardMenuListener) {
             document.addEventListener('click', (e) => {
                 if (!e.target.closest('.card-menu-dropdown') && !e.target.closest('button')) {
@@ -1780,7 +1897,7 @@ const HTML_CONTENT = `
             window.hasAddedCardMenuListener = true;
         }
 
-        // 分类标题栏操作按钮：事件委托，避免模板字符串内联 onClick 的注入风险
+        // Category header action buttons: event delegation, avoiding the injection risk of inline onClick in template strings
         container.addEventListener('click', (e) => {
             const btn = e.target.closest('[data-action]');
             if (!btn) return;
@@ -1800,7 +1917,7 @@ const HTML_CONTENT = `
             const input = e.target.closest('[data-action="toggleHidden"]');
             if (!input) return;
             const tipBox = input.closest('.has-tooltip');
-            if (tipBox) tipBox.setAttribute('data-tooltip', input.checked ? '显示分类' : '隐藏分类');
+            if (tipBox) tipBox.setAttribute('data-tooltip', input.checked ? 'Show category' : 'Hide category');
             toggleCategoryHidden(input.dataset.category, input.checked);
         });
     }
@@ -1821,7 +1938,7 @@ const HTML_CONTENT = `
         });
     }
 
-    // 增量更新：仅重建单个分类的卡片网格
+    // Incremental update: rebuild only a single category's card grid
     function renderCategoryGrid(category) {
         const grid = document.getElementById(gridId(category));
         const cat = categories[category];
@@ -1833,7 +1950,7 @@ const HTML_CONTENT = `
             if (card) cardsFragment.appendChild(card);
         });
 
-        // 只移除既有卡片，保留编辑模式下的“+”占位符
+        // Only remove existing cards, keep the "+" placeholder in edit mode
         Array.from(grid.children).forEach(child => {
             if (!child.classList.contains('add-card-placeholder')) child.remove();
         });
@@ -1853,7 +1970,7 @@ const HTML_CONTENT = `
         const category = document.getElementById('category-select-value').value;
         
         if (!name || !url || !category) {
-            await customAlert('请填写必要信息 (名称, URL, 分类)');
+            await customAlert('Please fill in the required info (name, URL, category)');
             return;
         }
 
@@ -1870,9 +1987,9 @@ const HTML_CONTENT = `
         try {
             await saveLinks();
         } catch (e) {
-            await customAlert('添加失败: ' + e);
+            await customAlert('Add failed: ' + e);
         }
-        // 增量更新：仅重建该分类网格（若该卡片本应可见）
+        // Incremental update: rebuild only that category's grid (if the card should be visible)
         if (isEditMode || !newLink.isPrivate || isLoggedIn) {
             renderCategoryGrid(category);
             renderCategoryButtons();
@@ -1894,8 +2011,8 @@ const HTML_CONTENT = `
         let found = false;
         let oldCategory = null;
 
-        // 兜底：若表单分类为空（存量 link.category 缺失时可能出现），回退到 oldLink 原分类，
-        // 避免写入 categories[undefined]
+        // Fallback: if the form category is empty (can happen when legacy link.category is missing), fall back to oldLink's original category,
+        // avoiding writing into categories[undefined]
         if (!updatedLink.category) {
             for (const c in categories) {
                 if (categories[c].links.some(l => l.url === oldLink.url)) { updatedLink.category = c; break; }
@@ -1953,17 +2070,17 @@ const HTML_CONTENT = `
         await saveLinks();
     }
 
-    // --- 拖拽辅助函数 ---
+    // --- Drag helper functions ---
     function getCardState(card) {
         if(!card) return { category: null, index: -1 };
         const section = card.closest('.section');
         const index = Array.from(section.querySelectorAll('.card')).indexOf(card);
-        // 优先取 data-category（原始分类名），兼容回退到 section.id（脱敏 slug）
+        // Prefer data-category (the original category name), falling back to section.id (sanitized slug) for compatibility
         const category = section.dataset.category || section.id;
         return { category: category, index: index };
     }
 
-    // --- 拖拽（电脑端） ---
+    // --- Drag (desktop) ---
     let draggedCard = null;
     function dragStart(e) {
         if (!isEditMode) { e.preventDefault(); return; }
@@ -1999,7 +2116,7 @@ const HTML_CONTENT = `
         }
     }
 
-    // 移动端拖拽
+    // Mobile drag
     let mobileDragTimer = null;
     let isMobileDragging = false;
     let mobilePlaceholder = null; 
@@ -2061,7 +2178,7 @@ const HTML_CONTENT = `
             mobileClone.classList.remove('group', 'hover:-translate-y-1', 'transition-all', 'duration-300');
             document.body.appendChild(mobileClone);
 
-            // 占位符样式
+            // Placeholder style
             mobilePlaceholder.style.opacity = '0.3';
             mobilePlaceholder.classList.add('border-dashed', 'border-2', 'border-emerald-400');
 
@@ -2223,7 +2340,7 @@ const HTML_CONTENT = `
             if (rafId) cancelAnimationFrame(rafId);
             
             if (isMobileDragging) {
-                // 离场动画
+                // Exit animation
                 if (mobileClone && mobilePlaceholder) {
                     const rect = mobilePlaceholder.getBoundingClientRect();
                     mobileClone.style.transition = 'all 0.2s ease-out';
@@ -2238,7 +2355,7 @@ const HTML_CONTENT = `
                              mobilePlaceholder.classList.remove('border-dashed', 'border-2', 'border-emerald-400');
                         }
                         
-                        // 保存排序
+                        // Save order
                         saveCardOrder();
 
                         mobilePlaceholder = null;
@@ -2283,7 +2400,7 @@ const HTML_CONTENT = `
         const newCategories = {};
         const sections = document.querySelectorAll('.section');
         sections.forEach(sec => {
-            // 用 data-category（原始名）做分类键，与 categories 对象键一致；回退到 section.id
+            // Use data-category (the original name) as the category key, matching the categories object keys; fall back to section.id
             const catName = sec.dataset.category || sec.id;
             const oldCat = categories[catName];
             newCategories[catName] = { isHidden: oldCat ? oldCat.isHidden : false, links: [] };
@@ -2301,7 +2418,7 @@ const HTML_CONTENT = `
         
         Object.keys(categories).forEach(k => delete categories[k]);
         Object.assign(categories, newCategories);
-        await saveDataToServer('保存排序', categories);
+        await saveDataToServer('Save order', categories);
     }
 
     function applyTheme(isDark) {
@@ -2323,7 +2440,7 @@ const HTML_CONTENT = `
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     
-    // 认证和模式
+    // Auth and mode
     async function toggleEditMode() {
         document.getElementById('profile-dropdown').classList.add('hidden');
         if (!isLoggedIn) {
@@ -2337,10 +2454,10 @@ const HTML_CONTENT = `
              
              renderCategories(); 
              
-             // 提示用户
-             // logAction('进入编辑模式', {}); 
+             // Notify the user
+             // logAction('Enter Edit Mode', {}); 
         } else {
-             // 退出编辑模式
+             // Exit Edit Mode
              isEditMode = false;
              updateUIState();
              renderCategories();
@@ -2353,7 +2470,7 @@ const HTML_CONTENT = `
              toggleOverlay('password-dialog-overlay', true);
              document.getElementById('password-input').focus();
         } else {
-             if (await customConfirm('确定退出登录吗？')) {
+             if (await customConfirm('Log out?')) {
                  logout();
              }
         }
@@ -2368,7 +2485,7 @@ const HTML_CONTENT = `
         document.getElementById('private-checkbox').checked = false;
         
         document.getElementById('category-select-value').value = '';
-        document.getElementById('category-select-text').textContent = '请选择分类';
+        document.getElementById('category-select-text').textContent = 'Select a category';
         
         const btn = document.getElementById('dialog-confirm-btn');
         const newBtn = btn.cloneNode(true);
@@ -2391,7 +2508,7 @@ const HTML_CONTENT = `
             return '';
         })();
         document.getElementById('category-select-value').value = linkCategory;
-        document.getElementById('category-select-text').textContent = linkCategory || '请选择分类';
+        document.getElementById('category-select-text').textContent = linkCategory || 'Select a category';
         
         const btn = document.getElementById('dialog-confirm-btn');
         const newBtn = btn.cloneNode(true);
@@ -2421,19 +2538,19 @@ const HTML_CONTENT = `
                  document.getElementById('password-input').value = '';
                  toggleOverlay('password-dialog-overlay', false);
                  await loadLinks();
-                 await customAlert('登录成功');
+                 await customAlert('Login successful');
              } else if (res.status === 429 && data.locked) {
                  await customAlertRateLimit(data.retryAfter || 900);
              } else {
-                 var remMsg = '密码错误';
+                 var remMsg = 'Incorrect password';
                  var remaining = typeof data.remaining === 'number' ? data.remaining : 0;
-                 if (remaining > 0) remMsg = '密码错误，还可尝试 ' + remaining + ' 次';
+                 if (remaining > 0) remMsg = 'Incorrect password, ' + remaining + ' attempt(s) remaining';
                  await customAlert(remMsg);
              }
          } catch(e) { await customAlert('Login Error'); }
     }
 
-    // 单飞刷新锁 —— 并发 401 只触发一次 /api/refreshToken
+    // Single-flight refresh lock —— concurrent 401s trigger only one /api/refreshToken call
     let _refreshing = null;
     async function refreshOnce() {
         if (_refreshing) return _refreshing;
@@ -2450,7 +2567,7 @@ const HTML_CONTENT = `
     async function fetchWithAuth(url, options = {}) {
         const token = localStorage.getItem('authToken');
         const headers = { ...(options.headers || {}) };
-        // 无 token 时不拼 Authorization: null
+        // Don't append "Authorization: null" when there's no token
         if (token) headers.Authorization = token;
         options.headers = headers;
 
@@ -2473,7 +2590,7 @@ const HTML_CONTENT = `
                 updateUIState();
                 renderCategories();
                 document.getElementById('password-input').value = '';
-                await customAlert('登录已过期，请重新登录');
+                await customAlert('Your session has expired, please log in again');
                 throw new Error('Unauthorized');
             }
         }
@@ -2538,11 +2655,11 @@ const HTML_CONTENT = `
             toggleOverlay('custom-alert-overlay', true);
             const timer = setInterval(() => {
                 if (seconds > 0) {
-                    content.innerText = '登录已被限制，请' + seconds + '秒后再试';
+                    content.innerText = 'Login is locked, please try again in ' + seconds + 's before trying again';
                     seconds--;
                 } else {
                     clearInterval(timer);
-                    content.innerText = '已过限时，可重新尝试登录';
+                    content.innerText = 'Lockout period has ended, you can try logging in again';
                 }
             }, 1000);
             document.getElementById('custom-alert-confirm').onclick = () => {
@@ -2620,7 +2737,7 @@ const HTML_CONTENT = `
             });
             if(res.status === 401) {
                 logout();
-                await customAlert('登录凭证已过期，请重新登录');
+                await customAlert('Your login credentials have expired, please log in again');
                 return false;
             }
             const d = await res.json();
@@ -2636,7 +2753,7 @@ const HTML_CONTENT = `
         const valid = await validateToken();
         if(!valid) {
             logout();
-            await customAlert('登录凭证已过期，请重新登录');
+            await customAlert('Your login credentials have expired, please log in again');
             return false;
         }
         return true;
@@ -2652,7 +2769,7 @@ const HTML_CONTENT = `
     }
     
     function logout() {
-        // 登出同时通知服务端吊销世代并清除 HttpOnly refresh cookie
+        // Logging out also notifies the server to revoke the generation and clears the HttpOnly refresh cookie
         const t = localStorage.getItem('authToken');
         const clean = () => { localStorage.removeItem('authToken'); isLoggedIn = false; isEditMode = false; location.reload(); };
         fetch('/api/logout', {
@@ -2664,7 +2781,7 @@ const HTML_CONTENT = `
     
     async function exportData() {
         if(!await validateTokenOrRedirect()) return;
-        if(!await customConfirm("确定要导出数据吗？")) return;
+        if(!await customConfirm("Export data?")) return;
         
         try {
             const res = await fetchWithAuth("/api/exportData", {
@@ -2673,7 +2790,7 @@ const HTML_CONTENT = `
             
             if (res.status === 401) {
                 logout();
-                await customAlert('登录凭证已过期，请重新登录');
+                await customAlert('Your login credentials have expired, please log in again');
                 return;
             }
             
@@ -2688,17 +2805,17 @@ const HTML_CONTENT = `
             a.click();
             document.body.removeChild(a);
         } catch(e) { 
-            if(e.message !== 'Unauthorized') await customAlert("导出失败"); 
+            if(e.message !== 'Unauthorized') await customAlert("Export failed"); 
         }
     }
     
-    // 解析 Chrome / Edge 导出的 Netscape 书签 HTML
+    // Parse Netscape bookmark HTML exported by Chrome / Edge
     function parseBookmarks(html) {
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
         const categories = {};
 
-        // 清洗书签标题:按分隔符(|、英文/中文冒号 : ：、两边带可选空格的 -/–/—)拆分
+        // Clean bookmark titles: split on separators (|, colon : or ：, or -/–/— with optional surrounding spaces)
         function cleanTitle(title) {
             const raw = (title || '').trim();
 
@@ -2706,7 +2823,7 @@ const HTML_CONTENT = `
                 return { name: '', tips: '' };
             }
 
-            // 1. 判断是否以 http:// 或 https:// 开头（整体是 URL）
+            // 1. Check whether it starts with http:// or https:// (the whole thing is a URL)
             if (/^https?:\\/\\//i.test(raw)) {
                 try {
                     const urlObj = new URL(raw);
@@ -2717,7 +2834,7 @@ const HTML_CONTENT = `
                 }
             }
 
-            // 2. 正常文本标题拆分
+            // 2. Split a normal text title
             const sep = /[|:：]|\\s+[-–—]\\s+/;
 
             const idx = raw.search(sep);
@@ -2749,13 +2866,13 @@ const HTML_CONTENT = `
             return links;
         }
 
-        // 递归处理一个文件夹:子文件夹生成独立分类,当前文件夹的直接链接归入当前分类
+        // Recursively process a folder: subfolders become separate categories; direct links in the current folder go into the current category
         function processFolder(dl, catName) {
             const folderDts = Array.from(dl.children).filter(e => e && e.tagName === 'DT' && e.querySelector(':scope > dl'));
             for (const dt of folderDts) {
                 const h3 = dt.querySelector(':scope > h3');
                 const childDl = dt.querySelector(':scope > dl');
-                const subName = h3 ? h3.textContent.trim() : '未分类';
+                const subName = h3 ? h3.textContent.trim() : 'Uncategorized';
                 processFolder(childDl, subName);
             }
             const links = getLinks(dl);
@@ -2780,8 +2897,8 @@ const HTML_CONTENT = `
                 const url = (a.getAttribute('href') || '').trim();
                 if (!url || /^(javascript:|vbscript:|data:|chrome:|edge:|about:|magnet:)/i.test(url)) continue;
                 const clean = cleanTitle(a.textContent);
-                if (!categories['未分类']) categories['未分类'] = { isHidden: false, links: [] };
-                categories['未分类'].links.push({ name: clean.name, url, tips: clean.tips, icon: '', category: '未分类', isPrivate: false });
+                if (!categories['Uncategorized']) categories['Uncategorized'] = { isHidden: false, links: [] };
+                categories['Uncategorized'].links.push({ name: clean.name, url, tips: clean.tips, icon: '', category: 'Uncategorized', isPrivate: false });
             }
         }
 
@@ -2790,7 +2907,7 @@ const HTML_CONTENT = `
 
     async function importData() {
         if(!await validateTokenOrRedirect()) return;
-        if(!await customConfirm("确定要导入数据吗？导入将覆盖现有数据！")) return;
+        if(!await customConfirm("Import data?This will overwrite existing data!")) return;
         
         const fileInput = document.getElementById('import-file-input');
         fileInput.value = '';
@@ -2807,11 +2924,11 @@ const HTML_CONTENT = `
                         const trimmed = content.trimStart();
                         let data;
                         if (trimmed.startsWith('<!DOCTYPE') || /<(DL|H3)\b/i.test(trimmed)) {
-                            // Chrome / Edge 书签 HTML
+                            // Chrome / Edge bookmark HTML
                             data = parseBookmarks(content);
                             if (!data) throw new Error("No valid bookmarks found");
                         } else {
-                            // 本项目导出的 JSON 配置
+                            // JSON config exported by this project
                             data = JSON.parse(content);
                             if (typeof data !== 'object' || data === null) throw new Error("Invalid JSON");
                         }
@@ -2824,21 +2941,21 @@ const HTML_CONTENT = `
                         });
                         if (res.status === 401) {
                             logout();
-                            await customAlert('登录凭证已过期，请重新登录');
+                            await customAlert('Your login credentials have expired, please log in again');
                             return;
                         }
                         if (!res.ok) throw new Error("Import failed");
-                        await customAlert('数据导入成功！');
+                        await customAlert('Data imported successfully!');
                         location.reload(); 
                     } catch (error) {
-                        console.error("解析文件失败:", error);
-                        await customAlert('文件格式错误，请检查文件内容！');
+                        console.error("Failed to parse file:", error);
+                        await customAlert('Invalid file format, please check the file content!');
                     }
                 };
                 reader.readAsText(file);
             } catch (error) {
-                console.error("导入失败:", error);
-                await customAlert('数据导入失败，请重试！');
+                console.error("Import failed:", error);
+                await customAlert('Data import failed, please try again!');
             }
         };
         fileInput.click();
@@ -2849,7 +2966,7 @@ const HTML_CONTENT = `
 </html>
 `;
 
-// 配置默认值
+// Default config values
 let DEFAULT_USER = 'testUser';
 let ICON_API = 'https://api.xinac.net/icon/?url=';
 let PREFER_ICON_API = true;
@@ -2950,28 +3067,28 @@ function parseCookie(cookieHeader) {
 
 async function validateServerToken(authHeader, env) {
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return { isValid: false, status: 401, response: { error: 'Unauthorized', message: '未登录' } };
+        return { isValid: false, status: 401, response: { error: 'Unauthorized', message: 'Not logged in' } };
     }
     const token = authHeader.slice(7);
     
     const payload = await validateJWT(token, env.JWT_SECRET);
     
     if (!payload) {
-        return { isValid: false, status: 401, response: { error: 'Invalid', message: 'Token无效' } };
+        return { isValid: false, status: 401, response: { error: 'Invalid', message: 'Invalid token' } };
     }
     
     if (payload.exp < Math.floor(Date.now() / 1000)) {
-        return { isValid: false, status: 401, response: { error: 'Expired', message: 'Token过期' } };
+        return { isValid: false, status: 401, response: { error: 'Expired', message: 'Token expired' } };
     }
 
     if (payload.type !== 'access') {
-        return { isValid: false, status: 403, response: { error: 'Forbidden', message: '令牌类型错误' } };
+        return { isValid: false, status: 403, response: { error: 'Forbidden', message: 'Wrong token type' } };
     }
 
     const gen = await currentKeyGen(env);
 
     if (!payload.kid || payload.kid !== gen) {
-        return { isValid: false, status: 401, response: { error: 'Revoked', message: '会话已失效，请重新登录' } };
+        return { isValid: false, status: 401, response: { error: 'Revoked', message: 'Session invalid, please log in again' } };
     }
 
     return { isValid: true, payload };
@@ -3021,8 +3138,8 @@ async function bumpRev(env) {
 
 function cacheKeyFor(url, rev, scope) {
     const k = new URL(url);
-    k.searchParams.set('__v', rev);        // 版本失效维度
-    k.searchParams.set('__s', scope);      // 鉴权维度
+    k.searchParams.set('__v', rev);        // Version invalidation dimension
+    k.searchParams.set('__s', scope);      // Auth dimension
     return new Request(k.toString(), { method: 'GET' });
 }
 
@@ -3035,8 +3152,8 @@ async function sendCached(body, request, cacheKey, cacheable, extraHeaders = {})
     const headers = {
         'Content-Type': 'application/json',
         ...extraHeaders,
-        // 响应头一律 no-store：避免 CDN/浏览器按裸 URL 缓存公开数据，否则登录后带
-        // Authorization 请求同一 URL 会命中这份匿名缓存，拿到过滤后数据、污染登录态的
+        // Response headers are always no-store: avoids CDN/browsers caching public data by the bare URL; otherwise, after logging in, requests carrying
+        // an Authorization header to the same URL would hit this anonymous cache and get filtered data, polluting the authenticated state
         'Cache-Control': 'no-store',
         'Vary': 'Accept-Encoding',
     };
@@ -3192,7 +3309,7 @@ async function fetchBestIcon(targetUrl) {
 
 const ICON_SCHEME_OK = new Set(['http:', 'https:']);
 const HOST_DENY = /(^|\.)(localhost|127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|169\.254\.|metadata\.google|i-1\.internal)/i;
-// 只接受位图，绝不放行 HTML/SVG/XML。SVG 仅对「可信图床」放行（见 safeFetchIcon 的 allowSvg）
+// Only bitmaps are accepted; HTML/SVG/XML are never allowed through. SVG is only allowed for "trusted image hosts" (see allowSvg in safeFetchIcon)
 const ICON_CT_OK = /^image\/(png|jpeg|gif|webp|ico|x-icon|vnd\.microsoft\.icon|avif|bmp)/i;
 
 async function safeFetchIcon(target, ms = 3500, allowSvg = false) {
@@ -3248,7 +3365,7 @@ async function handleIconProxy(request, ctx) {
             ...extraHeaders,
         }
     });
-    // 对已通过 safeFetchIcon 白名单(位图/SVG)的上游 Response，按其真实类型返回。
+    // For an upstream Response that already passed the safeFetchIcon allowlist (bitmap/SVG), return it according to its real type.
     const buildRespFromUpstream = (upstream, extraHeaders = {}) => {
         const rawCt = (upstream.headers.get('content-type') || '').toLowerCase();
         const ct = rawCt === 'image/svg+xml' ? 'image/svg+xml' : 'image/png';
@@ -3348,13 +3465,13 @@ async function handleSmartBackup(env, currentData) {
 function assertEnv(env) {
     const messages = [];
     if (!env.JWT_SECRET || env.JWT_SECRET.length < 32) {
-        messages.push('JWT_SECRET 未配置或强度不足（需 ≥32 字符）');
+        messages.push('JWT_SECRET is not configured or not strong enough (needs ≥ 32 characters)');
     }
     if (!env.ADMIN_PASSWORD || env.ADMIN_PASSWORD.length < 8) {
-        messages.push('ADMIN_PASSWORD 未配置或过短');
+        messages.push('ADMIN_PASSWORD is not configured or too short');
     }
     if (messages.length > 0) {
-        const e = new Error(`FATAL: 配置缺失或无效: ${messages.join('; ')}`);
+        const e = new Error(`FATAL: Missing or invalid configuration: ${messages.join('; ')}`);
         e.code = 'CONFIG_ERROR';
         e.messages = messages;
         throw e;
@@ -3427,7 +3544,7 @@ function sanitizeCategories(raw) {
                 icon: l.icon ? String(l.icon).slice(0, MAX_URL) : '',
                 isPrivate: !!l.isPrivate,
                 isDirect: !!l.isDirect,
-                // 保留/回填分类归属：优先用传入值，缺失则用所在分类 key，避免 link.category 丢失后变成 undefined 分类
+                // Preserve/backfill category ownership: prefer the given value, otherwise fall back to the containing category's key, so a missing link.category doesn't become an "undefined" category
                 category: l.category ? String(l.category).slice(0, MAX_NAME) : name,
             })),
         };
@@ -3494,7 +3611,7 @@ export default {
                 });
             }
 
-            // 边缘缓存命中 → 0 回源
+            // Edge cache hit -> 0 origin requests
             const cacheKey = new Request(url.origin + '/', { method: 'GET' });
             const hit = await caches.default.match(cacheKey);
             if (hit) return hit;
@@ -3656,7 +3773,7 @@ export default {
             const rev = scope === 'anon' ? await getDataRev(env) : '0';
             const cacheKey = cacheKeyFor(url, rev, scope);
 
-            // ② 边缘缓存命中 → 0 KV 读
+            // (2) Edge cache hit -> 0 KV reads
             if (scope === 'anon') {
                 const hit = await CACHE.match(cacheKey);
                 if (hit) {
