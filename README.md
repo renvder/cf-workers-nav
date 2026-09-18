@@ -33,7 +33,7 @@
 ### Default View
 | Card View | APP View |
 |-|-|
-| ![Desktop Preview](images/69bcc641f5194220aba98e128326ff9f.webp)| ![APP View](https://github.com/user-attachments/assets/7ea6df52-e9da-4922-9f79-40bc40cf6f5e)|
+| ![Desktop Preview](images/69bcc641f5194220aba98e128326ff9f.webp)| ![APP View](images/5a5b09901a3b4f81b104fc9f94983299.webp)|
 
 ### Edit Mode
 | Card View | APP View |
