@@ -911,7 +911,7 @@ const HTML_CONTENT = `
             
             const savePrefCheckbox = document.getElementById('save-preference-checkbox');
             if (savePrefCheckbox && savePrefCheckbox.checked) {
-                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                localStorage.setItem('theme_preference', isDark ? 'dark' : 'light');
             }
         });
 
@@ -971,10 +971,10 @@ const HTML_CONTENT = `
             localStorage.setItem('savePreferences', enabled);
             if (!enabled) {
                 localStorage.removeItem('searchEngine');
-                localStorage.removeItem('theme');
+                localStorage.removeItem('theme_preference');
             } else {
                 localStorage.setItem('searchEngine', currentEngine);
-                localStorage.setItem('theme', window.isDarkTheme ? 'dark' : 'light');
+                localStorage.setItem('theme_preference', window.isDarkTheme ? 'dark' : 'light');
             }
         });
 
