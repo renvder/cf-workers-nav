@@ -38,7 +38,7 @@
 ### 編輯模式視圖
 | 卡片視圖 | 行動裝置視圖 |
 |-|-|
-| ![Edit Mode](https://github.com/user-attachments/assets/a49974cd-ed41-47c8-816e-177318b14895)| ![APP View](https://github.com/user-attachments/assets/3ef5bf17-67b5-43ea-9295-2404cb4cd5b9)|
+| ![Edit Mode](images/439d9791b4024c2bb46faadf9e974cf4.webp)| ![APP View](https://github.com/user-attachments/assets/3ef5bf17-67b5-43ea-9295-2404cb4cd5b9)|
 
 ## 部署方式
 
