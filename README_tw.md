@@ -33,7 +33,7 @@
 ### 瀏覽視圖
 | 卡片視圖 | 行動裝置視圖 |
 |-|-|
-| ![Desktop Preview](https://github.com/user-attachments/assets/3420ba4a-af78-4527-b502-eb2a5b3cd735)| ![APP View](https://github.com/user-attachments/assets/7ea6df52-e9da-4922-9f79-40bc40cf6f5e)|
+| ![Desktop Preview](https://github.com/user-attachments/assets/3420ba4a-af78-4527-b502-eb2a5b3cd735)| ![APP View](images/5a5b09901a3b4f81b104fc9f94983299.webp)|
 
 ### 編輯模式視圖
 | 卡片視圖 | 行動裝置視圖 |
