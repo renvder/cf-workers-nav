@@ -1,3 +1,9 @@
+<p align="right">
+  🌐 <b></b>
+  <a href="./README.md"><b>EN</b></a> | 
+  <b>漢</b></a>
+</p>
+
 <div align="center">
   <h1>cf-workers-nav 個人導航頁</h1>
   <p>
