@@ -1,87 +1,85 @@
 <div align="center">
-  <h1>cf-workers-nav  个人导航页</h1>
+  <h1>cf-workers-nav</h1>
   <p>
-    一个部署在CF上的轻量化导航页
+    A lightweight startpage hosted on Cloudflare Workers
     <br />
-    <i>⚡ 轻松创建属于自己的导航主页</i>
+    <i>⚡ Easily build your personalized browser startpage</i>
   </p>
 </div>
 
-📋 轻松部署的个人导航页 
+📋 Easy-to-deploy Personal Startpage
 
-> 一个部署在CF上的轻量化导航页面。
-> 集成了书签管理、图标自动获取、拖拽排序、私密链接保护等功能， Worker 单文件，方便部署。
+> A lightweight browser startpage powered by Cloudflare Workers.
+> Features bookmark management, automatic favicon fetching, drag-and-drop reordering, and password-protected private links—all in a single Worker file for effortless setup.
 
-## ✨ 主要特性
+## ✨ Features
 
-*   **⚡️ Serverless 架构**：完全运行在 Cloudflare Workers 上。
-*   **💾 KV 存储**：数据存储在 Cloudflare KV 中。
-*   **🎨 简洁的UI**：基于 Tailwind CSS，支持**深色模式**自动/手动切换，响应式设计适配 PC 与移动端。
-*   **🖱️ 拖拽排序**：支持 PC 端鼠标拖拽和移动端长按拖拽来整理分类与卡片顺序。
-*   **🔒 私密保护**：支持设置“私密链接”，仅在管理员登录后可见。
-*   **📂 数据管理**：支持在线添加/编辑/删除链接，支持导入 Chrome / Edge 的 HTML 书签，支持 JSON 格式的数据导入/导出及自动备份。
-*   **🔍 聚合搜索**：内置多款搜索引擎（Google, Bing, Baidu）及站内快捷搜索。
+* **⚡️ Serverless Architecture**: Runs entirely on Cloudflare Workers with zero server setup or maintenance.
+* **💾 Cloudflare KV Storage**: Reliable, persistent key-value storage for all your links and settings.
+* **🎨 Clean, Modern UI**: Built with Tailwind CSS. Includes automatic/manual dark mode toggle and a responsive layout for desktop and mobile.
+* **🖱️ Drag-and-Drop Reordering**: Rearrange categories and bookmark cards via mouse drag on desktop or long-press on mobile.
+* **🔒 Password Protection**: Hide sensitive links behind an admin password—visible only when logged in.
+* **📂 Flexible Data Management**: Add, edit, or delete links directly on the page. Supports importing HTML bookmarks from Chrome/Edge, plus JSON import/export with automatic backups.
+* **🔍 Multi-Engine Search**: Search via Google, Bing, Baidu, or perform instant quick searches across your saved bookmarks.
 
-## 界面预览
+## Interface Preview
 
-### 浏览视图
+### Default View
 | Card View | APP View |
 |-|-|
 | ![Desktop Preview](https://github.com/user-attachments/assets/3420ba4a-af78-4527-b502-eb2a5b3cd735)| ![APP View](https://github.com/user-attachments/assets/7ea6df52-e9da-4922-9f79-40bc40cf6f5e)|
 
-### 编辑模式视图
+### Edit Mode
 | Card View | APP View |
 |-|-|
 | ![Edit Mode](https://github.com/user-attachments/assets/a49974cd-ed41-47c8-816e-177318b14895)| ![APP View](https://github.com/user-attachments/assets/3ef5bf17-67b5-43ea-9295-2404cb4cd5b9)|
 
+## Deployment
 
-
-## 部署方式
-
-### 部署到Cloudflare
+### Deploying to Cloudflare
 
 <details>
-<summary>点击展开</summary>
+<summary>Click to expand setup guide</summary>
 
-#### 部署步骤
+#### Setup Steps
 
-1. **登录 [Cloudflare](https://www.cloudflare.com)** 创建 Worker：
-   - 复制仓库里 `workers.js` 的代码，粘贴进 Worker 编辑器，点击部署。
+1. **Log in to [Cloudflare](https://www.cloudflare.com)** and create a new Worker:
+   - Copy the code from `workers.js` in this repository, paste it into the Worker editor, and click **Save and Deploy**.
 
-2. **创建 KV 存储**：
-   - 新建一个名为 `CARD_ORDER` 的 KV 命名空间，用于存储数据。
+2. **Create a KV Namespace**:
+   - Go to **Workers & Pages > KV** in the Cloudflare dashboard and create a namespace named `CARD_ORDER`.
 
-3. **绑定 KV 命名空间**：
-   - 在 Worker 的「设置 → 变量」中添加绑定，变量名称填 `CARD_ORDER`，绑定到上一步创建的 `CARD_ORDER` 命名空间。
+3. **Bind the KV Namespace**:
+   - Navigate to your Worker's **Settings > Variables**. Under **KV Namespace Bindings**, add a binding named `CARD_ORDER` and link it to the `CARD_ORDER` namespace created above.
 
-4. **配置环境变量 / 设置**：
-   - 必填与选填的各项配置见下方表格。
+4. **Configure Environment Variables**:
+   - Set up the required and optional environment variables listed in the table below.
 
-5. **添加域名**（可选）：
-   - 若需自定义域名，在 Worker 的「设置 → 域和路由」中添加自定义域或用 `*.workers.dev` 子域。
+5. **Add a Custom Domain** (Optional):
+   - Under **Settings > Domains & Routes**, assign a custom domain or use the provided `*.workers.dev` subdomain.
 
 <br/>
 
-#### 环境变量说明
+#### Environment Variables
 
-> 表中标记了「必填」与「可选」；未配置选填项时将使用默认值。
+> Variables marked with "Required" must be configured. Unset optional variables will fall back to their default values.
 
-| 变量名 | 必填 | 说明 | 默认值 |
+| Variable | Required | Description | Default |
 |---|---|---|---|
-| `ADMIN_PASSWORD` | ✅ 必填 | 管理员登录密码，至少 **8 个字符** | 无 |
-| `JWT_SECRET` | ✅ 必填 | 用于加密 Token 的密钥，建议为 **≥32 字符** 的随机字符串 | 无 |
-| `DEFAULT_USER` | ⬜ 可选 | 默认用户标识| `testUser` |
-| `ALLOWED_ORIGINS` | ⬜ 可选 | 允许跨域访问的来源，多个用英文逗号分隔 | 空（不限制） |
-| `ICON_API` | ⬜ 可选 | 图标API地址 |已内置xinac|
-| `PREFER_ICON_API` | ⬜ 可选 | 是否优先使用图标API | `true` |
+| `ADMIN_PASSWORD` | ✅ Required | Admin login password (minimum **8 characters**) | None |
+| `JWT_SECRET` | ✅ Required | Secret key for JWT encryption. Must be a random string of **≥ 32 characters** | None |
+| `DEFAULT_USER` | ⬜ Optional | Default user identifier | `testUser` |
+| `ALLOWED_ORIGINS` | ⬜ Optional | Allowed CORS origins (comma-separated for multiple origins) | Empty (unrestricted) |
+| `ICON_API` | ⬜ Optional | Custom favicon API endpoint | Built-in (xinac) |
+| `PREFER_ICON_API` | ⬜ Optional | Prioritize the custom favicon API over standard fetching | `true` |
 
-> **注意（老版本升级提醒）：**
-> - 旧版本如果**未配置 `JWT_SECRET`**，或配置的 `JWT_SECRET` **小于 32 个字符**，必须重新配置一个 **≥32 字符** 的随机字符串，否则 Worker 会因配置校验失败（`JWT_SECRET 未配置或强度不足`）而无法正常工作。
-> - 旧版本如果 **`ADMIN_PASSWORD` 小于 8 个字符**，请一并更新为**至少 8 个字符**的新密码，否则同样会触发配置校验失败。
-> - 修改后需重新部署（或点击「保存并部署」）使配置生效。
+> **Important Notice for Upgrading from Older Versions:**
+> - If your previous setup lacked `JWT_SECRET` or used a string shorter than 32 characters, you **must** update it to a random string of **≥ 32 characters**. Otherwise, the Worker will fail initialization due to validation rules (`JWT_SECRET missing or too weak`).
+> - If your existing `ADMIN_PASSWORD` is shorter than 8 characters, please update it to at least **8 characters** to avoid validation errors.
+> - Always click **Save and Deploy** after modifying environment variables for changes to take effect.
 
 </details>
 
-## 🙏 致谢
+## 🙏 Acknowledgments
 
-特别感谢 **[Cloudflare](https://www.cloudflare.com/)** 、 **[Tailwind CSS](https://tailwindcss.com/)** 、 **[hmhm2022](https://github.com/hmhm2022)**、 **[xinac](https://api.xinac.net/)**。
+Special thanks to **[Cloudflare](https://www.cloudflare.com/)**, **[Tailwind CSS](https://tailwindcss.com/)**, **[hmhm2022](https://github.com/hmhm2022)**, and **[xinac](https://api.xinac.net/)**.
