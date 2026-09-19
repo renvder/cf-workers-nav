@@ -1,6 +1,5 @@
 <p align="right">
-  🌐 <b></b>
-  <b>EN</b></a> | 
+  🌐 <b>EN</b> |
   <a href="./README_tw.md"><b>漢</b></a>
 </p>
 
@@ -22,11 +21,13 @@
 
 * **⚡️ Serverless Architecture**: Runs entirely on Cloudflare Workers with zero server setup or maintenance.
 * **💾 Cloudflare KV Storage**: Reliable, persistent key-value storage for all your links and settings.
-* **🎨 Clean, Modern UI**: Built with Tailwind CSS. Includes automatic/manual dark mode toggle and a responsive layout for desktop and mobile.
+* **🎨 Clean, Modern UI**: Built with Tailwind CSS, with a responsive layout for desktop and mobile, plus two display styles (Card view and APP view).
+* **🌗 Dark Mode That Follows Your System**: Automatically matches your device's light/dark setting on desktop and mobile, and switches live when the system switches (e.g. scheduled day/night mode). You can also toggle it manually from the Settings menu; a manual choice is only remembered across visits if **Remember Settings** is turned on.
 * **🖱️ Drag-and-Drop Reordering**: Rearrange categories and bookmark cards via mouse drag on desktop or long-press on mobile.
-* **🔒 Password Protection**: Hide sensitive links behind an admin password—visible only when logged in.
-* **📂 Flexible Data Management**: Add, edit, or delete links directly on the page. Supports importing HTML bookmarks from Chrome/Edge, plus JSON import/export with automatic backups.
-* **🔍 Multi-Engine Search**: Search via Google, Bing, Baidu, or perform instant quick searches across your saved bookmarks.
+* **🔒 Password Protection**: Hide sensitive links behind an admin password—visible only when logged in. Failed logins are rate-limited (5 wrong attempts locks that IP for 15 minutes).
+* **📂 Flexible Data Management**: Add, edit, or delete links directly on the page. Supports importing HTML bookmarks from Chrome/Edge, plus JSON import/export. Every save automatically keeps a backup of the previous data (at most one per 10 minutes, latest 10 kept).
+* **🩺 One-Click Check** (login required): Check whether each site is reachable and how fast it responds, right from your browser.
+* **🔍 Multi-Engine Search**: Search via Google, Bing, or DuckDuckGo, or perform instant quick searches across your saved bookmarks.
 
 ## Interface Preview
 
@@ -56,10 +57,12 @@
    - Go to **Workers & Pages > KV** in the Cloudflare dashboard and create a namespace named `CARD_ORDER`.
 
 3. **Bind the KV Namespace**:
-   - Navigate to your Worker's **Settings > Variables**. Under **KV Namespace Bindings**, add a binding named `CARD_ORDER` and link it to the `CARD_ORDER` namespace created above.
+   - Open your Worker's **Settings > Bindings** (in older dashboards: **Settings > Variables > KV Namespace Bindings**), add a KV binding with the variable name `CARD_ORDER`, and link it to the `CARD_ORDER` namespace created above.
 
 4. **Configure Environment Variables**:
-   - Set up the required and optional environment variables listed in the table below.
+   - Go to your Worker's **Settings > Variables and Secrets** and add the variables listed in the table below.
+   - Add `ADMIN_PASSWORD` and `JWT_SECRET` with the type **Secret** so their values are encrypted and hidden after saving. Other variables can use the type **Text**.
+   - Click **Deploy** afterwards so the changes take effect.
 
 5. **Add a Custom Domain** (Optional):
    - Under **Settings > Domains & Routes**, assign a custom domain or use the provided `*.workers.dev` subdomain.
@@ -72,19 +75,44 @@
 
 | Variable | Required | Description | Default |
 |---|---|---|---|
-| `ADMIN_PASSWORD` | ✅ Required | Admin login password (minimum **8 characters**) | None |
-| `JWT_SECRET` | ✅ Required | Secret key for JWT encryption. Must be a random string of **≥ 32 characters** | None |
-| `DEFAULT_USER` | ⬜ Optional | Default user identifier | `testUser` |
-| `ALLOWED_ORIGINS` | ⬜ Optional | Allowed CORS origins (comma-separated for multiple origins) | Empty (unrestricted) |
-| `ICON_API` | ⬜ Optional | Custom favicon API endpoint | Built-in (xinac) |
-| `PREFER_ICON_API` | ⬜ Optional | Prioritize the custom favicon API over standard fetching | `true` |
+| `ADMIN_PASSWORD` | ✅ Required | Admin login password (minimum **8 characters**; a long, unique password is recommended) | None |
+| `JWT_SECRET` | ✅ Required | Secret key for signing login tokens. Must be a random string of **≥ 32 characters** (a password manager's generator works well) | None |
+| `DEFAULT_USER` | ⬜ Optional | Data identifier. Your links are stored in KV under this name, so changing it later makes the page show a different (empty) dataset; the old data stays in KV under the old name | `testUser` |
+| `ALLOWED_ORIGINS` | ⬜ Optional | Origins allowed to call the API from another domain (CORS), comma-separated. Only needed if you call the API from a different site | Empty (same-origin only) |
+| `ICON_API` | ⬜ Optional | Third-party favicon API. The site URL is URL-encoded and appended to the end of this value, so it must end with the query parameter, e.g. `https://api.xinac.net/icon/?url=` | Built-in (xinac) |
+| `PREFER_ICON_API` | ⬜ Optional | `true`: ask the favicon API first, then fall back to fetching from the site itself. `false`: never contact the third-party API and fetch icons directly from each site (**more private**, see below). Use exactly `true` or `false` in lowercase; any other value is treated as `false` | `true` |
 
-> **Important Notice for Upgrading from Older Versions:**
-> - If your previous setup lacked `JWT_SECRET` or used a string shorter than 32 characters, you **must** update it to a random string of **≥ 32 characters**. Otherwise, the Worker will fail initialization due to validation rules (`JWT_SECRET missing or too weak`).
-> - If your existing `ADMIN_PASSWORD` is shorter than 8 characters, please update it to at least **8 characters** to avoid validation errors.
-> - Always click **Save and Deploy** after modifying environment variables for changes to take effect.
+#### 🔐 Privacy Tip: `PREFER_ICON_API`
+
+With the default (`true`), the Worker sends **every link's URL to the favicon API** (xinac by default) to get its icon. This includes private links whenever they are displayed after login.
+
+If you would rather not share your links with a third party, add `PREFER_ICON_API` = `false` under **Settings > Variables and Secrets** and click **Deploy**. Icons are then fetched straight from each website (`/favicon.ico`, then the icons declared in the page). The trade-off: a few sites may not provide a fetchable icon and will show the default icon instead.
+
+> Icons that were already fetched stay cached for up to 7 days, so the change fully applies once old icons expire.
+
+#### Upgrading from Older Versions
+
+> - If your previous setup lacked `JWT_SECRET` or used a string shorter than 32 characters, you **must** update it to a random string of **≥ 32 characters**. Otherwise the Worker refuses to run and returns `Server is not configured` (HTTP 500) with the message `JWT_SECRET is not configured or not strong enough (needs ≥ 32 characters)`.
+> - If your existing `ADMIN_PASSWORD` is shorter than 8 characters, update it to at least **8 characters**, otherwise the same error is returned.
+> - Always click **Deploy** after modifying variables for changes to take effect.
+> - Earlier versions saved the automatically detected theme in the browser, which stopped the page from following later system changes. The current version ignores that old value, so no manual clean-up is needed.
 
 </details>
+
+## 🛡️ Privacy & Security Notes
+
+* **Favicon service**: see the `PREFER_ICON_API` tip above.
+* **Third-party resources in the browser**: the page loads Tailwind CSS from `cdn.tailwindcss.com` and fonts from Google Fonts. The admin login token is kept in the browser's `localStorage`, so on a shared or public computer, always use **Login / Logout** to sign out after editing. On your own personal device, staying logged in is fine.
+* **Logout signs out every device**: logging out revokes all existing sessions (phone and computer alike). A logout request only takes effect when it carries a valid login token, so outsiders cannot force you to be signed out.
+* **Private links** are filtered on the server: visitors who are not logged in never receive them.
+* **Login protection**: 5 wrong passwords lock the visiting IP for 15 minutes. Login tokens last 2 hours and are renewed automatically through an HttpOnly cookie (up to 30 days).
+
+## 📝 Changelog
+
+**2026-09-19**
+* Dark mode: the page now truly follows the system theme, including live switching. A manual choice is saved only when **Remember Settings** is on, and enabling that option now saves the theme actually in use. Added `color-scheme` / `theme-color` so native controls and the mobile browser bar match the theme.
+* Security: `/api/logout` now requires a valid login token.
+* Docs: added the privacy tip for `PREFER_ICON_API`; corrected the search engine list (DuckDuckGo instead of Baidu); corrected the `ALLOWED_ORIGINS` default (same-origin only, not unrestricted); clarified `JWT_SECRET`, `ICON_API` and `DEFAULT_USER`.
 
 ## 🙏 Acknowledgments
 
