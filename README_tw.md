@@ -21,7 +21,8 @@
 
 *   **⚡️ Serverless 架構**：完全執行於 Cloudflare Workers 上，無需維護伺服器。
 *   **💾 KV 儲存空間**：資料安全儲存於 Cloudflare KV 中。
-*   **🎨 簡潔 UI**：基於 Tailwind CSS，響應式設計完美相容電腦與行動裝置，並提供卡片視圖與 APP 視圖兩種顯示風格。
+*   **🎨 簡潔 UI**：基於 Tailwind CSS（已預先編譯並內嵌於頁面，不依賴外部 CDN），響應式設計完美相容電腦與行動裝置，並提供卡片視圖與 APP 視圖兩種顯示風格。
+*   **🚀 輕量啟動**：頁面不執行任何外部腳本，網頁字型改為背景載入、不會擋住頁面，「Loading…」提示會在第一時間顯示。
 *   **🌗 自動跟隨系統的深色模式**：電腦與手機都會自動採用裝置目前的淺色/深色設定，系統切換時（例如定時日夜模式）頁面也會即時跟著切換。也可在「設定」選單手動切換；手動選擇只有在開啟 **Remember Settings（記住設定）** 時才會跨次記住。
 *   **🖱️ 拖曳排序**：支援電腦端滑鼠拖曳與行動裝置長按拖曳，輕鬆整理分類與卡片順序。
 *   **🔒 私密保護**：支援設定「私密連結」，僅在管理員登入後可見。登入失敗有次數限制（錯誤 5 次，該 IP 鎖定 15 分鐘）。
@@ -102,12 +103,34 @@
 ## 🛡️ 隱私與安全說明
 
 * **圖示服務**：請見上方 `PREFER_ICON_API` 隱私建議。
-* **瀏覽器載入的第三方資源**：頁面會從 `cdn.tailwindcss.com` 載入 Tailwind CSS，並從 Google Fonts 載入字型。管理員登入 Token 存放在瀏覽器的 `localStorage`，因此在共用或公用電腦上編輯後，務必使用 **Login / Logout** 登出；在自己的個人裝置上則可保持登入。
+* **瀏覽器載入的第三方資源**：頁面不執行任何第三方腳本（Tailwind CSS 已內嵌），因此登入 Token 不會因為 CDN 被入侵而外洩。唯一的外部資源是 Google Fonts（在背景載入，無法連線時會改用系統字型）。管理員登入 Token 存放在瀏覽器的 `localStorage`，因此在共用或公用電腦上編輯後，務必使用 **Login / Logout** 登出；在自己的個人裝置上則可保持登入。
 * **登出會讓所有裝置一起登出**：登出會撤銷所有現有登入狀態（手機、電腦都會掉線）。登出請求必須帶有效的登入 Token 才會生效，外人無法強制讓你被登出。
 * **私密連結**由伺服器端過濾：未登入的訪客根本不會收到這些資料。
 * **登入保護**：密碼錯誤 5 次會鎖定該來源 IP 15 分鐘。登入 Token 有效期 2 小時，並透過 HttpOnly Cookie 自動續期（最長 30 天）。
 
+## 🔧 疑難排解
+
+**iOS 26 / 27 的 Safari 開啟或重新整理頁面時會停頓幾秒**
+
+實測發現，這段停頓發生在「頁面本身還沒抵達」之前（連線建立後 Worker 只需不到一秒就會回應，且 iOS 18 不受影響），因此不是頁面程式碼造成的，看起來與新版 Safari 連線到 Cloudflare 的方式（HTTP/3 / 0-RTT）有關。這不影響功能，只會延後第一次顯示。若你在意，可以選擇性地在 Cloudflare 的網域設定中關閉 **0-RTT 連線恢復（0-RTT Connection Resumption）**（必要時再關閉 **HTTP/3（with QUIC）**）。這些開關會套用到該網域下的所有網站，且裝置可能需要一段時間才會生效。
+
+<details>
+<summary>開發者說明：更新內嵌樣式</summary>
+
+頁面的 Tailwind CSS 已預先編譯，存放在 HTML 內的 `<style id="tw-compiled">` 區塊。如果你在頁面中新增或修改了 Tailwind 樣式類別，必須重新產生這個區塊，否則新的類別不會有任何樣式。
+
+1. 將頁面的 HTML 存成名為 `page.html` 的檔案。
+2. 使用儲存庫中的 `tailwind.config.js`（Tailwind CSS v3.4、`darkMode: 'class'`，內含主題的顏色、字型與陰影設定），以及內容為 `@tailwind base; @tailwind components; @tailwind utilities;` 的 `input.css`。
+3. 執行 `npx tailwindcss@3.4.17 -c tailwind.config.js -i input.css -o out.css --minify`。
+4. 用 `out.css` 的內容取代 `<style id="tw-compiled">` 裡的內容。因為 HTML 位於 Worker 的 JavaScript 模板字串中，CSS 裡的每個反斜線都必須加倍（`\` → `\\`）。
+
+</details>
+
 ## 📝 更新紀錄
+
+**2026-09-20**
+* 效能：Tailwind CSS 改為預先編譯並內嵌於頁面，不再從 `cdn.tailwindcss.com` 載入；Google Fonts 不再阻擋頁面啟動；啟動時不再重複驗證登入；「Loading…」提示從第一次繪製就顯示；閒置的對話框遮罩改為完全隱藏（`display: none`），不再隱形地蓋在頁面上。
+* 文件：新增 iOS 26 / 27 Safari 說明，以及重新產生內嵌樣式的開發者說明。
 
 **2026-09-19**
 * 深色模式：頁面現在能真正跟隨系統主題，包含即時切換。手動選擇只有在開啟 **Remember Settings** 時才會儲存，且開啟該選項時會儲存目前實際使用的主題。新增 `color-scheme` / `theme-color`，讓原生控制項與手機瀏覽器網址列配合主題顏色。
