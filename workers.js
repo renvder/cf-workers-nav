@@ -4,6 +4,8 @@ const HTML_CONTENT = `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#f3edfb">
     <title>My Nav</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20128%20128%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22grad%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%3Cstop%20offset%3D%220%25%22%20style%3D%22stop-color%3A%23a855f7%3Bstop-opacity%3A1%22%20%2F%3E%3Cstop%20offset%3D%22100%25%22%20style%3D%22stop-color%3A%237e22ce%3Bstop-opacity%3A1%22%20%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22128%22%20height%3D%22128%22%20rx%3D%2224%22%20fill%3D%22url%28%23grad%29%22%2F%3E%3Cpolyline%20points%3D%2234%2C40%2060%2C64%2034%2C88%22%20fill%3D%22none%22%20stroke%3D%22white%22%20stroke-width%3D%2211%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3Crect%20x%3D%2268%22%20y%3D%2282%22%20width%3D%2230%22%20height%3D%2211%22%20rx%3D%222%22%20fill%3D%22white%22%2F%3E%3C%2Fsvg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -272,46 +274,42 @@ const HTML_CONTENT = `
     </style>
         <script>
         // --- 主題管理邏輯 ---
+        // 規則：只有「Remember Settings」開啟且有明確儲存值時才採用儲存值；否則一律跟隨系統 (prefers-color-scheme)。
+        // 自動偵測到的系統主題「不會」寫入 localStorage，因此系統切換（含手機日夜自動切換）能即時生效。
         (() => {
-            const htmlEl = document.documentElement;
-            const storageKey = 'theme_preference';
+            const html = document.documentElement;
+            const KEY = 'theme_preference';
+            const mq = window.matchMedia('(prefers-color-scheme: dark)');
 
-            const setTheme = (theme) => {
-                if (theme === 'dark') {
-                    htmlEl.classList.add('dark');
-                } else if (theme === 'light') {
-                    htmlEl.classList.remove('dark');
-                }
-                localStorage.setItem(storageKey, theme);
+            const stored = () => {
+                try {
+                    if (localStorage.getItem('savePreferences') !== 'true') return null;
+                    const v = localStorage.getItem(KEY);
+                    return (v === 'dark' || v === 'light') ? v : null;
+                } catch (e) { return null; }
             };
 
-            const applyInitialTheme = () => {
-                const savedTheme = localStorage.getItem(storageKey);
-                if (savedTheme) {
-                    setTheme(savedTheme);
-                } else {
-                    // 如果沒有手動選過，就根據系統偏好來決定
-                    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                        setTheme('dark');
-                    } else {
-                        setTheme('light');
-                    }
-                }
+            const paint = (dark) => {
+                html.classList.toggle('dark', dark);
+                html.style.colorScheme = dark ? 'dark' : 'light';
+                const meta = document.querySelector('meta[name="theme-color"]');
+                if (meta) meta.setAttribute('content', dark ? '#0a0414' : '#f3edfb');
+                const cb = document.getElementById('theme-switch-checkbox');
+                if (cb) cb.checked = dark;
             };
 
-            // 立即執行，確保網頁一載入就顯示正確顏色（防止閃爍）
-            applyInitialTheme();
+            const sync = () => paint((stored() || (mq.matches ? 'dark' : 'light')) === 'dark');
 
-            // 監聽系統主題的實時變動
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-                // 除非使用者已經手動選過主題，否則才跟隨系統切換
-                if (!localStorage.getItem(storageKey)) {
-                    setTheme(e.matches ? 'dark' : 'light');
-                }
+            sync(); // 立即執行，避免載入時閃爍
+            if (mq.addEventListener) mq.addEventListener('change', sync);
+            else if (mq.addListener) mq.addListener(sync);
+            // 手機從背景切回前景時，若使用者沒有手動切換過，重新對齊系統主題
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'visible' && !window.__themeManual) sync();
             });
 
-            // 提供給 UI 按鈕使用的全域方法
-            window.updateTheme = (theme) => setTheme(theme);
+            window.__paintTheme = paint;
+            window.updateTheme = (theme) => paint(theme === 'dark');
         })();
     </script>
 </head>
@@ -974,7 +972,7 @@ const HTML_CONTENT = `
                 localStorage.removeItem('theme_preference');
             } else {
                 localStorage.setItem('searchEngine', currentEngine);
-                localStorage.setItem('theme_preference', window.isDarkTheme ? 'dark' : 'light');
+                localStorage.setItem('theme_preference', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
             }
         });
 
@@ -2422,11 +2420,9 @@ const HTML_CONTENT = `
     }
 
     function applyTheme(isDark) {
-        if (isDark) {
-             document.documentElement.classList.add('dark');
-        } else {
-             document.documentElement.classList.remove('dark');
-        }
+        window.__themeManual = true;
+        if (window.__paintTheme) window.__paintTheme(!!isDark);
+        else document.documentElement.classList.toggle('dark', !!isDark);
         updateThemeSwitchUI();
     }
     
@@ -3882,7 +3878,12 @@ export default {
         }
 
         if (url.pathname === '/api/logout' && request.method === 'POST') {
-            await bumpKeyGen(env);
+            // Only revoke all sessions when the caller holds a validly-signed access token of the current generation
+            // (an expired one is fine: it still proves the caller was logged in). Anonymous callers can no longer force a global logout.
+            const _p = await validateJWT((request.headers.get('Authorization') || '').replace(/^Bearer /, ''), env.JWT_SECRET);
+            if (_p && _p.type === 'access' && _p.kid === (await currentKeyGen(env))) {
+                await bumpKeyGen(env);
+            }
             const response = new Response(JSON.stringify({ success: true }), {
                 status: 200,
                 headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' }
