@@ -1,109 +1,142 @@
+<p align="right">
+  🌐 <b>EN</b> |
+  <a href="./README_tw.md"><b>漢</b></a>
+</p>
+
 <div align="center">
-  <h1>cf-workers-nav  个人导航页</h1>
+  <h1>cf-workers-nav</h1>
   <p>
-    一个部署在CF上的轻量化导航页
+    A lightweight startpage hosted on Cloudflare Workers
     <br />
-    <i>⚡ 轻松创建属于自己的导航主页</i>
+    <i>⚡ Easily build your personalized browser startpage</i>
   </p>
 </div>
 
-📋 轻松部署的个人导航页 
+📋 Easy-to-deploy Personal Startpage
 
-> 一个部署在 Cloudflare Workers 上的轻量化导航页面。
-> 集成书签管理、图标自动获取、拖拽排序、私密链接保护、**主题换肤**等功能。
+> A lightweight browser startpage powered by Cloudflare Workers.
+> Features bookmark management, automatic favicon fetching, drag-and-drop reordering, and password-protected private links—all in a single Worker file for effortless setup.
 
-## ✨ 主要特性
+## ✨ Features
 
-*   **⚡️ Serverless 架构**：完全运行在 Cloudflare Workers 上。
-*   **💾 KV 存储**：数据存储在 Cloudflare KV 中。
-*   **🎨 主题换肤**：内置 9 款主题 + 无限扩展的 tweakcn 社区主题，支持管理员一键发布全局主题。
-*   **🌗 深色模式**：手动开关 + 跟随设备系统设置，每个访客的偏好独立保存在本地。
-*   **🖱️ 拖拽排序**：支持 PC 端鼠标拖拽和移动端长按拖拽来整理分类与卡片顺序。
-*   **🔒 私密保护**：支持设置“私密链接”，仅在管理员登录后可见。
-*   **📂 数据管理**：支持在线添加/编辑/删除链接，支持导入 Chrome / Edge 的 HTML 书签，支持 JSON 格式的数据导入/导出及自动备份。
-*   **🔍 聚合搜索**：内置多款搜索引擎（Google, Bing, Baidu）及站内快捷搜索。
-*   **📱 响应式设计**：卡片视图 / APP 视图两种布局自由切换，适配 PC 与移动端。
+* **⚡️ Serverless Architecture**: Runs entirely on Cloudflare Workers with zero server setup or maintenance.
+* **💾 Cloudflare KV Storage**: Reliable, persistent key-value storage for all your links and settings.
+* **🎨 Clean, Modern UI**: Built with Tailwind CSS (precompiled and embedded in the page, so no external CDN is needed), with a responsive layout for desktop and mobile, plus two display styles (Card view and APP view).
+* **🚀 Light Startup**: No external scripts run on the page, web fonts load in the background without blocking it, and the "Loading…" indicator appears right away.
+* **🌗 Dark Mode That Follows Your System**: Automatically matches your device's light/dark setting on desktop and mobile, and switches live when the system switches (e.g. scheduled day/night mode). You can also toggle it manually from the Settings menu; a manual choice is only remembered across visits if **Remember Settings** is turned on.
+* **🖱️ Drag-and-Drop Reordering**: Rearrange categories and bookmark cards via mouse drag on desktop or long-press on mobile.
+* **🔒 Password Protection**: Hide sensitive links behind an admin password—visible only when logged in. Failed logins are rate-limited (5 wrong attempts locks that IP for 15 minutes).
+* **📂 Flexible Data Management**: Add, edit, or delete links directly on the page. Supports importing HTML bookmarks from Chrome/Edge, plus JSON import/export. Every save automatically keeps a backup of the previous data (at most one per 10 minutes, latest 10 kept).
+* **🩺 One-Click Check** (login required): Check whether each site is reachable and how fast it responds, right from your browser.
+* **🔍 Multi-Engine Search**: Search via Google, Bing, or DuckDuckGo, or perform instant quick searches across your saved bookmarks.
 
-## 🎨 主题换肤
+## Interface Preview
 
-入口：右上角「设置 → 主题皮肤」。**访客也能换肤**（仅对自己生效，保存在浏览器本地），**管理员**登录后切换主题会发布为**全局主题**，所有访客打开页面即是这套配色。
+### Default View
+| Card View | APP View |
+|-|-|
+| ![Desktop Preview](images/69bcc641f5194220aba98e128326ff9f.webp)| ![APP View](images/5a5b09901a3b4f81b104fc9f94983299.webp)|
 
-### 自定义主题（tweakcn 社区）
+### Edit Mode
+| Card View | APP View |
+|-|-|
+| ![Edit Mode](images/439d9791b4024c2bb46faadf9e974cf4.webp)| ![APP View](images/83814f619d014d3f945eefdcf7adec2d.webp)|
 
-内置库看腻了？在弹窗底部的输入框粘贴 [tweakcn](https://tweakcn.com) 社区主题的 **ID 或完整链接**（`themes/xxx`），点击「应用」即可换肤。[更多主题 ↗](https://tweakcn.com/community)
+## Deployment
 
-### 主题 JSON 导出 / 导入
-
-弹窗底部提供「导入 / 导出主题」：
-
-*   **导出**：将当前自定义主题一键复制为 JSON 或下载文件，方便备份与分享。
-*   **导入**：粘贴 JSON 文本或选择本地 `.json` 文件即可应用；自动兼容三种格式——本站导出格式、tweakcn 的 `{name, cssVars}`、裸 `{light, dark, theme}` 配色数据。
-*   **安全与回退**：导入前会做体积上限、结构白名单与 CSS 值消毒校验，并自动保存快照，可通过「回退上一套」随时恢复。
-
-![主题选择面板](images/theme-panel.webp)
-
-
-
-## 界面预览
-
-### 卡片视图
-| default | claude |
-|---|---|
-| ![default](images/default.webp) | ![claude](images/claude.webp) |
-
-### APP视图
-| amethyst-haze | graphite |
-|---|---|
-| ![amethyst-haze](images/app_amethyst-haze.webp) | ![graphite](images/app_edit_graphite.webp) |
-
-
-
-## 部署方式
-
-### 部署到Cloudflare
+### Deploying to Cloudflare
 
 <details>
-<summary>点击展开</summary>
+<summary>Click to expand setup guide</summary>
 
-#### 部署步骤
+#### Setup Steps
 
-1. **登录 [Cloudflare](https://www.cloudflare.com)** 创建 Worker：
-   - 复制仓库里 `workers.js` 的代码，粘贴进 Worker 编辑器，点击部署。
+1. **Log in to [Cloudflare](https://www.cloudflare.com)** and create a new Worker:
+   - Copy the code from `workers.js` in this repository, paste it into the Worker editor, and click **Save and Deploy**.
 
-2. **创建 KV 存储**：
-   - 新建一个名为 `CARD_ORDER` 的 KV 命名空间，用于存储数据。
+2. **Create a KV Namespace**:
+   - Go to **Workers & Pages > KV** in the Cloudflare dashboard and create a namespace named `CARD_ORDER`.
 
-3. **绑定 KV 命名空间**：
-   - 在 Worker 的「设置 → 变量」中添加绑定，变量名称填 `CARD_ORDER`，绑定到上一步创建的 `CARD_ORDER` 命名空间。
+3. **Bind the KV Namespace**:
+   - Open your Worker's **Settings > Bindings** (in older dashboards: **Settings > Variables > KV Namespace Bindings**), add a KV binding with the variable name `CARD_ORDER`, and link it to the `CARD_ORDER` namespace created above.
 
-4. **配置环境变量 / 设置**：
-   - 必填与选填的各项配置见下方表格。
+4. **Configure Environment Variables**:
+   - Go to your Worker's **Settings > Variables and Secrets** and add the variables listed in the table below.
+   - Add `ADMIN_PASSWORD` and `JWT_SECRET` with the type **Secret** so their values are encrypted and hidden after saving. Other variables can use the type **Text**.
+   - Click **Deploy** afterwards so the changes take effect.
 
-5. **添加域名**：
-   - 若需自定义域名，在 Worker 的「设置 → 域和路由」中添加自定义域或用 `*.workers.dev` 子域。
+5. **Add a Custom Domain** (Optional):
+   - Under **Settings > Domains & Routes**, assign a custom domain or use the provided `*.workers.dev` subdomain.
 
 <br/>
 
-#### 环境变量说明
+#### Environment Variables
 
-> 表中标记了「必填」与「可选」；未配置选填项时将使用默认值。
+> Variables marked with "Required" must be configured. Unset optional variables will fall back to their default values.
 
-| 变量名 | 必填 | 说明 | 默认值 |
+| Variable | Required | Description | Default |
 |---|---|---|---|
-| `ADMIN_PASSWORD` | ✅ 必填 | 管理员登录密码，至少 **8 个字符** | 无 |
-| `JWT_SECRET` | ✅ 必填 | 用于加密 Token 的密钥，建议为 **≥32 字符** 的随机字符串 | 无 |
-| `DEFAULT_USER` | ⬜ 可选 | 默认用户标识| `testUser` |
-| `ALLOWED_ORIGINS` | ⬜ 可选 | 允许跨域访问的来源，多个用英文逗号分隔 | 空（不限制） |
-| `ICON_API` | ⬜ 可选 | 图标API地址 |已内置xinac|
-| `PREFER_ICON_API` | ⬜ 可选 | 是否优先使用图标API | `true` |
+| `ADMIN_PASSWORD` | ✅ Required | Admin login password (minimum **8 characters**; a long, unique password is recommended) | None |
+| `JWT_SECRET` | ✅ Required | Secret key for signing login tokens. Must be a random string of **≥ 32 characters** (a password manager's generator works well) | None |
+| `DEFAULT_USER` | ⬜ Optional | Data identifier. Your links are stored in KV under this name, so changing it later makes the page show a different (empty) dataset; the old data stays in KV under the old name | `testUser` |
+| `ALLOWED_ORIGINS` | ⬜ Optional | Origins allowed to call the API from another domain (CORS), comma-separated. Only needed if you call the API from a different site | Empty (same-origin only) |
+| `ICON_API` | ⬜ Optional | Third-party favicon API. The site URL is URL-encoded and appended to the end of this value, so it must end with the query parameter, e.g. `https://api.xinac.net/icon/?url=` | Built-in (xinac) |
+| `PREFER_ICON_API` | ⬜ Optional | `true`: ask the favicon API first, then fall back to fetching from the site itself. `false`: never contact the third-party API and fetch icons directly from each site (**more private**, see below). Use exactly `true` or `false` in lowercase; any other value is treated as `false` | `true` |
 
-> **注意（老版本升级提醒）：**
-> - 旧版本如果**未配置 `JWT_SECRET`**，或配置的 `JWT_SECRET` **小于 32 个字符**，必须重新配置一个 **≥32 字符** 的随机字符串，否则 Worker 会因配置校验失败（`JWT_SECRET 未配置或强度不足`）而无法正常工作。
-> - 旧版本如果 **`ADMIN_PASSWORD` 小于 8 个字符**，请一并更新为**至少 8 个字符**的新密码，否则同样会触发配置校验失败。
-> - 修改后需重新部署（或点击「保存并部署」）使配置生效。
+#### 🔐 Privacy Tip: `PREFER_ICON_API`
+
+With the default (`true`), the Worker sends **every link's URL to the favicon API** (xinac by default) to get its icon. This includes private links whenever they are displayed after login.
+
+If you would rather not share your links with a third party, add `PREFER_ICON_API` = `false` under **Settings > Variables and Secrets** and click **Deploy**. Icons are then fetched straight from each website (`/favicon.ico`, then the icons declared in the page). The trade-off: a few sites may not provide a fetchable icon and will show the default icon instead.
+
+> Icons that were already fetched stay cached for up to 7 days, so the change fully applies once old icons expire.
+
+#### Upgrading from Older Versions
+
+> - If your previous setup lacked `JWT_SECRET` or used a string shorter than 32 characters, you **must** update it to a random string of **≥ 32 characters**. Otherwise the Worker refuses to run and returns `Server is not configured` (HTTP 500) with the message `JWT_SECRET is not configured or not strong enough (needs ≥ 32 characters)`.
+> - If your existing `ADMIN_PASSWORD` is shorter than 8 characters, update it to at least **8 characters**, otherwise the same error is returned.
+> - Always click **Deploy** after modifying variables for changes to take effect.
+> - Earlier versions saved the automatically detected theme in the browser, which stopped the page from following later system changes. The current version ignores that old value, so no manual clean-up is needed.
 
 </details>
 
-## 🙏 致谢
+## 🛡️ Privacy & Security Notes
 
-特别感谢 **[Cloudflare](https://www.cloudflare.com/)** 、 **[Tailwind CSS](https://tailwindcss.com/)** 、 **[tweakcn](https://tweakcn.com/)**（主题库与社区主题）、 **[hmhm2022](https://github.com/hmhm2022)**、 **[xinac](https://api.xinac.net/)**。
+* **Favicon service**: see the `PREFER_ICON_API` tip above.
+* **Third-party resources in the browser**: no third-party scripts run on the page (Tailwind CSS is embedded), so the login token cannot be exposed through a compromised CDN. The only external resource is Google Fonts (loaded in the background; if it is unreachable, system fonts are used). The admin login token is kept in the browser's `localStorage`, so on a shared or public computer, always use **Login / Logout** to sign out after editing. On your own personal device, staying logged in is fine.
+* **Logout signs out every device**: logging out revokes all existing sessions (phone and computer alike). A logout request only takes effect when it carries a valid login token, so outsiders cannot force you to be signed out.
+* **Private links** are filtered on the server: visitors who are not logged in never receive them.
+* **Login protection**: 5 wrong passwords lock the visiting IP for 15 minutes. Login tokens last 2 hours and are renewed automatically through an HttpOnly cookie (up to 30 days).
+
+## 🔧 Troubleshooting
+
+**Safari on iOS 26 / 27 pauses for a few seconds when opening or refreshing the page**
+
+In testing, this happens before the page itself is received (the Worker answers in a fraction of a second once the connection is established, and iOS 18 is not affected), so it is not caused by the page code. It appears to be related to how newer Safari versions set up connections to Cloudflare (HTTP/3 / 0-RTT). It does not affect functionality and only delays the first display. If it bothers you, you can optionally try turning off **0-RTT Connection Resumption** (and, if needed, **HTTP/3 (with QUIC)**) in your domain's Cloudflare settings. These switches apply to every site on that domain, and it may take a while for devices to pick up the change.
+
+<details>
+<summary>For developers: updating the embedded styles</summary>
+
+The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled">` block inside the HTML. If you add or change Tailwind utility classes in the page, that block must be regenerated, otherwise the new classes will have no styling.
+
+1. Save the page's HTML to a file named `page.html`.
+2. Use the `tailwind.config.js` from this repository (Tailwind CSS v3.4, `darkMode: 'class'`, with the theme's colors, fonts and shadows) and an `input.css` containing `@tailwind base; @tailwind components; @tailwind utilities;`.
+3. Run `npx tailwindcss@3.4.17 -c tailwind.config.js -i input.css -o out.css --minify`.
+4. Replace the contents of `<style id="tw-compiled">` with `out.css`. Because the HTML lives inside a JavaScript template literal in the Worker, every backslash in the CSS must be doubled (`\` → `\\`).
+
+</details>
+
+## 📝 Changelog
+
+**2026-09-20**
+* Performance: Tailwind CSS is now precompiled and embedded in the page instead of being loaded from `cdn.tailwindcss.com`; Google Fonts no longer blocks the page from starting; the login check no longer runs twice at startup; the "Loading…" indicator shows from the first paint; idle dialog overlays are fully hidden (`display: none`) instead of sitting invisibly on top of the page.
+* Docs: added the iOS 26 / 27 Safari note and developer notes for regenerating the embedded styles.
+
+**2026-09-19**
+* Dark mode: the page now truly follows the system theme, including live switching. A manual choice is saved only when **Remember Settings** is on, and enabling that option now saves the theme actually in use. Added `color-scheme` / `theme-color` so native controls and the mobile browser bar match the theme.
+* Security: `/api/logout` now requires a valid login token.
+* Docs: added the privacy tip for `PREFER_ICON_API`; corrected the search engine list (DuckDuckGo instead of Baidu); corrected the `ALLOWED_ORIGINS` default (same-origin only, not unrestricted); clarified `JWT_SECRET`, `ICON_API` and `DEFAULT_USER`.
+
+## 🙏 Acknowledgments
+
+Special thanks to **[Cloudflare](https://www.cloudflare.com/)**, **[Tailwind CSS](https://tailwindcss.com/)**, **[hmhm2022](https://github.com/hmhm2022)**, and **[xinac](https://api.xinac.net/)**.
