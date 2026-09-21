@@ -108,12 +108,6 @@ If you would rather not share your links with a third party, add `PREFER_ICON_AP
 * **Private links** are filtered on the server: visitors who are not logged in never receive them.
 * **Login protection**: 5 wrong passwords lock the visiting IP for 15 minutes. Login tokens last 2 hours and are renewed automatically through an HttpOnly cookie (up to 30 days).
 
-## 🔧 Troubleshooting
-
-**Safari on iOS 26 / 27 pauses for a few seconds when opening or refreshing the page**
-
-In testing, this happens before the page itself is received (the Worker answers in a fraction of a second once the connection is established, and iOS 18 is not affected), so it is not caused by the page code. It appears to be related to how newer Safari versions set up connections to Cloudflare (HTTP/3 / 0-RTT). It does not affect functionality and only delays the first display. If it bothers you, you can optionally try turning off **0-RTT Connection Resumption** (and, if needed, **HTTP/3 (with QUIC)**) in your domain's Cloudflare settings. These switches apply to every site on that domain, and it may take a while for devices to pick up the change.
-
 <details>
 <summary>For developers: updating the embedded styles</summary>
 
@@ -130,7 +124,6 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 
 **2026-09-20**
 * Performance: Tailwind CSS is now precompiled and embedded in the page instead of being loaded from `cdn.tailwindcss.com`; Google Fonts no longer blocks the page from starting; the login check no longer runs twice at startup; the "Loading…" indicator shows from the first paint; idle dialog overlays are fully hidden (`display: none`) instead of sitting invisibly on top of the page.
-* Docs: added the iOS 26 / 27 Safari note and developer notes for regenerating the embedded styles.
 
 **2026-09-19**
 * Dark mode: the page now truly follows the system theme, including live switching. A manual choice is saved only when **Remember Settings** is on, and enabling that option now saves the theme actually in use. Added `color-scheme` / `theme-color` so native controls and the mobile browser bar match the theme.
