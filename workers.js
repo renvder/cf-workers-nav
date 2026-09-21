@@ -1,121 +1,29 @@
 const HTML_CONTENT = `
 <!DOCTYPE html>
-<html lang="zh-CN" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Card Tab - 我的导航</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20128%20128%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22grad%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%3Cstop%20offset%3D%220%25%22%20style%3D%22stop-color%3A%2310b981%3Bstop-opacity%3A1%22%20%2F%3E%3Cstop%20offset%3D%22100%25%22%20style%3D%22stop-color%3A%230d9488%3Bstop-opacity%3A1%22%20%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22128%22%20height%3D%22128%22%20rx%3D%2224%22%20fill%3D%22url%28%23grad%29%22%2F%3E%3Cpath%20d%3D%22M64%2024l12.36%2025.04L104%2054.1l-20%2020.48%204.72%2027.52L64%2088.89%2039.28%20101.1%2044%2073.58%2024%2054.1l27.64-5.06L64%2024z%22%20fill%3D%22white%22%2F%3E%3C%2Fsvg%3E">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        glass: {
-                            border: 'rgba(255, 255, 255, 0.2)',
-                            darkBorder: 'rgba(255, 255, 255, 0.1)',
-                        },
-                        base: {
-                            DEFAULT: 'var(--background)',
-                            foreground: 'var(--foreground)',
-                        },
-                        card: {
-                            DEFAULT: 'var(--card)',
-                            foreground: 'var(--card-foreground)',
-                        },
-                        accent: {
-                            DEFAULT: 'var(--primary)',
-                            foreground: 'var(--primary-foreground)',
-                        },
-                        secondary: {
-                            DEFAULT: 'var(--secondary)',
-                            foreground: 'var(--secondary-foreground)',
-                        },
-                        muted: {
-                            DEFAULT: 'var(--muted)',
-                            foreground: 'var(--muted-foreground)',
-                        },
-                        soft: {
-                            DEFAULT: 'var(--accent)',
-                            foreground: 'var(--accent-foreground)',
-                        },
-                        line: {
-                            DEFAULT: 'var(--border)',
-                            input: 'var(--input)',
-                        },
-                        ring: {
-                            DEFAULT: 'var(--ring)',
-                        },
-                    },
-                    fontFamily: {
-                        sans: 'var(--font-sans)',
-                    },
-                    boxShadow: {
-                        'glass': '0 4px 30px rgba(0, 0, 0, 0.1)',
-                        'glass-hover': '0 10px 40px rgba(0, 0, 0, 0.2)',
-                    }
-                }
-            }
-        }
-    </script>
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#f3edfb">
+    <title>RENVDER NAV</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20128%20128%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22grad%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%3Cstop%20offset%3D%220%25%22%20style%3D%22stop-color%3A%23a855f7%3Bstop-opacity%3A1%22%20%2F%3E%3Cstop%20offset%3D%22100%25%22%20style%3D%22stop-color%3A%237e22ce%3Bstop-opacity%3A1%22%20%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22128%22%20height%3D%22128%22%20rx%3D%2224%22%20fill%3D%22url%28%23grad%29%22%2F%3E%3Cpolyline%20points%3D%2234%2C40%2060%2C64%2034%2C88%22%20fill%3D%22none%22%20stroke%3D%22white%22%20stroke-width%3D%2211%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3Crect%20x%3D%2268%22%20y%3D%2282%22%20width%3D%2230%22%20height%3D%2211%22%20rx%3D%222%22%20fill%3D%22white%22%2F%3E%3C%2Fsvg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet"></noscript>
     <style>
-        /* ===== 主题 CSS 变量 ===== */
-        :root {
-            --background: #ffffff; --foreground: #1e293b;
-            --card: #ffffff;       --card-foreground: #0f172a;
-            --primary: #10b981;    --primary-foreground: #ffffff;
-            --secondary: #f8fafc;  --secondary-foreground: #334155;
-            --muted: #f1f5f9;      --muted-foreground: #64748b;
-            --accent: #ecfdf5;     --accent-foreground: #059669;
-            --accent-soft: rgba(16, 185, 129, 0.1);
-            --border: #e2e8f0;     --input: #cbd5e1;
-            --ring: #10b981;       --radius: 1rem;
-            --menu-hover: color-mix(in srgb, var(--foreground) 8%, var(--card));
-            --font-sans: 'Inter', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
-            /* 圆角派生体系：默认 --radius=1rem 时与改造前的固定 rem 观感一致，主题改 --radius 后整体缩放 */
-            --radius-sm: calc(var(--radius) * 0.25);
-            --radius-md: calc(var(--radius) * 0.375);
-            --radius-lg: calc(var(--radius) * 0.5);
-            --radius-xl: calc(var(--radius) * 0.75);
-            --radius-2xl: var(--radius);
-        }
-        .dark {
-            --background: #0f172a; --foreground: #f1f5f9;
-            --card: #1e293b;       --card-foreground: #f8fafc;
-            --primary: #34d399;    --primary-foreground: #064e3b;
-            --secondary: #1e293b;  --secondary-foreground: #cbd5e1;
-            --muted: #1e293b;      --muted-foreground: #94a3b8;
-            --accent: #0f172a;     --accent-foreground: #34d399;
-            --accent-soft: rgba(52, 211, 153, 0.15);
-            --border: #334155;     --input: #475569;
-            --ring: #34d399;
-            --menu-hover: color-mix(in srgb, var(--foreground) 16%, var(--card));
-        }
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--foreground) 18%, transparent); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--foreground) 35%, transparent); }
+        ::-webkit-scrollbar-thumb { background: rgba(156, 163, 175, 0.3); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(156, 163, 175, 0.6); }
 
-        ::selection {
-            background: color-mix(in srgb, var(--primary) 45%, var(--background));
-            color: var(--foreground);
-        }
-        input::selection, textarea::selection, select::selection,
-        [contenteditable="true"]::selection,
-        input ::selection, textarea ::selection, select ::selection,
-        [contenteditable="true"] ::selection {
-            background: color-mix(in srgb, var(--primary) 55%, var(--background));
-            color: var(--card-foreground);
-        }
-
-        .loading-spinner-track { border: 4px solid #e2e8f0; }
-        .dark .loading-spinner-track { border-color: #334155; }
-        .loading-spinner-arc { border: 4px solid transparent; border-top-color: var(--primary); }
-        .dark .loading-spinner-arc { border-top-color: var(--primary); }
-        .icon-spinner { border: 2px solid #cbd5e1; border-top-color: var(--primary); }
-        .dark .icon-spinner { border-color: #475569; border-top-color: var(--primary); }
+        .loading-spinner-track { border: 4px solid #e9d5ff; }
+        .dark .loading-spinner-track { border-color: #2a1b42; }
+        .loading-spinner-arc { border: 4px solid transparent; border-top-color: #a855f7; }
+        .dark .loading-spinner-arc { border-top-color: #c084fc; }
+        .icon-spinner { border: 2px solid #ddd6fe; border-top-color: #a855f7; }
+        .dark .icon-spinner { border-color: #3b2354; border-top-color: #c084fc; }
 
         @media (max-width: 640px) {
             ::-webkit-scrollbar { display: none; }
@@ -125,7 +33,7 @@ const HTML_CONTENT = `
         .card.dragging {
             opacity: 0.8;
             transform: scale(1.05);
-            border: 2px dashed var(--primary);
+            border: 2px dashed #a855f7;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             z-index: 50;
             position: relative;
@@ -154,7 +62,7 @@ const HTML_CONTENT = `
         }
         
         .card-clone-dragging {
-            pointer-events: none !important; /* 关键：让触摸穿透克隆体 */
+            pointer-events: none !important; /* Key: let touch pass through the clone */
             z-index: 9999 !important;
         }
         
@@ -186,11 +94,6 @@ const HTML_CONTENT = `
             opacity: 1;
         }
 
-        .theme-card { cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
-        .theme-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.10); }
-        .theme-card-active { box-shadow: 0 0 0 2px var(--ring-color, rgba(99,102,241,0.5)) inset, 0 8px 24px rgba(0,0,0,0.10); }
-        .theme-card-disabled { opacity: 0.5; pointer-events: none; cursor: not-allowed; }
-
         .section-anchor {
             scroll-margin-top: 160px;
         }
@@ -201,15 +104,15 @@ const HTML_CONTENT = `
         input:-webkit-autofill:active {
             -webkit-transition: background-color 99999s ease-out;
             -webkit-transition-delay: 99999s;
-            -webkit-text-fill-color: #475569 !important; 
+            -webkit-text-fill-color: #3b2354 !important; 
         }
 
         html.dark input:-webkit-autofill,
         html.dark input:-webkit-autofill:hover, 
         html.dark input:-webkit-autofill:focus, 
         html.dark input:-webkit-autofill:active {
-            -webkit-text-fill-color: #CBD5E1 !important;
-            box-shadow: 0 0 0px 1000px #1e293b inset !important;
+            -webkit-text-fill-color: #DDD6FE !important;
+            box-shadow: 0 0 0px 1000px #170a29 inset !important;
             transition: background-color 5000s ease-in-out 0s;
         }
         
@@ -244,12 +147,14 @@ const HTML_CONTENT = `
             color: #fbbf24;
         }
         .card-status-tag.online {
-            background: var(--accent-soft);
-            color: var(--primary);
+            background: rgba(34, 197, 94, 0.15);
+            color: #16a34a;
         }
         html.dark .card-status-tag.online {
-            color: var(--primary);
+            color: #4ade80;
+            text-shadow: 0 0 6px rgba(74, 222, 128, 0.6);
         }
+        /* Slightly slow latency (300–1000ms): orange */
         .card-status-tag.slow {
             background: rgba(249, 115, 22, 0.15);
             color: #ea580c;
@@ -264,273 +169,163 @@ const HTML_CONTENT = `
         html.dark .card-status-tag.offline {
             color: #f87171;
         }
+
+        /* ================= Cyberpunk Terminal Theme ================= */
+        html.dark body {
+            background-color: #0a0414;
+        }
+        body {
+            letter-spacing: 0.01em;
+        }
+        /* Subtle purple scanlines + grid, dark mode only */
+        html.dark body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -5;
+            pointer-events: none;
+            background-image:
+                repeating-linear-gradient(0deg, rgba(168,85,247,0.05) 0px, rgba(168,85,247,0.05) 1px, transparent 1px, transparent 3px),
+                linear-gradient(rgba(168,85,247,0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(168,85,247,0.07) 1px, transparent 1px);
+            background-size: auto, 42px 42px, 42px 42px;
+            opacity: 0.5;
+            mix-blend-mode: screen;
+        }
+        html.dark ::selection {
+            background: rgba(168, 85, 247, 0.4);
+            color: #f6f1ff;
+        }
+        html.dark .card {
+            box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.12), 0 8px 24px -8px rgba(168, 85, 247, 0.15);
+        }
+        html.dark .card:hover {
+            box-shadow: 0 0 0 1px rgba(192, 77, 255, 0.45), 0 0 22px 0 rgba(168, 85, 247, 0.35), 0 12px 28px -10px rgba(0,0,0,0.5);
+        }
+        html.dark input:focus, html.dark button:focus-visible {
+            box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.5), 0 0 12px rgba(168, 85, 247, 0.4);
+        }
+        html.dark #dialog-box, html.dark #password-dialog-box, html.dark #custom-alert-box,
+        html.dark #custom-confirm-box, html.dark #category-dialog-box,
+        html.dark #profile-dropdown, html.dark .card-menu-dropdown, html.dark #search-engine-menu,
+        html.dark #category-select-menu {
+            box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.35), 0 0 30px rgba(168, 85, 247, 0.2), 0 25px 50px -12px rgba(0,0,0,0.7);
+        }
+        .font-display, #back-to-top-btn svg {
+            font-family: 'Orbitron', 'Share Tech Mono', monospace;
+        }
+        /* Blinking terminal caret after the brand label, dark mode only */
+        html.dark a[onclick="location.reload()"] span::after {
+            content: '_';
+            margin-left: 2px;
+            color: #c084fc;
+            animation: nav-caret-blink 1.1s steps(1) infinite;
+        }
+        @keyframes nav-caret-blink { 50% { opacity: 0; } }
+        html.dark #search-input::placeholder { color: #8347d1; }
+        /* ================ End Cyberpunk Terminal Theme ================ */
     </style>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <script>
-        (function () {
-            // 主题白名单：扩展放行
-            const __THEME_ALLOWED = /^(background|foreground|card|card-foreground|primary|primary-foreground|secondary|secondary-foreground|muted|muted-foreground|accent|accent-foreground|border|input|ring|ring-offset|radius|popover|popover-foreground|destructive|destructive-foreground|success|warning|sidebar|sidebar-foreground|sidebar-primary|sidebar-primary-foreground|sidebar-accent|sidebar-accent-foreground|sidebar-border|sidebar-ring|chart-1|chart-2|chart-3|chart-4|chart-5|shadow-color|font-sans|font-serif|font-mono|font-family)$/;
-            // CSS 值消毒：白名单只放行颜色/长度/字体栈常用字符
-            const __SAFE_CSS_VALUE = /^[a-zA-Z0-9#%.,()\/ '"_+-]{1,160}$/;
-            function __safeCssValue(v) {
-                const s = String(v == null ? '' : v).trim();
-                return __SAFE_CSS_VALUE.test(s) ? s : '';
-            }
-            // 导入主题 JSON 消毒器
-            const __THEME_KEY = /^[a-z0-9-]{1,40}$/i;
-            function __sanitizeLayer(src, limit) {
-                const out = {};
-                let n = 0;
-                if (!src || typeof src !== 'object' || Array.isArray(src)) return { layer: out, n: 0 };
-                const keys = Object.keys(src); 
-                for (let i = 0; i < keys.length && n < limit; i++) {
-                    const k = keys[i];
-                    if (!__THEME_KEY.test(k) || !__THEME_ALLOWED.test(k)) continue;
-                    const v = src[k];
-                    if (typeof v !== 'string') continue;
-                    const sv = v.trim();
-                    if (!sv || sv.length > 160) continue;
-                    out[k] = sv;
-                    n++;
-                }
-                return { layer: out, n: n };
-            }
-            window.__sanitizeThemeData = function (raw) {
-                const empty = { data: null, validCount: 0, name: '' };
-                if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return empty;
-                // 兼容三种形态：{ data: {...} }、tweakcn 的 { name, cssVars: {...} }、裸 { light, dark, theme }
-                let src = raw;
-                if (raw.data && typeof raw.data === 'object' && !Array.isArray(raw.data)) src = raw.data;
-                else if (raw.cssVars && typeof raw.cssVars === 'object' && !Array.isArray(raw.cssVars)) src = raw.cssVars;
-                const data = {};
-                let validCount = 0;
-                const layers = ['light', 'dark', 'theme'];
-                for (let i = 0; i < layers.length; i++) {
-                    const r = __sanitizeLayer(src[layers[i]], 64);
-                    if (r.n) data[layers[i]] = r.layer;
-                    validCount += r.n;
-                }
-                const fonts = src.fonts;
-                if (fonts && typeof fonts === 'object' && !Array.isArray(fonts)) {
-                    const sans = fonts.sans || fonts.fontSans || fonts.fontFamily;
-                    if (typeof sans === 'string' && sans.length <= 160) {
-                        data.fonts = { sans: sans };
-                        validCount++;
-                    }
-                }
-                const name = typeof raw.name === 'string'
-                    ? raw.name.split('').filter(function(ch){ var c = ch.charCodeAt(0); return c >= 32 && c !== 127; }).join('').trim().slice(0, 64)
-                    : '';
-                // 至少要有一种模式的有效色值，否则视为无效主题；仅有 theme 层时视为浅色/深色共用（与 fetchTheme 处理一致）
-                if (!validCount) return { data: null, validCount: 0, name: name };
-                if (!data.light && !data.dark) {
-                    if (!data.theme) return { data: null, validCount: 0, name: name };
-                    data.light = Object.assign({}, data.theme);
-                    data.dark = Object.assign({}, data.theme);
-                }
-                return { data: data, validCount: validCount, name: name };
-            };
-            function __lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* 忽略 */ } }
-            function __lsDel(k) { try { localStorage.removeItem(k); } catch (e) { /* 忽略 */ } }
-            function __appendFontStylesheet(link, href) {
-                link.rel = 'stylesheet';
-                link.media = 'print';
-                link.onload = function () { link.media = 'all'; link.onload = null; };
-                link.onerror = function () { if (link.parentNode) link.parentNode.removeChild(link); };
-                link.href = href;
-                document.head.appendChild(link);
-            }
+        <script>
+        // --- 主題管理邏輯 ---
+        // 規則：只有「Remember Settings」開啟且有明確儲存值時才採用儲存值；否則一律跟隨系統 (prefers-color-scheme)。
+        // 自動偵測到的系統主題「不會」寫入 localStorage，因此系統切換（含手機日夜自動切換）能即時生效。
+        (() => {
+            const html = document.documentElement;
+            const KEY = 'theme_preference';
+            const mq = window.matchMedia('(prefers-color-scheme: dark)');
 
-            window.__loadGoogleFont = function (family) {
-                if (family) {
-                    try {
-                        const name = family.split(',')[0].replace(/["']/g, '').trim();
-                        if (name && /^[A-Za-z0-9 _-]+$/.test(name)) {
-                            document.querySelectorAll('link[data-theme-font][data-family="' + name.replace(/"/g, '') + '"]').forEach(el => el.remove());
-                            const link = document.createElement('link');
-                            link.setAttribute('data-theme-font', '1');
-                            link.setAttribute('data-family', name.replace(/"/g, ''));
-                            __appendFontStylesheet(link, 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(name).replace(/%20/g, '+') + ':wght@400;500;600;700&display=swap');
-                        }
-                    } catch (e) { /* 加载失败忽略 */ }
-                }
-                // 中文 fallback
+            const stored = () => {
                 try {
-                    let has = false;
-                    document.querySelectorAll('link[data-theme-font]').forEach(el => { if (el.getAttribute('data-family') === 'Noto Sans SC') has = true; });
-                    if (!has) {
-                        const link = document.createElement('link');
-                        link.setAttribute('data-theme-font', '1');
-                        link.setAttribute('data-family', 'Noto Sans SC');
-                        __appendFontStylesheet(link, 'https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
-                    }
-                } catch (e) { /* 加载失败忽略 */ }
+                    if (localStorage.getItem('savePreferences') !== 'true') return null;
+                    const v = localStorage.getItem(KEY);
+                    return (v === 'dark' || v === 'light') ? v : null;
+                } catch (e) { return null; }
             };
 
-            function __ensureCnFallback(stack) {
-                if (!stack) return stack;
-                if (/Noto Sans SC|PingFang|YaHei|Microsoft Yahei|Heiti|Hanzi|CN|SC/i.test(stack)) return stack;
-                return String(stack).replace(/[, ]*sans-serif$/i, '') + ", 'Noto Sans SC', sans-serif";
-            }
-            // 应用外部主题变量
-            window.__applyThemeVars = function (themeData, isDark) {
-                document.querySelectorAll('[data-theme-var]').forEach(el => el.remove());
-                if (!themeData) return;
-                const layer = (isDark ? themeData.dark : themeData.light) || themeData.light || {};
-                const set = Object.assign({}, layer);
-
-                {
-                    let fv = set['font-sans'] || set['fontSans'] || set['fontFamily'] || set['font'];
-                    if (!fv && themeData.fonts) {
-                        const fo = themeData.fonts;
-                        fv = fo.sans || fo.fontSans || fo.fontFamily || fo.font;
-                    }
-                    if (fv) {
-                        fv = __ensureCnFallback(fv);
-                        set['font-sans'] = fv;
-                        set['font-family'] = fv;
-
-                        window.__loadGoogleFont(fv);
-                    }
-                }
-                const parts = [];
-                for (const [k, v] of Object.entries(set)) {
-                    if (!__THEME_ALLOWED.test(k)) continue;
-                    const sv = __safeCssValue(v);
-                    if (!sv) continue; // 非法值直接丢弃，防止 CSS 注入
-                    if (k === 'radius' && /^[, ]*0(px|rem)?[, ]*$/.test(sv)) continue;
-                    parts.push('--' + k + ':' + sv);
-                }
-                // 应用私有变量
-                const fg = __safeCssValue(set['foreground']) || 'var(--foreground)';
-                const card = __safeCssValue(set['card']) || 'var(--card)';
-                const primary = __safeCssValue(set['primary']) || 'var(--primary)';
-                parts.push('--menu-hover:color-mix(in oklab,' + fg + ' 10%,' + card + ')');
-                parts.push('--accent-soft:color-mix(in oklab,' + primary + ' 12%,' + card + ')');
-                if (!parts.length) return;
-                const style = document.createElement('style');
-                style.setAttribute('data-theme-var', '1');
-                style.textContent = ':root{' + parts.join(';') + '}';
-                document.head.appendChild(style);
+            const paint = (dark) => {
+                html.classList.toggle('dark', dark);
+                html.style.colorScheme = dark ? 'dark' : 'light';
+                const meta = document.querySelector('meta[name="theme-color"]');
+                if (meta) meta.setAttribute('content', dark ? '#0a0414' : '#f3edfb');
+                const cb = document.getElementById('theme-switch-checkbox');
+                if (cb) cb.checked = dark;
             };
 
-            let _tdRaw, _tdObj, _tdHas = false;
-            window.__getThemeData = function () {
-                let raw;
-                try { raw = localStorage.getItem('themeData'); } catch (e) { return null; }
-                if (_tdHas && raw === _tdRaw) return _tdObj;
-                _tdHas = true; _tdRaw = raw;
-                try { _tdObj = JSON.parse(raw || 'null'); } catch (e) { _tdObj = null; }
-                return _tdObj;
-            };
+            const sync = () => paint((stored() || (mq.matches ? 'dark' : 'light')) === 'dark');
 
-            let isDark;
-            const savePreferences = localStorage.getItem('savePreferences');
-            if (savePreferences === 'true') {
-                const savedTheme = localStorage.getItem('theme');
-                isDark = savedTheme === 'dark';
-            } else {
+            sync(); // 立即執行，避免載入時閃爍
+            if (mq.addEventListener) mq.addEventListener('change', sync);
+            else if (mq.addListener) mq.addListener(sync);
+            // 手機從背景切回前景時，若使用者沒有手動切換過，重新對齊系統主題
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'visible' && !window.__themeManual) sync();
+            });
 
-                isDark = !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
-            }
-            window.isDarkTheme = isDark;
-            if (isDark) document.documentElement.classList.add('dark');
-
-            window.__PUBLISHED_THEME = "__NAV_PUBLISHED_THEME__";
-            try {
-                var _pt = window.__PUBLISHED_THEME;
-                if (typeof _pt === 'string') _pt = null; 
-                var _local = window.__getThemeData();
-                var _localUp = Number(localStorage.getItem('themeUpdatedAt') || 0);
-
-                var _own = localStorage.getItem('themePersonal') === '1';
-
-                var _keep = _own || (!!_local && _localUp > (_pt && _pt.updatedAt ? _pt.updatedAt : 0));
-                if (_pt && _pt.updatedAt && !_keep) {
-                    __lsSet('themePersonal', '0');
-                    if (_pt.data) {
-                        __lsSet('themeData', JSON.stringify(_pt.data));
-                        if (_pt.name) __lsSet('themeName', _pt.name);
-                        __lsSet('themeKind', _pt.kind || 'custom');
-                        if (_pt.source) __lsSet('themeSource', _pt.source);
-                        __lsSet('themeUpdatedAt', String(_pt.updatedAt));
-                        _local = _pt.data;
-                    } else {
-                        __lsDel('themeData');
-                        __lsDel('themeName');
-                        __lsDel('themeKind');
-                        __lsDel('themeSource');
-                        __lsSet('themeUpdatedAt', String(_pt.updatedAt));
-                        _local = null;
-                    }
-                }
-                if (_local) window.__applyThemeVars(_local, isDark);
-            } catch (e) {
-                if (window.__getThemeData()) window.__applyThemeVars(window.__getThemeData(), isDark);
-            }
+            window.__paintTheme = paint;
+            window.updateTheme = (theme) => paint(theme === 'dark');
         })();
     </script>
+    <style id="tw-compiled">*,:after,:before{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/*! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com*/*,:after,:before{box-sizing:border-box;border:0 solid #e6d9f7}:after,:before{--tw-content:""}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;-o-tab-size:4;tab-size:4;font-family:Share Tech Mono,ui-monospace,SFMono-Regular,monospace;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0}fieldset,legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{opacity:1;color:#9ca3af}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.\\!container{width:100%!important}.container{width:100%}@media (min-width:640px){.\\!container{max-width:640px!important}.container{max-width:640px}}@media (min-width:768px){.\\!container{max-width:768px!important}.container{max-width:768px}}@media (min-width:1024px){.\\!container{max-width:1024px!important}.container{max-width:1024px}}@media (min-width:1280px){.\\!container{max-width:1280px!important}.container{max-width:1280px}}@media (min-width:1536px){.\\!container{max-width:1536px!important}.container{max-width:1536px}}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}.pointer-events-none{pointer-events:none}.visible{visibility:visible}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0}.bottom-8{bottom:2rem}.bottom-\\[-10\\%\\]{bottom:-10%}.left-0{left:0}.left-\\[-10\\%\\]{left:-10%}.right-0{right:0}.right-2{right:.5rem}.right-8{right:2rem}.right-\\[-10\\%\\]{right:-10%}.right-\\[-4px\\]{right:-4px}.top-0{top:0}.top-2{top:.5rem}.top-6{top:1.5rem}.top-\\[-10\\%\\]{top:-10%}.top-\\[-4px\\]{top:-4px}.top-full{top:100%}.-z-10{z-index:-10}.z-10{z-index:10}.z-20{z-index:20}.z-30{z-index:30}.z-50{z-index:50}.z-\\[110\\]{z-index:110}.z-\\[60\\]{z-index:60}.z-\\[65\\]{z-index:65}.z-\\[70\\]{z-index:70}.z-\\[80\\]{z-index:80}.mx-0\\.5{margin-left:.125rem;margin-right:.125rem}.mx-1{margin-left:.25rem;margin-right:.25rem}.mx-auto{margin-left:auto;margin-right:auto}.my-1{margin-top:.25rem;margin-bottom:.25rem}.mb-1\\.5{margin-bottom:.375rem}.mb-2{margin-bottom:.5rem}.mb-2\\.5{margin-bottom:.625rem}.mb-3{margin-bottom:.75rem}.mb-4{margin-bottom:1rem}.mb-5{margin-bottom:1.25rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.ml-auto{margin-left:auto}.mr-1{margin-right:.25rem}.mt-1{margin-top:.25rem}.mt-12{margin-top:3rem}.mt-2{margin-top:.5rem}.mt-4{margin-top:1rem}.mt-8{margin-top:2rem}.line-clamp-2{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}.block{display:block}.inline-block{display:inline-block}.inline{display:inline}.flex{display:flex}.inline-flex{display:inline-flex}.\\!grid{display:grid!important}.grid{display:grid}.hidden{display:none}.h-10{height:2.5rem}.h-12{height:3rem}.h-14{height:3.5rem}.h-16{height:4rem}.h-3{height:.75rem}.h-3\\.5{height:.875rem}.h-4{height:1rem}.h-5{height:1.25rem}.h-6{height:1.5rem}.h-7{height:1.75rem}.h-8{height:2rem}.h-9{height:2.25rem}.h-\\[500px\\]{height:500px}.h-\\[800px\\]{height:800px}.h-full{height:100%}.h-px{height:1px}.max-h-48{max-height:12rem}.min-h-\\[1\\.25rem\\]{min-height:1.25rem}.min-h-\\[100px\\]{min-height:100px}.min-h-screen{min-height:100vh}.w-1{width:.25rem}.w-1\\.5{width:.375rem}.w-10{width:2.5rem}.w-12{width:3rem}.w-14{width:3.5rem}.w-16{width:4rem}.w-28{width:7rem}.w-3{width:.75rem}.w-3\\.5{width:.875rem}.w-4{width:1rem}.w-40{width:10rem}.w-5{width:1.25rem}.w-6{width:1.5rem}.w-60{width:15rem}.w-7{width:1.75rem}.w-8{width:2rem}.w-9{width:2.25rem}.w-\\[120\\%\\]{width:120%}.w-\\[500px\\]{width:500px}.w-\\[800px\\]{width:800px}.w-auto{width:auto}.w-full{width:100%}.w-px{width:1px}.max-w-2xl{max-width:42rem}.max-w-7xl{max-width:80rem}.max-w-md{max-width:28rem}.max-w-sm{max-width:24rem}.max-w-xs{max-width:20rem}.flex-1{flex:1 1 0%}.flex-shrink-0{flex-shrink:0}.origin-top-right{transform-origin:top right}.-translate-y-1\\/2{--tw-translate-y:-50%}.-translate-y-1\\/2,.translate-x-1\\/2{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.translate-x-1\\/2{--tw-translate-x:50%}.rotate-45{--tw-rotate:45deg}.rotate-45,.transform{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@keyframes pulse{50%{opacity:.5}}.animate-pulse{animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite}@keyframes spin{to{transform:rotate(1turn)}}.animate-spin{animation:spin 1s linear infinite}.cursor-move{cursor:move}.cursor-pointer{cursor:pointer}.select-none{-webkit-user-select:none;-moz-user-select:none;user-select:none}.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}.flex-col{flex-direction:column}.items-center{align-items:center}.justify-start{justify-content:flex-start}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:.25rem}.gap-1\\.5{gap:.375rem}.gap-2{gap:.5rem}.gap-3{gap:.75rem}.gap-4{gap:1rem}.gap-x-2{-moz-column-gap:.5rem;column-gap:.5rem}.gap-y-6{row-gap:1.5rem}.space-y-1>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.25rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.25rem*var(--tw-space-y-reverse))}.space-y-10>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(2.5rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(2.5rem*var(--tw-space-y-reverse))}.space-y-4>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem*var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.overflow-x-auto{overflow-x:auto}.overflow-y-auto{overflow-y:auto}.scroll-smooth{scroll-behavior:smooth}.truncate{overflow:hidden;text-overflow:ellipsis}.truncate,.whitespace-nowrap{white-space:nowrap}.whitespace-pre-wrap{white-space:pre-wrap}.rounded{border-radius:.25rem}.rounded-2xl{border-radius:1rem}.rounded-\\[1\\.2rem\\]{border-radius:1.2rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:.5rem}.rounded-xl{border-radius:.75rem}.rounded-l-xl{border-top-left-radius:.75rem;border-bottom-left-radius:.75rem}.rounded-r-xl{border-top-right-radius:.75rem;border-bottom-right-radius:.75rem}.rounded-tr-2xl{border-top-right-radius:1rem}.border{border-width:1px}.border-2{border-width:2px}.border-b{border-bottom-width:1px}.border-l{border-left-width:1px}.border-t{border-top-width:1px}.border-dashed{border-style:dashed}.border-none{border-style:none}.\\!border-amber-200{--tw-border-opacity:1!important;border-color:rgb(253 230 138/var(--tw-border-opacity,1))!important}.border-emerald-400{--tw-border-opacity:1;border-color:rgb(192 77 255/var(--tw-border-opacity,1))}.border-gray-200{--tw-border-opacity:1;border-color:rgb(230 217 247/var(--tw-border-opacity,1))}.border-gray-300{--tw-border-opacity:1;border-color:rgb(208 189 240/var(--tw-border-opacity,1))}.border-slate-100{--tw-border-opacity:1;border-color:rgb(236 226 253/var(--tw-border-opacity,1))}.border-slate-200{--tw-border-opacity:1;border-color:rgb(215 195 251/var(--tw-border-opacity,1))}.border-slate-200\\/40{border-color:rgba(215,195,251,.4)}.border-slate-200\\/50{border-color:rgba(215,195,251,.5)}.border-slate-200\\/60{border-color:rgba(215,195,251,.6)}.border-slate-300{--tw-border-opacity:1;border-color:rgb(187 150 242/var(--tw-border-opacity,1))}.border-slate-300\\/50{border-color:rgba(187,150,242,.5)}.border-slate-400{--tw-border-opacity:1;border-color:rgb(156 109 230/var(--tw-border-opacity,1))}.border-transparent{border-color:transparent}.bg-amber-400{--tw-bg-opacity:1;background-color:rgb(251 191 36/var(--tw-bg-opacity,1))}.bg-amber-50\\/80{background-color:rgba(255,251,235,.8)}.bg-blue-300\\/30{background-color:rgba(103,232,249,.3)}.bg-emerald-100{--tw-bg-opacity:1;background-color:rgb(243 217 255/var(--tw-bg-opacity,1))}.bg-emerald-300\\/30{background-color:rgba(214,133,255,.3)}.bg-emerald-500{--tw-bg-opacity:1;background-color:rgb(168 85 247/var(--tw-bg-opacity,1))}.bg-gray-100{--tw-bg-opacity:1;background-color:rgb(243 237 251/var(--tw-bg-opacity,1))}.bg-gray-100\\/80{background-color:rgba(243,237,251,.8)}.bg-slate-100{--tw-bg-opacity:1;background-color:rgb(236 226 253/var(--tw-bg-opacity,1))}.bg-slate-200{--tw-bg-opacity:1;background-color:rgb(215 195 251/var(--tw-bg-opacity,1))}.bg-slate-300{--tw-bg-opacity:1;background-color:rgb(187 150 242/var(--tw-bg-opacity,1))}.bg-slate-300\\/50{background-color:rgba(187,150,242,.5)}.bg-slate-50{--tw-bg-opacity:1;background-color:rgb(246 241 255/var(--tw-bg-opacity,1))}.bg-slate-900\\/50{background-color:rgba(23,10,41,.5)}.bg-slate-900\\/60{background-color:rgba(23,10,41,.6)}.bg-slate-900\\/70{background-color:rgba(23,10,41,.7)}.bg-transparent{background-color:transparent}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity,1))}.bg-white\\/50{background-color:hsla(0,0%,100%,.5)}.bg-white\\/80{background-color:hsla(0,0%,100%,.8)}.bg-white\\/90{background-color:hsla(0,0%,100%,.9)}.bg-gradient-to-br{background-image:linear-gradient(to bottom right,var(--tw-gradient-stops))}.bg-gradient-to-tr{background-image:linear-gradient(to top right,var(--tw-gradient-stops))}.from-emerald-500{--tw-gradient-from:#a855f7 var(--tw-gradient-from-position);--tw-gradient-to:rgba(168,85,247,0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to)}.from-gray-100{--tw-gradient-from:#f3edfb var(--tw-gradient-from-position);--tw-gradient-to:rgba(243,237,251,0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to)}.from-slate-100{--tw-gradient-from:#ece2fd var(--tw-gradient-from-position);--tw-gradient-to:rgba(236,226,253,0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to)}.to-gray-200{--tw-gradient-to:#e6d9f7 var(--tw-gradient-to-position)}.to-slate-200{--tw-gradient-to:#d7c3fb var(--tw-gradient-to-position)}.to-teal-600{--tw-gradient-to:#d926c9 var(--tw-gradient-to-position)}.object-contain{-o-object-fit:contain;object-fit:contain}.p-1{padding:.25rem}.p-1\\.5{padding:.375rem}.p-2{padding:.5rem}.p-4{padding:1rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-1{padding-left:.25rem;padding-right:.25rem}.px-2{padding-left:.5rem;padding-right:.5rem}.px-3{padding-left:.75rem;padding-right:.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.py-1{padding-top:.25rem;padding-bottom:.25rem}.py-1\\.5{padding-top:.375rem;padding-bottom:.375rem}.py-2{padding-top:.5rem;padding-bottom:.5rem}.py-2\\.5{padding-top:.625rem;padding-bottom:.625rem}.py-3{padding-top:.75rem;padding-bottom:.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.pb-2{padding-bottom:.5rem}.pb-20{padding-bottom:5rem}.pl-3{padding-left:.75rem}.pr-2{padding-right:.5rem}.pt-1{padding-top:.25rem}.pt-2{padding-top:.5rem}.pt-36{padding-top:9rem}.text-left{text-align:left}.text-center{text-align:center}.font-sans{font-family:Share Tech Mono,ui-monospace,SFMono-Regular,monospace}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:.75rem;line-height:1rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-normal{font-weight:400}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.leading-relaxed{line-height:1.625}.tracking-wide{letter-spacing:.025em}.tracking-wider{letter-spacing:.05em}.tracking-widest{letter-spacing:.1em}.text-black{--tw-text-opacity:1;color:rgb(0 0 0/var(--tw-text-opacity,1))}.text-emerald-500{--tw-text-opacity:1;color:rgb(168 85 247/var(--tw-text-opacity,1))}.text-emerald-600{--tw-text-opacity:1;color:rgb(147 51 234/var(--tw-text-opacity,1))}.text-red-500{--tw-text-opacity:1;color:rgb(239 68 68/var(--tw-text-opacity,1))}.text-slate-400{--tw-text-opacity:1;color:rgb(156 109 230/var(--tw-text-opacity,1))}.text-slate-500{--tw-text-opacity:1;color:rgb(131 71 209/var(--tw-text-opacity,1))}.text-slate-600{--tw-text-opacity:1;color:rgb(105 49 171/var(--tw-text-opacity,1))}.text-slate-700{--tw-text-opacity:1;color:rgb(76 31 128/var(--tw-text-opacity,1))}.text-slate-800{--tw-text-opacity:1;color:rgb(42 17 71/var(--tw-text-opacity,1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity,1))}.placeholder-slate-400::-moz-placeholder{--tw-placeholder-opacity:1;color:rgb(156 109 230/var(--tw-placeholder-opacity,1))}.placeholder-slate-400::placeholder{--tw-placeholder-opacity:1;color:rgb(156 109 230/var(--tw-placeholder-opacity,1))}.opacity-0{opacity:0}.opacity-100{opacity:1}.opacity-60{opacity:.6}.shadow{--tw-shadow:0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px -1px rgba(0,0,0,.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color),0 1px 2px -1px var(--tw-shadow-color)}.shadow,.shadow-2xl{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgba(0,0,0,.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color)}.shadow-glass{--tw-shadow:0 4px 30px rgba(168,85,247,.15);--tw-shadow-colored:0 4px 30px var(--tw-shadow-color)}.shadow-glass,.shadow-inner{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-inner{--tw-shadow:inset 0 2px 4px 0 rgba(0,0,0,.05);--tw-shadow-colored:inset 0 2px 4px 0 var(--tw-shadow-color)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color),0 4px 6px -4px var(--tw-shadow-color)}.shadow-lg,.shadow-md{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color),0 2px 4px -2px var(--tw-shadow-color)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgba(0,0,0,.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color)}.shadow-sm,.shadow-xl{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgba(0,0,0,.1),0 8px 10px -6px rgba(0,0,0,.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color),0 8px 10px -6px var(--tw-shadow-color)}.shadow-emerald-500\\/20{--tw-shadow-color:rgba(168,85,247,.2);--tw-shadow:var(--tw-shadow-colored)}.shadow-emerald-500\\/25{--tw-shadow-color:rgba(168,85,247,.25);--tw-shadow:var(--tw-shadow-colored)}.shadow-emerald-500\\/30{--tw-shadow-color:rgba(168,85,247,.3);--tw-shadow:var(--tw-shadow-colored)}.outline-none{outline:2px solid transparent;outline-offset:2px}.ring-1{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color)}.ring-1,.ring-2{box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow,0 0 #0000)}.ring-2{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color)}.ring-amber-400{--tw-ring-opacity:1;--tw-ring-color:rgb(251 191 36/var(--tw-ring-opacity,1))}.ring-amber-400\\/40{--tw-ring-color:rgba(251,191,36,.4)}.ring-black\\/5{--tw-ring-color:rgba(0,0,0,.05)}.blur-\\[120px\\]{--tw-blur:blur(120px)}.blur-\\[120px\\],.blur-\\[150px\\]{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.blur-\\[150px\\]{--tw-blur:blur(150px)}.drop-shadow-sm{--tw-drop-shadow:drop-shadow(0 1px 1px rgba(0,0,0,.05))}.drop-shadow-sm,.filter{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.backdrop-blur-md{--tw-backdrop-blur:blur(12px)}.backdrop-blur-md,.backdrop-blur-sm{-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.backdrop-blur-sm{--tw-backdrop-blur:blur(4px)}.transition{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.transition-\\[transform\\2c box-shadow\\2c border-color\\]{transition-property:transform,box-shadow,border-color;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.transition-colors{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.transition-opacity{transition-property:opacity;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.transition-transform{transition-property:transform;transition-timing-function:cubic-bezier(.4,0,.2,1)}.duration-150,.transition-transform{transition-duration:.15s}.duration-200{transition-duration:.2s}.duration-300{transition-duration:.3s}.ease-\\[cubic-bezier\\(0\\.25\\2c 0\\.8\\2c 0\\.25\\2c 1\\)\\]{transition-timing-function:cubic-bezier(.25,.8,.25,1)}.ease-in-out{transition-timing-function:cubic-bezier(.4,0,.2,1)}.ease-out{transition-timing-function:cubic-bezier(0,0,.2,1)}.\\[transform\\:translateZ\\(0\\)\\]{transform:translateZ(0)}.selection\\:bg-emerald-200 ::-moz-selection{--tw-bg-opacity:1;background-color:rgb(230 179 255/var(--tw-bg-opacity,1))}.selection\\:bg-emerald-200 ::selection{--tw-bg-opacity:1;background-color:rgb(230 179 255/var(--tw-bg-opacity,1))}.selection\\:bg-emerald-200::-moz-selection{--tw-bg-opacity:1;background-color:rgb(230 179 255/var(--tw-bg-opacity,1))}.selection\\:bg-emerald-200::selection{--tw-bg-opacity:1;background-color:rgb(230 179 255/var(--tw-bg-opacity,1))}.after\\:absolute:after{content:var(--tw-content);position:absolute}.after\\:left-\\[2px\\]:after{content:var(--tw-content);left:2px}.after\\:top-\\[2px\\]:after{content:var(--tw-content);top:2px}.after\\:h-4:after{content:var(--tw-content);height:1rem}.after\\:w-4:after{content:var(--tw-content);width:1rem}.after\\:rounded-full:after{content:var(--tw-content);border-radius:9999px}.after\\:border:after{content:var(--tw-content);border-width:1px}.after\\:border-gray-300:after{content:var(--tw-content);--tw-border-opacity:1;border-color:rgb(208 189 240/var(--tw-border-opacity,1))}.after\\:bg-white:after{content:var(--tw-content);--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity,1))}.after\\:transition-all:after{content:var(--tw-content);transition-property:all;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.after\\:content-\\[\\'\\'\\]:after{--tw-content:"";content:var(--tw-content)}.focus-within\\:-translate-y-0\\.5:focus-within{--tw-translate-y:-0.125rem;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.focus-within\\:shadow-lg:focus-within{--tw-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color),0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.focus-within\\:ring-2:focus-within{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow,0 0 #0000)}.focus-within\\:ring-emerald-500\\/50:focus-within{--tw-ring-color:rgba(168,85,247,.5)}.hover\\:z-10:hover{z-index:10}.hover\\:-translate-y-0\\.5:hover{--tw-translate-y:-0.125rem}.hover\\:-translate-y-0\\.5:hover,.hover\\:-translate-y-1:hover{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.hover\\:-translate-y-1:hover{--tw-translate-y:-0.25rem}.hover\\:-translate-y-1\\.5:hover{--tw-translate-y:-0.375rem}.hover\\:-translate-y-1\\.5:hover,.hover\\:translate-y-\\[-1px\\]:hover{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.hover\\:translate-y-\\[-1px\\]:hover{--tw-translate-y:-1px}.hover\\:scale-105:hover{--tw-scale-x:1.05;--tw-scale-y:1.05}.hover\\:scale-105:hover,.hover\\:scale-110:hover{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.hover\\:scale-110:hover{--tw-scale-x:1.1;--tw-scale-y:1.1}.hover\\:border-emerald-300:hover{--tw-border-opacity:1;border-color:rgb(214 133 255/var(--tw-border-opacity,1))}.hover\\:border-emerald-500:hover{--tw-border-opacity:1;border-color:rgb(168 85 247/var(--tw-border-opacity,1))}.hover\\:border-emerald-500\\/50:hover{border-color:rgba(168,85,247,.5)}.hover\\:border-slate-200:hover{--tw-border-opacity:1;border-color:rgb(215 195 251/var(--tw-border-opacity,1))}.hover\\:bg-amber-100:hover{--tw-bg-opacity:1;background-color:rgb(254 243 199/var(--tw-bg-opacity,1))}.hover\\:bg-amber-50:hover{--tw-bg-opacity:1;background-color:rgb(255 251 235/var(--tw-bg-opacity,1))}.hover\\:bg-blue-100:hover{--tw-bg-opacity:1;background-color:rgb(207 250 254/var(--tw-bg-opacity,1))}.hover\\:bg-emerald-100:hover{--tw-bg-opacity:1;background-color:rgb(243 217 255/var(--tw-bg-opacity,1))}.hover\\:bg-emerald-50:hover{--tw-bg-opacity:1;background-color:rgb(250 240 255/var(--tw-bg-opacity,1))}.hover\\:bg-emerald-50\\/50:hover{background-color:rgba(250,240,255,.5)}.hover\\:bg-emerald-500:hover{--tw-bg-opacity:1;background-color:rgb(168 85 247/var(--tw-bg-opacity,1))}.hover\\:bg-emerald-600:hover{--tw-bg-opacity:1;background-color:rgb(147 51 234/var(--tw-bg-opacity,1))}.hover\\:bg-green-50:hover{--tw-bg-opacity:1;background-color:rgb(240 253 244/var(--tw-bg-opacity,1))}.hover\\:bg-red-100:hover{--tw-bg-opacity:1;background-color:rgb(254 226 226/var(--tw-bg-opacity,1))}.hover\\:bg-red-50:hover{--tw-bg-opacity:1;background-color:rgb(254 242 242/var(--tw-bg-opacity,1))}.hover\\:bg-slate-100:hover{--tw-bg-opacity:1;background-color:rgb(236 226 253/var(--tw-bg-opacity,1))}.hover\\:bg-slate-100\\/80:hover{background-color:rgba(236,226,253,.8)}.hover\\:bg-slate-200:hover{--tw-bg-opacity:1;background-color:rgb(215 195 251/var(--tw-bg-opacity,1))}.hover\\:bg-slate-50:hover{--tw-bg-opacity:1;background-color:rgb(246 241 255/var(--tw-bg-opacity,1))}.hover\\:bg-white:hover{--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity,1))}.hover\\:text-amber-600:hover{--tw-text-opacity:1;color:rgb(217 119 6/var(--tw-text-opacity,1))}.hover\\:text-blue-600:hover{--tw-text-opacity:1;color:rgb(8 145 178/var(--tw-text-opacity,1))}.hover\\:text-emerald-500:hover{--tw-text-opacity:1;color:rgb(168 85 247/var(--tw-text-opacity,1))}.hover\\:text-emerald-600:hover{--tw-text-opacity:1;color:rgb(147 51 234/var(--tw-text-opacity,1))}.hover\\:text-green-600:hover{--tw-text-opacity:1;color:rgb(22 163 74/var(--tw-text-opacity,1))}.hover\\:text-red-500:hover{--tw-text-opacity:1;color:rgb(239 68 68/var(--tw-text-opacity,1))}.hover\\:text-red-600:hover{--tw-text-opacity:1;color:rgb(220 38 38/var(--tw-text-opacity,1))}.hover\\:text-slate-600:hover{--tw-text-opacity:1;color:rgb(105 49 171/var(--tw-text-opacity,1))}.hover\\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity,1))}.hover\\:shadow-\\[0_8px_20px_-6px_rgba\\(0\\2c 0\\2c 0\\2c 0\\.1\\)\\]:hover{--tw-shadow:0 8px 20px -6px rgba(0,0,0,.1);--tw-shadow-colored:0 8px 20px -6px var(--tw-shadow-color)}.hover\\:shadow-\\[0_8px_20px_-6px_rgba\\(0\\2c 0\\2c 0\\2c 0\\.1\\)\\]:hover,.hover\\:shadow-lg:hover{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.hover\\:shadow-lg:hover{--tw-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color),0 4px 6px -4px var(--tw-shadow-color)}.hover\\:shadow-md:hover{--tw-shadow:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color),0 2px 4px -2px var(--tw-shadow-color)}.hover\\:shadow-md:hover,.hover\\:shadow-sm:hover{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.hover\\:shadow-sm:hover{--tw-shadow:0 1px 2px 0 rgba(0,0,0,.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color)}.hover\\:shadow-emerald-500\\/10:hover{--tw-shadow-color:rgba(168,85,247,.1);--tw-shadow:var(--tw-shadow-colored)}.focus\\:border-emerald-500:focus{--tw-border-opacity:1;border-color:rgb(168 85 247/var(--tw-border-opacity,1))}.focus\\:border-transparent:focus{border-color:transparent}.focus\\:ring-0:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(var(--tw-ring-offset-width)) var(--tw-ring-color)}.focus\\:ring-0:focus,.focus\\:ring-2:focus{box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow,0 0 #0000)}.focus\\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color)}.focus\\:ring-emerald-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(168 85 247/var(--tw-ring-opacity,1))}.focus\\:ring-emerald-500\\/50:focus{--tw-ring-color:rgba(168,85,247,.5)}.active\\:scale-95:active{--tw-scale-x:.95;--tw-scale-y:.95}.active\\:scale-95:active,.group:hover .group-hover\\:rotate-3{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.group:hover .group-hover\\:rotate-3{--tw-rotate:3deg}.group:hover .group-hover\\:scale-105{--tw-scale-x:1.05;--tw-scale-y:1.05}.group:hover .group-hover\\:scale-105,.group:hover .group-hover\\:scale-110{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.group:hover .group-hover\\:scale-110{--tw-scale-x:1.1;--tw-scale-y:1.1}.group:hover .group-hover\\:bg-emerald-100{--tw-bg-opacity:1;background-color:rgb(243 217 255/var(--tw-bg-opacity,1))}.group:hover .group-hover\\:text-emerald-500{--tw-text-opacity:1;color:rgb(168 85 247/var(--tw-text-opacity,1))}.group:hover .group-hover\\:text-emerald-600{--tw-text-opacity:1;color:rgb(147 51 234/var(--tw-text-opacity,1))}.group:hover .group-hover\\:text-slate-600{--tw-text-opacity:1;color:rgb(105 49 171/var(--tw-text-opacity,1))}.group:active .group-active\\:scale-95{--tw-scale-x:.95;--tw-scale-y:.95;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.peer:checked~.peer-checked\\:border-slate-500{--tw-border-opacity:1;border-color:rgb(131 71 209/var(--tw-border-opacity,1))}.peer:checked~.peer-checked\\:bg-emerald-500{--tw-bg-opacity:1;background-color:rgb(168 85 247/var(--tw-bg-opacity,1))}.peer:checked~.peer-checked\\:bg-slate-500{--tw-bg-opacity:1;background-color:rgb(131 71 209/var(--tw-bg-opacity,1))}.peer:checked~.peer-checked\\:after\\:translate-x-full:after{content:var(--tw-content);--tw-translate-x:100%;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.peer:checked~.peer-checked\\:after\\:border-white:after{content:var(--tw-content);--tw-border-opacity:1;border-color:rgb(255 255 255/var(--tw-border-opacity,1))}.peer:focus~.peer-focus\\:outline-none{outline:2px solid transparent;outline-offset:2px}.dark\\:\\!border-amber-700\\/50:is(.dark *){border-color:rgba(180,83,9,.5)!important}.dark\\:border-gray-600:is(.dark *){--tw-border-opacity:1;border-color:rgb(95 58 148/var(--tw-border-opacity,1))}.dark\\:border-slate-500:is(.dark *){--tw-border-opacity:1;border-color:rgb(131 71 209/var(--tw-border-opacity,1))}.dark\\:border-slate-600:is(.dark *){--tw-border-opacity:1;border-color:rgb(105 49 171/var(--tw-border-opacity,1))}.dark\\:border-slate-700:is(.dark *){--tw-border-opacity:1;border-color:rgb(76 31 128/var(--tw-border-opacity,1))}.dark\\:border-slate-700\\/40:is(.dark *){border-color:rgba(76,31,128,.4)}.dark\\:border-slate-700\\/50:is(.dark *){border-color:rgba(76,31,128,.5)}.dark\\:border-slate-700\\/60:is(.dark *){border-color:rgba(76,31,128,.6)}.dark\\:border-transparent:is(.dark *){border-color:transparent}.dark\\:bg-\\[\\#0a0414\\]:is(.dark *){--tw-bg-opacity:1;background-color:rgb(10 4 20/var(--tw-bg-opacity,1))}.dark\\:bg-\\[\\#0a0414\\]\\/85:is(.dark *){background-color:rgba(10,4,20,.85)}.dark\\:bg-\\[\\#170a29\\]:is(.dark *){--tw-bg-opacity:1;background-color:rgb(23 10 41/var(--tw-bg-opacity,1))}.dark\\:bg-\\[\\#170a29\\]\\/60:is(.dark *){background-color:rgba(23,10,41,.6)}.dark\\:bg-amber-900\\/10:is(.dark *){background-color:rgba(120,53,15,.1)}.dark\\:bg-emerald-600:is(.dark *){--tw-bg-opacity:1;background-color:rgb(147 51 234/var(--tw-bg-opacity,1))}.dark\\:bg-emerald-900\\/30:is(.dark *){background-color:rgba(59,7,100,.3)}.dark\\:bg-indigo-600\\/20:is(.dark *){background-color:rgba(79,70,229,.2)}.dark\\:bg-purple-600\\/20:is(.dark *){background-color:rgba(147,51,234,.2)}.dark\\:bg-slate-600:is(.dark *){--tw-bg-opacity:1;background-color:rgb(105 49 171/var(--tw-bg-opacity,1))}.dark\\:bg-slate-700:is(.dark *){--tw-bg-opacity:1;background-color:rgb(76 31 128/var(--tw-bg-opacity,1))}.dark\\:bg-slate-700\\/50:is(.dark *){background-color:rgba(76,31,128,.5)}.dark\\:bg-slate-800:is(.dark *){--tw-bg-opacity:1;background-color:rgb(42 17 71/var(--tw-bg-opacity,1))}.dark\\:bg-slate-800\\/50:is(.dark *){background-color:rgba(42,17,71,.5)}.dark\\:bg-slate-800\\/90:is(.dark *){background-color:rgba(42,17,71,.9)}.dark\\:bg-slate-900:is(.dark *){--tw-bg-opacity:1;background-color:rgb(23 10 41/var(--tw-bg-opacity,1))}.dark\\:bg-transparent:is(.dark *){background-color:transparent}.dark\\:from-\\[\\#0a0414\\]:is(.dark *){--tw-gradient-from:#0a0414 var(--tw-gradient-from-position);--tw-gradient-to:rgba(10,4,20,0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to)}.dark\\:from-slate-700:is(.dark *){--tw-gradient-from:#4c1f80 var(--tw-gradient-from-position);--tw-gradient-to:rgba(76,31,128,0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to)}.dark\\:to-\\[\\#170a29\\]:is(.dark *){--tw-gradient-to:#170a29 var(--tw-gradient-to-position)}.dark\\:to-slate-600:is(.dark *){--tw-gradient-to:#6931ab var(--tw-gradient-to-position)}.dark\\:text-emerald-400:is(.dark *){--tw-text-opacity:1;color:rgb(192 77 255/var(--tw-text-opacity,1))}.dark\\:text-slate-100:is(.dark *){--tw-text-opacity:1;color:rgb(236 226 253/var(--tw-text-opacity,1))}.dark\\:text-slate-200:is(.dark *){--tw-text-opacity:1;color:rgb(215 195 251/var(--tw-text-opacity,1))}.dark\\:text-slate-300:is(.dark *){--tw-text-opacity:1;color:rgb(187 150 242/var(--tw-text-opacity,1))}.dark\\:text-slate-400:is(.dark *){--tw-text-opacity:1;color:rgb(156 109 230/var(--tw-text-opacity,1))}.dark\\:text-slate-500:is(.dark *){--tw-text-opacity:1;color:rgb(131 71 209/var(--tw-text-opacity,1))}.dark\\:text-white:is(.dark *){--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity,1))}.dark\\:shadow-none:is(.dark *){--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.dark\\:ring-white\\/10:is(.dark *){--tw-ring-color:hsla(0,0%,100%,.1)}.dark\\:selection\\:bg-emerald-900 :is(.dark *)::-moz-selection{--tw-bg-opacity:1;background-color:rgb(59 7 100/var(--tw-bg-opacity,1))}.dark\\:selection\\:bg-emerald-900 :is(.dark *)::selection{--tw-bg-opacity:1;background-color:rgb(59 7 100/var(--tw-bg-opacity,1))}.dark\\:selection\\:bg-emerald-900:is(.dark *)::-moz-selection{--tw-bg-opacity:1;background-color:rgb(59 7 100/var(--tw-bg-opacity,1))}.dark\\:selection\\:bg-emerald-900:is(.dark *)::selection{--tw-bg-opacity:1;background-color:rgb(59 7 100/var(--tw-bg-opacity,1))}.dark\\:hover\\:border-emerald-400\\/50:hover:is(.dark *){border-color:rgba(192,77,255,.5)}.dark\\:hover\\:border-emerald-500:hover:is(.dark *){--tw-border-opacity:1;border-color:rgb(168 85 247/var(--tw-border-opacity,1))}.dark\\:hover\\:border-emerald-500\\/50:hover:is(.dark *){border-color:rgba(168,85,247,.5)}.dark\\:hover\\:border-slate-700:hover:is(.dark *){--tw-border-opacity:1;border-color:rgb(76 31 128/var(--tw-border-opacity,1))}.dark\\:hover\\:bg-amber-900\\/30:hover:is(.dark *){background-color:rgba(120,53,15,.3)}.dark\\:hover\\:bg-blue-900\\/30:hover:is(.dark *){background-color:rgba(8,51,68,.3)}.dark\\:hover\\:bg-emerald-600:hover:is(.dark *){--tw-bg-opacity:1;background-color:rgb(147 51 234/var(--tw-bg-opacity,1))}.dark\\:hover\\:bg-emerald-900\\/10:hover:is(.dark *){background-color:rgba(59,7,100,.1)}.dark\\:hover\\:bg-emerald-900\\/30:hover:is(.dark *){background-color:rgba(59,7,100,.3)}.dark\\:hover\\:bg-red-900\\/20:hover:is(.dark *){background-color:rgba(127,29,29,.2)}.dark\\:hover\\:bg-red-900\\/30:hover:is(.dark *){background-color:rgba(127,29,29,.3)}.dark\\:hover\\:bg-slate-600:hover:is(.dark *){--tw-bg-opacity:1;background-color:rgb(105 49 171/var(--tw-bg-opacity,1))}.dark\\:hover\\:bg-slate-700:hover:is(.dark *){--tw-bg-opacity:1;background-color:rgb(76 31 128/var(--tw-bg-opacity,1))}.dark\\:hover\\:bg-slate-700\\/30:hover:is(.dark *){background-color:rgba(76,31,128,.3)}.dark\\:hover\\:bg-slate-700\\/50:hover:is(.dark *){background-color:rgba(76,31,128,.5)}.dark\\:hover\\:bg-slate-800:hover:is(.dark *){--tw-bg-opacity:1;background-color:rgb(42 17 71/var(--tw-bg-opacity,1))}.dark\\:hover\\:bg-slate-800\\/50:hover:is(.dark *){background-color:rgba(42,17,71,.5)}.dark\\:hover\\:text-amber-400:hover:is(.dark *){--tw-text-opacity:1;color:rgb(251 191 36/var(--tw-text-opacity,1))}.dark\\:hover\\:text-blue-400:hover:is(.dark *){--tw-text-opacity:1;color:rgb(34 211 238/var(--tw-text-opacity,1))}.dark\\:hover\\:text-emerald-400:hover:is(.dark *){--tw-text-opacity:1;color:rgb(192 77 255/var(--tw-text-opacity,1))}.dark\\:hover\\:text-emerald-500:hover:is(.dark *){--tw-text-opacity:1;color:rgb(168 85 247/var(--tw-text-opacity,1))}.dark\\:hover\\:text-red-400:hover:is(.dark *){--tw-text-opacity:1;color:rgb(248 113 113/var(--tw-text-opacity,1))}.dark\\:hover\\:text-slate-200:hover:is(.dark *){--tw-text-opacity:1;color:rgb(215 195 251/var(--tw-text-opacity,1))}.dark\\:hover\\:shadow-\\[0_8px_20px_-6px_rgba\\(0\\2c 0\\2c 0\\2c 0\\.4\\)\\]:hover:is(.dark *){--tw-shadow:0 8px 20px -6px rgba(0,0,0,.4);--tw-shadow-colored:0 8px 20px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.group:hover .dark\\:group-hover\\:bg-emerald-900\\/30:is(.dark *){background-color:rgba(59,7,100,.3)}.group:hover .dark\\:group-hover\\:text-emerald-400:is(.dark *){--tw-text-opacity:1;color:rgb(192 77 255/var(--tw-text-opacity,1))}.group:hover .dark\\:group-hover\\:text-slate-300:is(.dark *){--tw-text-opacity:1;color:rgb(187 150 242/var(--tw-text-opacity,1))}@media (min-width:640px){.sm\\:block{display:block}.sm\\:h-16{height:4rem}.sm\\:w-16{width:4rem}.sm\\:grid-cols-5{grid-template-columns:repeat(5,minmax(0,1fr))}.sm\\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\\:text-sm{font-size:.875rem;line-height:1.25rem}}@media (min-width:768px){.md\\:block{display:block}.md\\:inline{display:inline}.md\\:min-w-\\[5\\.5rem\\]{min-width:5.5rem}.md\\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.md\\:grid-cols-6{grid-template-columns:repeat(6,minmax(0,1fr))}}@media (min-width:1024px){.lg\\:grid-cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}.lg\\:grid-cols-8{grid-template-columns:repeat(8,minmax(0,1fr))}.lg\\:px-8{padding-left:2rem;padding-right:2rem}}@media (min-width:1280px){.xl\\:grid-cols-10{grid-template-columns:repeat(10,minmax(0,1fr))}.xl\\:grid-cols-5{grid-template-columns:repeat(5,minmax(0,1fr))}}</style>
 </head>
 
-<body class="min-h-screen font-sans text-base-foreground transition-colors duration-300">
+<body class="min-h-screen font-sans text-slate-800 dark:text-slate-100 selection:bg-emerald-200 dark:selection:bg-emerald-900 transition-colors duration-300">
     
-    <!-- 背景层 -->
-    <div class="fixed inset-0 -z-10 h-full w-full overflow-hidden bg-base dark:bg-base">
-        <!-- <div class="absolute inset-0 bg-gradient-to-br from-[var(--background)] to-[var(--secondary)] dark:from-[var(--background)] dark:to-[var(--card)]"></div> -->
-        <div class="absolute top-[-5%] left-[-10%] w-[800px] h-[800px] bg-[color-mix(in_oklab,color-mix(in_oklab,var(--primary)_45%,var(--background))_30%,transparent)] dark:bg-[color-mix(in_oklab,color-mix(in_oklab,var(--primary)_25%,var(--background))_30%,transparent)] rounded-full blur-[120px]"></div>
+    <!-- Background layer -->
+    <div class="fixed inset-0 -z-10 h-full w-full overflow-hidden bg-gray-100 dark:bg-[#0a0414]">
+        <div class="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-[#0a0414] dark:to-[#170a29]"></div>
+        <div class="absolute top-[-10%] left-[-10%] w-[800px] h-[800px] bg-emerald-300/30 dark:bg-indigo-600/20 rounded-full blur-[150px]"></div>
         <div class="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-blue-300/30 dark:bg-purple-600/20 rounded-full blur-[120px]"></div>
     </div>
 
-    <!-- 顶部固定导航 -->
+    <!-- Top fixed navigation -->
     <div class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-        <div class="backdrop-blur-md bg-[color-mix(in_oklab,var(--background)_80%,transparent)] dark:bg-[color-mix(in_oklab,var(--background)_85%,transparent)] border-b border-[color-mix(in_oklab,var(--border)_40%,transparent)] dark:border-[color-mix(in_oklab,var(--border)_40%,transparent)] shadow-sm [transform:translateZ(0)]">
+        <div class="backdrop-blur-md bg-gray-100/80 dark:bg-[#0a0414]/85 border-b border-slate-200/40 dark:border-slate-700/40 shadow-sm [transform:translateZ(0)]">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16 gap-4">
                     
                     <!-- Logo -->
-                    <a class="flex items-center gap-2 flex-shrink-0 group cursor-pointer bg-[color-mix(in_oklab,var(--card)_45%,transparent)] dark:bg-transparent hover:bg-[color-mix(in_oklab,var(--card)_75%,transparent)] dark:hover:bg-card px-3 py-1.5 rounded-xl border border-[color-mix(in_oklab,var(--border)_50%,transparent)] dark:border-transparent transition-all duration-300 hover:shadow-md hover:shadow-accent/10 hover:-translate-y-0.5" href="#" onclick="location.reload()">
-                        <div class="w-8 h-8 flex items-center justify-center bg-gradient-to-tr from-accent to-teal-600 rounded-lg text-white shadow-lg shadow-accent/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
+                    <a class="flex items-center gap-2 flex-shrink-0 group cursor-pointer bg-white/50 dark:bg-transparent hover:bg-white dark:hover:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200/50 dark:border-transparent transition-all duration-300 hover:shadow-md hover:shadow-emerald-500/10 hover:-translate-y-0.5" href="#" onclick="location.reload()">
+                        <div class="w-8 h-8 flex items-center justify-center bg-gradient-to-tr from-emerald-500 to-teal-600 rounded-lg text-white shadow-lg shadow-emerald-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
                             </svg>
                         </div>
-                        <span class="font-bold text-lg tracking-wide text-base-foreground hidden sm:block">我的导航</span>
+                        <span class="font-bold text-lg tracking-wide text-slate-700 dark:text-slate-100 hidden sm:block">RENVDER NAV</span>
                     </a>
 
                     <!-- Search Bar -->
                     <div class="flex-1 max-w-2xl mx-auto">
-                        <div class="relative flex items-center w-full h-10 rounded-[var(--radius-xl)] focus-within:ring-2 focus-within:ring-[color-mix(in_oklab,var(--ring)_50%,transparent)] focus-within:shadow-lg focus-within:-translate-y-0.5 bg-card dark:bg-card border border-line dark:border-line-input shadow-sm hover:shadow-lg transition-all duration-300">
+                        <div class="relative flex items-center w-full h-10 rounded-xl focus-within:ring-2 focus-within:ring-emerald-500/50 focus-within:shadow-lg focus-within:-translate-y-0.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 shadow-sm hover:shadow-lg transition-all duration-300">
                             
                             <!-- Custom Search Engine Dropdown -->
                             <div class="relative h-full" id="search-engine-wrapper">
-                                <button id="search-engine-btn" class="h-full pl-3 pr-2 flex items-center gap-2 text-sm text-muted-foreground hover:text-accent hover:bg-muted dark:hover:bg-[color-mix(in_oklab,var(--muted)_60%,transparent)] rounded-l-[var(--radius-xl)] transition-colors outline-none w-auto md:min-w-[5.5rem]">
-                                    <!-- 默认显示本站图标 -->
+                                <button id="search-engine-btn" class="h-full pl-3 pr-2 flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 hover:text-emerald-500 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded-l-xl transition-colors outline-none w-auto md:min-w-[5.5rem]">
+                                    <!-- Show this site's icon by default -->
                                     <span id="current-engine-icon" class="flex-shrink-0 w-5 h-5 flex items-center justify-center">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                                     </span>
-                                    <span id="current-engine-label" class="font-medium truncate hidden md:block">本站</span>
+                                    <span id="current-engine-label" class="font-medium truncate hidden md:block">This site</span>
                                     <svg class="w-3 h-3 opacity-60 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                 </button>
                                 
                                 <!-- Dropdown Menu -->
-                                <div id="search-engine-menu" class="hidden absolute top-full left-0 mt-2 w-24 bg-card dark:bg-card rounded-[var(--radius-xl)] shadow-xl border border-line dark:border-line overflow-hidden z-50 dropdown-enter">
+                                <div id="search-engine-menu" class="hidden absolute top-full left-0 mt-2 w-40 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden z-50 dropdown-enter">
                                     <div class="py-1" id="search-engine-list">
-                                        <div class="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">搜索引擎</div>
-                                        <!-- JS 自动插入按钮 -->
+                                        <div class="px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Search Engine</div>
+                                        <!-- JS auto-inserted buttons -->
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="h-4 w-px bg-line-input dark:bg-line-input mx-1"></div>
+                            <div class="h-4 w-px bg-slate-200 dark:bg-slate-600 mx-1"></div>
                             
-                            <input type="text" id="search-input" class="flex-1 bg-transparent border-none text-base-foreground dark:text-white text-sm focus:ring-0 placeholder:text-muted-foreground h-full w-full outline-none px-2" placeholder="搜索">
+                            <input type="text" id="search-input" class="flex-1 bg-transparent border-none text-slate-700 dark:text-slate-200 text-sm focus:ring-0 placeholder-slate-400 h-full w-full outline-none px-2" placeholder="Search">
                             
-                            <button id="clear-search-button" class="hidden p-1.5 mr-1 rounded-full text-muted-foreground hover:text-red-500 hover:bg-muted dark:hover:bg-muted transition-all">
+                            <button id="clear-search-button" class="hidden p-1.5 mr-1 rounded-full text-slate-400 hover:text-red-500 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all">
                                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"></path></svg>
                             </button>
                             
-                            <button id="search-button" class="h-full px-4 rounded-r-[var(--radius-xl)] text-muted-foreground hover:text-accent dark:hover:text-accent hover:bg-soft dark:hover:bg-[color-mix(in_oklab,var(--muted)_60%,transparent)] transition-colors border-l border-transparent dark:border-[color-mix(in_oklab,var(--border)_50%,transparent)] flex items-center justify-center">
+                            <button id="search-button" class="h-full px-4 rounded-r-xl text-slate-500 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-700/50 transition-colors border-l border-transparent dark:border-slate-700/50 flex items-center justify-center">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                             </button>
                         </div>
@@ -539,97 +334,88 @@ const HTML_CONTENT = `
                     <!-- Profile / Settings -->
                     <div class="relative flex items-center gap-2">
                         <div id="profile-dropdown-wrapper" class="relative">
-                            <button id="profile-menu-toggle" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-muted-foreground hover:bg-[color-mix(in_oklab,var(--card)_75%,transparent)] dark:hover:bg-muted transition-all text-sm font-medium border border-transparent hover:border-line dark:hover:border-line hover:shadow-sm">
-                                <div class="w-7 h-7 rounded-full bg-muted dark:bg-muted flex items-center justify-center shadow-inner">
-                                     <svg class="w-4 h-4 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            <button id="profile-menu-toggle" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 transition-all text-sm font-medium border border-transparent hover:border-slate-200 dark:hover:border-slate-700 hover:shadow-sm">
+                                <div class="w-7 h-7 rounded-full bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-600 flex items-center justify-center shadow-inner">
+                                     <svg class="w-4 h-4 text-slate-500 dark:text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                                 </div>
-                                <span id="menu-toggle" class="hidden md:inline">设置</span>
+                                <span id="menu-toggle" class="hidden md:inline">Settings</span>
                             </button>
                             
                             <!-- Dropdown Menu -->
-                            <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-60 bg-card rounded-xl shadow-xl ring-1 ring-black/5 dark:ring-white/10 overflow-hidden transform origin-top-right transition-all z-50 dropdown-enter">
+                            <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-60 bg-white dark:bg-[#170a29] rounded-xl shadow-xl ring-1 ring-black/5 dark:ring-white/10 overflow-hidden transform origin-top-right transition-all z-50 dropdown-enter">
                                 <div class="p-2 space-y-1">
                                     <!-- Edit Mode -->
-                                    <button id="edit-mode-btn" onclick="toggleEditMode()" class="w-full text-left px-3 py-2.5 rounded-lg text-sm text-base-foreground dark:text-base-foreground hover:bg-[var(--menu-hover)] hover:text-accent dark:hover:text-accent transition-colors flex items-center gap-3 font-medium">
+                                    <button id="edit-mode-btn" onclick="toggleEditMode()" class="w-full text-left px-3 py-2.5 rounded-lg text-sm text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-slate-700/50 hover:text-emerald-600 transition-colors flex items-center gap-3 font-medium">
                                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                                        编辑模式
+                                        Edit Mode
                                     </button>
 
-                                    <!-- 一键检测 -->
-                                    <div id="check-all-menu" class="hidden">
-                                        <div class="h-px bg-muted dark:bg-[color-mix(in_oklab,var(--muted)_50%,transparent)] mx-1 my-1"></div>
-                                        <button id="check-all-btn" onclick="checkAllSites()" class="w-full text-left px-3 py-2.5 rounded-lg text-sm text-base-foreground dark:text-base-foreground hover:bg-[var(--menu-hover)] hover:text-accent dark:hover:text-accent transition-colors flex items-center justify-between gap-3 font-medium">
+                                    <!-- One-Click Check -->
+                                    <div id="check-all-menu" class="hidden border-t border-slate-100 dark:border-slate-700/50 my-1 pt-1">
+                                        <button id="check-all-btn" onclick="checkAllSites()" class="w-full text-left px-3 py-2.5 rounded-lg text-sm text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-slate-700/50 hover:text-emerald-600 transition-colors flex items-center justify-between gap-3 font-medium">
                                             <span class="flex items-center gap-3">
                                                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                                                一键检测
+                                                One-Click Check
                                             </span>
-                                            <span id="check-all-status" class="text-xs font-normal text-muted-foreground dark:text-muted-foreground"></span>
+                                            <span id="check-all-status" class="text-xs font-normal text-slate-400 dark:text-slate-500"></span>
                                         </button>
                                     </div>
 
-                                    <!-- 导入导出 (仅登录显示) -->
-                                    <div id="data-tools-menu" class="hidden">
-                                         <div class="h-px bg-muted dark:bg-[color-mix(in_oklab,var(--muted)_50%,transparent)] mx-1 my-1"></div>
-                                         <button onclick="exportData()" class="w-full text-left px-3 py-2 rounded-lg text-sm text-base-foreground dark:text-base-foreground hover:bg-[var(--menu-hover)] hover:text-amber-600 dark:hover:text-amber-400 transition-colors flex items-center gap-3">
+                                    <!-- Import/Export (login only) -->
+                                    <div id="data-tools-menu" class="hidden border-t border-slate-100 dark:border-slate-700/50 my-1 pt-1">
+                                         <button onclick="exportData()" class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 dark:text-slate-200 hover:bg-amber-50 dark:hover:bg-slate-700/50 hover:text-amber-600 transition-colors flex items-center gap-3">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                                            导出配置
+                                            Export Config
                                         </button>
-                                        <button onclick="importData()" class="w-full text-left px-3 py-2 rounded-lg text-sm text-base-foreground dark:text-base-foreground hover:bg-[var(--menu-hover)] hover:text-green-600 dark:hover:text-green-400 transition-colors flex items-center gap-3">
+                                        <button onclick="importData()" class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 dark:text-slate-200 hover:bg-green-50 dark:hover:bg-slate-700/50 hover:text-green-600 transition-colors flex items-center gap-3">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4-4m0 0l-4 4m4-4v12"></path></svg>
-                                            导入配置
+                                            Import Config
                                         </button>
-                                        <!-- 文件输入框 (隐藏) -->
+                                        <!-- File input (hidden) -->
                                         <input type="file" id="import-file-input" accept=".json,.html,.htm" class="hidden">
                                     </div>
                                     
-                                    <div class="h-px bg-muted dark:bg-[color-mix(in_oklab,var(--muted)_50%,transparent)] mx-1 my-1"></div>
+                                    <div class="h-px bg-slate-100 dark:bg-slate-700/50 mx-1 my-1"></div>
 
-                                    <!-- 主题皮肤入口：访客也可用，仅本地生效；管理员的改动才同步 KV -->
-                                    <button id="theme-menu-btn" onclick="openThemeDialog()" class="flex w-full text-left px-3 py-2 rounded-lg text-sm text-muted-foreground dark:text-muted-foreground hover:bg-[var(--menu-hover)] hover:text-accent dark:hover:text-accent transition-colors items-center gap-3">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3a1 1 0 0 1 1 1v.5a1 1 0 0 1-2 0V4a1 1 0 0 1 1-1zm8 9a1 1 0 0 1-1 1h-.5a1 1 0 0 1 0-2H19a1 1 0 0 1 1 1zM5 12a1 1 0 0 1-1 1h-.5a1 1 0 0 1 0-2H4a1 1 0 0 1 1 1z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/><path d="M12 2v2M12 20v2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
-                                        主题皮肤
-                                        <svg class="w-3.5 h-3.5 ml-auto text-muted-foreground" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-                                    </button>
-
-                                    <!-- 【新增】APP 布局切换 -->
-                                    <div class="px-3 py-2.5 flex items-center justify-between text-sm text-base-foreground dark:text-base-foreground hover:bg-[var(--menu-hover)] rounded-lg group">
+                                    <!-- [New] APP Layout Toggle -->
+                                    <div class="px-3 py-2.5 flex items-center justify-between text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/30 rounded-lg group">
                                         <span class="flex items-center gap-3">
-                                            <svg class="w-4 h-4 text-muted-foreground group-hover:text-muted-foreground dark:text-muted-foreground dark:group-hover:text-base-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <svg class="w-4 h-4 text-slate-400 group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect>
                                                 <rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect>
                                             </svg>
-                                            APP 视图
+                                            APP View
                                         </span>
                                         <label class="relative inline-flex items-center cursor-pointer">
                                             <input type="checkbox" id="layout-switch-checkbox" onchange="toggleAppLayout()" class="sr-only peer">
-                                            <div class="w-9 h-5 bg-[color-mix(in_oklab,var(--foreground)_35%,var(--card))] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[color-mix(in_oklab,var(--muted-foreground)_40%,var(--card))] after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-[color-mix(in_oklab,var(--muted-foreground)_40%,var(--card))] peer-checked:bg-accent"></div>
+                                            <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-emerald-500"></div>
                                         </label>
                                     </div>
                                     
-                                    <div class="px-3 py-2.5 flex items-center justify-between text-sm text-base-foreground dark:text-base-foreground hover:bg-[var(--menu-hover)] rounded-lg group">
+                                    <div class="px-3 py-2.5 flex items-center justify-between text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/30 rounded-lg group">
                                         <span class="flex items-center gap-3">
-                                            <svg class="w-4 h-4 text-muted-foreground group-hover:text-muted-foreground dark:text-muted-foreground dark:group-hover:text-base-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                                            深色模式
+                                            <svg class="w-4 h-4 text-slate-400 group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                                            Dark Mode
                                         </span>
                                         <label class="relative inline-flex items-center cursor-pointer">
                                             <input type="checkbox" id="theme-switch-checkbox" class="sr-only peer">
-                                            <div class="w-9 h-5 bg-[color-mix(in_oklab,var(--foreground)_35%,var(--card))] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[color-mix(in_oklab,var(--muted-foreground)_40%,var(--card))] after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-[color-mix(in_oklab,var(--muted-foreground)_40%,var(--card))] peer-checked:bg-accent"></div>
+                                            <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-emerald-500"></div>
                                         </label>
                                     </div>
-                                    <div class="px-3 py-2.5 flex items-center justify-between text-sm text-base-foreground dark:text-base-foreground hover:bg-[var(--menu-hover)] rounded-lg group">
+                                    <div class="px-3 py-2.5 flex items-center justify-between text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/30 rounded-lg group">
                                         <span class="flex items-center gap-3">
-                                            <svg class="w-4 h-4 text-muted-foreground group-hover:text-muted-foreground dark:text-muted-foreground dark:group-hover:text-base-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-                                            记住设置
+                                            <svg class="w-4 h-4 text-slate-400 group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                                            Remember Settings
                                         </span>
                                         <label class="relative inline-flex items-center cursor-pointer">
                                             <input type="checkbox" id="save-preference-checkbox" class="sr-only peer">
-                                            <div class="w-9 h-5 bg-[color-mix(in_oklab,var(--foreground)_35%,var(--card))] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[color-mix(in_oklab,var(--muted-foreground)_40%,var(--card))] after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-[color-mix(in_oklab,var(--muted-foreground)_40%,var(--card))] peer-checked:bg-accent"></div>
+                                            <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-emerald-500"></div>
                                         </label>
                                     </div>
-                                    <div class="h-px bg-muted dark:bg-[color-mix(in_oklab,var(--muted)_50%,transparent)] mx-1 my-1"></div>
-                                    <button id="login-Btn" onclick="toggleLogin()" class="w-full text-left px-3 py-2.5 rounded-lg text-sm text-base-foreground dark:text-base-foreground hover:bg-[var(--menu-hover)] hover:text-red-500 dark:hover:text-red-400 transition-colors flex items-center gap-3 font-medium">
+                                    <div class="h-px bg-slate-100 dark:bg-slate-700/50 mx-1 my-1"></div>
+                                    <button id="login-Btn" onclick="toggleLogin()" class="w-full text-left px-3 py-2.5 rounded-lg text-sm text-slate-700 dark:text-slate-200 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 transition-colors flex items-center gap-3 font-medium">
                                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-                                        登录 / 退出
+                                        Login / Logout
                                     </button>
                                 </div>
                             </div>
@@ -637,257 +423,151 @@ const HTML_CONTENT = `
                     </div>
                 </div>
                 
-                <!-- 快捷分类栏 -->
+                <!-- Quick Category Bar -->
                 <div id="category-buttons-container" class="py-2 flex gap-2 overflow-x-auto no-scrollbar mask-gradient items-center">
-                    <!-- JS 生成按钮 -->
+                    <!-- JS generated buttons -->
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 主要内容区 -->
+    <!-- Main Content Area -->
     <main class="pt-36 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen">
-        <!-- 添加分类按钮 (仅编辑模式显示) -->
+        <!-- Add Category button (edit mode only) -->
         <div id="add-category-container" class="hidden mt-12 mb-8">
-            <button onclick="addCategory()" class="w-full py-4 rounded-[var(--radius-2xl)] border-2 border-dashed border-line dark:border-line text-muted-foreground hover:border-accent hover:text-accent dark:hover:border-accent dark:hover:text-accent hover:bg-[color-mix(in_oklab,var(--accent)_50%,transparent)] dark:hover:bg-[color-mix(in_oklab,var(--secondary)_50%,transparent)] transition-all flex items-center justify-center gap-2 group">
-                <div class="w-8 h-8 rounded-full bg-muted dark:bg-muted group-hover:bg-soft dark:group-hover:bg-soft flex items-center justify-center transition-colors">
+            <button onclick="addCategory()" class="w-full py-4 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:border-emerald-500 hover:text-emerald-600 dark:hover:border-emerald-500 dark:hover:text-emerald-500 hover:bg-emerald-50/50 dark:hover:bg-slate-800/50 transition-all flex items-center justify-center gap-2 group">
+                <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/30 flex items-center justify-center transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                 </div>
-                <span class="font-medium text-lg">新建分类</span>
+                <span class="font-medium text-lg">New Category</span>
             </button>
         </div>
 
-        <!-- 内容渲染容器 -->
+        <!-- Content Render Container -->
         <div id="sections-container" class="space-y-10"></div>
 
-        <!-- 返回顶部按钮独立放置 -->
+        <!-- Back-to-top button, placed separately -->
         <div class="fixed bottom-8 right-8 z-50">
-            <button id="back-to-top-btn" onclick="scrollToTop()" class="hidden w-12 h-12 rounded-2xl bg-[color-mix(in_oklab,var(--card)_90%,var(--background))] dark:bg-[color-mix(in_oklab,var(--card)_90%,var(--background))] text-muted-foreground border border-line dark:border-line shadow-lg backdrop-blur-sm flex items-center justify-center transition-all hover:scale-110 hover:bg-muted dark:hover:bg-muted has-tooltip group" data-tooltip="返回顶部">
+            <button id="back-to-top-btn" onclick="scrollToTop()" class="hidden w-12 h-12 rounded-2xl bg-white/90 dark:bg-slate-800/90 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shadow-lg backdrop-blur-sm flex items-center justify-center transition-all hover:scale-110 hover:bg-slate-50 dark:hover:bg-slate-700 has-tooltip group" data-tooltip="Back to top">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
             </button>
         </div>
         
     </main>
 
-    <!-- 模态框：添加/编辑链接 -->
-    <div id="dialog-overlay" class="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 overlay-hidden hidden">
-        <div id="dialog-box" class="bg-card rounded-[var(--radius-2xl)] shadow-2xl w-full max-w-md p-6 transform transition-all duration-300 border border-line dark:border-line dialog-scale-hidden">
-            <h3 class="text-xl font-bold mb-5 text-base-foreground flex items-center gap-2">
-                <span class="w-1 h-6 bg-accent rounded-full"></span>
-                编辑信息
+    <!-- Modal: Add/Edit Link -->
+    <div id="dialog-overlay" class="hidden fixed inset-0 z-[60] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 overlay-hidden">
+        <div id="dialog-box" class="bg-white dark:bg-[#170a29] rounded-2xl shadow-2xl w-full max-w-md p-6 transform transition-all duration-300 border border-slate-100 dark:border-slate-700 dialog-scale-hidden">
+            <h3 class="text-xl font-bold mb-5 text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                <span class="w-1 h-6 bg-emerald-500 rounded-full"></span>
+                Edit Info
             </h3>
             <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase tracking-wider">名称 <span class="text-red-500">*</span></label>
-                    <input type="text" id="name-input" class="w-full px-4 py-2.5 rounded-[var(--radius-xl)] bg-muted dark:bg-muted border border-line dark:border-line-input focus:ring-2 focus:ring-[color-mix(in_oklab,var(--ring)_50%,transparent)] focus:border-accent outline-none transition-all dark:text-white" placeholder="网站名称">
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Name <span class="text-red-500">*</span></label>
+                    <input type="text" id="name-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Site name">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase tracking-wider">地址 <span class="text-red-500">*</span></label>
-                    <input type="text" id="url-input" class="w-full px-4 py-2.5 rounded-[var(--radius-xl)] bg-muted dark:bg-muted border border-line dark:border-line-input focus:ring-2 focus:ring-[color-mix(in_oklab,var(--ring)_50%,transparent)] focus:border-accent outline-none transition-all dark:text-white" placeholder="https://...">
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">URL <span class="text-red-500">*</span></label>
+                    <input type="text" id="url-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="https://...">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase tracking-wider">描述</label>
-                    <input type="text" id="tips-input" class="w-full px-4 py-2.5 rounded-[var(--radius-xl)] bg-muted dark:bg-muted border border-line dark:border-line-input focus:ring-2 focus:ring-[color-mix(in_oklab,var(--ring)_50%,transparent)] focus:border-accent outline-none transition-all dark:text-white" placeholder="简短的描述...">
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Description</label>
+                    <input type="text" id="tips-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="A short description...">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase tracking-wider">图标 URL</label>
-                    <input type="text" id="icon-input" class="w-full px-4 py-2.5 rounded-[var(--radius-xl)] bg-muted dark:bg-muted border border-line dark:border-line-input focus:ring-2 focus:ring-[color-mix(in_oklab,var(--ring)_50%,transparent)] focus:border-accent outline-none transition-all dark:text-white" placeholder="留空自动获取">
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Icon URL</label>
+                    <input type="text" id="icon-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Leave blank to auto-fetch">
                 </div>
                 
                 <!-- Custom Category Dropdown -->
                 <div class="relative z-20" id="category-select-wrapper">
-                    <label class="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase tracking-wider">分类</label>
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Category</label>
                     <input type="hidden" id="category-select-value">
-                    <button id="category-select-btn" class="w-full px-4 py-2.5 text-left rounded-[var(--radius-xl)] bg-muted dark:bg-muted border border-line dark:border-line-input focus:ring-2 focus:ring-[color-mix(in_oklab,var(--ring)_50%,transparent)] outline-none transition-all text-base-foreground dark:text-white flex items-center justify-between">
-                        <span id="category-select-text">请选择分类</span>
-                        <svg class="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <button id="category-select-btn" class="w-full px-4 py-2.5 text-left rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 outline-none transition-all text-slate-700 dark:text-white flex items-center justify-between">
+                        <span id="category-select-text">Select a category</span>
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
                     <!-- Dropdown List -->
-                    <div id="category-select-menu" class="hidden absolute top-full left-0 mt-2 w-full max-h-48 overflow-y-auto bg-card dark:bg-card rounded-xl shadow-xl border border-line dark:border-line z-50 custom-scrollbar">
+                    <div id="category-select-menu" class="hidden absolute top-full left-0 mt-2 w-full max-h-48 overflow-y-auto bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 z-50 custom-scrollbar">
                         <!-- Items populated by JS -->
                     </div>
                 </div>
 
-                <div class="flex items-center gap-3 pt-2">
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" id="private-checkbox" class="sr-only peer">
-                        <div class="w-9 h-5 bg-[color-mix(in_oklab,var(--foreground)_35%,var(--card))] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[color-mix(in_oklab,var(--muted-foreground)_40%,var(--card))] after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-[color-mix(in_oklab,var(--muted-foreground)_40%,var(--card))] peer-checked:bg-accent"></div>
-                    </label>
-                    <label for="private-checkbox" class="text-sm text-muted-foreground font-medium cursor-pointer select-none">设为私密链接 (仅登录可见)</label>
+                <div class="flex items-center gap-2 pt-2">
+                    <input type="checkbox" id="private-checkbox" class="w-5 h-5 text-emerald-500 rounded focus:ring-emerald-500 border-gray-300 bg-gray-100">
+                    <label for="private-checkbox" class="text-sm text-slate-600 dark:text-slate-300 font-medium">Set as private link (visible only when logged in)</label>
                 </div>
             </div>
             <div class="flex justify-end gap-3 mt-8">
-                <button id="dialog-cancel-btn" class="px-5 py-2.5 rounded-[var(--radius-xl)] text-sm font-medium text-muted-foreground hover:bg-muted dark:text-muted-foreground dark:hover:bg-muted transition-colors">取消</button>
-                <button id="dialog-confirm-btn" class="px-5 py-2.5 rounded-[var(--radius-xl)] text-sm font-medium text-accent-foreground bg-accent hover:bg-accent shadow-lg shadow-accent/25 transition-all hover:translate-y-[-1px]">确定</button>
+                <button id="dialog-cancel-btn" class="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 transition-colors">Cancel</button>
+                <button id="dialog-confirm-btn" class="px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-emerald-500 hover:bg-emerald-600 shadow-lg shadow-emerald-500/25 transition-all hover:translate-y-[-1px]">Confirm</button>
             </div>
         </div>
     </div>
 
-    <!-- 密码弹窗 -->
-    <div id="password-dialog-overlay" class="fixed inset-0 z-[70] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 overlay-hidden hidden">
-        <div id="password-dialog-box" class="bg-card rounded-[var(--radius-2xl)] shadow-2xl p-8 w-full max-w-sm border border-line dark:border-line text-center transform transition-all duration-300 dialog-scale-hidden">
-            <div class="w-16 h-16 bg-soft dark:bg-soft rounded-full flex items-center justify-center mx-auto mb-4 text-accent">
+    <!-- Password Dialog -->
+    <div id="password-dialog-overlay" class="hidden fixed inset-0 z-[70] bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 overlay-hidden">
+        <div id="password-dialog-box" class="bg-white dark:bg-[#170a29] rounded-2xl shadow-2xl p-8 w-full max-w-sm border border-slate-100 dark:border-slate-700 text-center transform transition-all duration-300 dialog-scale-hidden">
+            <div class="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mx-auto mb-4 text-emerald-500">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
             </div>
-            <h3 class="text-xl font-bold mb-2 text-base-foreground">身份验证</h3>
-            <p class="text-sm text-muted-foreground mb-6">请输入管理员密码以继续操作</p>
-            <input type="password" id="password-input" placeholder="访问密码" class="w-full px-4 py-3 rounded-[var(--radius-xl)] bg-muted dark:bg-muted border border-line dark:border-line-input focus:ring-2 focus:ring-ring focus:border-transparent outline-none mb-6 dark:text-white text-center tracking-widest text-lg transition-all">
+            <h3 class="text-xl font-bold mb-2 text-slate-800 dark:text-white">Authentication</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Please enter the admin password to continue</p>
+            <input type="password" id="password-input" placeholder="Access password" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none mb-6 dark:text-white text-center tracking-widest text-lg transition-all">
             <div class="flex gap-3">
-                <button id="password-cancel-btn" class="flex-1 py-2.5 rounded-[var(--radius-xl)] text-muted-foreground bg-muted hover:bg-secondary dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted font-medium transition-colors">取消</button>
-                <button id="password-confirm-btn" class="flex-1 py-2.5 rounded-[var(--radius-xl)] text-accent-foreground bg-accent hover:bg-accent shadow-lg shadow-accent/25 font-medium transition-colors">确认登录</button>
+                <button id="password-cancel-btn" class="flex-1 py-2.5 rounded-xl text-slate-600 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600 font-medium transition-colors">Cancel</button>
+                <button id="password-confirm-btn" class="flex-1 py-2.5 rounded-xl text-white bg-emerald-500 hover:bg-emerald-600 shadow-lg shadow-emerald-500/25 font-medium transition-colors">Confirm Login</button>
             </div>
         </div>
     </div>
 
-    <!-- 自定义 Alert -->
-    <div id="custom-alert-overlay" class="fixed inset-0 z-[110] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 overlay-hidden hidden">
-        <div id="custom-alert-box" class="bg-card rounded-[var(--radius-2xl)] shadow-2xl p-6 max-w-sm w-full border border-line dark:border-line transform transition-all duration-300 dialog-scale-hidden">
-            <h3 id="custom-alert-title" class="text-lg font-bold mb-2 text-base-foreground">提示</h3>
-            <p id="custom-alert-content" class="text-muted-foreground mb-6 text-sm leading-relaxed"></p>
+    <!-- Custom Alert -->
+    <div id="custom-alert-overlay" class="hidden fixed inset-0 z-[110] bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 overlay-hidden">
+        <div id="custom-alert-box" class="bg-white dark:bg-[#170a29] rounded-2xl shadow-2xl p-6 max-w-sm w-full border border-slate-100 dark:border-slate-700 transform transition-all duration-300 dialog-scale-hidden">
+            <h3 id="custom-alert-title" class="text-lg font-bold mb-2 text-slate-800 dark:text-white">Notice</h3>
+            <p id="custom-alert-content" class="text-slate-600 dark:text-slate-300 mb-6 text-sm leading-relaxed"></p>
             <div class="flex justify-end">
-                <button id="custom-alert-confirm" class="px-5 py-2 bg-accent hover:bg-accent text-accent-foreground rounded-[var(--radius-xl)] text-sm font-medium transition-colors shadow-lg shadow-accent/20">我知道了</button>
+                <button id="custom-alert-confirm" class="px-5 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-sm font-medium transition-colors shadow-lg shadow-emerald-500/20">Got it</button>
             </div>
         </div>
     </div>
 
-    <!-- 自定义 Confirm -->
-    <div id="custom-confirm-overlay" class="fixed inset-0 z-[80] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 overlay-hidden hidden">
-        <div id="custom-confirm-box" class="bg-card rounded-[var(--radius-2xl)] shadow-2xl p-6 max-w-sm w-full border border-line dark:border-line transform transition-all duration-300 dialog-scale-hidden">
-            <h3 class="text-lg font-bold mb-3 text-base-foreground">确认操作</h3>
-            <p id="custom-confirm-message" class="text-muted-foreground mb-6 text-sm"></p>
+    <!-- Custom Confirm -->
+    <div id="custom-confirm-overlay" class="hidden fixed inset-0 z-[80] bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 overlay-hidden">
+        <div id="custom-confirm-box" class="bg-white dark:bg-[#170a29] rounded-2xl shadow-2xl p-6 max-w-sm w-full border border-slate-100 dark:border-slate-700 transform transition-all duration-300 dialog-scale-hidden">
+            <h3 class="text-lg font-bold mb-3 text-slate-800 dark:text-white">Confirm Action</h3>
+            <p id="custom-confirm-message" class="text-slate-600 dark:text-slate-300 mb-6 text-sm"></p>
             <div class="flex justify-end gap-3">
-                <button id="custom-confirm-cancel" class="px-4 py-2 text-sm text-muted-foreground hover:bg-muted rounded-[var(--radius-xl)] dark:text-muted-foreground dark:hover:bg-muted transition-colors font-medium">取消</button>
-                <button id="custom-confirm-ok" class="px-4 py-2 text-sm text-accent-foreground bg-accent hover:bg-accent rounded-[var(--radius-xl)] shadow-lg shadow-accent/20 transition-colors font-medium">确定</button>
+                <button id="custom-confirm-cancel" class="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-xl dark:text-slate-400 dark:hover:bg-slate-700 transition-colors font-medium">Cancel</button>
+                <button id="custom-confirm-ok" class="px-4 py-2 text-sm text-white bg-emerald-500 hover:bg-emerald-600 rounded-xl shadow-lg shadow-emerald-500/20 transition-colors font-medium">Confirm</button>
             </div>
         </div>
     </div>
 
-    <!-- 分类输入弹窗 -->
-    <div id="category-dialog" class="fixed inset-0 z-[65] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 overlay-hidden hidden">
-        <div id="category-dialog-box" class="bg-card rounded-[var(--radius-2xl)] p-6 w-full max-w-sm shadow-2xl border border-line dark:border-line transform transition-all duration-300 dialog-scale-hidden">
-            <h3 id="category-dialog-title" class="text-lg font-bold mb-4 text-base-foreground">分类名称</h3>
-            <input type="text" id="category-name-input" class="w-full px-4 py-2.5 rounded-[var(--radius-xl)] bg-muted dark:bg-muted border border-line dark:border-line-input focus:ring-2 focus:ring-ring outline-none mb-6 dark:text-white transition-all" placeholder="输入分类名称">
+    <!-- Category Input Dialog -->
+    <div id="category-dialog" class="hidden fixed inset-0 z-[65] bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 overlay-hidden">
+        <div id="category-dialog-box" class="bg-white dark:bg-[#170a29] rounded-2xl p-6 w-full max-w-sm shadow-2xl border border-slate-100 dark:border-slate-700 transform transition-all duration-300 dialog-scale-hidden">
+            <h3 id="category-dialog-title" class="text-lg font-bold mb-4 text-slate-800 dark:text-white">Category Name</h3>
+            <input type="text" id="category-name-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500 outline-none mb-6 dark:text-white transition-all" placeholder="Enter category name">
             <div class="flex justify-end gap-3">
-                <button id="category-cancel-btn" class="px-4 py-2 text-sm rounded-[var(--radius-xl)] text-muted-foreground bg-muted hover:bg-secondary dark:bg-muted dark:text-muted-foreground font-medium">取消</button>
-                <button id="category-confirm-btn" class="px-4 py-2 text-sm rounded-[var(--radius-xl)] text-accent-foreground bg-accent hover:bg-accent shadow-md font-medium">确定</button>
+                <button id="category-cancel-btn" class="px-4 py-2 text-sm rounded-xl text-slate-600 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-300 font-medium">Cancel</button>
+                <button id="category-confirm-btn" class="px-4 py-2 text-sm rounded-xl text-white bg-emerald-500 hover:bg-emerald-600 shadow-md font-medium">Confirm</button>
             </div>
         </div>
     </div>
 
-    <!-- 主题设置弹窗 -->
-    <div id="theme-dialog-overlay" class="fixed inset-0 z-[90] bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 overlay-hidden hidden">
-        <div id="theme-dialog-box" class="bg-card dark:bg-card rounded-[var(--radius-2xl)] shadow-2xl w-full max-w-2xl h-[92vh] max-h-[760px] flex flex-col border border-line transition-all duration-300 transform">
-            <!-- 头部：标题 + 关闭 -->
-            <div class="px-5 py-3.5 flex items-center justify-between border-b border-[color-mix(in_oklab,var(--border)_40%,transparent)] shrink-0">
-                <h3 class="text-lg font-bold text-base-foreground flex items-center gap-2">
-                    <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3a1 1 0 0 1 1 1v.5a1 1 0 0 1-2 0V4a1 1 0 0 1 1-1zm8 9a1 1 0 0 1-1 1h-.5a1 1 0 0 1 0-2H19a1 1 0 0 1 1 1zM5 12a1 1 0 0 1-1 1h-.5a1 1 0 0 1 0-2H4a1 1 0 0 1 1 1z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/></svg>
-                    主题皮肤
-                </h3>
-                <button id="theme-dialog-close" onclick="closeThemeDialog()" aria-label="关闭"
-                    class="p-2 rounded-full text-muted-foreground hover:bg-muted dark:hover:bg-[color-mix(in_oklab,var(--muted)_40%,transparent)] transition-colors">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                </button>
-            </div>
-
-            <div class="flex-1 min-h-0 flex flex-col overflow-hidden p-5 pt-3">
-                <div id="theme-status-bar" class="mb-3 shrink-0"></div>
-
-                <div class="mb-2 flex items-center justify-between shrink-0">
-                    <h4 class="text-sm font-semibold text-base-foreground">推荐主题</h4>
-                    <span id="theme-kind-toggle" class="text-xs text-muted-foreground"></span>
-                </div>
-                <p id="theme-guide" class="text-xs text-muted-foreground mb-2 shrink-0"></p>
-                <div id="theme-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 flex-1 min-h-0 overflow-y-auto px-1 py-1 no-scrollbar content-start"></div>
-
-                <div id="theme-custom-details" class="mt-4 shrink-0 border border-[color-mix(in_oklab,var(--border)_40%,transparent)] rounded-[var(--radius-xl)]">
-                    <div class="px-4 py-2.5 text-sm font-medium text-base-foreground">
-                        tweakcn 主题
-                    </div>
-                    <div class="px-4 pb-4">
-                        <div class="relative mb-2">
-                            <input type="text" id="theme-input" placeholder="粘贴主题ID 或完整链接 themes/xxx"
-                                class="w-full min-w-0 pl-4 pr-[72px] py-2.5 rounded-[var(--radius-xl)] bg-muted dark:bg-muted border border-line-input focus:ring-2 focus:ring-[color-mix(in_oklab,var(--ring)_50%,transparent)] outline-none transition-all text-base-foreground dark:text-white">
-                            <button onclick="applyCustomTheme()" class="absolute right-1.5 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-[var(--radius-lg)] text-sm font-medium text-accent-foreground bg-accent hover:bg-accent shadow-lg shadow-accent/20 transition-all">应用</button>
-                        </div>
-                        <p id="theme-status" class="hidden text-xs mb-2 text-muted-foreground" style="color: var(--muted-foreground);"></p>
-                        <a href="https://tweakcn.com/community" target="_blank" rel="noopener" class="text-xs text-accent hover:underline inline-flex items-center gap-1">更多主题：tweakcn.com/community ↗</a>
-                    </div>
-                </div>
-
-                <!-- 导入 / 导出主题（点击后弹出子弹窗） -->
-                <div id="theme-json-details" class="mt-4 shrink-0 border border-[color-mix(in_oklab,var(--border)_40%,transparent)] rounded-[var(--radius-xl)]">
-                    <div class="px-4 py-2.5 text-sm font-medium text-base-foreground">
-                        导入 / 导出主题
-                    </div>
-                    <div class="px-4 pb-4">
-                        <div class="flex flex-wrap gap-2 mb-2">
-                            <button onclick="openThemeExportDialog()" class="flex-1 min-w-[130px] inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-[var(--radius-xl)] text-sm font-medium border border-line text-base-foreground hover:bg-secondary dark:hover:bg-[color-mix(in_oklab,var(--muted)_40%,transparent)] transition-all">
-                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
-                                导出主题
-                            </button>
-                            <button onclick="openThemeImportDialog()" class="flex-1 min-w-[130px] inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-[var(--radius-xl)] text-sm font-medium border border-line text-base-foreground hover:bg-secondary dark:hover:bg-[color-mix(in_oklab,var(--muted)_40%,transparent)] transition-all">
-                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15V3m0 0L8 7m4-4l4 4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
-                                导入主题
-                            </button>
-                        </div>
-                        <p id="theme-json-entry-status" class="hidden mt-2 text-xs"></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 子弹窗：导出主题 -->
-    <div id="theme-export-overlay" class="fixed inset-0 z-[95] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 overlay-hidden hidden">
-        <div id="theme-export-box" class="bg-card dark:bg-card rounded-[var(--radius-2xl)] p-6 w-full max-w-md shadow-2xl border border-line dark:border-line transform transition-all duration-300 dialog-scale-hidden">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-base font-bold text-base-foreground">导出主题</h3>
-                <button onclick="closeThemeExportDialog()" aria-label="关闭" class="p-1.5 rounded-full text-muted-foreground hover:bg-muted dark:hover:bg-[color-mix(in_oklab,var(--muted)_40%,transparent)] transition-colors">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                </button>
-            </div>
-            <textarea id="theme-export-text" rows="8" readonly spellcheck="false"
-                class="w-full px-4 py-2.5 rounded-[var(--radius-xl)] bg-muted dark:bg-muted border border-line-input text-xs font-mono leading-relaxed text-base-foreground dark:text-white resize-y mb-3"></textarea>
-            <p id="theme-export-status" class="hidden text-xs mb-2"></p>
-            <div class="flex gap-2">
-                <button onclick="copyThemeJson()" class="flex-1 px-4 py-2.5 rounded-[var(--radius-xl)] text-sm font-medium border border-line text-base-foreground hover:bg-secondary dark:hover:bg-[color-mix(in_oklab,var(--muted)_40%,transparent)] transition-colors">复制 JSON</button>
-                <button onclick="downloadThemeJson()" class="flex-1 px-4 py-2.5 rounded-[var(--radius-xl)] text-sm font-medium text-accent-foreground bg-accent hover:bg-accent transition-all">下载文件</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 子弹窗：导入主题 JSON -->
-    <div id="theme-import-overlay" class="fixed inset-0 z-[95] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 overlay-hidden hidden">
-        <div id="theme-import-box" class="bg-card dark:bg-card rounded-[var(--radius-2xl)] p-6 w-full max-w-md shadow-2xl border border-line dark:border-line transform transition-all duration-300 dialog-scale-hidden">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-base font-bold text-base-foreground">导入主题</h3>
-                <button onclick="closeThemeImportDialog()" aria-label="关闭" class="p-1.5 rounded-full text-muted-foreground hover:bg-muted dark:hover:bg-[color-mix(in_oklab,var(--muted)_40%,transparent)] transition-colors">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                </button>
-            </div>
-            <textarea id="theme-import-text" rows="8" spellcheck="false" placeholder="粘贴主题 JSON 数据，或点击下方「选择文件」"
-                class="w-full px-4 py-2.5 rounded-[var(--radius-xl)] bg-muted dark:bg-muted border border-line-input focus:ring-2 focus:ring-[color-mix(in_oklab,var(--ring)_50%,transparent)] outline-none transition-all text-xs font-mono leading-relaxed text-base-foreground dark:text-white resize-y mb-1"></textarea>
-            <p class="text-xs text-muted-foreground mb-2">导入将覆盖当前主题，应用后可点「回退上一套」撤销。</p>
-            <p id="theme-import-status" class="hidden text-xs mb-2"></p>
-            <div class="flex gap-2">
-                <button onclick="pickThemeFile()" class="flex-1 px-4 py-2.5 rounded-[var(--radius-xl)] text-sm font-medium border border-line text-base-foreground hover:bg-secondary dark:hover:bg-[color-mix(in_oklab,var(--muted)_40%,transparent)] transition-colors">选择文件</button>
-                <button id="theme-import-apply-btn" onclick="applyThemeJsonFlow()" class="flex-1 px-4 py-2.5 rounded-[var(--radius-xl)] text-sm font-medium text-accent-foreground bg-accent hover:bg-accent transition-all">应用</button>
-            </div>
-            <input type="file" id="theme-import-file" accept=".json,application/json" class="hidden">
-        </div>
-    </div>
-
-    <div id="loading-mask" class="fixed inset-0 z-30 hidden flex flex-col items-center justify-center transition-opacity">
+    <div id="loading-mask" class="fixed inset-0 z-30 flex flex-col items-center justify-center transition-opacity">
         <div class="relative w-16 h-16">
             <div class="absolute inset-0 w-full h-full rounded-full loading-spinner-track"></div>
             <div class="absolute inset-0 w-full h-full rounded-full loading-spinner-arc animate-spin"></div>
         </div>
-        <p class="mt-4 text-accent font-medium animate-pulse tracking-wide">加载中...</p>
+        <p class="mt-4 text-emerald-600 dark:text-emerald-400 font-medium animate-pulse tracking-wide">Loading...</p>
     </div>
 
     <!-- Tooltip Container -->
     <div id="custom-tooltip" class="fixed hidden pointer-events-none max-w-xs whitespace-pre-wrap border leading-relaxed tracking-wide backdrop-blur-sm rounded-xl shadow-glass px-4 py-2 text-sm transition-opacity duration-150
-        bg-card dark:bg-card text-base-foreground dark:text-base-foreground border-[color-mix(in_oklab,var(--border)_50%,transparent)] dark:border-[color-mix(in_oklab,var(--border)_50%,transparent)]">
+        bg-white/90 dark:bg-slate-800/90 text-slate-700 dark:text-slate-200 border-slate-200/50 dark:border-slate-700/50">
     </div>
 
     <script>
@@ -926,7 +606,7 @@ const HTML_CONTENT = `
         tag.classList.remove('checking', 'online', 'slow', 'offline');
         if (state === 'checking') {
             tag.classList.add('checking', 'visible');
-            tag.textContent = '检测中...';
+            tag.textContent = 'Checking...';
             tag.title = '';
         } else if (state && state.online) {
             const latency = Number(state.latency) || 0;
@@ -939,11 +619,11 @@ const HTML_CONTENT = `
                 tag.classList.add('online', 'visible');
             }
             tag.textContent = latency + 'ms';
-            tag.title = state.status != null ? ('HTTP ' + state.status + '，耗时 ' + latency + 'ms') : ('在线 ' + latency + 'ms');
+            tag.title = state.status != null ? ('HTTP ' + state.status + ', ' + latency + 'ms') : ('Online ' + latency + 'ms');
         } else {
             tag.classList.add('offline', 'visible');
-            tag.textContent = '离线';
-            tag.title = state && state.status != null ? ('HTTP ' + state.status) : '离线或超时';
+            tag.textContent = 'Offline';
+            tag.title = state && state.status != null ? ('HTTP ' + state.status) : 'Offline or timeout';
         }
     }
 
@@ -988,29 +668,31 @@ const HTML_CONTENT = `
                 img.onload = () => finish({ online: true, status: 200, source: 'local' });
                 img.onerror = () => {};
                 const cleanUrl = new URL(url).origin;
-                img.src = cleanUrl + '/favicon.ico?_t=' + Date.now();
+                // 優化點：優先嘗試抓取高清的 apple-touch-icon.png
+                // 如果網站沒提供，瀏覽器會自動處理，且這樣能大幅提升手機端的清晰度
+                img.src = cleanUrl + '/apple-touch-icon.png?_t=' + Date.now();
             } catch (e) {
                 img = null;
             }
         });
     }
 
-    // 一键检测：最大并发 5 的队列，检测全部站点
+    // One-click check: a queue with max concurrency 5, checks every site
     async function checkAllSites() {
-        if (!isLoggedIn) { alert('请先登录后再使用检测功能'); return; }
+        if (!isLoggedIn) { alert('Please log in first to use the check feature'); return; }
         if (checkAllRunning) return;
-        if (!await customConfirm('确定要检测全部站点的存活与延迟吗？')) return;
+        if (!await customConfirm('Check liveness and latency for all sites?')) return;
         checkAllRunning = true;
 
         const statusEl = document.getElementById('check-all-status');
-        if (statusEl) statusEl.textContent = '检测中...';
+        if (statusEl) statusEl.textContent = 'Checking...';
 
         const links = getAllLinks().filter((l) => l && l.url);
         const total = links.length;
 
         if (total === 0) {
             checkAllRunning = false;
-            if (statusEl) statusEl.textContent = '0 个站点';
+            if (statusEl) statusEl.textContent = '0 sites';
             return;
         }
 
@@ -1026,6 +708,7 @@ const HTML_CONTENT = `
         function updateProgress() {
             if (!statusEl) return;
             const now = Date.now();
+            // Throttle the progress text to refresh at most once per 100ms, or force a refresh when everything is done
             if (now - lastProgressUpdate > 100 || doneCount === total) {
                 statusEl.textContent = doneCount + '/' + total;
                 lastProgressUpdate = now;
@@ -1074,31 +757,31 @@ const HTML_CONTENT = `
         console.log(\`\${new Date().toISOString()}: \${action} - \`, details);
     }
 
-    // 搜索引擎
+    // Search Engine
     const searchEngines = {
-        baidu: "https://www.baidu.com/s?wd=",
+        duckduckgo: "https://duckduckgo.com/?q=",
         bing: "https://www.bing.com/search?q=",
         google: "https://www.google.com/search?q=",
         site: ""
     };
     
-    // 搜索引擎显示名称映射
+    // Search engine display name mapping
     const searchEngineLabels = {
-        baidu: "百度",
-        bing: "必应",
-        google: "谷歌",
-        site: "本站"
+        duckduckgo: "DuckDuckGo",
+        bing: "Bing",
+        google: "Google",
+        site: "This site"
     };
 
-    // 搜索引擎图标映射 (SVG路径)
+    // Search engine icon mapping (SVG paths)
     const searchEngineIcons = {
         site:   '<svg width="16" height="16" fill="#FFD700" stroke="#FFD700" viewBox="0 0 24 24"><path fill="#FFD700" stroke="#FFD700" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>',
-        baidu:  '<svg width="16" height="16" viewBox="0 0 32 32"><path fill="#4285F4" d="M5.749 16.864c3.48-.744 3-4.911 2.901-5.817c-.172-1.401-1.823-3.853-4.057-3.656c-2.812.249-3.224 4.323-3.224 4.323c-.385 1.88.907 5.901 4.38 5.151zm6.459-6.984c1.923 0 3.475-2.213 3.475-4.948C15.683 2.213 14.136 0 12.214 0c-1.916 0-3.479 2.197-3.479 4.932s1.557 4.948 3.479 4.948zm8.281.328c2.573.344 4.213-2.401 4.547-4.479c.333-2.068-1.333-4.484-3.145-4.896c-1.823-.421-4.079 2.5-4.307 4.401c-.24 2.333.333 4.651 2.895 4.979zm10.178 3.505c0-.995-.817-3.995-3.88-3.995c-3.057 0-3.48 2.828-3.48 4.828c0 1.907.157 4.563 3.98 4.48c3.807-.095 3.391-4.319 3.391-5.319zm-3.864 8.714s-3.985-3.077-6.303-6.4c-3.145-4.901-7.62-2.907-9.115-.423c-1.489 2.511-3.812 4.084-4.14 4.505c-.333.412-4.797 2.823-3.803 7.224c1 4.401 4.479 4.323 4.479 4.323s2.557.251 5.548-.416c2.984-.667 5.547.161 5.547.161s6.943 2.333 8.864-2.147c1.896-4.495-1.083-6.812-1.083-6.812z"/></svg>',
+        duckduckgo: '<svg width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#DE5833"/><ellipse cx="10.5" cy="14.3" rx="5.2" ry="4.1" fill="#fff"/><circle cx="15" cy="9" r="3.3" fill="#fff"/><path d="M17.9 8.4l3.1-1.1-1.5 2.9z" fill="#F4A93B"/><circle cx="16" cy="8.1" r="0.75" fill="#14181c"/></svg>',
         bing:   '<svg width="16" height="16" viewBox="0 0 32 32"><path fill="#008373" d="m4.807 0l6.391 2.25v22.495l9.005-5.193l-4.411-2.073l-2.786-6.932l14.188 4.984v7.245L11.204 32l-6.396-3.563z"/></svg>',
         google: '<svg width="16" height="16" viewBox="0 0 256 262"><path fill="#4285F4" d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622l38.755 30.023l2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"/><path fill="#34A853" d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055c-34.523 0-63.824-22.773-74.269-54.25l-1.531.13l-40.298 31.187l-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"/><path fill="#FBBC05" d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82c0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602z"/><path fill="#EB4335" d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0C79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"/></svg>'
     };
 
-    const engineList = ['site', 'baidu', 'bing', 'google'];
+    const engineList = ['site', 'duckduckgo', 'bing', 'google'];
 
     function renderSearchEngineMenu() {
         const container = document.getElementById('search-engine-list');
@@ -1111,10 +794,10 @@ const HTML_CONTENT = `
             const icon = searchEngineIcons[key];
             
             const btn = document.createElement('button');
-            btn.className = "w-full text-left px-3 py-2.5 text-sm text-base-foreground dark:text-base-foreground hover:bg-soft dark:hover:bg-muted hover:text-accent transition-colors flex items-center gap-3";
+            btn.className = "w-full text-left px-3 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-slate-700 hover:text-emerald-600 transition-colors flex items-center gap-3";
             btn.onclick = () => selectSearchEngine(key, label);
             
-            btn.innerHTML = \`\${icon}<span>\${label}</span>\`;
+            btn.innerHTML = \`<span class="flex-shrink-0 w-4 h-4 flex items-center justify-center">\${icon}</span><span class="whitespace-nowrap">\${label}</span>\`;
             
             container.appendChild(btn);
         });
@@ -1126,7 +809,7 @@ const HTML_CONTENT = `
     }
 
     function updateSearchEngineUI(value) {
-        const label = searchEngineLabels[value] || "本站";
+        const label = searchEngineLabels[value] || "This site";
         const icon = searchEngineIcons[value] || searchEngineIcons['site'];
         
         document.getElementById('current-engine-label').textContent = label;
@@ -1143,7 +826,6 @@ const HTML_CONTENT = `
         document.addEventListener('visibilitychange', async () => {
             if (document.visibilityState === 'visible' && isLoggedIn) {
                 await validateToken();
-                pullThemeFromKv(); 
             }
         });
     });
@@ -1156,8 +838,7 @@ const HTML_CONTENT = `
             isLoggedIn = false;
             isEditMode = false;
         }
-        await loadLinks(true);
-        pullThemeFromKv();
+        await loadLinks(true); // token was just validated above
     }
 
     function initializeUIComponents() {
@@ -1182,7 +863,7 @@ const HTML_CONTENT = `
             
             const savePrefCheckbox = document.getElementById('save-preference-checkbox');
             if (savePrefCheckbox && savePrefCheckbox.checked) {
-                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                localStorage.setItem('theme_preference', isDark ? 'dark' : 'light');
             }
         });
 
@@ -1192,17 +873,6 @@ const HTML_CONTENT = `
         
         const savedPref = localStorage.getItem('savePreferences') === 'true';
         elements.savePrefCheckbox.checked = savedPref;
-
-        if (window.matchMedia) {
-            const darkMedia = window.matchMedia('(prefers-color-scheme: dark)');
-            const onSystemDarkChange = (e) => {
-                if (localStorage.getItem('savePreferences') === 'true') return;
-                window.isDarkTheme = e.matches;
-                applyTheme(e.matches);
-            };
-            if (darkMedia.addEventListener) darkMedia.addEventListener('change', onSystemDarkChange);
-            else if (darkMedia.addListener) darkMedia.addListener(onSystemDarkChange); // 旧浏览器兼容
-        }
 
         currentEngine = (savedPref && localStorage.getItem('searchEngine')) || 'site';
         updateSearchEngineUI(currentEngine);
@@ -1253,10 +923,10 @@ const HTML_CONTENT = `
             localStorage.setItem('savePreferences', enabled);
             if (!enabled) {
                 localStorage.removeItem('searchEngine');
-                localStorage.removeItem('theme');
+                localStorage.removeItem('theme_preference');
             } else {
                 localStorage.setItem('searchEngine', currentEngine);
-                localStorage.setItem('theme', window.isDarkTheme ? 'dark' : 'light');
+                localStorage.setItem('theme_preference', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
             }
         });
 
@@ -1282,6 +952,7 @@ const HTML_CONTENT = `
             elements.searchInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') elements.searchButton.click();
             });
+            // Debounce live search: avoid a full re-render on every keystroke
             let searchDebounceTimer = null;
             elements.searchInput.addEventListener('input', (e) => {
                 if (e.target.value) {
@@ -1293,12 +964,14 @@ const HTML_CONTENT = `
                 searchDebounceTimer = setTimeout(() => {
                     const q = e.target.value.trim();
                     if (!q) {
+                        // Restore the full listing when the keyword is cleared (without clearing the input)
                         renderCategorySections({ renderButtons: true });
                         return;
                     }
                     if (currentEngine === 'site') {
                         elements.clearSearchButton.classList.remove('hidden');
                         const filtered = getFilteredCategoriesByKeyword(q);
+                        // Render live search results directly, avoiding an alert popup on every empty result which would interrupt continuous typing
                         renderCategorySections({ renderButtons: true, searchMode: true, filteredCategories: filtered });
                     }
                 }, 220);
@@ -1330,14 +1003,20 @@ const HTML_CONTENT = `
         return Object.values(categories).map(category => category.links || []).flat();
     }
     
-    async function loadLinks(alreadyValidated = false) {
-        if (isLoggedIn && !alreadyValidated) {
+    async function loadLinks(skipValidate = false) {
+        if (isLoggedIn && !skipValidate) {
             const isValid = await validateToken();
             if (!isValid) {
                 logout();
                 return;
             }
         }
+        const headers = { 'Content-Type': 'application/json' };
+        if (isLoggedIn) {
+            const token = localStorage.getItem('authToken');
+            if (token) headers['Authorization'] = token;
+        }
+        
         try {
             const response = await fetchWithAuth('/api/getLinks');
             if (!response.ok) throw new Error("HTTP error! status: " + response.status);
@@ -1353,7 +1032,7 @@ const HTML_CONTENT = `
             updateUIState();
         } catch (error) {
             console.error('Error loading links:', error);
-            await customAlert('加载链接时出错，请刷新页面重试');
+            await customAlert('Error loading links, please refresh the page and try again');
         }
     }
 
@@ -1369,33 +1048,33 @@ const HTML_CONTENT = `
 
             if (response.status === 401) {
                 logout();
-                await customAlert('登录凭证已过期，请重新登录');
+                await customAlert('Your login credentials have expired, please log in again');
                 throw new Error('Unauthorized');
             }
 
             const result = await response.json();
             if (!result.success) throw new Error('Failed to save');
-            logAction(actionName + '成功', {});
+            logAction(actionName + ' succeeded', {});
         } catch (error) {
-            logAction(actionName + '失败', { error: error.message });
+            logAction(actionName + ' failed', { error: error.message });
             if (error.message !== 'Unauthorized') {
-                 await customAlert(actionName + '失败，请重试');
+                 await customAlert(actionName + ' failed, please try again');
             }
         }
     }
 
     async function saveLinks() {
         if (isEditMode) {
-            await saveDataToServer('保存数据', categories);
+            await saveDataToServer('Save data', categories);
         }
     }
     
     async function addCategory() {
         if (!await validateTokenOrRedirect()) return;
-        const categoryName = await showCategoryDialog('请输入新分类名称');
+        const categoryName = await showCategoryDialog('Please enter a new category name');
         if (!categoryName) return;
         if (categories[categoryName]) {
-            await customAlert('该分类已存在');
+            await customAlert('This category already exists');
             return;
         }
         categories[categoryName] = { isHidden: false, links: [] };
@@ -1407,10 +1086,10 @@ const HTML_CONTENT = `
 
     async function editCategoryName(oldName) {
         if (!await validateTokenOrRedirect()) return;
-        const newName = await showCategoryDialog('请输入新的分类名称', oldName);
+        const newName = await showCategoryDialog('Please enter the new category name', oldName);
         if (!newName || newName === oldName) return;
         if (categories[newName]) {
-            await customAlert('该名称已存在');
+            await customAlert('This name already exists');
             return;
         }
 
@@ -1438,7 +1117,7 @@ const HTML_CONTENT = `
 
     async function deleteCategory(category) {
         if (!await validateTokenOrRedirect()) return;
-        if (await customConfirm(\`确定删除 "\${category}" 分类及其所有链接吗？\`)) {
+        if (await customConfirm(\`Delete "\${category}" category and all its links?\`)) {
             delete categories[category];
             updateCategorySelect();
             renderCategories();
@@ -1526,76 +1205,76 @@ const HTML_CONTENT = `
             section.id = sectionId(category);
             section.dataset.category = category;
 
-            // 标题区域
+            // Title area
             const titleContainer = document.createElement('div');
-            titleContainer.className = 'flex items-center gap-3 mb-5 pb-2 border-b border-[color-mix(in_oklab,var(--muted),var(--border))] dark:border-[color-mix(in_oklab,var(--muted)_70%,var(--border))]';
+            titleContainer.className = 'flex items-center gap-3 mb-5 pb-2 border-b border-slate-200/60 dark:border-slate-700/60';
             
             const title = document.createElement('h2');
-            title.className = 'text-lg font-bold text-base-foreground flex items-center gap-2';
+            title.className = 'text-lg font-bold text-slate-700 dark:text-slate-100 flex items-center gap-2';
             const badge = document.createElement('span');
-            badge.className = 'w-1.5 h-5 bg-accent rounded-full inline-block shadow-sm';
+            badge.className = 'w-1.5 h-5 bg-emerald-500 rounded-full inline-block shadow-sm';
             title.append(badge, ' ' + category);
             titleContainer.appendChild(title);
 
-            // 编辑模式下的标题栏操作
+            // Title bar actions in edit mode
             if (isEditMode) {
                 const controls = document.createElement('div');
-                controls.className = 'flex items-center gap-1 ml-auto bg-[color-mix(in_oklab,var(--muted)_70%,transparent)] dark:bg-[color-mix(in_oklab,var(--muted)_25%,transparent)] p-1 rounded-xl border border-[color-mix(in_oklab,var(--border)_60%,transparent)] dark:border-[color-mix(in_oklab,var(--border)_60%,transparent)] backdrop-blur-sm';
+                controls.className = 'flex items-center gap-1 ml-auto bg-slate-300/50 dark:bg-slate-800/50 p-1 rounded-xl border border-slate-300/50 dark:border-slate-700/50 backdrop-blur-sm';
                 const btnBase = "w-8 h-8 flex items-center justify-center rounded-lg transition-all duration-200 hover:scale-105 active:scale-95";
                 
                 controls.innerHTML = \`
-                    <!-- 编辑名称 -->
-                    <button class="\${btnBase} text-muted-foreground hover:text-blue-600 hover:bg-blue-100 dark:text-muted-foreground dark:hover:bg-blue-900/30 dark:hover:text-blue-400 has-tooltip" data-tooltip="重命名" data-action="edit" data-category="\${escAttr(category)}">
+                    <!-- Edit name -->
+                    <button class="\${btnBase} text-slate-500 hover:text-blue-600 hover:bg-blue-100 dark:text-slate-400 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 has-tooltip" data-tooltip="Rename" data-action="edit" data-category="\${escAttr(category)}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                     </button>
                     
-                    <div class="w-px h-4 bg-line dark:bg-line-input mx-0.5"></div>
+                    <div class="w-px h-4 bg-slate-300 dark:bg-slate-600 mx-0.5"></div>
 
-                    <!-- 排序组 -->
-                    <button class="\${btnBase} text-muted-foreground hover:text-accent hover:bg-soft dark:text-muted-foreground dark:hover:bg-soft dark:hover:text-accent has-tooltip" data-tooltip="上移" data-action="move" data-dir="-1" data-category="\${escAttr(category)}">
+                    <!-- Sort group -->
+                    <button class="\${btnBase} text-slate-500 hover:text-emerald-600 hover:bg-emerald-100 dark:text-slate-400 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-400 has-tooltip" data-tooltip="Move up" data-action="move" data-dir="-1" data-category="\${escAttr(category)}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
                     </button>
-                    <button class="\${btnBase} text-muted-foreground hover:text-accent hover:bg-soft dark:text-muted-foreground dark:hover:bg-soft dark:hover:text-accent has-tooltip" data-tooltip="下移" data-action="move" data-dir="1" data-category="\${escAttr(category)}">
+                    <button class="\${btnBase} text-slate-500 hover:text-emerald-600 hover:bg-emerald-100 dark:text-slate-400 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-400 has-tooltip" data-tooltip="Move down" data-action="move" data-dir="1" data-category="\${escAttr(category)}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
-                    <button class="\${btnBase} text-muted-foreground hover:text-amber-600 hover:bg-amber-100 dark:text-muted-foreground dark:hover:bg-amber-900/30 dark:hover:text-amber-400 has-tooltip" data-tooltip="置顶" data-action="pin" data-category="\${escAttr(category)}">
+                    <button class="\${btnBase} text-slate-500 hover:text-amber-600 hover:bg-amber-100 dark:text-slate-400 dark:hover:bg-amber-900/30 dark:hover:text-amber-400 has-tooltip" data-tooltip="Pin to top" data-action="pin" data-category="\${escAttr(category)}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3h14M18 13l-6-6l-6 6M12 7v14"></path></svg>
                     </button>
 
-                    <div class="w-px h-4 bg-line dark:bg-line-input mx-0.5"></div>
+                    <div class="w-px h-4 bg-slate-300 dark:bg-slate-600 mx-0.5"></div>
 
-                    <!-- 隐藏开关 -->
-                    <div class="flex items-center justify-center w-8 h-8 has-tooltip cursor-pointer" data-tooltip="\${isHidden ? '显示分类' : '隐藏分类'}">
+                    <!-- Hide toggle -->
+                    <div class="flex items-center justify-center w-8 h-8 has-tooltip cursor-pointer" data-tooltip="\${isHidden ? 'Show category' : 'Hide category'}">
                         <label class="relative inline-flex items-center cursor-pointer">
-                            <!-- 下面这一行增加了 DOM 属性更新逻辑 -->
+                            <!-- The line below adds DOM attribute update logic -->
                             <input type="checkbox" data-action="toggleHidden" data-category="\${escAttr(category)}" \${isHidden ? 'checked' : ''} 
                                 class="sr-only peer">
-                            <div class="w-3.5 h-3.5 rounded-full border-2 border-line peer-focus:outline-none peer dark:border-line-input peer-checked:bg-accent peer-checked:border-accent transition-colors"></div>
+                            <div class="w-3.5 h-3.5 rounded-full border-2 border-slate-400 peer-focus:outline-none peer dark:border-slate-500 peer-checked:bg-slate-500 peer-checked:border-slate-500 transition-colors"></div>
                         </label>
                     </div>
 
-                    <div class="w-px h-4 bg-line dark:bg-line-input mx-0.5"></div>
+                    <div class="w-px h-4 bg-slate-300 dark:bg-slate-600 mx-0.5"></div>
 
-                    <!-- 删除 -->
-                    <button class="\${btnBase} text-muted-foreground hover:text-red-600 hover:bg-red-100 dark:text-muted-foreground dark:hover:bg-red-900/30 dark:hover:text-red-400 has-tooltip" data-tooltip="删除分类" data-action="delete" data-category="\${escAttr(category)}">
+                    <!-- Delete -->
+                    <button class="\${btnBase} text-slate-400 hover:text-red-600 hover:bg-red-100 dark:text-slate-500 dark:hover:bg-red-900/30 dark:hover:text-red-400 has-tooltip" data-tooltip="DeleteCategory" data-action="delete" data-category="\${escAttr(category)}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                     </button>
                 \`;
                 titleContainer.appendChild(controls);
             }
 
-            // 卡片网格
+            // Card grid
             const cardContainer = document.createElement('div');
-            // 根据布局模式调整 Grid 列数
-            // APP 模式下，手机端一行4个，平板6个，大屏8-10个
+            // Adjust the grid column count based on layout mode
+            // APP mode: 4 per row on mobile, 6 on tablet, 8-10 on large screens
             const gridClasses = isAppLayout 
                 ? 'grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-x-2 gap-y-6' 
                 : 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4';
             
             cardContainer.className = \`grid \${gridClasses} card-container relative\`;
-            cardContainer.id = gridId(category); // 与 section.id 区分，避免同页面 id 重复
+            cardContainer.id = gridId(category); // Distinguish from section.id to avoid duplicate ids on the same page
 
-            // 卡片离屏构建后一次性挂载，减少 reflow
+            // Build cards off-screen then mount them once, to reduce reflow
             const cardsFragment = document.createDocumentFragment();
             links.forEach(link => {
                 const card = createCard(link);
@@ -1611,12 +1290,12 @@ const HTML_CONTENT = `
                 const addCardPlaceholder = document.createElement('div');
                 const sizeClasses = isAppLayout 
                     ? 'w-16 h-16 rounded-[1.2rem] mx-auto' 
-                    : 'min-h-[100px] p-4 rounded-[var(--radius-2xl)] w-full';
+                    : 'min-h-[100px] p-4 rounded-2xl w-full';
                 
-                addCardPlaceholder.className = \`add-card-placeholder group flex flex-col h-full w-full \${sizeClasses} rounded-[var(--radius-2xl)] border-2 border-dashed border-line dark:border-line hover:border-accent dark:hover:border-accent hover:bg-[color-mix(in_oklab,var(--accent)_50%,transparent)] dark:hover:bg-soft transition-all cursor-pointer flex items-center justify-center\`;
+                addCardPlaceholder.className = \`add-card-placeholder group flex flex-col h-full w-full \${sizeClasses} rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-emerald-500 dark:hover:border-emerald-500 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/10 transition-all cursor-pointer flex items-center justify-center\`;
                 addCardPlaceholder.innerHTML = \`
-                    <div class="w-10 h-10 rounded-full bg-muted dark:bg-muted group-hover:bg-soft dark:group-hover:bg-soft flex items-center justify-center transition-colors pointer-events-none">
-                        <svg class="w-6 h-6 text-muted-foreground group-hover:text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    <div class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/30 flex items-center justify-center transition-colors pointer-events-none">
+                        <svg class="w-6 h-6 text-slate-400 group-hover:text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                     </div>
                 \`;
                 
@@ -1653,7 +1332,7 @@ const HTML_CONTENT = `
         const hasMatchingLinks = Object.values(filteredData).some(c => c.links.length > 0);
 
         if (!hasMatchingLinks) {
-            await customAlert('没有找到相关站点。');
+            await customAlert('No matching sites found.');
             return;
         }
         clearBtn.classList.remove('hidden');
@@ -1672,8 +1351,8 @@ const HTML_CONTENT = `
 
         visibleCategories.forEach(cat => {
             const btn = document.createElement('button');
-            btn.className = 'category-button whitespace-nowrap px-4 py-1.5 text-xs font-medium rounded-[var(--radius-xl)] border border-line dark:border-line-input transition-all active:scale-95 shadow-sm scroll-snap-align-start';
-            btn.classList.add('bg-muted', 'dark:bg-muted', 'text-muted-foreground', 'dark:text-muted-foreground', 'hover:bg-[var(--menu-hover)]', 'dark:hover:bg-[var(--menu-hover)]', 'hover:text-accent', 'dark:hover:text-accent', 'hover:border-accent', 'dark:hover:border-accent');
+            btn.className = 'category-button whitespace-nowrap px-4 py-1.5 text-xs font-medium rounded-xl border border-slate-300 dark:border-slate-600 transition-all active:scale-95 shadow-sm scroll-snap-align-start';
+            btn.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300', 'hover:bg-emerald-50', 'hover:text-emerald-600', 'dark:hover:bg-slate-700', 'hover:border-emerald-300', 'dark:hover:border-emerald-500/50');
             
             btn.textContent = cat;
             btn.dataset.target = cat;
@@ -1692,7 +1371,7 @@ const HTML_CONTENT = `
         return window.matchMedia('(hover: none)').matches || ('ontouchstart' in window);
     }
 
-    // 分类按钮容器超出宽度后支持鼠标拖动横向滚动
+    // When the category button container overflows, support mouse-drag horizontal scrolling
     function setupDragScroll(container) {
         if (!container || container._dragScroll) return;
         container._dragScroll = true;
@@ -1765,13 +1444,13 @@ const HTML_CONTENT = `
             container.style.userSelect = '';
             container.style.scrollSnapType = '';
             if (captured) { try { container.releasePointerCapture(e.pointerId); } catch (_) {} }
-            // 拖拽超过阈值时阻止本次点击误触分类按钮
+            // When drag exceeds the threshold, prevent this click from mistakenly triggering the category button
             if (moved) {
                 container.addEventListener('click', (ce) => {
                     ce.stopPropagation();
                     ce.preventDefault();
                 }, { capture: true, once: true });
-                // 惯性滚动
+                // Inertia scrolling
                 if (Math.abs(vx) > 0.25) {
                     inertiaId = requestAnimationFrame(inertiaLoop);
                 }
@@ -1816,29 +1495,17 @@ const HTML_CONTENT = `
         const buttons = document.querySelectorAll('.category-button');
         buttons.forEach(btn => {
             if (sectionId(btn.dataset.target) === id) {
-                btn.classList.remove('bg-muted', 'dark:bg-muted', 'text-muted-foreground', 'dark:text-muted-foreground', 'hover:bg-[var(--menu-hover)]', 'hover:text-accent', 'dark:hover:text-accent');
-                btn.classList.add('bg-accent', 'text-accent-foreground', 'shadow-md', 'dark:bg-accent');
+                btn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300', 'hover:bg-emerald-50', 'hover:text-emerald-600', 'dark:hover:bg-slate-700');
+                btn.classList.add('bg-emerald-500', 'text-white', 'shadow-md', 'dark:bg-emerald-600');
                 btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             } else {
-                btn.classList.remove('bg-accent', 'text-accent-foreground', 'shadow-md', 'dark:bg-accent');
-                btn.classList.add('bg-muted', 'dark:bg-muted', 'text-muted-foreground', 'dark:text-muted-foreground', 'hover:bg-[var(--menu-hover)]', 'hover:text-accent', 'dark:hover:text-accent');
+                btn.classList.remove('bg-emerald-500', 'text-white', 'shadow-md', 'dark:bg-emerald-600');
+                btn.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300', 'hover:bg-emerald-50', 'hover:text-emerald-600', 'dark:hover:bg-slate-700');
             }
         });
     }
 
-    // --- 遮罩层过渡辅助函数 ---
-    // 滚动锁引用计数：弹窗可能互相嵌套（如登录后弹 alert），只有最后一个关闭时才释放页面滚动
-    let overlayScrollCount = 0;
-    function lockPageScroll() {
-        const locked = overlayScrollCount > 0;
-        overlayScrollCount++;
-        if (!locked) document.body.style.overflow = 'hidden';
-    }
-    function unlockPageScroll() {
-        overlayScrollCount = Math.max(0, overlayScrollCount - 1);
-        if (overlayScrollCount === 0) document.body.style.overflow = '';
-    }
-
+    // --- Overlay transition helper functions ---
     function toggleOverlay(id, show) {
         const overlay = document.getElementById(id);
         const box = overlay.querySelector('div[id$="-box"]'); 
@@ -1853,8 +1520,6 @@ const HTML_CONTENT = `
                 box.classList.remove('dialog-scale-hidden');
                 box.classList.add('dialog-scale-visible');
             }
-            // 锁定主页滚动，避免滚轮穿透到主页面
-            lockPageScroll();
         } else {
             overlay.classList.remove('overlay-visible');
             overlay.classList.add('overlay-hidden');
@@ -1863,8 +1528,6 @@ const HTML_CONTENT = `
                 box.classList.remove('dialog-scale-visible');
                 box.classList.add('dialog-scale-hidden');
             }
-            // 释放主页滚动
-            unlockPageScroll();
             
             setTimeout(() => {
                 if(overlay.classList.contains('overlay-hidden')) {
@@ -1882,11 +1545,11 @@ const HTML_CONTENT = `
         const checkAllMenu = document.getElementById('check-all-menu');
         
         loginBtn.innerHTML = isLoggedIn ? 
-            '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> 退出登录' : 
-            '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg> 登录';
+            '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Logout' : 
+            '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg> Login';
         
         if(isLoggedIn) {
-            loginBtn.classList.replace('text-red-500', 'text-base-foreground');
+            loginBtn.classList.replace('text-red-500', 'text-slate-700');
             if(dataToolsMenu) dataToolsMenu.classList.remove('hidden');
             if(checkAllMenu) checkAllMenu.classList.remove('hidden');
         } else {
@@ -1895,13 +1558,13 @@ const HTML_CONTENT = `
         }
         
         if (isEditMode) {
-            editModeBtn.innerHTML = '<span class="text-red-500 flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>退出编辑</span>';
+            editModeBtn.innerHTML = '<span class="text-red-500 flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>Exit Edit</span>';
             document.body.classList.add('edit-mode');
             if(addCategoryContainer) addCategoryContainer.classList.remove('hidden');
         } else {
             editModeBtn.innerHTML = isLoggedIn ? 
-                '<span class="flex items-center gap-3"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>进入编辑模式</span>' : 
-                '<span class="flex items-center gap-3 text-muted-foreground"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>编辑模式 (需登录)</span>';
+                '<span class="flex items-center gap-3"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>Enter Edit Mode</span>' : 
+                '<span class="flex items-center gap-3 text-slate-400"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>Edit Mode (login required)</span>';
             document.body.classList.remove('edit-mode');
             if(addCategoryContainer) addCategoryContainer.classList.add('hidden');
         }
@@ -1921,28 +1584,28 @@ const HTML_CONTENT = `
         const box = document.createElement('div');
         box.className = refEl.className
             .replace('opacity-0', 'opacity-100')
-            .replace('object-contain', '') + ' text-black dark:text-muted-foreground';
+            .replace('object-contain', '') + ' text-black dark:text-slate-300';
         box.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" style="display:block;width:100%;height:100%"><path fill="currentColor" d="M62 32C62 15.432 48.568 2 32 2C15.861 2 2.703 14.746 2.031 30.72c-.008.196-.01.395-.014.592c-.005.23-.017.458-.017.688v.101C2 48.614 15.432 62 32 62s30-13.386 30-29.899l-.002-.049zM37.99 59.351c-.525-.285-1.029-.752-1.234-1.388c-.371-1.152-.084-2.046.342-3.086c.34-.833-.117-1.795.109-2.667c.441-1.697.973-3.536.809-5.359c-.102-1.119-.35-1.17-1.178-1.816c-.873-.685-.873-1.654-1.457-2.52c-.529-.787.895-3.777.498-3.959c-.445-.205-1.457.063-1.777-.362c-.344-.458-.584-.999-1.057-1.354c-.305-.229-1.654-.995-2.014-.941c-1.813.271-3.777-1.497-4.934-2.65c-.797-.791-1.129-1.678-1.713-2.593c-.494-.775-1.242-.842-1.609-1.803c-.385-1.004-.156-2.29-.273-3.346c-.127-1.135-.691-1.497-1.396-2.365c-1.508-1.863-2.063-4.643-4.924-4.643c-1.537 0-1.428 3.348-2.666 2.899c-1.4-.507-3.566 1.891-3.535 1.568c.164-1.674 1.883-2.488 2.051-2.987c.549-1.638-2.453-1.246-2.068-2.612c.188-.672 2.098-1.161 1.703-1.562c-.119-.122-1.58-1.147-1.508-1.198c.271-.19 1.449.412 1.193-.37c-.086-.26-.225-.499-.357-.74a28 28 0 0 1 1.92-1.975c1.014-.083 2.066-.02 2.447.054c2.416.476 3.256 1.699 5.672.794c1.162-.434 5.445.319 6.059 1.537c.334.666 1.578-.403 2.063-.475c.52-.078 1.695.723 2.053.232c.943-1.291-.604-1.827 1.223-.833c1.225.667 3.619-2.266 2.861 1.181c-.547 2.485-2.557 2.54-4.031 4.159c-1.451 1.594 2.871 2.028 2.982 3.468c.32 4.146 2.531-.338 1.939-1.812c-1.145-2.855 1.303-2.071 2.289-.257c.547 1.007.963.159 1.633-.192c.543-.283.688 1.25.805 1.517c.385.887 1.65 1.152 1.436 2.294c-.238 1.259-1.133.881-2.008 1.094c-.977.237.158 1.059.016 1.359c-.154.328-1.332.464-1.646.65c-.924.544-.359 1.605-1.082 2.175c-.496.392-.996.137-1.092.871c-.113.865-1.707 1.143-1.5 1.97c.057.227.516 1.923.227 2.013c-.133.043-1.184-1.475-1.471-1.627c-.568-.301-3.15-.055-3.482 1.654c-.215 1.105 1.563 2.85 2.016 1.328c.561-1.873.828 1.091.693 1.207c.268.234 1.836-.385 1.371.7c-.197.459.193 1.656.889 1.287c.291-.154 1.041.31 1.172.061a2.14 2.14 0 0 1 .742-.692c.701-.41 1.75-.025 2.518.02c.469.027 4.313 2.124 4.334 2.545c.084 1.575 2.99 1.37 3.436 1.933c1.199 1.526.83.751-.045 2.706c-.441.984-.057 2.191-1.125 2.904c-.514.342-1.141.171-1.598.655c-.412.437-.25.959-.5 1.464c-.301.601-4.346 4.236-4.613 5.115c-.133.441-1.34.825-.322 1.248c.592.174-1.311 1.973-.396 2.718c.223.181.369.334.479.471c-.457.122-.91.233-1.369.333M35.594 4.237c-.039.145.02.316.271.483c.566.375-.162 1.208-.943.671c-.779-.537-2.531.241-2.41.644c.119.403.66.563 1.496.242c.834-.322 1.178.048 1.318.43c.096.259 0 .403-.027.752c-.025.349-.996.107-1.803.162c-.809.054-1.67-.162-1.645-.619c.027-.456-.861-1.289-1.391-1.637c-.529-.348.232-1.1.934-.537c.699.564.727-.107 1.535-.321c.459-.122.275-.305.119-.479q1.29.047 2.546.209m3.517 8.869c.605.164 1.656.929 1.656 1.291c0 .363-.477.817-.688.765c-1.523-.371-2.807-1.874-3.514-2.697c-1.234-1.435-1.156-.205-3.111-.826c-.5-.16-1.293-1.711-.768-2.476s1.131-.886 1.615-.683c.484.2 1.898-.645 2.223.362c.322 1.007 1.211 2.292 2.02 2.636c.81.342-.04 1.464.567 1.628m.485 4.673c.242.483-1.455-.564-1.859-1.047c-.402-.482-1.01-1.571-.523-2.054c.484-.482 1.57 1.005 2.141 1.33c1.129.645-.001 1.289.241 1.771m-8.594-7.315c.117-.161.365.242.586.645s-.084.971-.586.885c-.502-.084-.281-1.136 0-1.53m0-4.052s.473 1.154 0 .966s-.496-.671 0-.966m.096 3.65c-.135-.321-.166-1.64.162-2.04c.484-.59 1.266.564.74 1.02c-.525.457-.768 1.343-.902 1.02m-6.077 1.415c-.879-.063-.898-.823-1.02-1.226s-.85.765-1.586 0s.172-1.771.01-2.376c-.162-.604 1.736 0 2.02 0s1.051 1.248 1.252 1.227c.203-.02 1.293.987 1.293.584c0-.402.166-1.088.93-1.168c1.172-.121.121 1.289.08 1.838c-.039.549.891 1.504 1.232 1.907c.344.403-.867.686-1.07.443c-.201-.242-.727 0-1.172.322c-.443.322-1.656-.443-2.221-.685c-.566-.241 1.131-.804.252-.866m3.141-6.354c.781.269 1.225.51 1.609 0c.371-.492.654 1.073.385 1.502c-.27.431-.781.324-.863 0c-.08-.32-1.912-1.771-1.131-1.502m1.131 4.859c-.268-.35-.295-.752 0-1.047c.297-.295.201-.644.729-.751c.26-.054.295.348.295.724s.324.859 0 1.448c-.323.589-.754-.026-1.024-.374m2.205-5.969c-.012.074-.061.118-.184.106a.6.6 0 0 1-.236-.095q.21-.008.42-.011M25.389 5.15c.619 0 .539.418 1.051.719c.512.3.242-1.552.592-.854c.35.697 1.389 1.664.889 1.851c-.43.163-2.234.859-2.396.739s-.377-.63-.809-.739c-.432-.107-.889-1.127-1.186-1.1c-.113.01-.123-.184-.049-.442a28 28 0 0 1 1.572-.455c.058.158.146.281.336.281m13.519 30.025c-.645.666-1.756-.464-2.523-.424s-1.152-.765-1.818-.684c-.668.079.182-.847 1.111-.362c.927.483 3.756.925 3.23 1.47m12.93-22.934c-.188.24-.402.408-.607.585c-.605.524-1.736.484-1.898.846s-.566 1.489-1.98 1.494s-1.01 2.131-1.131 2.738s-.443 1.325-.848.801s-.566-.323-1.816-1.853s-.77-2.375-.365-2.818c.404-.442.566-1.49 0-1.329s-.889-.202-.768-.703s.727-.867 0-1.402s-.324-2.445-.889-4.189c-.566-1.745-1.334-.51-2.586-.443s-1.455-.873-.889-1.303a27.95 27.95 0 0 1 13.777 7.576"/></svg>';
         return box;
     }
 
-    // HTML 属性转义：防止用户数据中的引号破坏模板属性（配合 data-* 委托使用）
+    // HTML attribute escaping: prevents quotes in user data from breaking template attributes (used together with data-* delegation)
     function escAttr(v) {
         return String(v).replace(/[&<>"']/g, c => ({
             '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
         }[c]));
     }
 
-    // 把用户分类名转成合法且稳定的 DOM id，避免把任意用户数据拼进 id
+    // Convert a user category name into a valid, stable DOM id, avoiding embedding arbitrary user data into an id
     function slugId(v) {
         const s = String(v).trim().replace(/[^A-Za-z0-9\u4e00-\u9fa5_-]+/g, '-').replace(/^-+|-+$/g, '');
         return (s || 'cat') + '-' + Math.abs([...String(v)].reduce((h, c) => (h * 31 + c.charCodeAt(0)) | 0, 0));
     }
-    // 供 scrollToCategory / renderCategoryGrid 复用，与渲染时的 slugId 保持一致
+    // Reused by scrollToCategory / renderCategoryGrid, kept consistent with the slugId used at render time
     function gridId(category) { return 'grid-' + slugId(category); }
     function sectionId(category) { return 'sec-' + slugId(category); }
 
-    // 只放行 http/https，其余返回 null（拦截 javascript:/data: 等）
+    // Only allow http/https; everything else returns null (blocks javascript:/data: etc.)
     function safeUrl(raw) {
         try {
             const u = new URL(String(raw), location.href);
@@ -1958,13 +1621,13 @@ const HTML_CONTENT = `
         
         let cardBaseClass = isAppLayout 
             ? 'flex flex-col items-center justify-start py-1 gap-1.5 hover:z-10' 
-            : 'flex flex-col p-4 bg-[color-mix(in_oklab,var(--card)_90%,transparent)] dark:bg-[color-mix(in_oklab,var(--card)_60%,transparent)] backdrop-blur-sm border border-line dark:border-[color-mix(in_oklab,var(--border)_50%,transparent)] hover:border-[color-mix(in_oklab,var(--primary)_50%,transparent)] dark:hover:border-[color-mix(in_oklab,var(--primary)_50%,transparent)] shadow-sm hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.1)] dark:shadow-none dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.4)] hover:-translate-y-1.5';
+            : 'flex flex-col p-4 bg-white/90 dark:bg-[#170a29]/60 backdrop-blur-sm bg-white/80 border border-gray-200 dark:border-slate-700/50 hover:border-emerald-500/50 dark:hover:border-emerald-400/50 shadow-sm hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.1)] dark:shadow-none dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.4)] hover:-translate-y-1.5';
             
         if (link.isPrivate && !isAppLayout) {
-            cardBaseClass += ' ring-1 ring-amber-400/40 bg-[color-mix(in_oklab,var(--card)_85%,transparent)] dark:bg-amber-900/10 !border-amber-200 dark:!border-amber-700/50';
+            cardBaseClass += ' ring-1 ring-amber-400/40 bg-amber-50/80 dark:bg-amber-900/10 !border-amber-200 dark:!border-amber-700/50';
         }
 
-        card.className = \`group relative h-full w-full rounded-[var(--radius-2xl)] transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)] cursor-pointer select-none \${cardBaseClass}\`;
+        card.className = \`group relative h-full w-full rounded-2xl transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)] cursor-pointer select-none \${cardBaseClass}\`;
         
         if (isEditMode) {
             card.setAttribute('draggable', 'true');
@@ -1980,12 +1643,14 @@ const HTML_CONTENT = `
             ? 'flex flex-col items-center justify-center w-full relative' 
             : 'flex items-center gap-3 mb-2.5 w-full';
         
+        // Icon placeholder container: shows a spinner before the icon finishes loading
         const iconWrap = document.createElement('div');
         const iconWrapClass = isAppLayout
             ? 'relative w-14 h-14 sm:w-16 sm:h-16'
             : 'relative w-9 h-9';
         iconWrap.className = iconWrapClass;
 
+        // Loading spinner (centered, beneath the icon)
         const spinner = document.createElement('span');
         spinner.className = 'absolute inset-0 flex items-center justify-center pointer-events-none';
         spinner.innerHTML = '<span class="block icon-spinner rounded-full animate-spin" style="width:60%;height:60%;aspect-ratio:1/1;"></span>';
@@ -1996,17 +1661,17 @@ const HTML_CONTENT = `
         icon.setAttribute('width', isAppLayout ? 64 : 36); 
         icon.setAttribute('height', isAppLayout ? 64 : 36);
         
-        // 图标样式
+        // Icon style
         let iconClass = 'relative w-full h-full opacity-0 transition duration-300';
         if (isAppLayout) {
-             // APP 风格：大图标、白底、大圆角、阴影
-             iconClass += ' rounded-[1.2rem] object-contain bg-muted dark:bg-muted p-2 shadow-md hover:shadow-lg group-hover:scale-105 group-active:scale-95 z-10';
+             // APP style: large icon, white background, large corner radius, shadow
+             iconClass += ' rounded-[1.2rem] object-contain bg-slate-100 dark:bg-slate-600 p-2 shadow-md hover:shadow-lg group-hover:scale-105 group-active:scale-95 z-10';
              if (link.isPrivate) {
                  iconClass += ' ring-2 ring-amber-400';
              }
         } else {
-             // 列表风格：小图标、淡底
-             iconClass += ' rounded-lg object-contain bg-muted dark:bg-muted p-1 border border-line dark:border-line transition-transform group-hover:scale-105 pointer-events-none';
+             // List style: small icon, light background
+             iconClass += ' rounded-lg object-contain bg-slate-100 dark:bg-slate-900 p-1 border border-slate-200 dark:border-slate-700 transition-transform group-hover:scale-105 pointer-events-none';
         }
         icon.className = iconClass;
 
@@ -2025,13 +1690,14 @@ const HTML_CONTENT = `
         } else {
             icon.src = resolvedSrc;
             icon.onload = function() {
+                // Fade in the icon and hide the spinner once loading completes
                 this.classList.add('opacity-100');
                 this.classList.remove('opacity-0');
                 spinner.remove();
             };
             icon.onerror = function() {
                 iconFailed.add(resolvedSrc);
-                this.onerror = null; // 防止替换后再出错进入死循环
+                this.onerror = null; // Prevent an infinite loop if it errors again after being replaced
                 this.replaceWith(createIconFallback(this));
                 spinner.remove();
             };
@@ -2041,8 +1707,8 @@ const HTML_CONTENT = `
         
         const title = document.createElement('div');
         const titleAlign = isAppLayout 
-            ? 'text-center text-xs sm:text-sm font-medium mt-1 w-[120%] truncate px-1 text-base-foreground dark:text-base-foreground drop-shadow-sm' 
-            : 'font-semibold text-sm flex-1 truncate text-base-foreground group-hover:text-accent dark:group-hover:text-accent transition-colors pointer-events-none';
+            ? 'text-center text-xs sm:text-sm font-medium mt-1 w-[120%] truncate px-1 text-slate-700 dark:text-slate-200 drop-shadow-sm' 
+            : 'font-semibold text-sm flex-1 truncate text-slate-700 dark:text-slate-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors pointer-events-none';
         
         title.className = \`card-title pointer-events-none \${titleAlign}\`;
         title.textContent = link.name;
@@ -2060,14 +1726,14 @@ const HTML_CONTENT = `
 
         if (!isAppLayout) {
             const desc = document.createElement('div');
-            desc.className = 'text-xs text-muted-foreground line-clamp-2 min-h-[1.25rem] card-tip leading-relaxed pointer-events-none w-full';
+            desc.className = 'text-xs text-slate-500 dark:text-slate-400 line-clamp-2 min-h-[1.25rem] card-tip leading-relaxed pointer-events-none w-full';
             desc.textContent = link.tips || '';
             card.appendChild(desc);
         }
 
         if (link.isPrivate && !isAppLayout) {
             const badge = document.createElement('div');
-            badge.className = 'absolute top-0 right-0 w-8 h-8 pointer-events-none overflow-hidden rounded-tr-[var(--radius-2xl)]';
+            badge.className = 'absolute top-0 right-0 w-8 h-8 pointer-events-none overflow-hidden rounded-tr-2xl';
             badge.innerHTML = '<div class="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 rotate-45 w-8 h-8 bg-amber-400"></div>';
             card.appendChild(badge);
         }
@@ -2087,23 +1753,23 @@ const HTML_CONTENT = `
 
             const menuBtn = document.createElement('button');
             const btnStyle = isAppLayout
-                ? 'w-6 h-6 rounded-full bg-secondary dark:bg-muted text-muted-foreground shadow-sm hover:bg-accent dark:hover:bg-accent hover:text-accent-foreground'
-                : 'w-7 h-7 rounded-lg text-muted-foreground hover:text-muted-foreground dark:hover:text-base-foreground hover:bg-[color-mix(in_oklab,var(--muted)_80%,transparent)] dark:hover:bg-[color-mix(in_oklab,var(--muted)_60%,transparent)] backdrop-blur-sm';
+                ? 'w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 shadow-sm hover:bg-emerald-500 dark:hover:bg-emerald-600 hover:text-white'
+                : 'w-7 h-7 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100/80 dark:hover:bg-slate-700/50 backdrop-blur-sm';
             
             menuBtn.className = \`\${btnStyle} flex items-center justify-center transition-all duration-200\`;
             menuBtn.innerHTML = '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>';
             
             const dropdown = document.createElement('div');
-            dropdown.className = 'hidden absolute right-0 top-6 w-28 bg-card rounded-xl shadow-xl ring-1 ring-black/5 dark:ring-white/10 overflow-hidden transform origin-top-right transition-all z-50 flex flex-col p-1 card-menu-dropdown';
+            dropdown.className = 'hidden absolute right-0 top-6 w-28 bg-white dark:bg-[#170a29] rounded-xl shadow-xl ring-1 ring-black/5 dark:ring-white/10 overflow-hidden transform origin-top-right transition-all z-50 flex flex-col p-1 card-menu-dropdown';
             
             dropdown.innerHTML = \`
-                <button class="menu-edit w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-base-foreground dark:text-base-foreground hover:bg-soft dark:hover:bg-[color-mix(in_oklab,var(--muted)_60%,transparent)] hover:text-accent transition-colors flex items-center gap-2">
+                <button class="menu-edit w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-slate-700/50 hover:text-emerald-600 transition-colors flex items-center gap-2">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-                    编辑
+                    Edit
                 </button>
-                <button class="menu-delete w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-base-foreground dark:text-base-foreground hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 transition-colors flex items-center gap-2">
+                <button class="menu-delete w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 transition-colors flex items-center gap-2">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                    删除
+                    Delete
                 </button>
             \`;
 
@@ -2148,7 +1814,7 @@ const HTML_CONTENT = `
         return card;
     }
 
-    // 卡片级事件委托：drag/touch 只在容器上绑定一次，监听器数量与卡片数解耦
+    // Card-level event delegation: drag/touch listeners are bound once on the container, decoupling listener count from card count
     function setupCardDelegation(container) {
         if (!container || container._cardDelegation) return;
         container._cardDelegation = true;
@@ -2173,7 +1839,7 @@ const HTML_CONTENT = `
             touchStart(e);
         }, { passive: false });
 
-        // 全局关闭卡片菜单
+        // Globally close the card menu
         if (!window.hasAddedCardMenuListener) {
             document.addEventListener('click', (e) => {
                 if (!e.target.closest('.card-menu-dropdown') && !e.target.closest('button')) {
@@ -2183,7 +1849,7 @@ const HTML_CONTENT = `
             window.hasAddedCardMenuListener = true;
         }
 
-        // 分类标题栏操作按钮：事件委托，避免模板字符串内联 onClick 的注入风险
+        // Category header action buttons: event delegation, avoiding the injection risk of inline onClick in template strings
         container.addEventListener('click', (e) => {
             const btn = e.target.closest('[data-action]');
             if (!btn) return;
@@ -2203,7 +1869,7 @@ const HTML_CONTENT = `
             const input = e.target.closest('[data-action="toggleHidden"]');
             if (!input) return;
             const tipBox = input.closest('.has-tooltip');
-            if (tipBox) tipBox.setAttribute('data-tooltip', input.checked ? '显示分类' : '隐藏分类');
+            if (tipBox) tipBox.setAttribute('data-tooltip', input.checked ? 'Show category' : 'Hide category');
             toggleCategoryHidden(input.dataset.category, input.checked);
         });
     }
@@ -2213,7 +1879,7 @@ const HTML_CONTENT = `
         menu.innerHTML = '';
         Object.keys(categories).forEach(cat => {
             const item = document.createElement('div');
-            item.className = 'px-4 py-2.5 text-sm text-base-foreground dark:text-base-foreground hover:bg-soft dark:hover:bg-muted cursor-pointer transition-colors';
+            item.className = 'px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-slate-700 cursor-pointer transition-colors';
             item.textContent = cat;
             item.onclick = () => {
                 document.getElementById('category-select-value').value = cat;
@@ -2224,6 +1890,7 @@ const HTML_CONTENT = `
         });
     }
 
+    // Incremental update: rebuild only a single category's card grid
     function renderCategoryGrid(category) {
         const grid = document.getElementById(gridId(category));
         const cat = categories[category];
@@ -2235,6 +1902,7 @@ const HTML_CONTENT = `
             if (card) cardsFragment.appendChild(card);
         });
 
+        // Only remove existing cards, keep the "+" placeholder in edit mode
         Array.from(grid.children).forEach(child => {
             if (!child.classList.contains('add-card-placeholder')) child.remove();
         });
@@ -2254,7 +1922,7 @@ const HTML_CONTENT = `
         const category = document.getElementById('category-select-value').value;
         
         if (!name || !url || !category) {
-            await customAlert('请填写必要信息 (名称, URL, 分类)');
+            await customAlert('Please fill in the required info (name, URL, category)');
             return;
         }
 
@@ -2271,9 +1939,9 @@ const HTML_CONTENT = `
         try {
             await saveLinks();
         } catch (e) {
-            await customAlert('添加失败: ' + e);
+            await customAlert('Add failed: ' + e);
         }
-
+        // Incremental update: rebuild only that category's grid (if the card should be visible)
         if (isEditMode || !newLink.isPrivate || isLoggedIn) {
             renderCategoryGrid(category);
             renderCategoryButtons();
@@ -2295,8 +1963,8 @@ const HTML_CONTENT = `
         let found = false;
         let oldCategory = null;
 
-        // 兜底：若表单分类为空（存量 link.category 缺失时可能出现），回退到 oldLink 原分类，
-        // 避免写入 categories[undefined]
+        // Fallback: if the form category is empty (can happen when legacy link.category is missing), fall back to oldLink's original category,
+        // avoiding writing into categories[undefined]
         if (!updatedLink.category) {
             for (const c in categories) {
                 if (categories[c].links.some(l => l.url === oldLink.url)) { updatedLink.category = c; break; }
@@ -2354,17 +2022,17 @@ const HTML_CONTENT = `
         await saveLinks();
     }
 
-    // --- 拖拽辅助函数 ---
+    // --- Drag helper functions ---
     function getCardState(card) {
         if(!card) return { category: null, index: -1 };
         const section = card.closest('.section');
         const index = Array.from(section.querySelectorAll('.card')).indexOf(card);
-        // 优先取 data-category（原始分类名），兼容回退到 section.id（脱敏 slug）
+        // Prefer data-category (the original category name), falling back to section.id (sanitized slug) for compatibility
         const category = section.dataset.category || section.id;
         return { category: category, index: index };
     }
 
-    // --- 拖拽（电脑端） ---
+    // --- Drag (desktop) ---
     let draggedCard = null;
     function dragStart(e) {
         if (!isEditMode) { e.preventDefault(); return; }
@@ -2400,7 +2068,7 @@ const HTML_CONTENT = `
         }
     }
 
-    // 移动端拖拽
+    // Mobile drag
     let mobileDragTimer = null;
     let isMobileDragging = false;
     let mobilePlaceholder = null; 
@@ -2462,9 +2130,9 @@ const HTML_CONTENT = `
             mobileClone.classList.remove('group', 'hover:-translate-y-1', 'transition-all', 'duration-300');
             document.body.appendChild(mobileClone);
 
-            // 占位符样式
+            // Placeholder style
             mobilePlaceholder.style.opacity = '0.3';
-            mobilePlaceholder.classList.add('border-dashed', 'border-2', 'border-accent');
+            mobilePlaceholder.classList.add('border-dashed', 'border-2', 'border-emerald-400');
 
             if (navigator.vibrate) navigator.vibrate(50);
             
@@ -2624,7 +2292,7 @@ const HTML_CONTENT = `
             if (rafId) cancelAnimationFrame(rafId);
             
             if (isMobileDragging) {
-                // 离场动画
+                // Exit animation
                 if (mobileClone && mobilePlaceholder) {
                     const rect = mobilePlaceholder.getBoundingClientRect();
                     mobileClone.style.transition = 'all 0.2s ease-out';
@@ -2636,10 +2304,10 @@ const HTML_CONTENT = `
                         if (mobileClone) mobileClone.remove();
                         if (mobilePlaceholder) {
                              mobilePlaceholder.style.opacity = '';
-                             mobilePlaceholder.classList.remove('border-dashed', 'border-2', 'border-accent');
+                             mobilePlaceholder.classList.remove('border-dashed', 'border-2', 'border-emerald-400');
                         }
                         
-                        // 保存排序
+                        // Save order
                         saveCardOrder();
 
                         mobilePlaceholder = null;
@@ -2684,7 +2352,7 @@ const HTML_CONTENT = `
         const newCategories = {};
         const sections = document.querySelectorAll('.section');
         sections.forEach(sec => {
-            // 用 data-category（原始名）做分类键，与 categories 对象键一致；回退到 section.id
+            // Use data-category (the original name) as the category key, matching the categories object keys; fall back to section.id
             const catName = sec.dataset.category || sec.id;
             const oldCat = categories[catName];
             newCategories[catName] = { isHidden: oldCat ? oldCat.isHidden : false, links: [] };
@@ -2702,23 +2370,14 @@ const HTML_CONTENT = `
         
         Object.keys(categories).forEach(k => delete categories[k]);
         Object.assign(categories, newCategories);
-        await saveDataToServer('保存排序', categories);
+        await saveDataToServer('Save order', categories);
     }
 
     function applyTheme(isDark) {
-        if (isDark) {
-             document.documentElement.classList.add('dark');
-        } else {
-             document.documentElement.classList.remove('dark');
-        }
-        if (typeof window.__getThemeData === 'function') {
-            window.__applyThemeVars(window.__getThemeData(), isDark);
-        }
+        window.__themeManual = true;
+        if (window.__paintTheme) window.__paintTheme(!!isDark);
+        else document.documentElement.classList.toggle('dark', !!isDark);
         updateThemeSwitchUI();
-        const ov = document.getElementById('theme-dialog-overlay');
-        if (ov && !ov.classList.contains('overlay-hidden') && typeof refreshThemeUI === 'function') {
-            refreshThemeUI();
-        }
     }
     
     function updateThemeSwitchUI() {
@@ -2727,650 +2386,11 @@ const HTML_CONTENT = `
         if(checkbox) checkbox.checked = isDark;
     }
 
-    /* ===== 主题皮肤 ===== */
-    // 内置推荐主题库：preview 色值仅用于卡片渲染（零网络），应用时经 fetchTheme 拉取全量 cssVars
-    const BUILTIN_THEMES = [
-        { id: 'default', name: '默认配色', tags: ['清爽绿'], preview: { light: { background: '#ffffff', foreground: '#334155', primary: '#16a34a', secondary: '#f1f5f9', accent: '#4ade80' }, dark: { background: '#0f172a', foreground: '#e2e8f0', primary: '#4ade80', secondary: '#1e293b', accent: '#22c55e' } }, builtin: true },
-        { id: 'claude', name: 'Claude', tags: ['暖色'], preview: { light: { background: '#faf9f5', foreground: '#4a4540', primary: '#d97757', secondary: '#ece9e2', accent: '#e9e5dc' }, dark: { background: '#262624', foreground: '#d4cfc4', primary: '#cd6e4e', secondary: '#3d3c38', accent: '#33322e' } } },
-        { id: 'amethyst-haze', name: 'Amethyst Haze', tags: ['优雅紫'], preview: { light: { background: '#f5f3f8', foreground: '#4a4160', primary: '#7c5fa8', secondary: '#cbbde0', accent: '#d8a2b8' }, dark: { background: '#251f33', foreground: '#e7e2f1', primary: '#9d82c4', secondary: '#4a4160', accent: '#b0748f' } } },
-        { id: 'catppuccin', name: 'Catppuccin', tags: ['柔和'], preview: { light: { background: '#eff1f5', foreground: '#4c4f69', primary: '#7287fd', secondary: '#ccd0da', accent: '#f9b8c4' }, dark: { background: '#303446', foreground: '#c6d0f5', primary: '#a6d189', secondary: '#414559', accent: '#f2d5cf' } } },
-        { id: 'kodama-grove', name: 'Kodama Grove', tags: ['自然绿'], preview: { light: { background: '#f4f7f2', foreground: '#3a4a3a', primary: '#4a7c59', secondary: '#dfe8dd', accent: '#8fbf9f' }, dark: { background: '#1f2a22', foreground: '#dce8dc', primary: '#7fb98b', secondary: '#34453a', accent: '#5d8f6f' } } },
-        { id: 'quantum-rose', name: 'Quantum Rose', tags: ['玫粉'], preview: { light: { background: '#fdf2f5', foreground: '#5a3a45', primary: '#e2559a', secondary: '#f6dbe4', accent: '#f2a4c4' }, dark: { background: '#2a1c24', foreground: '#f5ddea', primary: '#e87ea8', secondary: '#4a3340', accent: '#c25a86' } } },
-        { id: 'elegant-luxury', name: 'Elegant Luxury', tags: ['沉稳'], preview: { light: { background: '#f8f6f2', foreground: '#3c3830', primary: '#b08968', secondary: '#e9e2d6', accent: '#c9b69a' }, dark: { background: '#211c18', foreground: '#e8e0d4', primary: '#cba47f', secondary: '#3a322a', accent: '#a58160' } } },
-        { id: 'neo-brutalism', name: 'Neo Brutalism', tags: ['高饱和'], preview: { light: { background: '#fff8e7', foreground: '#1a1a1a', primary: '#f04b3c', secondary: '#ffd23f', accent: '#5ac8fa' }, dark: { background: '#1a1a1a', foreground: '#fff8e7', primary: '#ff6b5e', secondary: '#ffd23f', accent: '#5ac8fa' } } },
-        { id: 'graphite', name: 'Graphite', tags: ['极简灰'], preview: { light: { background: '#f5f5f5', foreground: '#333333', primary: '#71717a', secondary: '#e4e4e7', accent: '#a1a1aa' }, dark: { background: '#18181b', foreground: '#d4d4d8', primary: '#a1a1aa', secondary: '#27272a', accent: '#71717a' } } }
-    ];
-
-    function getThemeMeta(key, fallback) {
-        const v = localStorage.getItem(key);
-        return v === null ? fallback : v;
-    }
-    function getThemeName() { return getThemeMeta('themeName', null); }
-    function getThemeKind() { return getThemeMeta('themeKind', window.__getThemeData() ? 'custom' : 'default'); }
-    function isInternalThemeSource(s) {
-        if (!s) return false;
-        return s.indexOf('tweakcn:') === 0 || s.indexOf('json:') === 0 || s === 'file';
-    }
-    function safeSetItem(k, v) { try { localStorage.setItem(k, v); return true; } catch (e) { console.warn('localStorage 写入失败:', k, e); return false; } }
-    function safeRemoveItem(k) { try { localStorage.removeItem(k); } catch (e) { console.warn('localStorage 移除失败:', k, e); } }
-
-    // 快照当前主题（回退用）
-    function snapshotCurrentTheme() {
-        return {
-            themeData: window.__getThemeData(),
-            themeSource: getThemeMeta('themeSource', null),
-            themeName: getThemeName(),
-            themeKind: getThemeKind()
-        };
-    }
-    function saveLastSnapshot(from) {
-        try { localStorage.setItem('lastTheme', JSON.stringify(from)); } catch (e) { /* 忽略 */ }
-    }
-    function getLastSnapshot() {
-        try { return JSON.parse(localStorage.getItem('lastTheme') || 'null'); } catch (e) { return null; }
-    }
-    function lastSnapshotExists() { return !!getLastSnapshot(); }
-
-    function themeStatusLabel(kind, name) {
-        switch (kind) {
-            case 'builtin': return name || '内置主题';
-            case 'ai': return 'AI · ' + (name || '生成主题');
-            case 'custom': return name ? '自定义主题（' + name + '）' : '自定义主题';
-            default: return '默认配色';
-        }
-    }
-
-    function renderThemeStatusBar() {
-        const bar = document.getElementById('theme-status-bar');
-        if (!bar) return;
-        const data = window.__getThemeData();
-        const kind = getThemeKind();
-        const name = getThemeName();
-        const isDark = document.documentElement.classList.contains('dark');
-        const label = themeStatusLabel(kind, name);
-        const guideMap = {
-            default: '选一个喜欢的卡片即可换肤，点击后立刻生效。',
-            builtin: '点其他卡片可一键切换；不满意可回退上一套。',
-            custom: '点其他卡片可一键切换；不满意可回退上一套。',
-            ai: '点其他卡片可一键切换；不满意可回退上一套。'
-        };
-        const guide = document.getElementById('theme-guide');
-        if (guide) guide.textContent = guideMap[kind] || guideMap.default;
-        // 取色块：内置主题用 preview 里的对应色；否则用默认绿系
-        let swatches = ['#16a34a', '#f1f5f9', '#4ade80'];
-        const b = kind === 'default' ? null : BUILTIN_THEMES.find(t => t.name === name);
-        if (data && b) {
-            const p = b.preview[isDark ? 'dark' : 'light'];
-            swatches = [p.primary, p.secondary, p.accent];
-        }
-        bar.innerHTML =
-            '<div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 py-3 px-4 rounded-[var(--radius-xl)] bg-muted dark:bg-muted">' +
-              '<div class="flex items-center gap-2 min-w-0">' +
-                '<span class="shrink-0 flex gap-1">' +
-                  swatches.map(c => '<span class="inline-block w-3.5 h-3.5 rounded-full border" style="background:' + esc(c) + ';border-color:rgba(128,128,128,0.35)"></span>').join('') +
-                '</span>' +
-                '<span class="truncate text-sm font-medium text-base-foreground">' + esc('当前：' + label) + '</span>' +
-              '</div>' +
-              '<span class="flex items-center gap-2 shrink-0 basis-full md:basis-auto max-w-full">' +
-                (isLoggedIn && _themePushFailed ? '<button onclick="retryThemePush()" title="主题推送到云端失败，点击立即重试" class="px-2.5 py-1.5 rounded-[var(--radius-xl)] text-xs font-medium text-amber-600 dark:text-amber-400 hover:bg-secondary transition-colors shrink-0">未同步 · 重试</button>' : '') +
-                (lastSnapshotExists() ? '<button onclick="restoreLastTheme()" class="px-2.5 py-1.5 rounded-[var(--radius-xl)] text-xs font-medium text-muted-foreground hover:bg-secondary dark:hover:bg-[color-mix(in_oklab,var(--muted)_40%,transparent)] transition-colors">回退上一套</button>' : '') +
-                '<button onclick="resetCustomTheme()" class="px-2.5 py-1.5 rounded-[var(--radius-xl)] text-xs font-medium text-muted-foreground hover:bg-secondary dark:hover:bg-[color-mix(in_oklab,var(--muted)_40%,transparent)] transition-colors">恢复默认</button>' +
-              '</span>' +
-            '</div>';
-        renderThemeKindToggle();
-    }
-    function renderThemeKindToggle() {
-        const el = document.getElementById('theme-kind-toggle');
-        if (el) el.textContent = '跟随「' + (document.documentElement.classList.contains('dark') ? '深色' : '浅色') + '」模式';
-    }
-
-    function themeCardHTML(t) {
-        const isDark = document.documentElement.classList.contains('dark');
-        const p = t.preview[isDark ? 'dark' : 'light'];
-        const data = window.__getThemeData();
-        const kind = getThemeKind();
-        const isActive = (t.id === 'default') ? !data : (kind === 'builtin' && getThemeName() === t.name);
-        const borderColor = isActive ? p.primary : 'rgba(128,128,128,0.25)';
-        return '<button type="button" data-theme-id="' + esc(t.id) + '" data-theme-name="' + esc(t.name) + '" ' +
-            'class="theme-card w-full text-left rounded-2xl px-3 py-2.5 border transition-all duration-150 hover:translate-y-[-2px] hover:shadow-lg ' + (isActive ? 'theme-card-active' : '') + '" ' +
-            'style="background:' + esc(p.background) + ';border-color:' + esc(borderColor) + ';color:' + esc(p.foreground) + (isActive ? ';--ring-color:' + esc(p.primary) : '') + '">' +
-            '<div class="flex items-center justify-between gap-2 mb-2">' +
-              '<div class="flex gap-1 shrink-0">' +
-                '<span class="inline-block w-3 h-3 rounded-sm border" style="background:' + esc(p.primary) + ';border-color:rgba(128,128,128,0.35)"></span>' +
-                '<span class="inline-block w-3 h-3 rounded-sm border" style="background:' + esc(p.secondary) + ';border-color:rgba(128,128,128,0.35)"></span>' +
-                '<span class="inline-block w-3 h-3 rounded-sm border" style="background:' + esc(p.accent) + ';border-color:rgba(128,128,128,0.35)"></span>' +
-              '</div>' +
-              '<span class="text-[10px] opacity-70 truncate">' + esc(t.tags.join(' · ')) + '</span>' +
-            '</div>' +
-            '<div class="flex items-center justify-between gap-2">' +
-              '<div class="text-sm font-semibold truncate min-w-0">' + esc(t.name) + '</div>' +
-              (isActive ? '<span class="shrink-0 text-[10px] font-medium px-1.5 py-0.5 rounded-full" style="background:' + esc(p.primary) + ';color:' + esc(p.background) + '">使用中</span>' : '') +
-            '</div>' +
-            '</button>';
-    }
-
-    let activeThemeLoadP = null;
-    function renderThemeGrid() {
-        const grid = document.getElementById('theme-grid');
-        if (!grid) return;
-        grid.innerHTML = BUILTIN_THEMES.map(themeCardHTML).join('');
-        grid.querySelectorAll('.theme-card').forEach(c => {
-            c.addEventListener('click', onThemeCardClick);
-        });
-    }
-
-    async function onThemeCardClick(e) {
-        const card = e.currentTarget;
-        if (activeThemeLoadP) return;
-        const id = card.dataset.themeId;
-        const name = card.dataset.themeName;
-        if (id === 'default') { applyDefaultTheme(); return; }
-        await applyBuiltinById(id, name);
-    }
-    async function applyBuiltinById(id, name) {
-        saveLastSnapshot(snapshotCurrentTheme());
-        setCardLoading(true, name);
-        try {
-            const t = await fetchTheme(id);
-            if (!t) throw new Error('主题数据为空');
-            const themeLayer = t.theme || {};
-            const tLight = Object.assign({}, themeLayer, t.light || {});
-            const tDark = Object.assign({}, themeLayer, t.dark || t.light || {});
-            cacheTheme(id, t);
-            const meta = BUILTIN_THEMES.find(b => b.id === id);
-            applyThemeData({ data: { light: tLight, dark: tDark, theme: themeLayer, fonts: t.fonts || themeLayer.fonts || null }, name: meta ? meta.name : name, kind: 'builtin', source: 'tweakcn:' + id });
-        } catch (err) {
-            safeRemoveItem('lastTheme'); // 失败不保留快照，原主题不变
-            setThemeError('获取失败：' + err.message + '，已保留原主题');
-        } finally {
-            if (activeThemeLoadP) setCardLoading(false);
-        }
-    }
-
-    function restoreSiteDefaultTheme() {
-        safeRemoveItem('themeData');
-        safeRemoveItem('themeSource');
-        safeRemoveItem('themeName');
-        safeRemoveItem('themeKind');
-        safeSetItem('themeUpdatedAt', String(Date.now()));
-        safeSetItem('themePersonal', isLoggedIn ? '0' : '1');
-        window.__applyThemeVars(null, document.documentElement.classList.contains('dark'));
-        const input = document.getElementById('theme-input');
-        if (input) input.value = '';
-        setCardLoading(false);
-        refreshThemeUI();
-    }
-    function applyDefaultTheme() {
-        if (!window.__getThemeData() && !getThemeName()) { refreshThemeUI(); return; }
-        saveLastSnapshot(snapshotCurrentTheme());
-        restoreSiteDefaultTheme();
-        scheduleThemeSync();
-    }
-
-    function applyThemeData({ data, name, kind, source }) {
-        if (name != null) safeSetItem('themeName', name); else safeRemoveItem('themeName');
-        safeSetItem('themeKind', kind || 'custom');
-        safeSetItem('themeData', JSON.stringify(data));
-        if (source != null) safeSetItem('themeSource', source); else safeRemoveItem('themeSource');
-        safeSetItem('themeUpdatedAt', String(Date.now()));
-        safeSetItem('themePersonal', '1'); 
-        window.__applyThemeVars(data, document.documentElement.classList.contains('dark'));
-        setCardLoading(false);
-        refreshThemeUI();
-        scheduleThemeSync();
-    }
-
-    function collectLocalTheme() {
-        return {
-            themeData: window.__getThemeData() || null,
-            name: getThemeName() || '',
-            kind: getThemeMeta('themeKind', '') || '',
-            source: getThemeMeta('themeSource', '') || '',
-        };
-    }
-    let _themeSyncTimer = null;
-    let _themePushFailed = false; 
-    function scheduleThemeSync() {
-        if (!isLoggedIn) return;
-        clearTimeout(_themeSyncTimer);
-        _themeSyncTimer = setTimeout(pushThemeToKv, 800);
-    }
-
-    document.addEventListener('visibilitychange', function () {
-        if (document.visibilityState === 'hidden' && isLoggedIn && _themeSyncTimer) {
-            clearTimeout(_themeSyncTimer);
-            _themeSyncTimer = null;
-            try {
-                fetchWithAuth('/api/saveTheme', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(collectLocalTheme()),
-                    keepalive: true,
-                }).catch(function () { });
-            } catch (e) { /* 忽略 */ }
-        }
-    });
-
-    function retryThemePush() { pushThemeToKv(); }
-    async function pushThemeToKv() {
-        if (!isLoggedIn) return;
-        _themeSyncTimer = null;
-        let ok = false;
-        try {
-            const res = await fetchWithAuth('/api/saveTheme', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(collectLocalTheme()),
-            });
-            if (res.ok) {
-                const j = await res.json();
-                if (j && j.updatedAt) {
-                    safeSetItem('themeUpdatedAt', String(j.updatedAt));
-                    safeSetItem('themePersonal', '0');
-                    ok = true;
-                }
-            }
-        } catch (e) { /* 网络异常：本地已生效，标记失败等待重试 */ }
-        if (_themePushFailed !== ok) {
-            _themePushFailed = !ok;
-            renderThemeStatusBar();
-        }
-    }
-
-    async function pullThemeFromKv() {
-        if (!isLoggedIn) return;
-        try {
-            const res = await fetchWithAuth('/api/getTheme');
-            if (!res.ok) return;
-            const j = await res.json();
-            const remote = j && j.theme;
-            if (!remote || remote.updatedAt == null) return; // 从未同步过：保留本地
-            const local = Number(localStorage.getItem('themeUpdatedAt') || 0);
-            if (remote.updatedAt <= local) return; // 本地更新或相同：不回退
-            // 应用远端
-            if (remote.themeData) {
-                safeSetItem('themeData', JSON.stringify(remote.themeData));
-                if (remote.name) safeSetItem('themeName', remote.name); else safeRemoveItem('themeName');
-                safeSetItem('themeKind', remote.kind || 'custom');
-                if (remote.source) safeSetItem('themeSource', remote.source); else safeRemoveItem('themeSource');
-                window.__applyThemeVars(remote.themeData, document.documentElement.classList.contains('dark'));
-            } else {
-                safeRemoveItem('themeData');
-                safeRemoveItem('themeName');
-                safeRemoveItem('themeKind');
-                safeRemoveItem('themeSource');
-                window.__applyThemeVars(null, document.documentElement.classList.contains('dark'));
-            }
-            safeSetItem('themeUpdatedAt', String(remote.updatedAt));
-            safeSetItem('themePersonal', '0');
-            if (typeof refreshThemeUI === 'function') refreshThemeUI();
-        } catch (e) { /* 网络异常忽略 */ }
-    }
-
-
-    function restoreLastTheme() {
-        const last = getLastSnapshot();
-        if (!last) return;
-        const current = snapshotCurrentTheme();
-        saveLastSnapshot(current);
-        setCardLoading(false);
-        if (last.themeData) {
-            applyThemeData({ data: last.themeData, name: last.themeName, kind: last.themeKind || 'custom', source: last.themeSource });
-        } else {
-            restoreSiteDefaultTheme();
-            scheduleThemeSync();
-        }
-        const input = document.getElementById('theme-input');
-        const src = getThemeMeta('themeSource', '');
-        if (input) input.value = isInternalThemeSource(src) ? '' : src;
-    }
-
-    // —— 主题缓存 ——
-    function getCacheKey(id) { return 'themeCache:' + id; }
-    function cacheTheme(id, t) {
-        try {
-            const keys = [];
-            for (let i = 0; i < localStorage.length; i++) {
-                const k = localStorage.key(i);
-                if (k && k.indexOf('themeCache:') === 0) keys.push(k);
-            }
-            if (keys.length >= 8) { const oldest = keys[0]; if (oldest) localStorage.removeItem(oldest); } // 超限时任删一条缓存防膨胀（key 顺序不保证严格按写入时间）
-            localStorage.setItem(getCacheKey(id), JSON.stringify(t));
-        } catch (e) { /* 忽略 */ }
-    }
-    function getCachedTheme(id) {
-        try { return JSON.parse(localStorage.getItem(getCacheKey(id)) || 'null'); } catch (e) { return null; }
-    }
-
-    // —— 加载/错误状态控制 ——
-    function setCardLoading(on, name) {
-        document.querySelectorAll('.theme-card').forEach(c => c.classList.toggle('theme-card-disabled', !!on));
-        activeThemeLoadP = on ? true : null;
-        if (on) {
-            const bar = document.getElementById('theme-status-bar');
-            const txt = bar && bar.querySelector('span.truncate');
-            if (txt) txt.textContent = '正在应用' + (name ? ' ' + name : '') + '…';
-        } else {
-            renderThemeStatusBar();
-            renderThemeGrid();
-        }
-    }
-    function setThemeError(msg) {
-        const bar = document.getElementById('theme-status-bar');
-        if (bar) {
-            bar.innerHTML = '<div class="flex items-center justify-between gap-3 py-3 px-4 rounded-[var(--radius-xl)] bg-muted dark:bg-muted">' +
-                '<span class="text-sm text-red-500">' + esc(msg) + '</span>' +
-                '<button onclick="closeThemeDialog()" class="px-2.5 py-1.5 rounded-[var(--radius-xl)] text-xs font-medium text-accent hover:bg-secondary transition-colors shrink-0">确定</button>' +
-                '</div>';
-        }
-    }
-    function refreshThemeUI() {
-        renderThemeStatusBar();
-        renderThemeGrid();
-    }
-    function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
-
-    function themeStatus(msg, isError) {
-        const el = document.getElementById('theme-status');
-        if (!el) return;
-        if (!msg) { el.textContent = ''; el.classList.add('hidden'); return; }
-        el.textContent = msg;
-        el.style.color = isError ? '#ef4444' : 'var(--muted-foreground)';
-        el.classList.remove('hidden');
-    }
-    function openThemeDialog() {
-        const input = document.getElementById('theme-input');
-        const saved = getThemeMeta('themeSource', '');
-        if (input) input.value = isInternalThemeSource(saved) ? '' : saved;
-        const overlay = document.getElementById('theme-dialog-overlay');
-        if (overlay) { overlay.classList.remove('hidden'); void overlay.offsetWidth; overlay.classList.remove('overlay-hidden'); overlay.classList.add('overlay-visible'); }
-        const box = document.getElementById('theme-dialog-box');
-        if (box) { box.classList.remove('dialog-scale-hidden'); box.classList.add('dialog-scale-visible'); }
-        lockPageScroll();
-        refreshThemeUI();
-        themeStatus('', false);
-    }
-    function closeThemeDialog() {
-        const overlay = document.getElementById('theme-dialog-overlay');
-        if (overlay) { overlay.classList.remove('overlay-visible'); overlay.classList.add('overlay-hidden'); }
-        const box = document.getElementById('theme-dialog-box');
-        if (box) { box.classList.remove('dialog-scale-visible'); box.classList.add('dialog-scale-hidden'); }
-        unlockPageScroll();
-        setTimeout(() => { if (overlay && overlay.classList.contains('overlay-hidden')) overlay.classList.add('hidden'); }, 300);
-    }
-
-    // —— 自定义主题 JSON 导出 / 导入 ——
-    const THEME_JSON_MAX = 256 * 1024; // 导入内容体积上限（文本与文件同标准）
-
-    function setThemeJsonStatus(elId, msg, isError) {
-        const el = document.getElementById(elId);
-        if (!el) return;
-        if (!msg) { el.classList.add('hidden'); return; }
-        el.textContent = msg;
-        el.style.color = isError ? '#ef4444' : 'var(--muted-foreground)';
-        el.classList.remove('hidden');
-    }
-
-    function buildThemeExportJson() {
-        const data = window.__getThemeData();
-        if (!data) return null;
-        const kind = getThemeKind();
-        return JSON.stringify({
-            type: 'cfile-theme',
-            version: 1,
-            name: getThemeName() || '自定义主题',
-            kind: kind === 'builtin' ? 'builtin' : 'custom',
-            data: data,
-            exportedAt: Date.now()
-        }, null, 2);
-    }
-
-    function openThemeExportDialog() {
-        let json = null;
-        try { json = buildThemeExportJson(); } catch (e) { /* 数据损坏按无主题处理 */ }
-        if (!json) { setThemeJsonStatus('theme-json-entry-status', '当前是默认主题，暂无可导出的自定义主题', true); return; }
-        setThemeJsonStatus('theme-json-entry-status', '', false);
-        document.getElementById('theme-export-text').value = json;
-        setThemeJsonStatus('theme-export-status', '', false);
-        toggleOverlay('theme-export-overlay', true);
-    }
-    function closeThemeExportDialog() { toggleOverlay('theme-export-overlay', false); }
-
-    function copyThemeJson() {
-        const ta = document.getElementById('theme-export-text');
-        const done = () => setThemeJsonStatus('theme-export-status', '已复制到剪贴板。', false);
-        const fallback = () => {
-            try { ta.removeAttribute('readonly'); ta.select(); document.execCommand('copy'); ta.setAttribute('readonly', ''); } catch (e) { /* 忽略 */ }
-            setThemeJsonStatus('theme-export-status', '剪贴板不可用，已选中文本，可按 Ctrl/Cmd+C 手动复制。', true);
-        };
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(ta.value).then(done, fallback);
-        } else { fallback(); }
-    }
-
-    function downloadThemeJson() {
-        const ta = document.getElementById('theme-export-text');
-        if (!ta.value) { setThemeJsonStatus('theme-export-status', '没有可下载的内容', true); return; }
-        try {
-            let name = 'theme';
-            try { name = (JSON.parse(ta.value).name || 'theme'); } catch (e) { /* 用默认名 */ }
-            // 文件名清洗：去控制字符与非法文件名字符
-            const _nm = String(name), _bad = [47, 92, 58, 42, 63, 34, 60, 62, 124];
-            let _out = '';
-            for (let _i = 0; _i < _nm.length; _i++) {
-                const _c = _nm.charCodeAt(_i);
-                if (_c < 32 || _c === 127 || _bad.indexOf(_c) >= 0) continue;
-                _out += _nm[_i];
-            }
-            const safeName = _out.slice(0, 40) || 'theme';
-            const blob = new Blob([ta.value], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = safeName + '_' + new Date().toISOString().split('T')[0] + '.json';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            setTimeout(() => URL.revokeObjectURL(url), 1000);
-            setThemeJsonStatus('theme-export-status', '已下载：' + a.download, false);
-        } catch (e) {
-            setThemeJsonStatus('theme-export-status', '导出失败', true);
-        }
-    }
-
-    // 导入子弹窗：两步确认状态机（0=待校验 1=等待覆盖确认）
-    let _themeImportStage = 0;
-    let _themeImportReady = null;
-
-    function resetThemeImportStage() {
-        _themeImportStage = 0;
-        _themeImportReady = null;
-        const btn = document.getElementById('theme-import-apply-btn');
-        if (btn) {
-            btn.textContent = '应用';
-            btn.classList.remove('!text-red-600', 'dark:!text-red-400', '!bg-red-500/10');
-        }
-    }
-
-    function openThemeImportDialog() {
-        resetThemeImportStage();
-        setThemeJsonStatus('theme-import-status', '', false);
-        setThemeJsonStatus('theme-json-entry-status', '', false);
-        toggleOverlay('theme-import-overlay', true);
-    }
-    function closeThemeImportDialog() {
-        resetThemeImportStage();
-        toggleOverlay('theme-import-overlay', false);
-    }
-
-    function pickThemeFile() {
-        const fi = document.getElementById('theme-import-file');
-        if (!fi) return;
-        fi.value = '';
-        fi.onchange = (e) => {
-            const file = e.target.files && e.target.files[0];
-            if (!file) return;
-            if (file.size > THEME_JSON_MAX) {
-                setThemeJsonStatus('theme-import-status', '文件过大（上限 256KB），请检查文件', true);
-                return;
-            }
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                try {
-                    document.getElementById('theme-import-text').value = String(ev.target.result || '');
-                    resetThemeImportStage();
-                    setThemeJsonStatus('theme-import-status', '文件已读取，请点击「应用」完成导入。', false);
-                } catch (err) {
-                    setThemeJsonStatus('theme-import-status', '文件读取异常', true);
-                }
-            };
-            reader.onerror = () => setThemeJsonStatus('theme-import-status', '文件读取失败，请重试', true);
-            reader.readAsText(file);
-        };
-        fi.click();
-    }
-
-    function applyThemeJsonFlow() {
-        const btn = document.getElementById('theme-import-apply-btn');
-        if (_themeImportStage === 1 && _themeImportReady) {
-            const ready = _themeImportReady;
-            resetThemeImportStage();
-            try {
-                saveLastSnapshot(snapshotCurrentTheme());
-                applyThemeData({ data: ready.data, name: ready.name || '导入主题', kind: 'custom', source: 'json:' + (ready.name || 'import') });
-                closeThemeImportDialog();
-                setThemeJsonStatus('theme-json-entry-status', '主题导入成功（已保存，可点「回退上一套」撤销）。', false);
-            } catch (e) {
-                setThemeJsonStatus('theme-import-status', '应用主题失败：' + e.message, true);
-            }
-            return;
-        }
-        const text = (document.getElementById('theme-import-text').value || '').trim();
-        if (!text) { setThemeJsonStatus('theme-import-status', '请先粘贴 JSON 或选择文件', true); return; }
-        if (text.length > THEME_JSON_MAX) { setThemeJsonStatus('theme-import-status', '内容过大（上限 256KB）', true); return; }
-        let parsed;
-        try {
-            parsed = JSON.parse(text);
-        } catch (e) {
-            setThemeJsonStatus('theme-import-status', 'JSON 格式无效，请检查内容', true);
-            return;
-        }
-        let result;
-        try {
-            result = window.__sanitizeThemeData(parsed);
-        } catch (e) {
-            setThemeJsonStatus('theme-import-status', '主题数据校验失败', true);
-            return;
-        }
-        if (!result || !result.data) {
-            setThemeJsonStatus('theme-import-status', '文件中没有有效的主题变量（需包含 light 或 dark 色值）', true);
-            return;
-        }
-        _themeImportReady = result;
-        _themeImportStage = 1;
-        if (btn) {
-            btn.textContent = '确认覆盖导入';
-            btn.classList.add('!text-red-600', 'dark:!text-red-400', '!bg-red-500/10');
-        }
-        setThemeJsonStatus('theme-import-status', '校验通过（共 ' + result.validCount + ' 个变量）。再次点击将覆盖当前主题。', false);
-    }
-
-    (function bindThemeImportReset() {
-        const ta = document.getElementById('theme-import-text');
-        if (ta) ta.addEventListener('input', () => {
-            if (_themeImportStage === 1) {
-                resetThemeImportStage();
-                setThemeJsonStatus('theme-import-status', '', false);
-            }
-        });
-    })();
-    function extractThemeId(url) {
-        const s = String(url || '').trim();
-        if (!s) return null;
-        const parts = s.split(/[?#]/)[0].split('/');
-        const idx = parts.lastIndexOf('themes');
-        const cand = idx >= 0 && parts[idx + 1] ? parts[idx + 1] : (parts.length === 1 ? parts[0] : '');
-        const bare = (cand || '').trim();
-        return /^[A-Za-z0-9_-]+$/.test(bare) ? bare : null;
-    }
-
-    async function fetchWithTimeout(url, ms) {
-        const ctrl = new AbortController();
-        const timer = setTimeout(function () { ctrl.abort(); }, ms || 8000);
-        try {
-            return await fetch(url, { signal: ctrl.signal });
-        } finally {
-            clearTimeout(timer);
-        }
-    }
-    async function fetchTheme(id) {
-        const cached = getCachedTheme(id);
-        if (cached) return cached;
-        const endpoints = ['/api/theme-proxy?id=' + encodeURIComponent(id),
-                           'https://tweakcn.com/r/themes/' + encodeURIComponent(id)];
-        for (const ep of endpoints) {
-            try {
-                const res = await fetchWithTimeout(ep);
-                if (!res.ok) continue;
-                const data = await res.json();
-                const cssVars = data && data.cssVars;
-                if (!cssVars) continue;
-                const t = (cssVars.light || cssVars.dark) ? cssVars : (cssVars.theme || null);
-                if (t) { if (data.name && !t.name) t.name = data.name; return t; }
-            } catch (e) { /* 尝试下一个 */ }
-        }
-        throw new Error('无法获取主题，请检查链接或网络');
-    }
-    async function applyCustomTheme() {
-        if (activeThemeLoadP) return;
-        const input = document.getElementById('theme-input');
-        const url = input ? input.value.trim() : '';
-        const id = extractThemeId(url);
-        themeStatus('正在加载主题...', false);
-        if (!id) { themeStatus('链接无效，请提供 tweakcn 主题链接', true); return; }
-        saveLastSnapshot(snapshotCurrentTheme());
-        try {
-            const t = await fetchTheme(id);
-            const themeLayer = t.theme || {};
-            const tLight = Object.assign({}, themeLayer, t.light || {});
-            const tDark = Object.assign({}, themeLayer, t.dark || t.light || {});
-            const themeData = { light: tLight, dark: tDark, theme: themeLayer, fonts: t.fonts || themeLayer.fonts || null };
-            if (!Object.keys(themeData.light).length) throw new Error('主题数据为空');
-            const builtin = BUILTIN_THEMES.find(b => b.id === id);
-            cacheTheme(id, t);
-            applyThemeData({ data: themeData, name: builtin ? builtin.name : (t.name || id), kind: builtin ? 'builtin' : 'custom', source: url });
-            themeStatus('主题应用成功（已保存）。', false);
-        } catch (e) {
-            safeRemoveItem('lastTheme');
-            themeStatus('主题应用失败：' + e.message + '，已保留原主题', true);
-        }
-    }
-    function resetCustomTheme() {
-        if (!window.__getThemeData() && !getThemeName()) { refreshThemeUI(); return; }
-        saveLastSnapshot(snapshotCurrentTheme());
-        restoreSiteDefaultTheme();
-        themeStatus('已恢复默认配色。', false);
-        scheduleThemeSync();
-    }
-
-    (function initThemeDialogClose() {
-        document.addEventListener('keydown', (e) => {
-            if (e.key !== 'Escape') return;
-            // 先关最上层子弹窗，没有子弹窗时才关主题弹窗
-            const exportOv = document.getElementById('theme-export-overlay');
-            if (exportOv && !exportOv.classList.contains('hidden')) { closeThemeExportDialog(); return; }
-            const importOv = document.getElementById('theme-import-overlay');
-            if (importOv && !importOv.classList.contains('hidden')) { closeThemeImportDialog(); return; }
-            const ov = document.getElementById('theme-dialog-overlay');
-            if (ov && !ov.classList.contains('overlay-hidden')) closeThemeDialog();
-        });
-    })();
-
     function scrollToTop() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     
-    // 认证和模式
+    // Auth and mode
     async function toggleEditMode() {
         document.getElementById('profile-dropdown').classList.add('hidden');
         if (!isLoggedIn) {
@@ -3384,10 +2404,10 @@ const HTML_CONTENT = `
              
              renderCategories(); 
              
-             // 提示用户
-             // logAction('进入编辑模式', {}); 
+             // Notify the user
+             // logAction('Enter Edit Mode', {}); 
         } else {
-             // 退出编辑模式
+             // Exit Edit Mode
              isEditMode = false;
              updateUIState();
              renderCategories();
@@ -3400,7 +2420,7 @@ const HTML_CONTENT = `
              toggleOverlay('password-dialog-overlay', true);
              document.getElementById('password-input').focus();
         } else {
-             if (await customConfirm('确定退出登录吗？')) {
+             if (await customConfirm('Log out?')) {
                  logout();
              }
         }
@@ -3415,7 +2435,7 @@ const HTML_CONTENT = `
         document.getElementById('private-checkbox').checked = false;
         
         document.getElementById('category-select-value').value = '';
-        document.getElementById('category-select-text').textContent = '请选择分类';
+        document.getElementById('category-select-text').textContent = 'Select a category';
         
         const btn = document.getElementById('dialog-confirm-btn');
         const newBtn = btn.cloneNode(true);
@@ -3438,7 +2458,7 @@ const HTML_CONTENT = `
             return '';
         })();
         document.getElementById('category-select-value').value = linkCategory;
-        document.getElementById('category-select-text').textContent = linkCategory || '请选择分类';
+        document.getElementById('category-select-text').textContent = linkCategory || 'Select a category';
         
         const btn = document.getElementById('dialog-confirm-btn');
         const newBtn = btn.cloneNode(true);
@@ -3468,20 +2488,19 @@ const HTML_CONTENT = `
                  document.getElementById('password-input').value = '';
                  toggleOverlay('password-dialog-overlay', false);
                  await loadLinks();
-                 pullThemeFromKv();
-                 await customAlert('登录成功');
+                 await customAlert('Login successful');
              } else if (res.status === 429 && data.locked) {
                  await customAlertRateLimit(data.retryAfter || 900);
              } else {
-                 var remMsg = '密码错误';
+                 var remMsg = 'Incorrect password';
                  var remaining = typeof data.remaining === 'number' ? data.remaining : 0;
-                 if (remaining > 0) remMsg = '密码错误，还可尝试 ' + remaining + ' 次';
+                 if (remaining > 0) remMsg = 'Incorrect password, ' + remaining + ' attempt(s) remaining';
                  await customAlert(remMsg);
              }
          } catch(e) { await customAlert('Login Error'); }
     }
 
-    // 单飞刷新锁 —— 并发 401 只触发一次 /api/refreshToken
+    // Single-flight refresh lock —— concurrent 401s trigger only one /api/refreshToken call
     let _refreshing = null;
     async function refreshOnce() {
         if (_refreshing) return _refreshing;
@@ -3498,7 +2517,7 @@ const HTML_CONTENT = `
     async function fetchWithAuth(url, options = {}) {
         const token = localStorage.getItem('authToken');
         const headers = { ...(options.headers || {}) };
-        // 无 token 时不拼 Authorization: null
+        // Don't append "Authorization: null" when there's no token
         if (token) headers.Authorization = token;
         options.headers = headers;
 
@@ -3521,7 +2540,7 @@ const HTML_CONTENT = `
                 updateUIState();
                 renderCategories();
                 document.getElementById('password-input').value = '';
-                await customAlert('登录已过期，请重新登录');
+                await customAlert('Your session has expired, please log in again');
                 throw new Error('Unauthorized');
             }
         }
@@ -3586,11 +2605,11 @@ const HTML_CONTENT = `
             toggleOverlay('custom-alert-overlay', true);
             const timer = setInterval(() => {
                 if (seconds > 0) {
-                    content.innerText = '登录已被限制，请' + seconds + '秒后再试';
+                    content.innerText = 'Login is locked, please try again in ' + seconds + 's before trying again';
                     seconds--;
                 } else {
                     clearInterval(timer);
-                    content.innerText = '已过限时，可重新尝试登录';
+                    content.innerText = 'Lockout period has ended, you can try logging in again';
                 }
             }, 1000);
             document.getElementById('custom-alert-confirm').onclick = () => {
@@ -3668,7 +2687,7 @@ const HTML_CONTENT = `
             });
             if(res.status === 401) {
                 logout();
-                await customAlert('登录凭证已过期，请重新登录');
+                await customAlert('Your login credentials have expired, please log in again');
                 return false;
             }
             const d = await res.json();
@@ -3684,7 +2703,7 @@ const HTML_CONTENT = `
         const valid = await validateToken();
         if(!valid) {
             logout();
-            await customAlert('登录凭证已过期，请重新登录');
+            await customAlert('Your login credentials have expired, please log in again');
             return false;
         }
         return true;
@@ -3700,7 +2719,7 @@ const HTML_CONTENT = `
     }
     
     function logout() {
-        // 登出同时通知服务端吊销世代并清除 HttpOnly refresh cookie
+        // Logging out also notifies the server to revoke the generation and clears the HttpOnly refresh cookie
         const t = localStorage.getItem('authToken');
         const clean = () => { localStorage.removeItem('authToken'); isLoggedIn = false; isEditMode = false; location.reload(); };
         fetch('/api/logout', {
@@ -3712,7 +2731,7 @@ const HTML_CONTENT = `
     
     async function exportData() {
         if(!await validateTokenOrRedirect()) return;
-        if(!await customConfirm("确定要导出数据吗？")) return;
+        if(!await customConfirm("Export data?")) return;
         
         try {
             const res = await fetchWithAuth("/api/exportData", {
@@ -3721,7 +2740,7 @@ const HTML_CONTENT = `
             
             if (res.status === 401) {
                 logout();
-                await customAlert('登录凭证已过期，请重新登录');
+                await customAlert('Your login credentials have expired, please log in again');
                 return;
             }
             
@@ -3736,17 +2755,17 @@ const HTML_CONTENT = `
             a.click();
             document.body.removeChild(a);
         } catch(e) { 
-            if(e.message !== 'Unauthorized') await customAlert("导出失败"); 
+            if(e.message !== 'Unauthorized') await customAlert("Export failed"); 
         }
     }
     
-    // 解析 Chrome / Edge 导出的 Netscape 书签 HTML
+    // Parse Netscape bookmark HTML exported by Chrome / Edge
     function parseBookmarks(html) {
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
         const categories = {};
 
-        // 清洗书签标题:按分隔符(|、英文/中文冒号 : ：、两边带可选空格的 -/–/—)拆分
+        // Clean bookmark titles: split on separators (|, colon : or ：, or -/–/— with optional surrounding spaces)
         function cleanTitle(title) {
             const raw = (title || '').trim();
 
@@ -3754,7 +2773,7 @@ const HTML_CONTENT = `
                 return { name: '', tips: '' };
             }
 
-            // 1. 判断是否以 http:// 或 https:// 开头（整体是 URL）
+            // 1. Check whether it starts with http:// or https:// (the whole thing is a URL)
             if (/^https?:\\/\\//i.test(raw)) {
                 try {
                     const urlObj = new URL(raw);
@@ -3765,7 +2784,7 @@ const HTML_CONTENT = `
                 }
             }
 
-            // 2. 正常文本标题拆分
+            // 2. Split a normal text title
             const sep = /[|:：]|\\s+[-–—]\\s+/;
 
             const idx = raw.search(sep);
@@ -3797,13 +2816,13 @@ const HTML_CONTENT = `
             return links;
         }
 
-        // 递归处理一个文件夹:子文件夹生成独立分类,当前文件夹的直接链接归入当前分类
+        // Recursively process a folder: subfolders become separate categories; direct links in the current folder go into the current category
         function processFolder(dl, catName) {
             const folderDts = Array.from(dl.children).filter(e => e && e.tagName === 'DT' && e.querySelector(':scope > dl'));
             for (const dt of folderDts) {
                 const h3 = dt.querySelector(':scope > h3');
                 const childDl = dt.querySelector(':scope > dl');
-                const subName = h3 ? h3.textContent.trim() : '未分类';
+                const subName = h3 ? h3.textContent.trim() : 'Uncategorized';
                 processFolder(childDl, subName);
             }
             const links = getLinks(dl);
@@ -3828,8 +2847,8 @@ const HTML_CONTENT = `
                 const url = (a.getAttribute('href') || '').trim();
                 if (!url || /^(javascript:|vbscript:|data:|chrome:|edge:|about:|magnet:)/i.test(url)) continue;
                 const clean = cleanTitle(a.textContent);
-                if (!categories['未分类']) categories['未分类'] = { isHidden: false, links: [] };
-                categories['未分类'].links.push({ name: clean.name, url, tips: clean.tips, icon: '', category: '未分类', isPrivate: false });
+                if (!categories['Uncategorized']) categories['Uncategorized'] = { isHidden: false, links: [] };
+                categories['Uncategorized'].links.push({ name: clean.name, url, tips: clean.tips, icon: '', category: 'Uncategorized', isPrivate: false });
             }
         }
 
@@ -3838,7 +2857,7 @@ const HTML_CONTENT = `
 
     async function importData() {
         if(!await validateTokenOrRedirect()) return;
-        if(!await customConfirm("确定要导入数据吗？导入将覆盖现有数据！")) return;
+        if(!await customConfirm("Import data?This will overwrite existing data!")) return;
         
         const fileInput = document.getElementById('import-file-input');
         fileInput.value = '';
@@ -3855,11 +2874,11 @@ const HTML_CONTENT = `
                         const trimmed = content.trimStart();
                         let data;
                         if (trimmed.startsWith('<!DOCTYPE') || /<(DL|H3)\b/i.test(trimmed)) {
-                            // Chrome / Edge 书签 HTML
+                            // Chrome / Edge bookmark HTML
                             data = parseBookmarks(content);
                             if (!data) throw new Error("No valid bookmarks found");
                         } else {
-                            // 本项目导出的 JSON 配置
+                            // JSON config exported by this project
                             data = JSON.parse(content);
                             if (typeof data !== 'object' || data === null) throw new Error("Invalid JSON");
                         }
@@ -3872,21 +2891,21 @@ const HTML_CONTENT = `
                         });
                         if (res.status === 401) {
                             logout();
-                            await customAlert('登录凭证已过期，请重新登录');
+                            await customAlert('Your login credentials have expired, please log in again');
                             return;
                         }
                         if (!res.ok) throw new Error("Import failed");
-                        await customAlert('数据导入成功！');
+                        await customAlert('Data imported successfully!');
                         location.reload(); 
                     } catch (error) {
-                        console.error("解析文件失败:", error);
-                        await customAlert('文件格式错误，请检查文件内容！');
+                        console.error("Failed to parse file:", error);
+                        await customAlert('Invalid file format, please check the file content!');
                     }
                 };
                 reader.readAsText(file);
             } catch (error) {
-                console.error("导入失败:", error);
-                await customAlert('数据导入失败，请重试！');
+                console.error("Import failed:", error);
+                await customAlert('Data import failed, please try again!');
             }
         };
         fileInput.click();
@@ -3897,7 +2916,7 @@ const HTML_CONTENT = `
 </html>
 `;
 
-// 配置默认值
+// Default config values
 let DEFAULT_USER = 'testUser';
 let ICON_API = 'https://api.xinac.net/icon/?url=';
 let PREFER_ICON_API = true;
@@ -3998,28 +3017,28 @@ function parseCookie(cookieHeader) {
 
 async function validateServerToken(authHeader, env) {
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return { isValid: false, status: 401, response: { error: 'Unauthorized', message: '未登录' } };
+        return { isValid: false, status: 401, response: { error: 'Unauthorized', message: 'Not logged in' } };
     }
     const token = authHeader.slice(7);
     
     const payload = await validateJWT(token, env.JWT_SECRET);
     
     if (!payload) {
-        return { isValid: false, status: 401, response: { error: 'Invalid', message: 'Token无效' } };
+        return { isValid: false, status: 401, response: { error: 'Invalid', message: 'Invalid token' } };
     }
     
     if (payload.exp < Math.floor(Date.now() / 1000)) {
-        return { isValid: false, status: 401, response: { error: 'Expired', message: 'Token过期' } };
+        return { isValid: false, status: 401, response: { error: 'Expired', message: 'Token expired' } };
     }
 
     if (payload.type !== 'access') {
-        return { isValid: false, status: 403, response: { error: 'Forbidden', message: '令牌类型错误' } };
+        return { isValid: false, status: 403, response: { error: 'Forbidden', message: 'Wrong token type' } };
     }
 
     const gen = await currentKeyGen(env);
 
     if (!payload.kid || payload.kid !== gen) {
-        return { isValid: false, status: 401, response: { error: 'Revoked', message: '会话已失效，请重新登录' } };
+        return { isValid: false, status: 401, response: { error: 'Revoked', message: 'Session invalid, please log in again' } };
     }
 
     return { isValid: true, payload };
@@ -4069,8 +3088,8 @@ async function bumpRev(env) {
 
 function cacheKeyFor(url, rev, scope) {
     const k = new URL(url);
-    k.searchParams.set('__v', rev);        // 版本失效维度
-    k.searchParams.set('__s', scope);      // 鉴权维度
+    k.searchParams.set('__v', rev);        // Version invalidation dimension
+    k.searchParams.set('__s', scope);      // Auth dimension
     return new Request(k.toString(), { method: 'GET' });
 }
 
@@ -4083,8 +3102,8 @@ async function sendCached(body, request, cacheKey, cacheable, extraHeaders = {})
     const headers = {
         'Content-Type': 'application/json',
         ...extraHeaders,
-        // 响应头一律 no-store：避免 CDN/浏览器按裸 URL 缓存公开数据，否则登录后带
-        // Authorization 请求同一 URL 会命中这份匿名缓存，拿到过滤后数据、污染登录态的
+        // Response headers are always no-store: avoids CDN/browsers caching public data by the bare URL; otherwise, after logging in, requests carrying
+        // an Authorization header to the same URL would hit this anonymous cache and get filtered data, polluting the authenticated state
         'Cache-Control': 'no-store',
         'Vary': 'Accept-Encoding',
     };
@@ -4093,111 +3112,14 @@ async function sendCached(body, request, cacheKey, cacheable, extraHeaders = {})
     return res;
 }
 
-async function handleGetTheme(request, env) {
-    const theme = await getPublishedTheme(env);
-    return new Response(JSON.stringify({ ok: true, theme }), { status: 200, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json', 'Cache-Control': 'no-cache' } });
-}
-
-function sanitizeThemeVars(v) {
-    if (!v || typeof v !== 'object') return null;
-    const out = {};
-    let n = 0;
-    for (const k in v) {
-        if (typeof k !== 'string' || k.length > 40) continue;
-        const val = v[k];
-        if (typeof val !== 'string' || val.length === 0 || val.length > 64) continue;
-        out[k] = val;
-        if (++n > 200) break;
-    }
-    return Object.keys(out).length ? out : null;
-}
-function sanitizeThemeData(td) {
-    if (!td || typeof td !== 'object') return null;
-    const light = sanitizeThemeVars(td.light);
-    const dark = sanitizeThemeVars(td.dark);
-    if (!light && !dark) return null;
-    const res = { light: light || dark, dark: dark || light };
-    const theme = sanitizeThemeVars(td.theme);
-    if (theme) res.theme = theme;
-    if (typeof td.fonts === 'string') res.fonts = td.fonts.slice(0, 128);
-    return res;
-}
-async function handleSaveTheme(request, env) {
-    const v = await validateServerToken(request.headers.get('Authorization'), env);
-    if (!v.isValid) return new Response(JSON.stringify(v.response), { status: v.status, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
-    const body = await readJsonBody(request, 40 * 1024);
-    if (!body.ok) return new Response(JSON.stringify({ error: body.reason }), { status: body.reason === 'TOO_LARGE' ? 413 : 400, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
-    const b = body.data || {};
-
-    let themeData = null;
-    if (b.themeData != null) {
-        themeData = sanitizeThemeData(b.themeData);
-        if (!themeData) return new Response(JSON.stringify({ error: 'INVALID_THEME' }), { status: 422, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
-    }
-    const rec = {
-        themeData,
-        name: typeof b.name === 'string' ? b.name.slice(0, 80) : '',
-        kind: ['builtin', 'custom', 'ai', 'default'].indexOf(b.kind) >= 0 ? b.kind : 'custom',
-        source: typeof b.source === 'string' ? b.source.slice(0, 500) : '',
-        updatedAt: Date.now(),
-    };
-    try {
-        await env.CARD_ORDER.put(DEFAULT_USER + ':theme', JSON.stringify(rec));
-    } catch (e) {
-        return new Response(JSON.stringify({ error: 'KV_WRITE_FAILED' }), { status: 500, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
-    }
-
-    const oldRev = (_pubThemeMemo.value && _pubThemeMemo.value.updatedAt) || 0;
-    try {
-        const origin = new URL(request.url).origin;
-        await Promise.all([
-            caches.default.delete(new Request(origin + '/?tr=' + oldRev, { method: 'GET' })),
-            caches.default.delete(new Request(origin + '/', { method: 'GET' })), // 清理旧版无 rev 的 key
-        ]);
-    } catch (e) { console.warn('theme cache purge failed', e); }
-    _pubThemeMemo.expireAt = 0; // 失效 isolate 缓存，站长即时可见
-    return new Response(JSON.stringify({ ok: true, updatedAt: rec.updatedAt }), { status: 200, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
-}
-
-// —— 发布主题注入 ——
-const _pubThemeMemo = { value: null, expireAt: 0 };
-async function getPublishedTheme(env) {
-    const now = Date.now();
-    if (_pubThemeMemo.expireAt > now) return _pubThemeMemo.value;
-    let theme = null;
-    try {
-        const raw = await env.CARD_ORDER.get(DEFAULT_USER + ':theme');
-        if (raw) theme = JSON.parse(raw);
-    } catch (e) { theme = null; }
-    _pubThemeMemo.value = theme;
-    _pubThemeMemo.expireAt = now + 5000; 
-    return theme;
-}
-
-function jsonForScript(obj) {
-    return JSON.stringify(obj)
-        .replace(/</g, '\\u003C')
-        .replace(/>/g, '\\u003E')
-        .replace(/&/g, '\\u0026')
-        .replace(/\u2028/g, '\\u2028')
-        .replace(/\u2029/g, '\\u2029');
-}
-function themeToJsLiteral(theme) {
-    if (!theme) return 'null';
-    return jsonForScript({
-        data: theme.themeData || null,
-        name: theme.name || '',
-        kind: theme.kind || '',
-        source: theme.source || '',
-        updatedAt: theme.updatedAt || 0,
-    });
-}
-async function buildHtml(theme) {
-    const body = HTML_CONTENT.split('"__NAV_PUBLISHED_THEME__"').join(themeToJsLiteral(theme));
-    const buf = await new Response(body).arrayBuffer();
+let _htmlMeta = null;
+async function htmlMeta() {
+    if (_htmlMeta) return _htmlMeta;
+    const buf = await new Response(HTML_CONTENT).arrayBuffer();
     const digest = await crypto.subtle.digest('SHA-256', buf);
     const etag = '"' + base64UrlEncodeUint8(new Uint8Array(digest)).slice(0, 32) + '"';
-    return { etag, body };
+    _htmlMeta = { etag, body: HTML_CONTENT };
+    return _htmlMeta;
 }
 
 function normalizeCategories(categories) {
@@ -4337,7 +3259,7 @@ async function fetchBestIcon(targetUrl) {
 
 const ICON_SCHEME_OK = new Set(['http:', 'https:']);
 const HOST_DENY = /(^|\.)(localhost|127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|169\.254\.|metadata\.google|i-1\.internal)/i;
-// 只接受位图，绝不放行 HTML/SVG/XML。SVG 仅对「可信图床」放行（见 safeFetchIcon 的 allowSvg）
+// Only bitmaps are accepted; HTML/SVG/XML are never allowed through. SVG is only allowed for "trusted image hosts" (see allowSvg in safeFetchIcon)
 const ICON_CT_OK = /^image\/(png|jpeg|gif|webp|ico|x-icon|vnd\.microsoft\.icon|avif|bmp)/i;
 
 async function safeFetchIcon(target, ms = 3500, allowSvg = false) {
@@ -4370,57 +3292,6 @@ async function safeFetchIcon(target, ms = 3500, allowSvg = false) {
     }
 }
 
-async function handleThemeProxy(request, ctx) {
-    const url = new URL(request.url);
-    const id = url.searchParams.get('id');
-
-    if (!id) return new Response(JSON.stringify({ error: 'Missing id' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-    });
-
-    const targetUrl = 'https://tweakcn.com/r/themes/' + encodeURIComponent(id);
-
-    const cacheKey = new Request(url.toString(), request);
-    const cache = caches.default;
-    let response = await cache.match(cacheKey);
-
-    if (response) {
-        response = new Response(response.body, response);
-        response.headers.set('X-Theme-Cache-Status', 'HIT');
-        return response;
-    }
-
-    try {
-        const upstream = await fetch(targetUrl, {
-            headers: { 'Accept': 'application/json', 'User-Agent': 'tweakcn-theme-proxy/1.0' },
-        });
-        if (!upstream.ok) {
-            return new Response(JSON.stringify({ error: 'upstream ' + upstream.status }), {
-                status: upstream.status,
-                headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-            });
-        }
-        const body = await upstream.text();
-        response = new Response(body, {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-                'Cache-Control': 'public, max-age=300, s-maxage=300',
-                'Access-Control-Allow-Origin': '*',
-                'X-Theme-Cache-Status': 'MISS',
-            },
-        });
-        ctx.waitUntil(cache.put(cacheKey, response.clone()).catch(e => console.warn('theme cache put failed', e)));
-        return response;
-    } catch (e) {
-        return new Response(JSON.stringify({ error: 'failed to fetch theme: ' + e.message }), {
-            status: 502,
-            headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-        });
-    }
-}
-
 async function handleIconProxy(request, ctx) {
     const url = new URL(request.url);
     const targetUrl = url.searchParams.get('url');
@@ -4444,7 +3315,7 @@ async function handleIconProxy(request, ctx) {
             ...extraHeaders,
         }
     });
-    // 对已通过 safeFetchIcon 白名单(位图/SVG)的上游 Response，按其真实类型返回。
+    // For an upstream Response that already passed the safeFetchIcon allowlist (bitmap/SVG), return it according to its real type.
     const buildRespFromUpstream = (upstream, extraHeaders = {}) => {
         const rawCt = (upstream.headers.get('content-type') || '').toLowerCase();
         const ct = rawCt === 'image/svg+xml' ? 'image/svg+xml' : 'image/png';
@@ -4544,13 +3415,13 @@ async function handleSmartBackup(env, currentData) {
 function assertEnv(env) {
     const messages = [];
     if (!env.JWT_SECRET || env.JWT_SECRET.length < 32) {
-        messages.push('JWT_SECRET 未配置或强度不足（需 ≥32 字符）');
+        messages.push('JWT_SECRET is not configured or not strong enough (needs ≥ 32 characters)');
     }
     if (!env.ADMIN_PASSWORD || env.ADMIN_PASSWORD.length < 8) {
-        messages.push('ADMIN_PASSWORD 未配置或过短');
+        messages.push('ADMIN_PASSWORD is not configured or too short');
     }
     if (messages.length > 0) {
-        const e = new Error(`FATAL: 配置缺失或无效: ${messages.join('; ')}`);
+        const e = new Error(`FATAL: Missing or invalid configuration: ${messages.join('; ')}`);
         e.code = 'CONFIG_ERROR';
         e.messages = messages;
         throw e;
@@ -4623,7 +3494,7 @@ function sanitizeCategories(raw) {
                 icon: l.icon ? String(l.icon).slice(0, MAX_URL) : '',
                 isPrivate: !!l.isPrivate,
                 isDirect: !!l.isDirect,
-                // 保留/回填分类归属：优先用传入值，缺失则用所在分类 key，避免 link.category 丢失后变成 undefined 分类
+                // Preserve/backfill category ownership: prefer the given value, otherwise fall back to the containing category's key, so a missing link.category doesn't become an "undefined" category
                 category: l.category ? String(l.category).slice(0, MAX_NAME) : name,
             })),
         };
@@ -4677,36 +3548,21 @@ export default {
                 return handleIconProxy(request, ctx);
             }
 
-            if (url.pathname === '/api/theme-proxy') {
-                return handleThemeProxy(request, ctx);
-            }
-
-            if (url.pathname === '/api/getTheme') {
-                return handleGetTheme(request, env);
-            }
-
-            if (url.pathname === '/api/saveTheme' && request.method === 'POST') {
-                return handleSaveTheme(request, env);
-            }
-
         if (url.pathname === '/' || url.pathname === '/index.html') {
-            const theme = await getPublishedTheme(env);
-            const { etag, body } = await buildHtml(theme);
+            const { etag, body } = await htmlMeta();
 
             if (request.headers.get('If-None-Match') === etag) {
                 return new Response(null, {
                     status: 304,
                     headers: {
                         'ETag': etag,
-                        // no-cache：浏览器每次都带 etag 回源校验，避免旧页面被续命
-                        'Cache-Control': 'no-cache',
+                        'Cache-Control': 'public, max-age=60, s-maxage=300, must-revalidate',
                     },
                 });
             }
 
-            // 边缘缓存命中 → 0 回源
-            const rev = (theme && theme.updatedAt) || 0;
-            const cacheKey = new Request(url.origin + '/?tr=' + rev, { method: 'GET' });
+            // Edge cache hit -> 0 origin requests
+            const cacheKey = new Request(url.origin + '/', { method: 'GET' });
             const hit = await caches.default.match(cacheKey);
             if (hit) return hit;
 
@@ -4714,7 +3570,7 @@ export default {
                 headers: {
                     'Content-Type': 'text/html; charset=utf-8',
                     'ETag': etag,
-                    'Cache-Control': 'no-cache',
+                    'Cache-Control': 'public, max-age=60, s-maxage=300, stale-while-revalidate=600',
                     'Vary': 'Accept-Encoding',
                 },
             });
@@ -4867,7 +3723,7 @@ export default {
             const rev = scope === 'anon' ? await getDataRev(env) : '0';
             const cacheKey = cacheKeyFor(url, rev, scope);
 
-            // ② 边缘缓存命中 → 0 KV 读
+            // (2) Edge cache hit -> 0 KV reads
             if (scope === 'anon') {
                 const hit = await CACHE.match(cacheKey);
                 if (hit) {
@@ -4976,9 +3832,12 @@ export default {
         }
 
         if (url.pathname === '/api/logout' && request.method === 'POST') {
-            const validation = await validateServerToken(request.headers.get('Authorization'), env);
-            if (!validation.isValid) return new Response(JSON.stringify(validation.response), { status: validation.status, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
-            await bumpKeyGen(env);
+            // Only revoke all sessions when the caller holds a validly-signed access token of the current generation
+            // (an expired one is fine: it still proves the caller was logged in). Anonymous callers can no longer force a global logout.
+            const _p = await validateJWT((request.headers.get('Authorization') || '').replace(/^Bearer /, ''), env.JWT_SECRET);
+            if (_p && _p.type === 'access' && _p.kid === (await currentKeyGen(env))) {
+                await bumpKeyGen(env);
+            }
             const response = new Response(JSON.stringify({ success: true }), {
                 status: 200,
                 headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' }
