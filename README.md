@@ -28,6 +28,7 @@
 * **🔒 Password Protection**: Hide sensitive links behind an admin password—visible only when logged in. Failed logins are rate-limited (5 wrong attempts locks that IP for 15 minutes).
 * **📂 Flexible Data Management**: Add, edit, or delete links directly on the page. Supports importing HTML bookmarks from Chrome/Edge, plus JSON import/export. Every save automatically keeps a backup of the previous data (at most one per 10 minutes, latest 10 kept).
 * **🩺 One-Click Check** (login required): Check whether each site is reachable and how fast it responds, right from your browser.
+* **🖼️ Sharp, Bandwidth-Friendly Icons**: Icons are resized and re-encoded (AVIF/WebP where supported) at the edge, and served via `srcset` so Retina, 4K and 5K screens get a crisp icon while ordinary screens don't download more than they need. Requires **Image Resizing** to be turned on for your domain (see below).
 * **🔍 Multi-Engine Search**: Search via Google, Bing, or DuckDuckGo, or perform instant quick searches across your saved bookmarks.
 
 ## Interface Preview
@@ -67,6 +68,9 @@
 
 5. **Add a Custom Domain** (Optional):
    - Under **Settings > Domains & Routes**, assign a custom domain or use the provided `*.workers.dev` subdomain.
+
+6. **Turn on Image Resizing** (recommended, for sharp/lightweight icons):
+   - In the Cloudflare dashboard, open your domain's **Speed** tab and enable **Image Resizing**. The Free plan includes 5,000 unique image transformations per month, far more than a personal nav page needs. Without this enabled, icons are still served correctly, just at their original (unresized) size.
 
 <br/>
 
@@ -121,6 +125,9 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 </details>
 
 ## 📝 Changelog
+
+**2026-09-23**
+* Icons: `/api/icon` now accepts a `w` size parameter and resizes/re-encodes icons at the edge via Cloudflare Image Resizing (AVIF/WebP when the browser supports it), each size and format cached separately. The page requests icons through `srcset` at 1x/2x/3x so Retina/4K/5K screens get a sharp icon without oversized downloads on ordinary screens. Custom icon URLs saved on a link are now also routed through the proxy (previously they bypassed it entirely, loading the original file at full size with no caching).
 
 **2026-09-20**
 * Performance: Tailwind CSS is now precompiled and embedded in the page instead of being loaded from `cdn.tailwindcss.com`; Google Fonts no longer blocks the page from starting; the login check no longer runs twice at startup; the "Loading…" indicator shows from the first paint; idle dialog overlays are fully hidden (`display: none`) instead of sitting invisibly on top of the page.
