@@ -1675,20 +1675,30 @@ const HTML_CONTENT = `
         }
         icon.className = iconClass;
 
-        let resolvedSrc;
-        if (link.icon && link.icon.startsWith('http')) {
-            resolvedSrc = link.icon;
-        } else if (iconCache.has(link.url)) {
-            resolvedSrc = iconCache.get(link.url);
+        // Request the icon at the size it's actually displayed (36px list / 64px APP), then let the
+        // browser pick 1x/2x/3x via srcset so Retina/4K/5K screens stay sharp without oversized downloads
+        // on ordinary screens. A custom icon URL saved on the link is routed through the proxy too
+        // (direct=1: fetch that URL directly as an image, skip favicon discovery), so it gets the
+        // same resizing instead of loading the original file straight from wherever it's hosted.
+        const baseW = isAppLayout ? 64 : 36;
+        const cacheKey = link.url + '|' + (link.icon || '') + '|' + baseW;
+        let resolvedSrc, resolvedSrcset;
+        if (iconCache.has(cacheKey)) {
+            ({ src: resolvedSrc, srcset: resolvedSrcset } = iconCache.get(cacheKey));
         } else {
-            resolvedSrc = imgApi + encodeURIComponent(link.url);
-            iconCache.set(link.url, resolvedSrc);
+            const isCustom = !!(link.icon && link.icon.startsWith('http'));
+            const sourceUrl = isCustom ? link.icon : link.url;
+            const base = imgApi + encodeURIComponent(sourceUrl) + (isCustom ? '&direct=1' : '') + '&w=';
+            resolvedSrc = base + baseW;
+            resolvedSrcset = \`\${base}\${baseW} 1x, \${base}\${baseW * 2} 2x, \${base}\${baseW * 3} 3x\`;
+            iconCache.set(cacheKey, { src: resolvedSrc, srcset: resolvedSrcset });
         }
         let iconNode = icon;
         if (iconFailed.has(resolvedSrc)) {
             iconNode = createIconFallback(icon);
         } else {
             icon.src = resolvedSrc;
+            icon.srcset = resolvedSrcset;
             icon.onload = function() {
                 // Fade in the icon and hide the spinner once loading completes
                 this.classList.add('opacity-100');
@@ -3166,7 +3176,7 @@ function corsHeaders(request, env) {
 }
 
 const FETCH_ICON_MAX_HTML = 1 * 1024 * 1024; 
-async function fetchBestIcon(targetUrl) {
+async function fetchBestIcon(targetUrl, resize = null) {
     const headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
@@ -3245,7 +3255,7 @@ async function fetchBestIcon(targetUrl) {
         for (const iconUrl of urls) {
             const ms = Math.min(1500, deadline - Date.now());
             if (ms <= 0) break;
-            const res = await safeFetchIcon(iconUrl, ms, true);
+            const res = await safeFetchIcon(iconUrl, ms, true, resize);
             if (res) return res;
         }
         return null;
@@ -3262,7 +3272,7 @@ const HOST_DENY = /(^|\.)(localhost|127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01]
 // Only bitmaps are accepted; HTML/SVG/XML are never allowed through. SVG is only allowed for "trusted image hosts" (see allowSvg in safeFetchIcon)
 const ICON_CT_OK = /^image\/(png|jpeg|gif|webp|ico|x-icon|vnd\.microsoft\.icon|avif|bmp)/i;
 
-async function safeFetchIcon(target, ms = 3500, allowSvg = false) {
+async function safeFetchIcon(target, ms = 3500, allowSvg = false, resize = null) {
     let u;
     try { u = new URL(target); } catch { return null; }
     if (!ICON_SCHEME_OK.has(u.protocol)) return null;
@@ -3271,11 +3281,26 @@ async function safeFetchIcon(target, ms = 3500, allowSvg = false) {
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), ms);
     try {
-        const res = await fetch(u.toString(), {
+        const fetchOpts = {
             headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' },
             redirect: 'follow',
             signal: ctrl.signal,
-        });
+        };
+        // Cloudflare Image Resizing: shrink the source icon to the requested display size at the edge.
+        // Ignored automatically if Image Resizing isn't enabled on the zone, or if the source format can't be transformed (e.g. .ico, .svg) - the original is returned unresized in that case, never an error.
+        if (resize && resize.width > 0) {
+            fetchOpts.cf = {
+                image: {
+                    width: resize.width,
+                    height: resize.width,
+                    fit: 'contain',
+                    background: 'transparent',
+                    quality: 82,
+                    ...(resize.format ? { format: resize.format } : {}),
+                },
+            };
+        }
+        const res = await fetch(u.toString(), fetchOpts);
         if (!res.ok) return null;
         const ct = (res.headers.get('content-type') || '').toLowerCase();
         if (allowSvg) {
@@ -3298,9 +3323,28 @@ async function handleIconProxy(request, ctx) {
 
     if (!targetUrl) return new Response('Missing URL', { status: 400 });
 
-    const cacheKey = new Request(url.toString(), request);
+    // Requested display size (CSS pixels). The client sends 1x/2x/3x via srcset so
+    // Retina/4K/5K screens get a sharp icon without oversized icons on ordinary screens.
+    // Clamped to a sane range so a crafted request can't force very large/expensive transforms.
+    const reqW = Math.round(Number(url.searchParams.get('w')) || 0);
+    const width = Math.min(216, Math.max(24, reqW || 72));
+    // "direct=1": the caller already knows targetUrl points straight at an image
+    // (a custom icon URL saved on the link), so skip the site-icon-discovery steps.
+    const isDirect = url.searchParams.get('direct') === '1';
+
+    // Content negotiation: let Cloudflare re-encode to AVIF/WebP when the visitor's browser supports it.
+    const accept = request.headers.get('Accept') || '';
+    let format = null;
+    if (/image\/avif/.test(accept)) format = 'avif';
+    else if (/image\/webp/.test(accept)) format = 'webp';
+    const resize = { width, format };
+
+    // The chosen size and format each get their own cache entry.
+    const cacheUrl = new URL(url.toString());
+    cacheUrl.searchParams.set('_fmt', format || 'orig');
+    const cacheKey = new Request(cacheUrl.toString(), request);
     const cache = caches.default;
-    
+
     let response = await cache.match(cacheKey);
 
     const buildResp = (body, extraHeaders = {}) => new Response(body, {
@@ -3312,13 +3356,16 @@ async function handleIconProxy(request, ctx) {
             'Content-Disposition': 'inline; filename="icon"',
             'Referrer-Policy': 'no-referrer',
             'Cross-Origin-Resource-Policy': 'same-origin',
+            'Vary': 'Accept',
             ...extraHeaders,
         }
     });
-    // For an upstream Response that already passed the safeFetchIcon allowlist (bitmap/SVG), return it according to its real type.
+    // For an upstream Response that already passed the safeFetchIcon allowlist (bitmap/SVG), return it according to its real type
+    // (after Image Resizing, that may now be image/webp or image/avif rather than the original format).
     const buildRespFromUpstream = (upstream, extraHeaders = {}) => {
         const rawCt = (upstream.headers.get('content-type') || '').toLowerCase();
-        const ct = rawCt === 'image/svg+xml' ? 'image/svg+xml' : 'image/png';
+        const okCt = /^image\/(png|jpeg|gif|webp|avif|svg\+xml|x-icon|vnd\.microsoft\.icon)/;
+        const ct = okCt.test(rawCt) ? rawCt.split(';')[0].trim() : 'image/png';
         return buildResp(upstream.body, { 'Content-Type': ct, ...extraHeaders });
     };
     if (response) {
@@ -3326,19 +3373,21 @@ async function handleIconProxy(request, ctx) {
         response.headers.set('X-Icon-Cache-Status', 'HIT');
     } else {
         let upstreamResponse = null;
-        if (PREFER_ICON_API) {
+        if (isDirect) {
+            upstreamResponse = await safeFetchIcon(targetUrl, 3500, true, resize);
+        } else if (PREFER_ICON_API) {
             const upstreamApi = `${ICON_API}${encodeURIComponent(targetUrl)}`;
-            upstreamResponse = await safeFetchIcon(upstreamApi, 3500, true);
+            upstreamResponse = await safeFetchIcon(upstreamApi, 3500, true, resize);
             if (!upstreamResponse) {
-                upstreamResponse = await safeFetchIcon(new URL('/favicon.ico', targetUrl).toString(), 3500);
+                upstreamResponse = await safeFetchIcon(new URL('/favicon.ico', targetUrl).toString(), 3500, false, resize);
                 if (!upstreamResponse) {
-                    upstreamResponse = await fetchBestIcon(targetUrl);
+                    upstreamResponse = await fetchBestIcon(targetUrl, resize);
                 }
             }
         } else {
-            upstreamResponse = await safeFetchIcon(new URL('/favicon.ico', targetUrl).toString(), 3500);
+            upstreamResponse = await safeFetchIcon(new URL('/favicon.ico', targetUrl).toString(), 3500, false, resize);
             if (!upstreamResponse) {
-                upstreamResponse = await fetchBestIcon(targetUrl);
+                upstreamResponse = await fetchBestIcon(targetUrl, resize);
             }
         }
         if (upstreamResponse) {
