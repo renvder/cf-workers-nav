@@ -479,6 +479,11 @@ const HTML_CONTENT = `
                     <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Icon URL</label>
                     <input type="text" id="icon-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Leave blank to auto-fetch">
                 </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Group</label>
+                    <input type="text" id="group-input" list="group-datalist" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Optional — leave blank for no group">
+                    <datalist id="group-datalist"></datalist>
+                </div>
 
                 <!-- Custom Category Dropdown -->
                 <div class="relative z-20" id="category-select-wrapper">
@@ -580,7 +585,7 @@ const HTML_CONTENT = `
 
     const categories = {};
     let currentEngine;
-    let initialDragState = { category: null, index: -1 };
+    let initialDragState = { category: null, index: -1, group: '' };
 
     let latencyResults = {};
     let checkAllRunning = false;
@@ -1077,10 +1082,31 @@ const HTML_CONTENT = `
             await customAlert('This category already exists');
             return;
         }
-        categories[categoryName] = { isHidden: false, links: [] };
+        categories[categoryName] = { isHidden: false, groups: [], links: [] };
         updateCategorySelect();
         renderCategories();
         setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 100);
+        await saveLinks();
+    }
+
+    // Create an empty group inside a category: the name goes into the
+    // category's groups list, so the group renders (with its header and a
+    // "+" tile) before any link exists in it, and survives save + reload.
+    async function addGroup(category) {
+        if (!await validateTokenOrRedirect()) return;
+        const cat = categories[category];
+        if (!cat) return;
+        const name = await showCategoryDialog('Please enter a new group name');
+        if (name === null || name === undefined) return;
+        if (!name) { await customAlert('Group name cannot be empty'); return; }
+        if (name.length > 120) { await customAlert('Group name is too long (max 120 characters)'); return; }
+        if (groupNamesOf(category).includes(name)) {
+            await customAlert('A group with this name already exists in this category');
+            return;
+        }
+        if (!Array.isArray(cat.groups)) cat.groups = [];
+        cat.groups.push(name);
+        renderCategoryGrid(category);
         await saveLinks();
     }
 
@@ -1135,6 +1161,46 @@ const HTML_CONTENT = `
                 await saveLinks();
             }
         }
+    }
+
+    // Rename a group: the entry in the category's groups list is renamed,
+    // and so is the group field on every link in that group.
+    async function renameGroup(category, oldName) {
+        if (!await validateTokenOrRedirect()) return;
+        const newName = await showCategoryDialog('Rename group', oldName);
+        if (newName === null || newName === undefined) return;
+        if (!newName) { await customAlert('Group name cannot be empty'); return; }
+        if (newName === oldName) return;
+        if (newName.length > 120) { await customAlert('Group name is too long (max 120 characters)'); return; }
+        if (groupNamesOf(category).includes(newName)) {
+            await customAlert('A group with this name already exists in this category');
+            return;
+        }
+        const cat = categories[category];
+        if (!cat) return;
+        if (Array.isArray(cat.groups)) {
+            const i = cat.groups.indexOf(oldName);
+            if (i !== -1) cat.groups[i] = newName;
+        }
+        (cat.links || []).forEach(l => { if ((l.group || '') === oldName) l.group = newName; });
+        renderCategoryGrid(category);
+        await saveLinks();
+    }
+
+    // Delete a group: the name leaves the category's groups list and its
+    // links become ungrouped, they are NOT deleted.
+    async function deleteGroup(category, groupName) {
+        if (!await validateTokenOrRedirect()) return;
+        if (!await customConfirm('Delete group "' + groupName + '"? Its links will become ungrouped, not deleted.')) return;
+        const cat = categories[category];
+        if (!cat) return;
+        if (Array.isArray(cat.groups)) {
+            const i = cat.groups.indexOf(groupName);
+            if (i !== -1) cat.groups.splice(i, 1);
+        }
+        (cat.links || []).forEach(l => { if ((l.group || '') === groupName) l.group = ''; });
+        renderCategoryGrid(category);
+        await saveLinks();
     }
 
     async function moveCategory(categoryName, direction) {
@@ -1202,13 +1268,162 @@ const HTML_CONTENT = `
         return result;
     }
 
+    // Ordered group names for a category: the stored groups list first, then
+    // any group found on links that is not in the list (first-appearance
+    // order). Empty groups live only in the stored list, so this is what
+    // keeps them visible after a save + reload.
+    function groupNamesOf(category) {
+        const cat = categories[category];
+        if (!cat) return [];
+        const out = [];
+        (Array.isArray(cat.groups) ? cat.groups : []).forEach(g => {
+            const s = (typeof g === 'string') ? g.trim() : '';
+            if (s && !out.includes(s)) out.push(s);
+        });
+        (cat.links || []).forEach(l => {
+            const s = (typeof l.group === 'string') ? l.group.trim() : '';
+            if (s && !out.includes(s)) out.push(s);
+        });
+        return out;
+    }
+
+    // Split a category's links into ungrouped links first, then one group per
+    // name in the category's groups list (in list order), then any link-only
+    // group in first-appearance order. Empty groups in the list still get a
+    // partition (with no links) so their header renders. Links without a group
+    // (data saved before groups existed) land in the ungrouped partition.
+    function partitionLinksByGroup(links, groups) {
+        const map = new Map();
+        (links || []).forEach(link => {
+            const raw = (typeof link.group === 'string') ? link.group.trim() : '';
+            const key = raw || '';
+            if (!map.has(key)) map.set(key, []);
+            map.get(key).push(link);
+        });
+        if (!map.has('')) map.set('', []);
+        const ordered = [];
+        (groups || []).forEach(g => {
+            const s = (typeof g === 'string') ? g.trim() : '';
+            if (s && !ordered.includes(s)) ordered.push(s);
+        });
+        map.forEach((_, k) => { if (k && !ordered.includes(k)) ordered.push(k); });
+        // Ungrouped first, then groups. An empty ungrouped partition is
+        // dropped unless the category is entirely empty (an empty category
+        // still needs one grid for the "+" placeholder).
+        let keys = [''].concat(ordered);
+        if (keys.length > 1) keys = keys.filter(k => k !== '' || map.get(k).length > 0);
+        return keys.map(k => ({ group: k, links: map.get(k) || [] }));
+    }
+
+    // The "+" tile at the end of a grid (edit mode only): clicking it opens
+    // the add dialog with the category and that grid's group pre-filled.
+    // Dragging a card over it moves the card into this grid — this is the
+    // only drop target of an empty grid, which has no cards to drag over.
+    function createAddCardPlaceholder(category, group) {
+        const addCardPlaceholder = document.createElement('div');
+        const sizeClasses = isAppLayout
+            ? 'w-16 h-16 rounded-[1.2rem] mx-auto'
+            : 'min-h-[100px] p-4 rounded-2xl w-full';
+
+        addCardPlaceholder.className = \`add-card-placeholder group flex flex-col h-full w-full \${sizeClasses} rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-emerald-500 dark:hover:border-emerald-500 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/10 transition-all cursor-pointer flex items-center justify-center\`;
+        addCardPlaceholder.innerHTML = \`
+            <div class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/30 flex items-center justify-center transition-colors pointer-events-none">
+                <svg class="w-6 h-6 text-slate-400 group-hover:text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+            </div>
+        \`;
+
+        addCardPlaceholder.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            if (draggedCard) {
+                addCardPlaceholder.parentElement.insertBefore(draggedCard, addCardPlaceholder);
+            }
+        });
+
+        addCardPlaceholder.onclick = () => {
+             showAddDialog();
+             document.getElementById('category-select-value').value = category;
+             document.getElementById('category-select-text').textContent = category;
+             document.getElementById('group-input').value = group;
+             updateGroupDatalist(category);
+        };
+        return addCardPlaceholder;
+    }
+
+    // Build one card grid per partition (ungrouped first, then each group),
+    // each group grid preceded by a small sub-header. Search mode passes a
+    // single ungrouped partition, so it renders flat exactly as before.
+    function buildGroupBlocks(category, partitions) {
+        const fragment = document.createDocumentFragment();
+        // Adjust the grid column count based on layout mode
+        // APP mode: 4 per row on mobile, 6 on tablet, 8-10 on large screens
+        const gridClasses = isAppLayout
+            ? 'grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-x-2 gap-y-6'
+            : 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4';
+
+        partitions.forEach(({ group, links: glinks }, idx) => {
+            if (group) {
+                const header = document.createElement('div');
+                header.className = 'group-header flex items-center gap-2 ' + (idx === 0 ? 'mt-1 mb-3' : 'mt-6 mb-3');
+                header.dataset.group = group;
+                header.dataset.category = category;
+
+                const bar = document.createElement('span');
+                bar.className = 'w-1 h-4 bg-slate-300 dark:bg-slate-600 rounded-full inline-block';
+                header.appendChild(bar);
+
+                const nameEl = document.createElement('span');
+                nameEl.className = 'text-sm font-semibold text-slate-500 dark:text-slate-400';
+                nameEl.textContent = group;
+                header.appendChild(nameEl);
+
+                if (isEditMode) {
+                    const btnBase = 'w-7 h-7 flex items-center justify-center rounded-lg transition-all duration-200 hover:scale-105 active:scale-95';
+                    const btnWrap = document.createElement('div');
+                    btnWrap.className = 'flex items-center gap-0.5 ml-1';
+                    btnWrap.innerHTML = \`
+                        <button class="\${btnBase} text-slate-400 hover:text-blue-600 hover:bg-blue-100 dark:text-slate-500 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 has-tooltip" data-tooltip="Rename group" data-action="rename-group" data-category="\${escAttr(category)}" data-group="\${escAttr(group)}">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                        </button>
+                        <button class="\${btnBase} text-slate-400 hover:text-red-600 hover:bg-red-100 dark:text-slate-500 dark:hover:bg-red-900/30 dark:hover:text-red-400 has-tooltip" data-tooltip="Delete group" data-action="delete-group" data-category="\${escAttr(category)}" data-group="\${escAttr(group)}">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>
+                    \`;
+                    header.appendChild(btnWrap);
+                }
+
+                fragment.appendChild(header);
+            }
+
+            const grid = document.createElement('div');
+            grid.className = \`grid \${gridClasses} card-container relative\`;
+            grid.id = group ? gridId(category) + '-' + slugId(group) : gridId(category);
+            grid.dataset.group = group;
+            grid.dataset.category = category;
+
+            // Build cards off-screen then mount them once, to reduce reflow
+            const cardsFragment = document.createDocumentFragment();
+            glinks.forEach(link => {
+                const card = createCard(link);
+                if (card) cardsFragment.appendChild(card);
+            });
+            grid.appendChild(cardsFragment);
+            // In edit mode every grid gets its own "+" tile, so a link can be
+            // added straight into any group — including an empty one, whose
+            // grid has no cards and no other way to add into it.
+            if (isEditMode) grid.appendChild(createAddCardPlaceholder(category, group));
+            fragment.appendChild(grid);
+        });
+
+        return fragment;
+    }
+
     function renderCategorySections({ renderButtons = false, searchMode = false, filteredCategories = null } = {}) {
         const container = document.getElementById('sections-container');
         setupCardDelegation(container);
         const fragment = document.createDocumentFragment();
         const sourceCategories = searchMode && filteredCategories ? filteredCategories : categories;
 
-        Object.entries(sourceCategories).forEach(([category, { links, isHidden }]) => {
+        Object.entries(sourceCategories).forEach(([category, { links, isHidden, groups }]) => {
             if (!isEditMode && !isLoggedIn && isHidden && !searchMode) return;
 
             const section = document.createElement('div');
@@ -1274,55 +1489,29 @@ const HTML_CONTENT = `
                 titleContainer.appendChild(controls);
             }
 
-            // Card grid
-            const cardContainer = document.createElement('div');
-            // Adjust the grid column count based on layout mode
-            // APP mode: 4 per row on mobile, 6 on tablet, 8-10 on large screens
-            const gridClasses = isAppLayout
-                ? 'grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-x-2 gap-y-6'
-                : 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4';
-
-            cardContainer.className = \`grid \${gridClasses} card-container relative\`;
-            cardContainer.id = gridId(category); // Distinguish from section.id to avoid duplicate ids on the same page
-
-            // Build cards off-screen then mount them once, to reduce reflow
-            const cardsFragment = document.createDocumentFragment();
-            links.forEach(link => {
-                const card = createCard(link);
-                if (card) cardsFragment.appendChild(card);
-            });
-            cardContainer.appendChild(cardsFragment);
-
+            // Card grids: one per group (ungrouped first, then groups in
+            // list order, then link-only groups). Search mode stays flat,
+            // exactly as before.
+            const partitions = searchMode ? [{ group: '', links }] : partitionLinksByGroup(links, groups);
             section.appendChild(titleContainer);
-            section.appendChild(cardContainer);
+            section.appendChild(buildGroupBlocks(category, partitions));
             fragment.appendChild(section);
 
-            if (isEditMode) {
-                const addCardPlaceholder = document.createElement('div');
-                const sizeClasses = isAppLayout
-                    ? 'w-16 h-16 rounded-[1.2rem] mx-auto'
-                    : 'min-h-[100px] p-4 rounded-2xl w-full';
-
-                addCardPlaceholder.className = \`add-card-placeholder group flex flex-col h-full w-full \${sizeClasses} rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-emerald-500 dark:hover:border-emerald-500 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/10 transition-all cursor-pointer flex items-center justify-center\`;
-                addCardPlaceholder.innerHTML = \`
-                    <div class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/30 flex items-center justify-center transition-colors pointer-events-none">
-                        <svg class="w-6 h-6 text-slate-400 group-hover:text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                    </div>
+            // Edit mode: a visible "+ New Group" button at the end of the
+            // section, so an empty group can be created before any link
+            // exists in it. (Not in search mode.) The "+" tiles inside the
+            // grids are now built by buildGroupBlocks.
+            if (isEditMode && !searchMode) {
+                const newGroupBtn = document.createElement('button');
+                newGroupBtn.className = 'new-group-button w-full mt-6 py-4 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:border-emerald-500 hover:text-emerald-600 dark:hover:border-emerald-500 dark:hover:text-emerald-500 hover:bg-emerald-50/50 dark:hover:bg-slate-800/50 transition-all flex items-center justify-center gap-2 group';
+                newGroupBtn.innerHTML = \`
+                    <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/30 flex items-center justify-center transition-colors pointer-events-none">
+                        <svg class="w-5 h-5 text-slate-400 group-hover:text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    </span>
+                    <span class="font-medium text-lg">New Group</span>
                 \`;
-
-                addCardPlaceholder.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    if (draggedCard && draggedCard.parentElement === cardContainer) {
-                        cardContainer.insertBefore(draggedCard, addCardPlaceholder);
-                    }
-                });
-
-                addCardPlaceholder.onclick = () => {
-                     showAddDialog();
-                     document.getElementById('category-select-value').value = category;
-                     document.getElementById('category-select-text').textContent = category;
-                };
-                cardContainer.appendChild(addCardPlaceholder);
+                newGroupBtn.onclick = () => addGroup(category);
+                section.appendChild(newGroupBtn);
             }
         });
 
@@ -1885,6 +2074,10 @@ const HTML_CONTENT = `
                 pinCategory(category);
             } else if (action === 'delete') {
                 deleteCategory(category);
+            } else if (action === 'rename-group') {
+                renameGroup(category, btn.dataset.group || '');
+            } else if (action === 'delete-group') {
+                deleteGroup(category, btn.dataset.group || '');
             }
         });
         container.addEventListener('change', (e) => {
@@ -1906,35 +2099,41 @@ const HTML_CONTENT = `
             item.onclick = () => {
                 document.getElementById('category-select-value').value = cat;
                 document.getElementById('category-select-text').textContent = cat;
+                updateGroupDatalist(cat);
                 menu.classList.add('hidden');
             };
             menu.appendChild(item);
         });
     }
 
-    // Incremental update: rebuild only a single category's card grid
+    // Refresh the Group field's suggestions from the selected category's existing groups
+    function updateGroupDatalist(category) {
+        const dl = document.getElementById('group-datalist');
+        if (!dl) return;
+        dl.innerHTML = '';
+        // Include empty groups from the stored list, not just groups that
+        // already have links, so an empty group is offered as a choice.
+        groupNamesOf(category).forEach(g => {
+            const opt = document.createElement('option');
+            opt.value = g;
+            dl.appendChild(opt);
+        });
+    }
+
+    // Incremental update: rebuild a single category's grids (one per group).
+    // Placeholders are rebuilt per grid by buildGroupBlocks, so there is
+    // nothing to preserve; the "+ New Group" button stays where it is.
     function renderCategoryGrid(category) {
-        const grid = document.getElementById(gridId(category));
+        const section = document.getElementById(sectionId(category));
         const cat = categories[category];
-        if (!grid || !cat) return;
+        if (!section || !cat) return;
 
-        const cardsFragment = document.createDocumentFragment();
-        cat.links.forEach(link => {
-            const card = createCard(link);
-            if (card) cardsFragment.appendChild(card);
-        });
-
-        // Only remove existing cards, keep the "+" placeholder in edit mode
-        Array.from(grid.children).forEach(child => {
-            if (!child.classList.contains('add-card-placeholder')) child.remove();
-        });
-
-        const placeholder = grid.querySelector('.add-card-placeholder');
-        if (placeholder) {
-            grid.insertBefore(cardsFragment, placeholder);
-        } else {
-            grid.appendChild(cardsFragment);
-        }
+        // Remove existing grids and group headers, then rebuild them
+        section.querySelectorAll('.card-container, .group-header').forEach(el => el.remove());
+        const blocks = buildGroupBlocks(category, partitionLinksByGroup(cat.links, groupNamesOf(category)));
+        const newGroupBtn = section.querySelector('.new-group-button');
+        if (newGroupBtn) section.insertBefore(blocks, newGroupBtn);
+        else section.appendChild(blocks);
     }
 
     async function addCard() {
@@ -1952,12 +2151,21 @@ const HTML_CONTENT = `
             name, url, category,
             tips: document.getElementById('tips-input').value.trim(),
             icon: document.getElementById('icon-input').value.trim(),
+            group: document.getElementById('group-input').value.trim().slice(0, 120),
             isPrivate: document.getElementById('private-checkbox').checked
         };
 
         hideAddDialog();
 
         categories[category].links.push(newLink);
+        // Keep the stored groups list in step: a group typed here for the
+        // first time becomes a real group (and stays one even if this link
+        // is later deleted).
+        if (newLink.group) {
+            const cat = categories[category];
+            if (!Array.isArray(cat.groups)) cat.groups = [];
+            if (!cat.groups.includes(newLink.group)) cat.groups.push(newLink.group);
+        }
         try {
             await saveLinks();
         } catch (e) {
@@ -1986,6 +2194,7 @@ const HTML_CONTENT = `
             url: document.getElementById('url-input').value.trim(),
             tips: document.getElementById('tips-input').value.trim(),
             icon: document.getElementById('icon-input').value.trim(),
+            group: document.getElementById('group-input').value.trim().slice(0, 120),
             category: document.getElementById('category-select-value').value,
             isPrivate: document.getElementById('private-checkbox').checked
         };
@@ -2015,7 +2224,7 @@ const HTML_CONTENT = `
                      categories[cat].links.splice(idx, 1);
 
                      if(!categories[updatedLink.category]) {
-                         categories[updatedLink.category] = { isHidden:false, links:[] };
+                         categories[updatedLink.category] = { isHidden:false, groups: [], links:[] };
                      }
                      categories[updatedLink.category].links.push(updatedLink);
                  }
@@ -2025,10 +2234,19 @@ const HTML_CONTENT = `
 
         if (!found) {
              if(!categories[updatedLink.category]) {
-                 categories[updatedLink.category] = { isHidden:false, links:[] };
+                 categories[updatedLink.category] = { isHidden:false, groups: [], links:[] };
              }
              oldCategory = updatedLink.category;
              categories[updatedLink.category].links.push(updatedLink);
+        }
+
+        // Keep the stored groups list in step if the edit introduced a new group.
+        if (updatedLink.group) {
+            const target = categories[updatedLink.category];
+            if (target) {
+                if (!Array.isArray(target.groups)) target.groups = [];
+                if (!target.groups.includes(updatedLink.group)) target.groups.push(updatedLink.group);
+            }
         }
 
         hideAddDialog();
@@ -2056,12 +2274,15 @@ const HTML_CONTENT = `
 
     // --- Drag helper functions ---
     function getCardState(card) {
-        if(!card) return { category: null, index: -1 };
+        if(!card) return { category: null, index: -1, group: '' };
         const section = card.closest('.section');
         const index = Array.from(section.querySelectorAll('.card')).indexOf(card);
         // Prefer data-category (the original category name), falling back to section.id (sanitized slug) for compatibility
         const category = section.dataset.category || section.id;
-        return { category: category, index: index };
+        // The group comes from the grid the card sits in (ungrouped grids carry '')
+        const grid = card.closest('.card-container');
+        const group = grid ? (grid.dataset.group || '') : '';
+        return { category: category, index: index, group: group };
     }
 
     // --- Drag (desktop) ---
@@ -2092,7 +2313,7 @@ const HTML_CONTENT = `
         e.preventDefault();
         if (draggedCard) {
             const newState = getCardState(draggedCard);
-            if (newState.category !== initialDragState.category || newState.index !== initialDragState.index) {
+            if (newState.category !== initialDragState.category || newState.index !== initialDragState.index || newState.group !== initialDragState.group) {
                 updateCardCategory(draggedCard, newState.category);
                 await saveCardOrder();
             }
@@ -2379,6 +2600,13 @@ const HTML_CONTENT = `
         if(item) {
             item.category = newCategory;
             categories[newCategory].links.push(item);
+            // Keep the target's stored groups list in step, so a group
+            // carried over by a drag keeps its header after save + reload.
+            if (item.group) {
+                const target = categories[newCategory];
+                if (!Array.isArray(target.groups)) target.groups = [];
+                if (!target.groups.includes(item.group)) target.groups.push(item.group);
+            }
         }
     }
 
@@ -2398,7 +2626,9 @@ const HTML_CONTENT = `
             // Use data-category (the original name) as the category key, matching the categories object keys; fall back to section.id
             const catName = sec.dataset.category || sec.id;
             const oldCat = categories[catName];
-            newCategories[catName] = { isHidden: oldCat ? oldCat.isHidden : false, links: [] };
+            // Preserve the stored groups list: dropping it here would erase
+            // every empty group on the next drag-save.
+            newCategories[catName] = { isHidden: oldCat ? oldCat.isHidden : false, groups: (oldCat && Array.isArray(oldCat.groups)) ? oldCat.groups.slice() : [], links: [] };
 
             const cards = sec.querySelectorAll('.card');
             cards.forEach(c => {
@@ -2410,6 +2640,15 @@ const HTML_CONTENT = `
                  if (idx !== -1) {
                      const original = pool.splice(idx, 1)[0];
                      original.category = catName;
+                     // The group follows the grid the card sits in (also
+                     // backfills group '' for links saved before groups existed)
+                     const grid = c.closest('.card-container');
+                     original.group = grid ? (grid.dataset.group || '') : '';
+                     // A group carried in by a drag must also join the stored
+                     // list, or its header would vanish after save + reload.
+                     if (original.group && !newCategories[catName].groups.includes(original.group)) {
+                         newCategories[catName].groups.push(original.group);
+                     }
                      newCategories[catName].links.push(original);
                  }
             });
@@ -2480,6 +2719,8 @@ const HTML_CONTENT = `
         document.getElementById('tips-input').value = '';
         document.getElementById('icon-input').value = '';
         document.getElementById('private-checkbox').checked = false;
+        document.getElementById('group-input').value = '';
+        updateGroupDatalist('');
 
         document.getElementById('category-select-value').value = '';
         document.getElementById('category-select-text').textContent = 'Select a category';
@@ -2506,6 +2747,8 @@ const HTML_CONTENT = `
         })();
         document.getElementById('category-select-value').value = linkCategory;
         document.getElementById('category-select-text').textContent = linkCategory || 'Select a category';
+        document.getElementById('group-input').value = link.group || '';
+        updateGroupDatalist(linkCategory);
 
         const btn = document.getElementById('dialog-confirm-btn');
         const newBtn = btn.cloneNode(true);
@@ -2858,7 +3101,7 @@ const HTML_CONTENT = `
                 if (!url) continue;
                 if (/^(javascript:|vbscript:|data:|chrome:|edge:|about:|magnet:)/i.test(url)) continue;
                 const clean = cleanTitle(a.textContent);
-                links.push({ name: clean.name, url, tips: clean.tips, icon: '', category: null, isPrivate: false });
+                links.push({ name: clean.name, url, tips: clean.tips, icon: '', category: null, group: '', isPrivate: false });
             }
             return links;
         }
@@ -2895,7 +3138,7 @@ const HTML_CONTENT = `
                 if (!url || /^(javascript:|vbscript:|data:|chrome:|edge:|about:|magnet:)/i.test(url)) continue;
                 const clean = cleanTitle(a.textContent);
                 if (!categories['Uncategorized']) categories['Uncategorized'] = { isHidden: false, links: [] };
-                categories['Uncategorized'].links.push({ name: clean.name, url, tips: clean.tips, icon: '', category: 'Uncategorized', isPrivate: false });
+                categories['Uncategorized'].links.push({ name: clean.name, url, tips: clean.tips, icon: '', category: 'Uncategorized', group: '', isPrivate: false });
             }
         }
 
@@ -3603,6 +3846,7 @@ function safeJsonParse(text, fallback) {
 }
 
 const MAX_CATEGORIES = 100;
+const MAX_GROUPS = 100;
 const MAX_LINKS_TOTAL = 3000;
 const MAX_NAME = 120, MAX_TIPS = 500, MAX_URL = 2048;
 const URL_SCHEME_OK = new Set(['http:', 'https:']);
@@ -3621,6 +3865,20 @@ function validateCategories(raw) {
         const links = Array.isArray(cat) ? cat : (cat && Array.isArray(cat.links) ? cat.links : null);
         if (!links) return { ok: false, reason: 'BAD_CATEGORY_SHAPE' };
 
+        // groups: the explicit list of sub-branches in this category
+        // (may be absent in data saved before groups existed)
+        const groups = Array.isArray(cat) ? undefined : cat.groups;
+        if (groups != null) {
+            if (!Array.isArray(groups)) return { ok: false, reason: 'BAD_GROUPS' };
+            if (groups.length > MAX_GROUPS) return { ok: false, reason: 'TOO_MANY_GROUPS' };
+            const seenGroups = new Set();
+            for (const g of groups) {
+                if (typeof g !== 'string' || g.length === 0 || g.length > MAX_NAME) return { ok: false, reason: 'BAD_GROUP_NAME' };
+                if (seenGroups.has(g)) return { ok: false, reason: 'DUP_GROUP' };
+                seenGroups.add(g);
+            }
+        }
+
         total += links.length;
         for (const l of links) {
             if (!l || typeof l !== 'object') return { ok: false, reason: 'BAD_LINK' };
@@ -3636,6 +3894,7 @@ function validateCategories(raw) {
             for (const flag of ['isPrivate', 'isDirect']) {
                 if (l[flag] != null && typeof l[flag] !== 'boolean') return { ok: false, reason: 'BAD_FLAG' };
             }
+            if (l.group != null && (typeof l.group !== 'string' || l.group.length > MAX_NAME)) return { ok: false, reason: 'BAD_GROUP' };
         }
     }
     if (total > MAX_LINKS_TOTAL) return { ok: false, reason: 'TOO_MANY_LINKS' };
@@ -3646,8 +3905,21 @@ function sanitizeCategories(raw) {
     const out = {};
     for (const name of Object.keys(raw)) {
         const cat = Array.isArray(raw[name]) ? { isHidden: false, links: raw[name] } : raw[name];
+        // Groups: keep the stored list (deduped, trimmed to MAX_NAME), backfill
+        // [] for data saved before groups existed, then append any group found
+        // on links that is not already listed, so a group with links is never lost.
+        const groups = [];
+        (Array.isArray(cat.groups) ? cat.groups : []).forEach(g => {
+            const s = String(g).slice(0, MAX_NAME);
+            if (s && !groups.includes(s)) groups.push(s);
+        });
+        (cat.links || []).forEach(l => {
+            const g = l.group ? String(l.group).slice(0, MAX_NAME) : '';
+            if (g && !groups.includes(g)) groups.push(g);
+        });
         out[name] = {
             isHidden: !!cat.isHidden,
+            groups,
             links: (cat.links || []).map(l => ({
                 name: String(l.name).slice(0, MAX_NAME),
                 url: String(l.url).slice(0, MAX_URL),
@@ -3657,6 +3929,8 @@ function sanitizeCategories(raw) {
                 isDirect: !!l.isDirect,
                 // Preserve/backfill category ownership: prefer the given value, otherwise fall back to the containing category's key, so a missing link.category doesn't become an "undefined" category
                 category: l.category ? String(l.category).slice(0, MAX_NAME) : name,
+                // Preserve/backfill group ('' = ungrouped): links saved before groups existed get ''
+                group: l.group ? String(l.group).slice(0, MAX_NAME) : '',
             })),
         };
     }
