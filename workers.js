@@ -2298,7 +2298,7 @@ const HTML_CONTENT = `
             tips: document.getElementById('tips-input').value.trim(),
             icon: document.getElementById('icon-input').value.trim(),
             group: document.getElementById('group-input').value.trim().slice(0, 120),
-            tag: document.getElementById('tag-input').value.trim().slice(0, 20),
+            tag: document.getElementById('tag-input').value.trim().slice(0, 30),
             isPrivate: document.getElementById('private-checkbox').checked
         };
 
@@ -2342,7 +2342,7 @@ const HTML_CONTENT = `
             tips: document.getElementById('tips-input').value.trim(),
             icon: document.getElementById('icon-input').value.trim(),
             group: document.getElementById('group-input').value.trim().slice(0, 120),
-            tag: document.getElementById('tag-input').value.trim().slice(0, 20),
+            tag: document.getElementById('tag-input').value.trim().slice(0, 30),
             category: document.getElementById('category-select-value').value,
             isPrivate: document.getElementById('private-checkbox').checked
         };
@@ -4000,7 +4000,7 @@ function safeJsonParse(text, fallback) {
 const MAX_CATEGORIES = 100;
 const MAX_GROUPS = 100;
 const MAX_LINKS_TOTAL = 3000;
-const MAX_NAME = 120, MAX_TIPS = 500, MAX_URL = 2048, MAX_TAG = 20;
+const MAX_NAME = 120, MAX_TIPS = 500, MAX_URL = 2048, MAX_TAG = 30;
 const URL_SCHEME_OK = new Set(['http:', 'https:']);
 
 function validateCategories(raw) {

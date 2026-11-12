@@ -131,6 +131,7 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 * Filter tags: each link can carry a short filter tag, editable in the Add/Edit Link dialog (with suggestions from the category's existing tags). Each category shows one row of filter pills under its title — clicking one shows only the matching links across all its groups, and groups with no match hide their header until the filter is cleared.
 * Tab highlight: clicking a category tab now highlights it immediately, and the scroll spy follows the actual scroll position (previously the highlight could stay stuck on the first tab when the page was short).
 * Group headers: more space between groups, and group titles are smaller and muted so they read as subordinate to the category title.
+* Tag length: the filter-tag limit is now 30 characters (was 20), so bilingual tags like "下載工具 | Download Manager" are no longer cut off on save.
 
 **2026-11-12**
 * Reliability: if the KV namespace is deleted or unreadable, `/api/getLinks` now returns HTTP 500 instead of a silently empty page; saving or importing an empty dataset over existing links is refused (HTTP 409) unless explicitly forced, and import backs up the current data first.
