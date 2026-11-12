@@ -225,6 +225,17 @@ const HTML_CONTENT = `
         html.dark #search-input::placeholder { color: #8347d1; }
         /* ================ End Cyberpunk Terminal Theme ================ */
     </style>
+    <style id="group-panel-style">
+        .group-panel{border:1px solid rgba(124,93,250,.25);border-radius:16px;padding:16px;background:transparent;margin:56px 0 0;min-width:0;}
+        .group-panel-first{margin-top:16px;}
+        .dark .group-panel{border-color:rgba(167,139,250,.30);}
+        /* v13: the border must break evenly around the title text.
+           Left of the text there are already 28px (8px padding + 12px
+           invisible indent spacer + 8px flex gap), so the right padding
+           is 28px too. The text itself does not move. */
+        .group-panel > legend.group-header{margin:0;padding:0 28px 0 8px;}
+        .app-layout .group-panel{padding-top:18px;}
+    </style>
         <script>
         // --- 主題管理邏輯 ---
         // 規則：只有「Remember Settings」開啟且有明確儲存值時才採用儲存值；否則一律跟隨系統 (prefers-color-scheme)。
@@ -756,6 +767,7 @@ const HTML_CONTENT = `
     function toggleAppLayout() {
         isAppLayout = !isAppLayout;
         localStorage.setItem('appLayout', isAppLayout);
+        document.documentElement.classList.toggle('app-layout', isAppLayout);
 
         const checkbox = document.getElementById('layout-switch-checkbox');
         if (checkbox) checkbox.checked = isAppLayout;
@@ -880,6 +892,7 @@ const HTML_CONTENT = `
         if(elements.layoutSwitchCheckbox) {
             elements.layoutSwitchCheckbox.checked = isAppLayout;
         }
+        document.documentElement.classList.toggle('app-layout', isAppLayout);
 
         const savedPref = localStorage.getItem('savePreferences') === 'true';
         elements.savePrefCheckbox.checked = savedPref;
@@ -1384,9 +1397,10 @@ const HTML_CONTENT = `
 
     // One filter row per section (not per group): the pills list the
     // section's distinct tags, and a click filters every group in the
-    // section at once. Groups with no matching card have their header
-    // hidden while a filter is active (view mode only); the "+" tile in
-    // edit mode is never filtered.
+    // section at once. Groups with no matching card have their panel
+    // hidden (the title is the panel's legend, so it hides with it)
+    // while a filter is active (view mode only); the "+" tile in edit
+    // mode is never filtered.
     function buildSectionFilterPills(category, section) {
         const cat = categories[category];
         if (!cat || !Array.isArray(cat.links)) return null;
@@ -1412,8 +1426,10 @@ const HTML_CONTENT = `
             if (!isEditMode) {
                 section.querySelectorAll('.card-container').forEach(grid => {
                     const hasVisible = [...grid.querySelectorAll('[data-filter-tag]')].some(c => !c.classList.contains('hidden'));
-                    const header = [...section.querySelectorAll('.group-header')].find(h => h.dataset.group === grid.dataset.group);
-                    if (header) header.classList.toggle('hidden', activeFilter !== '全部' && !hasVisible);
+                    // The title is the panel's <legend>, so hiding
+                    // the fieldset hides the title with it.
+                    const panel = [...section.querySelectorAll('.group-panel')].find(p => p.dataset.group === grid.dataset.group);
+                    if (panel) panel.classList.toggle('hidden', activeFilter !== '全部' && !hasVisible);
                 });
             }
         };
@@ -1441,10 +1457,20 @@ const HTML_CONTENT = `
             ? 'grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-x-2 gap-y-6'
             : 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4';
 
+        let firstPanel = true;
         partitions.forEach(({ group, links: glinks }, idx) => {
+            // v12: the panel is a <fieldset> and the title its <legend>,
+            // so the title straddles the panel's top border (mockup).
+            const panel = group ? document.createElement('fieldset') : null;
+            if (panel) {
+                panel.className = 'group-panel' + (firstPanel ? ' group-panel-first' : '');
+                panel.dataset.group = group;
+                panel.dataset.category = category;
+                firstPanel = false;
+            }
             if (group) {
-                const header = document.createElement('div');
-                header.className = 'group-header flex items-center gap-2 ' + (idx === 0 ? 'mt-1 mb-3' : 'mt-12 mb-5');
+                const header = document.createElement('legend');
+                header.className = 'group-header flex items-center gap-2';
                 header.dataset.group = group;
                 header.dataset.category = category;
 
@@ -1475,7 +1501,7 @@ const HTML_CONTENT = `
                     header.appendChild(btnWrap);
                 }
 
-                fragment.appendChild(header);
+                panel.appendChild(header);
             }
 
             const grid = document.createElement('div');
@@ -1500,7 +1526,12 @@ const HTML_CONTENT = `
             // added straight into any group — including an empty one, whose
             // grid has no cards and no other way to add into it.
             if (isEditMode) grid.appendChild(createAddCardPlaceholder(category, group));
-            fragment.appendChild(grid);
+            if (panel) {
+                panel.appendChild(grid);
+                fragment.appendChild(panel);
+            } else {
+                fragment.appendChild(grid);
+            }
         });
 
         return fragment;
@@ -2267,7 +2298,7 @@ const HTML_CONTENT = `
         if (!section || !cat) return;
 
         // Remove existing grids, group headers and the filter row, then rebuild them
-        section.querySelectorAll('.card-container, .group-header, .filter-pills').forEach(el => el.remove());
+        section.querySelectorAll('.card-container, .group-header, .filter-pills, .group-panel').forEach(el => el.remove());
         const blocks = buildGroupBlocks(category, partitionLinksByGroup(cat.links, groupNamesOf(category)));
         const newGroupBtn = section.querySelector('.new-group-button');
         if (newGroupBtn) section.insertBefore(blocks, newGroupBtn);
