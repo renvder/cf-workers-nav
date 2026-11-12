@@ -484,6 +484,11 @@ const HTML_CONTENT = `
                     <input type="text" id="group-input" list="group-datalist" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Optional — leave blank for no group">
                     <datalist id="group-datalist"></datalist>
                 </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Tag</label>
+                    <input type="text" id="tag-input" list="tag-datalist" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Optional — leave blank for no tag">
+                    <datalist id="tag-datalist"></datalist>
+                </div>
 
                 <!-- Custom Category Dropdown -->
                 <div class="relative z-20" id="category-select-wrapper">
@@ -1345,6 +1350,7 @@ const HTML_CONTENT = `
              document.getElementById('category-select-text').textContent = category;
              document.getElementById('group-input').value = group;
              updateGroupDatalist(category);
+             updateTagDatalist(category);
         };
         return addCardPlaceholder;
     }
@@ -1352,6 +1358,81 @@ const HTML_CONTENT = `
     // Build one card grid per partition (ungrouped first, then each group),
     // each group grid preceded by a small sub-header. Search mode passes a
     // single ungrouped partition, so it renders flat exactly as before.
+    // Filter tags by function for the built-in links. The stored tag on a
+    // link wins ('' = explicitly untagged); this map is only the fallback
+    // for links that have never had a tag stored. Two assumptions to
+    // confirm: 'Muse' is counted as 聊天, 'Codex' as 編程.
+    const LINK_FUNCTION_TAGS = {
+        'Neat Download': '下載', 'PotPlayer': '影音', 'TeamViewer': '遠程',
+        'Winhance': '系統', 'WinfrGUI': '恢復', 'Geek Uninstaller': '系統',
+        'FastCopy': '傳輸', 'HandBrake': '影音', 'AB Download': '下載',
+        'Brave': '瀏覽器', 'LibreWolf': '瀏覽器', 'v2rayN': '代理',
+        'Clash Verge': '代理', 'qBittorrent EE': '下載', 'ONLYOFFICE': '辦公',
+        'LocalSend': '傳輸', '7-Zip': '工具', 'RIME': '工具', 'Readest': '辦公',
+        'Deskflow': '工具', 'EarTrumpet': '系統', 'Winutil': '系統',
+        'Rufus': '系統', 'Windhawk': '系統', 'Kdenlive': '影音',
+        'Shutter Encoder': '影音', 'ImageMagick': '工具', 'ArtCraft': '工具',
+        'Muse': '聊天', 'Perplexity': '搜索', 'Gemini': '聊天', 'Claude': '聊天',
+        'ChatGPT': '聊天', 'Suno': '音樂',
+        'ComfyUI': '生圖', 'Strata': '聊天', 'Hermes': '模型', 'Codex': '編程',
+        'Ollama': '模型',
+    };
+    function linkFunctionTag(link) {
+        if (link.tag != null) return link.tag;
+        return LINK_FUNCTION_TAGS[link.name] || '';
+    }
+
+    // One filter row per section (not per group): the pills list the
+    // section's distinct tags, and a click filters every group in the
+    // section at once. Groups with no matching card have their header
+    // hidden while a filter is active (view mode only); the "+" tile in
+    // edit mode is never filtered.
+    function buildSectionFilterPills(category, section) {
+        const cat = categories[category];
+        if (!cat || !Array.isArray(cat.links)) return null;
+        const tags = [...new Set(cat.links.map(linkFunctionTag).filter(Boolean))];
+        if (tags.length < 2) return null;
+        const pills = document.createElement('div');
+        pills.className = 'filter-pills flex gap-2 mb-4';
+        pills.style.flexWrap = 'wrap';
+        const allTags = ['全部', ...tags];
+        let activeFilter = '全部';
+        const pillBase = 'px-3 py-1 text-xs font-medium rounded-full border transition-all active:scale-95 cursor-pointer';
+        const pillOn = 'bg-emerald-500 text-white shadow-sm';
+        const pillOff = 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-300 dark:border-slate-600 hover:border-emerald-300';
+        const paintPills = () => {
+            pills.querySelectorAll('[data-filter]').forEach(p => {
+                p.className = pillBase + ' ' + (activeFilter === p.dataset.filter ? pillOn : pillOff);
+            });
+        };
+        const applyFilter = () => {
+            section.querySelectorAll('[data-filter-tag]').forEach(card => {
+                card.classList.toggle('hidden', activeFilter !== '全部' && card.dataset.filterTag !== activeFilter);
+            });
+            if (!isEditMode) {
+                section.querySelectorAll('.card-container').forEach(grid => {
+                    const hasVisible = [...grid.querySelectorAll('[data-filter-tag]')].some(c => !c.classList.contains('hidden'));
+                    const header = [...section.querySelectorAll('.group-header')].find(h => h.dataset.group === grid.dataset.group);
+                    if (header) header.classList.toggle('hidden', activeFilter !== '全部' && !hasVisible);
+                });
+            }
+        };
+        allTags.forEach(tag => {
+            const pill = document.createElement('button');
+            pill.type = 'button';
+            pill.textContent = tag;
+            pill.dataset.filter = tag;
+            pill.onclick = () => {
+                activeFilter = (activeFilter === tag) ? '全部' : tag;
+                paintPills();
+                applyFilter();
+            };
+            pills.appendChild(pill);
+        });
+        paintPills();
+        return pills;
+    }
+
     function buildGroupBlocks(category, partitions) {
         const fragment = document.createDocumentFragment();
         // Adjust the grid column count based on layout mode
@@ -1363,13 +1444,16 @@ const HTML_CONTENT = `
         partitions.forEach(({ group, links: glinks }, idx) => {
             if (group) {
                 const header = document.createElement('div');
-                header.className = 'group-header flex items-center gap-2 ' + (idx === 0 ? 'mt-1 mb-3' : 'mt-6 mb-3');
+                header.className = 'group-header flex items-center gap-2 ' + (idx === 0 ? 'mt-1 mb-3' : 'mt-12 mb-5');
                 header.dataset.group = group;
                 header.dataset.category = category;
 
-                const bar = document.createElement('span');
-                bar.className = 'w-1 h-4 bg-slate-300 dark:bg-slate-600 rounded-full inline-block';
-                header.appendChild(bar);
+                // No visible marker: an invisible spacer of the same size
+                // as the old diamond, so the group name keeps its exact
+                // position (it now reads as an indent).
+                const spacer = document.createElement('span');
+                spacer.className = 'w-3 h-3 inline-block';
+                header.appendChild(spacer);
 
                 const nameEl = document.createElement('span');
                 nameEl.className = 'text-sm font-semibold text-slate-500 dark:text-slate-400';
@@ -1404,7 +1488,12 @@ const HTML_CONTENT = `
             const cardsFragment = document.createDocumentFragment();
             glinks.forEach(link => {
                 const card = createCard(link);
-                if (card) cardsFragment.appendChild(card);
+                if (card) {
+                    // Always stamped ('' when untagged) so untagged cards
+                    // hide under a specific filter instead of staying visible.
+                    card.dataset.filterTag = linkFunctionTag(link);
+                    cardsFragment.appendChild(card);
+                }
             });
             grid.appendChild(cardsFragment);
             // In edit mode every grid gets its own "+" tile, so a link can be
@@ -1494,6 +1583,10 @@ const HTML_CONTENT = `
             // exactly as before.
             const partitions = searchMode ? [{ group: '', links }] : partitionLinksByGroup(links, groups);
             section.appendChild(titleContainer);
+            if (!searchMode) {
+                const pills = buildSectionFilterPills(category, section);
+                if (pills) section.appendChild(pills);
+            }
             section.appendChild(buildGroupBlocks(category, partitions));
             fragment.appendChild(section);
 
@@ -1660,35 +1753,65 @@ const HTML_CONTENT = `
         container.addEventListener('pointercancel', endDrag);
     }
 
+    // Clicking a tab highlights it at once, instead of waiting for the
+    // scroll spy. The spy is locked briefly while the smooth scroll
+    // runs, so it cannot flip the highlight back mid-scroll.
+    let spyLockedUntil = 0;
+
     function scrollToCategory(catId) {
         const section = document.getElementById(sectionId(catId));
         if(section) {
+            highlightButton(section.id);
+            spyLockedUntil = Date.now() + 900;
             section.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     }
 
+    // Scroll spy, driven by scroll position instead of IntersectionObserver.
+    // The old observer watched a narrow band near the top of the viewport,
+    // which the last section can never reach: there is not enough content
+    // below it to scroll its top into the band, so the highlight stayed
+    // stuck on the first tab even after scrolling to the last section.
+    // This version picks the last section whose top has crossed the
+    // sticky-header offset (160px, same as .section-anchor scroll-margin),
+    // and forces the last section when the page is at the bottom.
+    let scrollSpyHandler = null;
+    let spyRaf = null;
+    let spyActiveId = null;
+
     function setupScrollSpy() {
-        const sections = document.querySelectorAll('.section');
-        const buttons = document.querySelectorAll('.category-button');
-
-        if (!sections.length || !buttons.length) return;
-
-        const observerOptions = {
-            root: null,
-            rootMargin: '-100px 0px -70% 0px',
-            threshold: 0
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const id = entry.target.id;
-                    highlightButton(id);
-                }
+        if (scrollSpyHandler) window.removeEventListener('scroll', scrollSpyHandler);
+        scrollSpyHandler = () => {
+            if (spyRaf) return;
+            spyRaf = requestAnimationFrame(() => {
+                spyRaf = null;
+                updateSpyHighlight();
             });
-        }, observerOptions);
+        };
+        window.addEventListener('scroll', scrollSpyHandler, { passive: true });
+        updateSpyHighlight();
+    }
 
-        sections.forEach(section => observer.observe(section));
+    function updateSpyHighlight() {
+        if (Date.now() < spyLockedUntil) return;
+        const sections = [...document.querySelectorAll('.section')];
+        if (!sections.length) return;
+        const scrollable = document.documentElement.scrollHeight > window.innerHeight + 2;
+        const atBottom = scrollable &&
+            window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+        let active = sections[0];
+        if (atBottom) {
+            active = sections[sections.length - 1];
+        } else {
+            for (const s of sections) {
+                if (s.getBoundingClientRect().top <= 160) active = s;
+                else break;
+            }
+        }
+        if (active.id !== spyActiveId) {
+            spyActiveId = active.id;
+            highlightButton(active.id);
+        }
     }
 
     function highlightButton(id) {
@@ -2100,6 +2223,7 @@ const HTML_CONTENT = `
                 document.getElementById('category-select-value').value = cat;
                 document.getElementById('category-select-text').textContent = cat;
                 updateGroupDatalist(cat);
+                updateTagDatalist(cat);
                 menu.classList.add('hidden');
             };
             menu.appendChild(item);
@@ -2120,6 +2244,20 @@ const HTML_CONTENT = `
         });
     }
 
+    // Refresh the Tag field's suggestions from the selected category's existing tags
+    function updateTagDatalist(category) {
+        const dl = document.getElementById('tag-datalist');
+        if (!dl) return;
+        dl.innerHTML = '';
+        const cat = categories[category];
+        if (!cat || !Array.isArray(cat.links)) return;
+        [...new Set(cat.links.map(linkFunctionTag).filter(Boolean))].forEach(t => {
+            const opt = document.createElement('option');
+            opt.value = t;
+            dl.appendChild(opt);
+        });
+    }
+
     // Incremental update: rebuild a single category's grids (one per group).
     // Placeholders are rebuilt per grid by buildGroupBlocks, so there is
     // nothing to preserve; the "+ New Group" button stays where it is.
@@ -2128,12 +2266,20 @@ const HTML_CONTENT = `
         const cat = categories[category];
         if (!section || !cat) return;
 
-        // Remove existing grids and group headers, then rebuild them
-        section.querySelectorAll('.card-container, .group-header').forEach(el => el.remove());
+        // Remove existing grids, group headers and the filter row, then rebuild them
+        section.querySelectorAll('.card-container, .group-header, .filter-pills').forEach(el => el.remove());
         const blocks = buildGroupBlocks(category, partitionLinksByGroup(cat.links, groupNamesOf(category)));
         const newGroupBtn = section.querySelector('.new-group-button');
         if (newGroupBtn) section.insertBefore(blocks, newGroupBtn);
         else section.appendChild(blocks);
+        // Rebuild the section's filter row (its tag set may have changed).
+        const pills = buildSectionFilterPills(category, section);
+        if (pills) {
+            const firstBlock = section.querySelector('.group-header, .card-container');
+            if (firstBlock) section.insertBefore(pills, firstBlock);
+            else if (newGroupBtn) section.insertBefore(pills, newGroupBtn);
+            else section.appendChild(pills);
+        }
     }
 
     async function addCard() {
@@ -2152,6 +2298,7 @@ const HTML_CONTENT = `
             tips: document.getElementById('tips-input').value.trim(),
             icon: document.getElementById('icon-input').value.trim(),
             group: document.getElementById('group-input').value.trim().slice(0, 120),
+            tag: document.getElementById('tag-input').value.trim().slice(0, 20),
             isPrivate: document.getElementById('private-checkbox').checked
         };
 
@@ -2195,6 +2342,7 @@ const HTML_CONTENT = `
             tips: document.getElementById('tips-input').value.trim(),
             icon: document.getElementById('icon-input').value.trim(),
             group: document.getElementById('group-input').value.trim().slice(0, 120),
+            tag: document.getElementById('tag-input').value.trim().slice(0, 20),
             category: document.getElementById('category-select-value').value,
             isPrivate: document.getElementById('private-checkbox').checked
         };
@@ -2720,7 +2868,9 @@ const HTML_CONTENT = `
         document.getElementById('icon-input').value = '';
         document.getElementById('private-checkbox').checked = false;
         document.getElementById('group-input').value = '';
+        document.getElementById('tag-input').value = '';
         updateGroupDatalist('');
+        updateTagDatalist('');
 
         document.getElementById('category-select-value').value = '';
         document.getElementById('category-select-text').textContent = 'Select a category';
@@ -2748,7 +2898,9 @@ const HTML_CONTENT = `
         document.getElementById('category-select-value').value = linkCategory;
         document.getElementById('category-select-text').textContent = linkCategory || 'Select a category';
         document.getElementById('group-input').value = link.group || '';
+        document.getElementById('tag-input').value = linkFunctionTag(link);
         updateGroupDatalist(linkCategory);
+        updateTagDatalist(linkCategory);
 
         const btn = document.getElementById('dialog-confirm-btn');
         const newBtn = btn.cloneNode(true);
@@ -3848,7 +4000,7 @@ function safeJsonParse(text, fallback) {
 const MAX_CATEGORIES = 100;
 const MAX_GROUPS = 100;
 const MAX_LINKS_TOTAL = 3000;
-const MAX_NAME = 120, MAX_TIPS = 500, MAX_URL = 2048;
+const MAX_NAME = 120, MAX_TIPS = 500, MAX_URL = 2048, MAX_TAG = 20;
 const URL_SCHEME_OK = new Set(['http:', 'https:']);
 
 function validateCategories(raw) {
@@ -3895,6 +4047,7 @@ function validateCategories(raw) {
                 if (l[flag] != null && typeof l[flag] !== 'boolean') return { ok: false, reason: 'BAD_FLAG' };
             }
             if (l.group != null && (typeof l.group !== 'string' || l.group.length > MAX_NAME)) return { ok: false, reason: 'BAD_GROUP' };
+            if (l.tag != null && (typeof l.tag !== 'string' || l.tag.length > MAX_TAG)) return { ok: false, reason: 'BAD_TAG' };
         }
     }
     if (total > MAX_LINKS_TOTAL) return { ok: false, reason: 'TOO_MANY_LINKS' };
@@ -3931,6 +4084,10 @@ function sanitizeCategories(raw) {
                 category: l.category ? String(l.category).slice(0, MAX_NAME) : name,
                 // Preserve/backfill group ('' = ungrouped): links saved before groups existed get ''
                 group: l.group ? String(l.group).slice(0, MAX_NAME) : '',
+                // Tag: stored only when the client sent one ('' = explicitly
+                // untagged). Omitted for links that never had a tag, so the
+                // frontend fallback map still applies to them.
+                ...(l.tag !== undefined ? { tag: String(l.tag).slice(0, MAX_TAG) } : {}),
             })),
         };
     }
