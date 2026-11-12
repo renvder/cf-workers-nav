@@ -26,7 +26,7 @@
 * **🌗 Dark Mode That Follows Your System**: Automatically matches your device's light/dark setting on desktop and mobile, and switches live when the system switches (e.g. scheduled day/night mode). You can also toggle it manually from the Settings menu; a manual choice is only remembered across visits if **Remember Settings** is turned on.
 * **🖱️ Drag-and-Drop Reordering**: Rearrange categories and bookmark cards via mouse drag on desktop or long-press on mobile.
 * **🔒 Password Protection**: Hide sensitive links behind an admin password—visible only when logged in. Failed logins are rate-limited (5 wrong attempts locks that IP for 15 minutes).
-* **📂 Flexible Data Management**: Add, edit, or delete links directly on the page. Supports importing HTML bookmarks from Chrome/Edge, plus JSON import/export. Every save automatically keeps a backup of the previous data (at most one per 10 minutes, latest 10 kept).
+* **📂 Flexible Data Management**: Add, edit, or delete links directly on the page. Supports importing HTML bookmarks from Chrome/Edge, plus JSON import/export. Every save automatically keeps a backup of the previous data (at most one per 10 minutes, latest 10 kept). If a second KV namespace is bound as `CARD_ORDER_BACKUP`, every save/import also writes a timestamped copy there, so your links survive even if the main namespace is lost. Import backs up the current data first, and saving or importing an empty dataset over existing data is refused unless explicitly forced; if the KV read fails, the API returns HTTP 500 instead of a silently empty page.
 * **🩺 One-Click Check** (login required): Check whether each site is reachable and how fast it responds, right from your browser.
 * **🖼️ Sharp, Bandwidth-Friendly Icons**: Icons are resized and re-encoded (AVIF/WebP where supported) at the edge, and served via `srcset` so Retina, 4K and 5K screens get a crisp icon while ordinary screens don't download more than they need. Requires **Image Resizing** to be turned on for your domain (see below).
 * **🔍 Multi-Engine Search**: Search via Google, Bing, or DuckDuckGo, or perform instant quick searches across your saved bookmarks.
@@ -56,10 +56,10 @@
    - Copy the code from `workers.js` in this repository, paste it into the Worker editor, and click **Save and Deploy**.
 
 2. **Create a KV Namespace**:
-   - Go to **Workers & Pages > KV** in the Cloudflare dashboard and create a namespace named `CARD_ORDER`.
+   - Go to **Workers & Pages > KV** in the Cloudflare dashboard and create a namespace named `CARD_ORDER`. Optionally, create a second namespace named `CARD_ORDER_BACKUP` for offsite backups (see step 3).
 
 3. **Bind the KV Namespace**:
-   - Open your Worker's **Settings > Bindings** (in older dashboards: **Settings > Variables > KV Namespace Bindings**), add a KV binding with the variable name `CARD_ORDER`, and link it to the `CARD_ORDER` namespace created above.
+   - Open your Worker's **Settings > Bindings** (in older dashboards: **Settings > Variables > KV Namespace Bindings**), add a KV binding with the variable name `CARD_ORDER`, and link it to the `CARD_ORDER` namespace created above. If you created the backup namespace, add a second binding with the variable name `CARD_ORDER_BACKUP` linked to `CARD_ORDER_BACKUP`; the Worker writes a backup copy there on every save/import, and works fine without it.
 
 4. **Configure Environment Variables**:
    - Go to your Worker's **Settings > Variables and Secrets** and add the variables listed in the table below.
@@ -126,6 +126,11 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 
 ## 📝 Changelog
 
+**2026-11-12**
+* Reliability: if the KV namespace is deleted or unreadable, `/api/getLinks` now returns HTTP 500 instead of a silently empty page; saving or importing an empty dataset over existing links is refused (HTTP 409) unless explicitly forced, and import backs up the current data first.
+* Offsite backup: binding a second KV namespace as `CARD_ORDER_BACKUP` keeps a timestamped copy of your data on every save/import (latest 10 kept), so links survive losing the main namespace.
+* Fixes: cookie parsing, UTF-8-safe base64 helpers, link matching by URL + name, icon cache cap, and security headers on HTML responses.
+
 **2026-09-23**
 * Icons: `/api/icon` now accepts a `w` size parameter and resizes/re-encodes icons at the edge via Cloudflare Image Resizing (AVIF/WebP when the browser supports it), each size and format cached separately. The page requests icons through `srcset` at 1x/2x/3x so Retina/4K/5K screens get a sharp icon without oversized downloads on ordinary screens. Custom icon URLs saved on a link are now also routed through the proxy (previously they bypassed it entirely, loading the original file at full size with no caching).
 
@@ -138,5 +143,7 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 * Docs: added the privacy tip for `PREFER_ICON_API`; corrected the search engine list (DuckDuckGo instead of Baidu); corrected the `ALLOWED_ORIGINS` default (same-origin only, not unrestricted); clarified `JWT_SECRET`, `ICON_API` and `DEFAULT_USER`.
 
 ## 🙏 Acknowledgments
+
+This project is a fork of [lineagett/cf-workers-nav](https://github.com/lineagett/cf-workers-nav), with additional reliability and backup hardening.
 
 Special thanks to **[Cloudflare](https://www.cloudflare.com/)**, **[Tailwind CSS](https://tailwindcss.com/)**, **[hmhm2022](https://github.com/hmhm2022)**, and **[xinac](https://api.xinac.net/)**.

@@ -29,7 +29,7 @@ const HTML_CONTENT = `
             ::-webkit-scrollbar { display: none; }
             * { scrollbar-width: none; /* Firefox */ }
         }
-        
+
         .card.dragging {
             opacity: 0.8;
             transform: scale(1.05);
@@ -40,16 +40,16 @@ const HTML_CONTENT = `
         }
 
         .edit-mode .card {
-            /* touch-action: none; */  
+            /* touch-action: none; */
             touch-action: pan-y;
         }
 
         body.edit-mode .card,
         body.edit-mode .card:hover {
             transform: none !important;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important; 
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
         }
-        
+
         html.dark body.edit-mode .card,
         html.dark body.edit-mode .card:hover {
             box-shadow: none !important;
@@ -60,12 +60,12 @@ const HTML_CONTENT = `
             pointer-events: auto !important;
             z-index: 10;
         }
-        
+
         .card-clone-dragging {
             pointer-events: none !important; /* Key: let touch pass through the clone */
             z-index: 9999 !important;
         }
-        
+
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
@@ -99,23 +99,23 @@ const HTML_CONTENT = `
         }
 
         input:-webkit-autofill,
-        input:-webkit-autofill:hover, 
-        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
         input:-webkit-autofill:active {
             -webkit-transition: background-color 99999s ease-out;
             -webkit-transition-delay: 99999s;
-            -webkit-text-fill-color: #3b2354 !important; 
+            -webkit-text-fill-color: #3b2354 !important;
         }
 
         html.dark input:-webkit-autofill,
-        html.dark input:-webkit-autofill:hover, 
-        html.dark input:-webkit-autofill:focus, 
+        html.dark input:-webkit-autofill:hover,
+        html.dark input:-webkit-autofill:focus,
         html.dark input:-webkit-autofill:active {
             -webkit-text-fill-color: #DDD6FE !important;
             box-shadow: 0 0 0px 1000px #170a29 inset !important;
             transition: background-color 5000s ease-in-out 0s;
         }
-        
+
         #custom-tooltip {
             z-index: 100;
             transition: opacity 0.1s ease-in-out;
@@ -269,7 +269,7 @@ const HTML_CONTENT = `
 </head>
 
 <body class="min-h-screen font-sans text-slate-800 dark:text-slate-100 selection:bg-emerald-200 dark:selection:bg-emerald-900 transition-colors duration-300">
-    
+
     <!-- Background layer -->
     <div class="fixed inset-0 -z-10 h-full w-full overflow-hidden bg-gray-100 dark:bg-[#0a0414]">
         <div class="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-[#0a0414] dark:to-[#170a29]"></div>
@@ -282,7 +282,7 @@ const HTML_CONTENT = `
         <div class="backdrop-blur-md bg-gray-100/80 dark:bg-[#0a0414]/85 border-b border-slate-200/40 dark:border-slate-700/40 shadow-sm [transform:translateZ(0)]">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16 gap-4">
-                    
+
                     <!-- Logo -->
                     <a class="flex items-center gap-2 flex-shrink-0 group cursor-pointer bg-white/50 dark:bg-transparent hover:bg-white dark:hover:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200/50 dark:border-transparent transition-all duration-300 hover:shadow-md hover:shadow-emerald-500/10 hover:-translate-y-0.5" href="#" onclick="location.reload()">
                         <div class="w-8 h-8 flex items-center justify-center bg-gradient-to-tr from-emerald-500 to-teal-600 rounded-lg text-white shadow-lg shadow-emerald-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
@@ -296,7 +296,7 @@ const HTML_CONTENT = `
                     <!-- Search Bar -->
                     <div class="flex-1 max-w-2xl mx-auto">
                         <div class="relative flex items-center w-full h-10 rounded-xl focus-within:ring-2 focus-within:ring-emerald-500/50 focus-within:shadow-lg focus-within:-translate-y-0.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 shadow-sm hover:shadow-lg transition-all duration-300">
-                            
+
                             <!-- Custom Search Engine Dropdown -->
                             <div class="relative h-full" id="search-engine-wrapper">
                                 <button id="search-engine-btn" class="h-full pl-3 pr-2 flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 hover:text-emerald-500 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded-l-xl transition-colors outline-none w-auto md:min-w-[5.5rem]">
@@ -307,7 +307,7 @@ const HTML_CONTENT = `
                                     <span id="current-engine-label" class="font-medium truncate hidden md:block">This site</span>
                                     <svg class="w-3 h-3 opacity-60 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                 </button>
-                                
+
                                 <!-- Dropdown Menu -->
                                 <div id="search-engine-menu" class="hidden absolute top-full left-0 mt-2 w-40 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden z-50 dropdown-enter">
                                     <div class="py-1" id="search-engine-list">
@@ -318,13 +318,13 @@ const HTML_CONTENT = `
                             </div>
 
                             <div class="h-4 w-px bg-slate-200 dark:bg-slate-600 mx-1"></div>
-                            
+
                             <input type="text" id="search-input" class="flex-1 bg-transparent border-none text-slate-700 dark:text-slate-200 text-sm focus:ring-0 placeholder-slate-400 h-full w-full outline-none px-2" placeholder="Search">
-                            
+
                             <button id="clear-search-button" class="hidden p-1.5 mr-1 rounded-full text-slate-400 hover:text-red-500 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all">
                                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"></path></svg>
                             </button>
-                            
+
                             <button id="search-button" class="h-full px-4 rounded-r-xl text-slate-500 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-700/50 transition-colors border-l border-transparent dark:border-slate-700/50 flex items-center justify-center">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                             </button>
@@ -340,7 +340,7 @@ const HTML_CONTENT = `
                                 </div>
                                 <span id="menu-toggle" class="hidden md:inline">Settings</span>
                             </button>
-                            
+
                             <!-- Dropdown Menu -->
                             <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-60 bg-white dark:bg-[#170a29] rounded-xl shadow-xl ring-1 ring-black/5 dark:ring-white/10 overflow-hidden transform origin-top-right transition-all z-50 dropdown-enter">
                                 <div class="p-2 space-y-1">
@@ -374,7 +374,7 @@ const HTML_CONTENT = `
                                         <!-- File input (hidden) -->
                                         <input type="file" id="import-file-input" accept=".json,.html,.htm" class="hidden">
                                     </div>
-                                    
+
                                     <div class="h-px bg-slate-100 dark:bg-slate-700/50 mx-1 my-1"></div>
 
                                     <!-- [New] APP Layout Toggle -->
@@ -391,7 +391,7 @@ const HTML_CONTENT = `
                                             <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-emerald-500"></div>
                                         </label>
                                     </div>
-                                    
+
                                     <div class="px-3 py-2.5 flex items-center justify-between text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/30 rounded-lg group">
                                         <span class="flex items-center gap-3">
                                             <svg class="w-4 h-4 text-slate-400 group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
@@ -422,7 +422,7 @@ const HTML_CONTENT = `
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Quick Category Bar -->
                 <div id="category-buttons-container" class="py-2 flex gap-2 overflow-x-auto no-scrollbar mask-gradient items-center">
                     <!-- JS generated buttons -->
@@ -452,7 +452,7 @@ const HTML_CONTENT = `
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
             </button>
         </div>
-        
+
     </main>
 
     <!-- Modal: Add/Edit Link -->
@@ -479,7 +479,7 @@ const HTML_CONTENT = `
                     <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Icon URL</label>
                     <input type="text" id="icon-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Leave blank to auto-fetch">
                 </div>
-                
+
                 <!-- Custom Category Dropdown -->
                 <div class="relative z-20" id="category-select-wrapper">
                     <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Category</label>
@@ -577,7 +577,7 @@ const HTML_CONTENT = `
 
     let editCardMode = false;
     let isEditCategoryMode = false;
-    
+
     const categories = {};
     let currentEngine;
     let initialDragState = { category: null, index: -1 };
@@ -718,16 +718,16 @@ const HTML_CONTENT = `
         async function worker() {
             while (queue.length > 0) {
                 const link = queue.shift();
-                if (!link) continue;             
-                const key = siteKey(link.url);                
+                if (!link) continue;
+                const key = siteKey(link.url);
                 const cards = findCardsByUrl(link.url);
-                const result = await localProbe(link.url);              
-                latencyResults[key] = result;               
+                const result = await localProbe(link.url);
+                latencyResults[key] = result;
                 if (cards.length > 0) {
                     cards.forEach((c) => renderStatus(c, result));
-                }                
+                }
                 doneCount++;
-                updateProgress(); 
+                updateProgress();
             }
         }
 
@@ -736,7 +736,7 @@ const HTML_CONTENT = `
         for (let i = 0; i < concurrency; i++) {
             tasks.push(worker());
         }
-        
+
         await Promise.all(tasks);
 
         checkAllRunning = false;
@@ -746,7 +746,7 @@ const HTML_CONTENT = `
     function toggleAppLayout() {
         isAppLayout = !isAppLayout;
         localStorage.setItem('appLayout', isAppLayout);
-        
+
         const checkbox = document.getElementById('layout-switch-checkbox');
         if (checkbox) checkbox.checked = isAppLayout;
 
@@ -764,7 +764,7 @@ const HTML_CONTENT = `
         google: "https://www.google.com/search?q=",
         site: ""
     };
-    
+
     // Search engine display name mapping
     const searchEngineLabels = {
         duckduckgo: "DuckDuckGo",
@@ -792,13 +792,13 @@ const HTML_CONTENT = `
         engineList.forEach(key => {
             const label = searchEngineLabels[key];
             const icon = searchEngineIcons[key];
-            
+
             const btn = document.createElement('button');
             btn.className = "w-full text-left px-3 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-slate-700 hover:text-emerald-600 transition-colors flex items-center gap-3";
             btn.onclick = () => selectSearchEngine(key, label);
-            
+
             btn.innerHTML = \`<span class="flex-shrink-0 w-4 h-4 flex items-center justify-center">\${icon}</span><span class="whitespace-nowrap">\${label}</span>\`;
-            
+
             container.appendChild(btn);
         });
     }
@@ -811,7 +811,7 @@ const HTML_CONTENT = `
     function updateSearchEngineUI(value) {
         const label = searchEngineLabels[value] || "This site";
         const icon = searchEngineIcons[value] || searchEngineIcons['site'];
-        
+
         document.getElementById('current-engine-label').textContent = label;
         document.getElementById('current-engine-icon').innerHTML = icon;
     }
@@ -854,13 +854,13 @@ const HTML_CONTENT = `
             dropdownWrapper: document.getElementById('profile-dropdown-wrapper'),
             backToTopBtn: document.getElementById('back-to-top-btn')
         };
-        
+
         elements.themeSwitchCheckbox.checked = document.documentElement.classList.contains('dark');
         elements.themeSwitchCheckbox.addEventListener('change', (e) => {
             const isDark = e.target.checked;
             window.isDarkTheme = isDark;
             applyTheme(isDark);
-            
+
             const savePrefCheckbox = document.getElementById('save-preference-checkbox');
             if (savePrefCheckbox && savePrefCheckbox.checked) {
                 localStorage.setItem('theme_preference', isDark ? 'dark' : 'light');
@@ -870,7 +870,7 @@ const HTML_CONTENT = `
         if(elements.layoutSwitchCheckbox) {
             elements.layoutSwitchCheckbox.checked = isAppLayout;
         }
-        
+
         const savedPref = localStorage.getItem('savePreferences') === 'true';
         elements.savePrefCheckbox.checked = savedPref;
 
@@ -880,7 +880,7 @@ const HTML_CONTENT = `
         const searchWrapper = document.getElementById('search-engine-wrapper');
         const searchBtn = document.getElementById('search-engine-btn');
         const searchMenu = document.getElementById('search-engine-menu');
-        
+
         searchBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             searchMenu.classList.toggle('hidden');
@@ -889,7 +889,7 @@ const HTML_CONTENT = `
         const catWrapper = document.getElementById('category-select-wrapper');
         const catBtn = document.getElementById('category-select-btn');
         const catMenu = document.getElementById('category-select-menu');
-        
+
         catBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             catMenu.classList.toggle('hidden');
@@ -934,7 +934,7 @@ const HTML_CONTENT = `
             const query = elements.searchInput.value.trim();
             if (query) {
                 if (currentEngine === 'site') {
-                    await searchLinks(query); 
+                    await searchLinks(query);
                 } else {
                     window.open(searchEngines[currentEngine] + encodeURIComponent(query), '_blank');
                 }
@@ -944,7 +944,7 @@ const HTML_CONTENT = `
         if (elements.clearSearchButton) {
             elements.clearSearchButton.addEventListener('click', () => {
                 elements.searchInput.value = '';
-                loadSections(); 
+                loadSections();
             });
         }
 
@@ -977,20 +977,20 @@ const HTML_CONTENT = `
                 }, 220);
             });
         }
-        
+
         window.addEventListener('scroll', () => {
             elements.backToTopBtn.classList.toggle('hidden', window.scrollY <= 300);
         }, { passive: true });
-        
+
         setupScrollSpy();
-        
+
         setupTooltipDelegation();
     }
 
     function selectSearchEngine(value, label) {
         currentEngine = value;
         updateSearchEngineUI(value);
-        
+
         const savePrefCheckbox = document.getElementById('save-preference-checkbox');
         if (savePrefCheckbox && savePrefCheckbox.checked) {
             localStorage.setItem('searchEngine', value);
@@ -1002,7 +1002,7 @@ const HTML_CONTENT = `
     function getAllLinks() {
         return Object.values(categories).map(category => category.links || []).flat();
     }
-    
+
     async function loadLinks(skipValidate = false) {
         if (isLoggedIn && !skipValidate) {
             const isValid = await validateToken();
@@ -1016,11 +1016,11 @@ const HTML_CONTENT = `
             const token = localStorage.getItem('authToken');
             if (token) headers['Authorization'] = token;
         }
-        
+
         try {
             const response = await fetchWithAuth('/api/getLinks');
             if (!response.ok) throw new Error("HTTP error! status: " + response.status);
-            
+
             const data = await response.json();
             if (data.categories) {
                 Object.keys(categories).forEach(key => delete categories[key]);
@@ -1036,14 +1036,14 @@ const HTML_CONTENT = `
         }
     }
 
-    async function saveDataToServer(actionName, data) {
+    async function saveDataToServer(actionName, data, force = false) {
         try {
             const response = await fetchWithAuth('/api/saveData', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ categories: data }),
+                body: JSON.stringify({ categories: data, force: force || undefined }),
             });
 
             if (response.status === 401) {
@@ -1052,23 +1052,23 @@ const HTML_CONTENT = `
                 throw new Error('Unauthorized');
             }
 
-            const result = await response.json();
-            if (!result.success) throw new Error('Failed to save');
+            const result = await response.json().catch(() => ({}));
+            if (!result.success) throw new Error(result.error ? 'Failed to save: ' + result.error : 'Failed to save');
             logAction(actionName + ' succeeded', {});
         } catch (error) {
             logAction(actionName + ' failed', { error: error.message });
             if (error.message !== 'Unauthorized') {
-                 await customAlert(actionName + ' failed, please try again');
+                 await customAlert(error.message && error.message.indexOf('Failed to save') === 0 ? error.message : actionName + ' failed, please try again');
             }
         }
     }
 
-    async function saveLinks() {
+    async function saveLinks(force = false) {
         if (isEditMode) {
-            await saveDataToServer('Save data', categories);
+            await saveDataToServer('Save data', categories, force);
         }
     }
-    
+
     async function addCategory() {
         if (!await validateTokenOrRedirect()) return;
         const categoryName = await showCategoryDialog('Please enter a new category name');
@@ -1122,10 +1122,21 @@ const HTML_CONTENT = `
             updateCategorySelect();
             renderCategories();
             renderCategoryButtons();
-            await saveLinks();
+            // Clearing the last category wipes all data: the server refuses an
+            // empty overwrite unless explicitly forced, so confirm again and
+            // send force. On cancel, reload the server copy to restore the UI.
+            if (Object.keys(categories).length === 0) {
+                if (!(await customConfirm('This is the last category. Deleting it clears ALL data. Continue?'))) {
+                    await loadLinks(true);
+                    return;
+                }
+                await saveLinks(true);
+            } else {
+                await saveLinks();
+            }
         }
-    } 
-    
+    }
+
     async function moveCategory(categoryName, direction) {
         if (!await validateTokenOrRedirect()) return;
         const keys = Object.keys(categories);
@@ -1133,18 +1144,18 @@ const HTML_CONTENT = `
         if (index < 0) return;
         const newIndex = index + direction;
         if (newIndex < 0 || newIndex >= keys.length) return;
-    
+
         const newCategories = {};
         const reordered = [...keys];
         [reordered[index], reordered[newIndex]] = [reordered[newIndex], reordered[index]];
         reordered.forEach(key => newCategories[key] = categories[key]);
-        
+
         Object.keys(categories).forEach(k => delete categories[k]);
         Object.assign(categories, newCategories);
-    
+
         renderCategories();
         renderCategoryButtons();
-        await saveLinks(); 
+        await saveLinks();
     }
 
     async function toggleCategoryHidden(category, isHidden) {
@@ -1158,21 +1169,21 @@ const HTML_CONTENT = `
         const keys = Object.keys(categories);
         const index = keys.indexOf(categoryName);
         if (index < 0) return;
-        
+
         const newCategories = {};
         const reordered = [...keys];
         reordered.splice(index, 1);
         reordered.unshift(categoryName);
         reordered.forEach(key => newCategories[key] = categories[key]);
-        
+
         Object.keys(categories).forEach(k => delete categories[k]);
         Object.assign(categories, newCategories);
-        
+
         renderCategories();
         renderCategoryButtons();
         await saveLinks();
     }
-    
+
     function getFilteredCategoriesByKeyword(query) {
         const lowerQuery = query.toLowerCase();
         const result = {};
@@ -1208,7 +1219,7 @@ const HTML_CONTENT = `
             // Title area
             const titleContainer = document.createElement('div');
             titleContainer.className = 'flex items-center gap-3 mb-5 pb-2 border-b border-slate-200/60 dark:border-slate-700/60';
-            
+
             const title = document.createElement('h2');
             title.className = 'text-lg font-bold text-slate-700 dark:text-slate-100 flex items-center gap-2';
             const badge = document.createElement('span');
@@ -1221,13 +1232,13 @@ const HTML_CONTENT = `
                 const controls = document.createElement('div');
                 controls.className = 'flex items-center gap-1 ml-auto bg-slate-300/50 dark:bg-slate-800/50 p-1 rounded-xl border border-slate-300/50 dark:border-slate-700/50 backdrop-blur-sm';
                 const btnBase = "w-8 h-8 flex items-center justify-center rounded-lg transition-all duration-200 hover:scale-105 active:scale-95";
-                
+
                 controls.innerHTML = \`
                     <!-- Edit name -->
                     <button class="\${btnBase} text-slate-500 hover:text-blue-600 hover:bg-blue-100 dark:text-slate-400 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 has-tooltip" data-tooltip="Rename" data-action="edit" data-category="\${escAttr(category)}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                     </button>
-                    
+
                     <div class="w-px h-4 bg-slate-300 dark:bg-slate-600 mx-0.5"></div>
 
                     <!-- Sort group -->
@@ -1247,7 +1258,7 @@ const HTML_CONTENT = `
                     <div class="flex items-center justify-center w-8 h-8 has-tooltip cursor-pointer" data-tooltip="\${isHidden ? 'Show category' : 'Hide category'}">
                         <label class="relative inline-flex items-center cursor-pointer">
                             <!-- The line below adds DOM attribute update logic -->
-                            <input type="checkbox" data-action="toggleHidden" data-category="\${escAttr(category)}" \${isHidden ? 'checked' : ''} 
+                            <input type="checkbox" data-action="toggleHidden" data-category="\${escAttr(category)}" \${isHidden ? 'checked' : ''}
                                 class="sr-only peer">
                             <div class="w-3.5 h-3.5 rounded-full border-2 border-slate-400 peer-focus:outline-none peer dark:border-slate-500 peer-checked:bg-slate-500 peer-checked:border-slate-500 transition-colors"></div>
                         </label>
@@ -1267,10 +1278,10 @@ const HTML_CONTENT = `
             const cardContainer = document.createElement('div');
             // Adjust the grid column count based on layout mode
             // APP mode: 4 per row on mobile, 6 on tablet, 8-10 on large screens
-            const gridClasses = isAppLayout 
-                ? 'grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-x-2 gap-y-6' 
+            const gridClasses = isAppLayout
+                ? 'grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-x-2 gap-y-6'
                 : 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4';
-            
+
             cardContainer.className = \`grid \${gridClasses} card-container relative\`;
             cardContainer.id = gridId(category); // Distinguish from section.id to avoid duplicate ids on the same page
 
@@ -1288,24 +1299,24 @@ const HTML_CONTENT = `
 
             if (isEditMode) {
                 const addCardPlaceholder = document.createElement('div');
-                const sizeClasses = isAppLayout 
-                    ? 'w-16 h-16 rounded-[1.2rem] mx-auto' 
+                const sizeClasses = isAppLayout
+                    ? 'w-16 h-16 rounded-[1.2rem] mx-auto'
                     : 'min-h-[100px] p-4 rounded-2xl w-full';
-                
+
                 addCardPlaceholder.className = \`add-card-placeholder group flex flex-col h-full w-full \${sizeClasses} rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-emerald-500 dark:hover:border-emerald-500 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/10 transition-all cursor-pointer flex items-center justify-center\`;
                 addCardPlaceholder.innerHTML = \`
                     <div class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/30 flex items-center justify-center transition-colors pointer-events-none">
                         <svg class="w-6 h-6 text-slate-400 group-hover:text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                     </div>
                 \`;
-                
+
                 addCardPlaceholder.addEventListener('dragover', (e) => {
                     e.preventDefault();
                     if (draggedCard && draggedCard.parentElement === cardContainer) {
                         cardContainer.insertBefore(draggedCard, addCardPlaceholder);
                     }
                 });
-                
+
                 addCardPlaceholder.onclick = () => {
                      showAddDialog();
                      document.getElementById('category-select-value').value = category;
@@ -1318,13 +1329,13 @@ const HTML_CONTENT = `
         container.replaceChildren(fragment);
 
         if (renderButtons) renderCategoryButtons();
-        
+
         setupScrollSpy();
     }
 
     function renderCategories() {
         renderCategorySections({ renderButtons: false });
-    } 
+    }
 
     async function searchLinks(query) {
         const clearBtn = document.getElementById('clear-search-button');
@@ -1338,12 +1349,12 @@ const HTML_CONTENT = `
         clearBtn.classList.remove('hidden');
         renderCategorySections({ renderButtons: true, searchMode: true, filteredCategories: filteredData });
     }
-    
+
     function renderCategoryButtons() {
         const container = document.getElementById('category-buttons-container');
         container.innerHTML = '';
-        const visibleCategories = Object.keys(categories).filter(c => 
-            (categories[c].links || []).some(l => !l.isPrivate || isLoggedIn) && 
+        const visibleCategories = Object.keys(categories).filter(c =>
+            (categories[c].links || []).some(l => !l.isPrivate || isLoggedIn) &&
             (!categories[c].isHidden || isEditMode || isLoggedIn)
         );
 
@@ -1353,7 +1364,7 @@ const HTML_CONTENT = `
             const btn = document.createElement('button');
             btn.className = 'category-button whitespace-nowrap px-4 py-1.5 text-xs font-medium rounded-xl border border-slate-300 dark:border-slate-600 transition-all active:scale-95 shadow-sm scroll-snap-align-start';
             btn.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300', 'hover:bg-emerald-50', 'hover:text-emerald-600', 'dark:hover:bg-slate-700', 'hover:border-emerald-300', 'dark:hover:border-emerald-500/50');
-            
+
             btn.textContent = cat;
             btn.dataset.target = cat;
             btn.onclick = () => {
@@ -1470,12 +1481,12 @@ const HTML_CONTENT = `
     function setupScrollSpy() {
         const sections = document.querySelectorAll('.section');
         const buttons = document.querySelectorAll('.category-button');
-        
+
         if (!sections.length || !buttons.length) return;
 
         const observerOptions = {
             root: null,
-            rootMargin: '-100px 0px -70% 0px', 
+            rootMargin: '-100px 0px -70% 0px',
             threshold: 0
         };
 
@@ -1508,14 +1519,14 @@ const HTML_CONTENT = `
     // --- Overlay transition helper functions ---
     function toggleOverlay(id, show) {
         const overlay = document.getElementById(id);
-        const box = overlay.querySelector('div[id$="-box"]'); 
-        
+        const box = overlay.querySelector('div[id$="-box"]');
+
         if (show) {
             overlay.classList.remove('hidden');
-            void overlay.offsetWidth; 
+            void overlay.offsetWidth;
             overlay.classList.remove('overlay-hidden');
             overlay.classList.add('overlay-visible');
-            
+
             if(box) {
                 box.classList.remove('dialog-scale-hidden');
                 box.classList.add('dialog-scale-visible');
@@ -1523,17 +1534,17 @@ const HTML_CONTENT = `
         } else {
             overlay.classList.remove('overlay-visible');
             overlay.classList.add('overlay-hidden');
-            
+
             if(box) {
                 box.classList.remove('dialog-scale-visible');
                 box.classList.add('dialog-scale-hidden');
             }
-            
+
             setTimeout(() => {
                 if(overlay.classList.contains('overlay-hidden')) {
                     overlay.classList.add('hidden');
                 }
-            }, 300); 
+            }, 300);
         }
     }
 
@@ -1543,11 +1554,11 @@ const HTML_CONTENT = `
         const addCategoryContainer = document.getElementById('add-category-container');
         const dataToolsMenu = document.getElementById('data-tools-menu');
         const checkAllMenu = document.getElementById('check-all-menu');
-        
-        loginBtn.innerHTML = isLoggedIn ? 
-            '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Logout' : 
+
+        loginBtn.innerHTML = isLoggedIn ?
+            '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Logout' :
             '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg> Login';
-        
+
         if(isLoggedIn) {
             loginBtn.classList.replace('text-red-500', 'text-slate-700');
             if(dataToolsMenu) dataToolsMenu.classList.remove('hidden');
@@ -1556,27 +1567,27 @@ const HTML_CONTENT = `
             if(dataToolsMenu) dataToolsMenu.classList.add('hidden');
             if(checkAllMenu) checkAllMenu.classList.add('hidden');
         }
-        
+
         if (isEditMode) {
             editModeBtn.innerHTML = '<span class="text-red-500 flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>Exit Edit</span>';
             document.body.classList.add('edit-mode');
             if(addCategoryContainer) addCategoryContainer.classList.remove('hidden');
         } else {
-            editModeBtn.innerHTML = isLoggedIn ? 
-                '<span class="flex items-center gap-3"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>Enter Edit Mode</span>' : 
+            editModeBtn.innerHTML = isLoggedIn ?
+                '<span class="flex items-center gap-3"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>Enter Edit Mode</span>' :
                 '<span class="flex items-center gap-3 text-slate-400"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>Edit Mode (login required)</span>';
             document.body.classList.remove('edit-mode');
             if(addCategoryContainer) addCategoryContainer.classList.add('hidden');
         }
     }
-    
+
     function loadSections() {
         document.getElementById('clear-search-button').classList.add('hidden');
         document.getElementById('search-input').value = '';
         renderCategorySections({ renderButtons: true });
     }
 
-    const imgApi = '/api/icon?url='; 
+    const imgApi = '/api/icon?url=';
     const iconCache = new Map();
     const iconFailed = new Set();
 
@@ -1618,31 +1629,31 @@ const HTML_CONTENT = `
         if (!isEditMode && link.isPrivate && !isLoggedIn) return null;
 
         const card = document.createElement('div');
-        
-        let cardBaseClass = isAppLayout 
-            ? 'flex flex-col items-center justify-start py-1 gap-1.5 hover:z-10' 
+
+        let cardBaseClass = isAppLayout
+            ? 'flex flex-col items-center justify-start py-1 gap-1.5 hover:z-10'
             : 'flex flex-col p-4 bg-white/90 dark:bg-[#170a29]/60 backdrop-blur-sm bg-white/80 border border-gray-200 dark:border-slate-700/50 hover:border-emerald-500/50 dark:hover:border-emerald-400/50 shadow-sm hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.1)] dark:shadow-none dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.4)] hover:-translate-y-1.5';
-            
+
         if (link.isPrivate && !isAppLayout) {
             cardBaseClass += ' ring-1 ring-amber-400/40 bg-amber-50/80 dark:bg-amber-900/10 !border-amber-200 dark:!border-amber-700/50';
         }
 
         card.className = \`group relative h-full w-full rounded-2xl transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)] cursor-pointer select-none \${cardBaseClass}\`;
-        
+
         if (isEditMode) {
             card.setAttribute('draggable', 'true');
-            card.classList.add('card'); 
+            card.classList.add('card');
             card.classList.add('cursor-move');
         }
-        
+
         card.dataset.isPrivate = link.isPrivate;
         card.setAttribute('data-url', link.url);
 
         const header = document.createElement('div');
-        header.className = isAppLayout 
-            ? 'flex flex-col items-center justify-center w-full relative' 
+        header.className = isAppLayout
+            ? 'flex flex-col items-center justify-center w-full relative'
             : 'flex items-center gap-3 mb-2.5 w-full';
-        
+
         // Icon placeholder container: shows a spinner before the icon finishes loading
         const iconWrap = document.createElement('div');
         const iconWrapClass = isAppLayout
@@ -1656,11 +1667,11 @@ const HTML_CONTENT = `
         spinner.innerHTML = '<span class="block icon-spinner rounded-full animate-spin" style="width:60%;height:60%;aspect-ratio:1/1;"></span>';
 
         const icon = document.createElement('img');
-        icon.setAttribute('loading', 'lazy'); 
-        icon.setAttribute('decoding', 'async'); 
-        icon.setAttribute('width', isAppLayout ? 64 : 36); 
+        icon.setAttribute('loading', 'lazy');
+        icon.setAttribute('decoding', 'async');
+        icon.setAttribute('width', isAppLayout ? 64 : 36);
         icon.setAttribute('height', isAppLayout ? 64 : 36);
-        
+
         // Icon style
         let iconClass = 'relative w-full h-full opacity-0 transition duration-300';
         if (isAppLayout) {
@@ -1691,6 +1702,7 @@ const HTML_CONTENT = `
             const base = imgApi + encodeURIComponent(sourceUrl) + (isCustom ? '&direct=1' : '') + '&w=';
             resolvedSrc = base + baseW;
             resolvedSrcset = \`\${base}\${baseW} 1x, \${base}\${baseW * 2} 2x, \${base}\${baseW * 3} 3x\`;
+            if (iconCache.size > 1000) iconCache.clear();
             iconCache.set(cacheKey, { src: resolvedSrc, srcset: resolvedSrcset });
         }
         let iconNode = icon;
@@ -1714,15 +1726,15 @@ const HTML_CONTENT = `
         }
         if (iconNode === icon) iconWrap.appendChild(spinner);
         iconWrap.appendChild(iconNode);
-        
+
         const title = document.createElement('div');
-        const titleAlign = isAppLayout 
-            ? 'text-center text-xs sm:text-sm font-medium mt-1 w-[120%] truncate px-1 text-slate-700 dark:text-slate-200 drop-shadow-sm' 
+        const titleAlign = isAppLayout
+            ? 'text-center text-xs sm:text-sm font-medium mt-1 w-[120%] truncate px-1 text-slate-700 dark:text-slate-200 drop-shadow-sm'
             : 'font-semibold text-sm flex-1 truncate text-slate-700 dark:text-slate-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors pointer-events-none';
-        
+
         title.className = \`card-title pointer-events-none \${titleAlign}\`;
         title.textContent = link.name;
-        
+
         header.appendChild(iconWrap);
         header.appendChild(title);
 
@@ -1757,21 +1769,21 @@ const HTML_CONTENT = `
 
         if (isEditMode) {
             const actionWrapper = document.createElement('div');
-            actionWrapper.className = isAppLayout 
-                ? 'absolute top-[-4px] right-[-4px] z-30' 
+            actionWrapper.className = isAppLayout
+                ? 'absolute top-[-4px] right-[-4px] z-30'
                 : 'absolute top-2 right-2 z-30';
 
             const menuBtn = document.createElement('button');
             const btnStyle = isAppLayout
                 ? 'w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 shadow-sm hover:bg-emerald-500 dark:hover:bg-emerald-600 hover:text-white'
                 : 'w-7 h-7 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100/80 dark:hover:bg-slate-700/50 backdrop-blur-sm';
-            
+
             menuBtn.className = \`\${btnStyle} flex items-center justify-center transition-all duration-200\`;
             menuBtn.innerHTML = '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>';
-            
+
             const dropdown = document.createElement('div');
             dropdown.className = 'hidden absolute right-0 top-6 w-28 bg-white dark:bg-[#170a29] rounded-xl shadow-xl ring-1 ring-black/5 dark:ring-white/10 overflow-hidden transform origin-top-right transition-all z-50 flex flex-col p-1 card-menu-dropdown';
-            
+
             dropdown.innerHTML = \`
                 <button class="menu-edit w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-slate-700/50 hover:text-emerald-600 transition-colors flex items-center gap-2">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
@@ -1883,7 +1895,7 @@ const HTML_CONTENT = `
             toggleCategoryHidden(input.dataset.category, input.checked);
         });
     }
-    
+
     function updateCategorySelect() {
         const menu = document.getElementById('category-select-menu');
         menu.innerHTML = '';
@@ -1930,7 +1942,7 @@ const HTML_CONTENT = `
         const name = document.getElementById('name-input').value.trim();
         const url = document.getElementById('url-input').value.trim();
         const category = document.getElementById('category-select-value').value;
-        
+
         if (!name || !url || !category) {
             await customAlert('Please fill in the required info (name, URL, category)');
             return;
@@ -1958,9 +1970,17 @@ const HTML_CONTENT = `
         }
     }
 
+    // Match a link by URL + name (fall back to URL only): the same URL can
+    // appear in several categories, and URL-only matching edits the wrong one.
+    function findLinkIndex(links, url, name) {
+        let idx = links.findIndex(l => l.url === url && l.name === name);
+        if (idx === -1) idx = links.findIndex(l => l.url === url);
+        return idx;
+    }
+
     async function updateCard(oldLink) {
         if (!await validateTokenOrRedirect()) return;
-        
+
         const updatedLink = {
             name: document.getElementById('name-input').value.trim(),
             url: document.getElementById('url-input').value.trim(),
@@ -1977,32 +1997,32 @@ const HTML_CONTENT = `
         // avoiding writing into categories[undefined]
         if (!updatedLink.category) {
             for (const c in categories) {
-                if (categories[c].links.some(l => l.url === oldLink.url)) { updatedLink.category = c; break; }
+                if (findLinkIndex(categories[c].links, oldLink.url, oldLink.name) !== -1) { updatedLink.category = c; break; }
             }
         }
-        
+
         for (const cat in categories) {
-             const idx = categories[cat].links.findIndex(l => l.url === oldLink.url);
-             
+             const idx = findLinkIndex(categories[cat].links, oldLink.url, oldLink.name);
+
              if (idx !== -1) {
                  found = true;
                  oldCategory = cat;
-                 
+
                  if (cat === updatedLink.category) {
                      categories[cat].links[idx] = updatedLink;
-                 } 
+                 }
                  else {
                      categories[cat].links.splice(idx, 1);
-                     
+
                      if(!categories[updatedLink.category]) {
                          categories[updatedLink.category] = { isHidden:false, links:[] };
                      }
                      categories[updatedLink.category].links.push(updatedLink);
                  }
-                 break; 
+                 break;
              }
         }
-        
+
         if (!found) {
              if(!categories[updatedLink.category]) {
                  categories[updatedLink.category] = { isHidden:false, links:[] };
@@ -2021,8 +2041,10 @@ const HTML_CONTENT = `
     async function removeCard(card) {
         if (!await validateTokenOrRedirect()) return;
         const url = card.getAttribute('data-url');
+        const titleEl = card.querySelector('.card-title');
+        const name = titleEl ? titleEl.textContent : '';
         for (const cat in categories) {
-            const idx = categories[cat].links.findIndex(l => l.url === url);
+            const idx = findLinkIndex(categories[cat].links, url, name);
             if (idx !== -1) {
                 categories[cat].links.splice(idx, 1);
                 break;
@@ -2081,20 +2103,20 @@ const HTML_CONTENT = `
     // Mobile drag
     let mobileDragTimer = null;
     let isMobileDragging = false;
-    let mobilePlaceholder = null; 
-    let mobileClone = null;       
-    let mobileTouchOffset = { x: 0, y: 0 }; 
-    let rafId = null;             
+    let mobilePlaceholder = null;
+    let mobileClone = null;
+    let mobileTouchOffset = { x: 0, y: 0 };
+    let rafId = null;
     let lastTouchX = 0;
     let lastTouchY = 0;
-    let lastSwapTime = 0;         
+    let lastSwapTime = 0;
     let activeContainer = null;
     let cloneWidth = 0;
     let cloneHeight = 0;
 
     function touchStart(e) {
         if (!isEditMode) return;
-        if (e.touches.length > 1) return; 
+        if (e.touches.length > 1) return;
 
         const card = e.target.closest('.card');
         if (!card) return;
@@ -2109,7 +2131,7 @@ const HTML_CONTENT = `
             isMobileDragging = true;
             mobilePlaceholder = card;
             activeContainer = mobilePlaceholder.parentElement;
-            
+
             initialDragState = getCardState(mobilePlaceholder);
 
             const rect = mobilePlaceholder.getBoundingClientRect();
@@ -2118,12 +2140,12 @@ const HTML_CONTENT = `
 
             mobileTouchOffset.x = startX - rect.left;
             mobileTouchOffset.y = startY - rect.top;
-            
+
             lastTouchX = startX;
             lastTouchY = startY;
 
             mobileClone = mobilePlaceholder.cloneNode(true);
-            
+
             Object.assign(mobileClone.style, {
                 position: 'fixed',
                 left: rect.left + 'px',
@@ -2132,8 +2154,8 @@ const HTML_CONTENT = `
                 height: rect.height + 'px',
                 zIndex: '9999',
                 opacity: '0.95',
-                boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.2)', 
-                transform: 'scale(1.05)', 
+                boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.2)',
+                transform: 'scale(1.05)',
                 transition: 'none'
             });
             mobileClone.classList.add('card-clone-dragging');
@@ -2145,7 +2167,7 @@ const HTML_CONTENT = `
             mobilePlaceholder.classList.add('border-dashed', 'border-2', 'border-emerald-400');
 
             if (navigator.vibrate) navigator.vibrate(50);
-            
+
             updatePosition();
         }, 500);
 
@@ -2155,13 +2177,13 @@ const HTML_CONTENT = `
 
         function updatePosition() {
             if (!isMobileDragging || !mobileClone) return;
-            
+
             const x = lastTouchX - mobileTouchOffset.x;
             const y = lastTouchY - mobileTouchOffset.y;
-            
+
             mobileClone.style.left = x + 'px';
             mobileClone.style.top = y + 'px';
-            
+
             rafId = requestAnimationFrame(updatePosition);
         }
 
@@ -2177,18 +2199,18 @@ const HTML_CONTENT = `
                     clearTimeout(mobileDragTimer);
                     mobileDragTimer = null;
                 }
-                
+
                 return;
             }
 
             if (isMobileDragging) {
-                moveEvent.preventDefault(); 
-                
+                moveEvent.preventDefault();
+
                 lastTouchX = moveTouch.clientX;
                 lastTouchY = moveTouch.clientY;
 
                 const now = Date.now();
-                if (now - lastSwapTime > 30) { 
+                if (now - lastSwapTime > 30) {
                     detectSort(moveTouch.clientX, moveTouch.clientY);
                 }
             }
@@ -2200,7 +2222,7 @@ const HTML_CONTENT = `
 
             let targetCard = elementBelow.closest('.card') || elementBelow.closest('.add-card-placeholder');
             let targetContainer = targetCard ? targetCard.parentElement : elementBelow.closest('.card-container');
-            
+
             if (!targetContainer) return;
 
             if (activeContainer !== targetContainer) {
@@ -2216,14 +2238,14 @@ const HTML_CONTENT = `
             }
 
             const containerRect = activeContainer.getBoundingClientRect();
-            
+
             const cloneViewportCenterX = lastTouchX - mobileTouchOffset.x + (cloneWidth / 2);
             const cloneViewportCenterY = lastTouchY - mobileTouchOffset.y + (cloneHeight / 2);
 
             const cloneRelX = cloneViewportCenterX - containerRect.left + activeContainer.scrollLeft;
             const cloneRelY = cloneViewportCenterY - containerRect.top + activeContainer.scrollTop;
 
-            const siblings = Array.from(activeContainer.children).filter(c => 
+            const siblings = Array.from(activeContainer.children).filter(c =>
                 (c.classList.contains('card') || c.classList.contains('add-card-placeholder')) && c !== mobilePlaceholder
             );
 
@@ -2235,9 +2257,9 @@ const HTML_CONTENT = `
             for (const child of siblings) {
                 const childCenterX = child.offsetLeft + child.offsetWidth / 2;
                 const childCenterY = child.offsetTop + child.offsetHeight / 2;
-                
+
                 const dist = Math.hypot(cloneRelX - childCenterX, cloneRelY - childCenterY);
-                
+
                 if (dist < minDistance) {
                     minDistance = dist;
                     closestElement = child;
@@ -2246,7 +2268,7 @@ const HTML_CONTENT = `
 
             if (closestElement) {
                 const positionsBefore = new Map();
-                const allChildren = Array.from(activeContainer.children).filter(el => 
+                const allChildren = Array.from(activeContainer.children).filter(el =>
                     el.classList.contains('card') || el.classList.contains('add-card-placeholder')
                 );
                 allChildren.forEach(el => positionsBefore.set(el, el.getBoundingClientRect()));
@@ -2259,9 +2281,9 @@ const HTML_CONTENT = `
                 } else {
                     activeContainer.insertBefore(mobilePlaceholder, closestElement);
                 }
-                
+
                 animateFlip(activeContainer, positionsBefore);
-                
+
                 lastSwapTime = Date.now();
                 if(navigator.vibrate) navigator.vibrate(10);
             }
@@ -2271,7 +2293,7 @@ const HTML_CONTENT = `
             const siblings = Array.from(container.children);
             siblings.forEach(el => {
                 if (el === mobilePlaceholder) return;
-                
+
                 const rectAfter = el.getBoundingClientRect();
                 const rectBefore = positionsBefore.get(el);
 
@@ -2281,7 +2303,7 @@ const HTML_CONTENT = `
 
                     el.style.transition = 'none';
                     el.style.transform = \`translate(\${dx}px, \${dy}px)\`;
-                    el.offsetHeight; 
+                    el.offsetHeight;
                     el.style.transition = 'transform 0.2s cubic-bezier(0.2, 0, 0.2, 1)';
                     el.style.transform = '';
 
@@ -2300,7 +2322,7 @@ const HTML_CONTENT = `
                 mobileDragTimer = null;
             }
             if (rafId) cancelAnimationFrame(rafId);
-            
+
             if (isMobileDragging) {
                 // Exit animation
                 if (mobileClone && mobilePlaceholder) {
@@ -2316,7 +2338,7 @@ const HTML_CONTENT = `
                              mobilePlaceholder.style.opacity = '';
                              mobilePlaceholder.classList.remove('border-dashed', 'border-2', 'border-emerald-400');
                         }
-                        
+
                         // Save order
                         saveCardOrder();
 
@@ -2330,7 +2352,7 @@ const HTML_CONTENT = `
 
                 document.body.style.overflow = '';
             }
-            
+
             isMobileDragging = false;
             cleanupListeners();
         }
@@ -2344,9 +2366,11 @@ const HTML_CONTENT = `
 
     function updateCardCategory(card, newCategory) {
         const url = card.getAttribute('data-url');
+        const titleEl = card.querySelector('.card-title');
+        const name = titleEl ? titleEl.textContent : '';
         let item = null;
         for (const cat in categories) {
-             const idx = categories[cat].links.findIndex(l => l.url === url);
+             const idx = findLinkIndex(categories[cat].links, url, name);
              if (idx !== -1) {
                  item = categories[cat].links.splice(idx, 1)[0];
                  break;
@@ -2359,25 +2383,38 @@ const HTML_CONTENT = `
     }
 
     async function saveCardOrder() {
-        const newCategories = {};
+        // Guard: if the page rendered no sections but we hold data in memory,
+        // a broken render must not wipe the server copy.
         const sections = document.querySelectorAll('.section');
+        if (sections.length === 0 && Object.keys(categories).length > 0) {
+            console.warn('saveCardOrder aborted: no sections rendered');
+            return;
+        }
+        const newCategories = {};
+        // Pool of not-yet-placed links: consuming each match once keeps
+        // duplicate URLs mapping to distinct link objects instead of collapsing.
+        const pool = Object.values(categories).flatMap(x => x.links);
         sections.forEach(sec => {
             // Use data-category (the original name) as the category key, matching the categories object keys; fall back to section.id
             const catName = sec.dataset.category || sec.id;
             const oldCat = categories[catName];
             newCategories[catName] = { isHidden: oldCat ? oldCat.isHidden : false, links: [] };
-            
+
             const cards = sec.querySelectorAll('.card');
             cards.forEach(c => {
                  const url = c.getAttribute('data-url');
-                 const original = Object.values(categories).flatMap(x=>x.links).find(l=>l.url === url);
-                 if(original) {
+                 const titleEl = c.querySelector('.card-title');
+                 const name = titleEl ? titleEl.textContent : '';
+                 let idx = pool.findIndex(l => l.url === url && l.name === name);
+                 if (idx === -1) idx = pool.findIndex(l => l.url === url);
+                 if (idx !== -1) {
+                     const original = pool.splice(idx, 1)[0];
                      original.category = catName;
                      newCategories[catName].links.push(original);
                  }
             });
         });
-        
+
         Object.keys(categories).forEach(k => delete categories[k]);
         Object.assign(categories, newCategories);
         await saveDataToServer('Save order', categories);
@@ -2389,7 +2426,7 @@ const HTML_CONTENT = `
         else document.documentElement.classList.toggle('dark', !!isDark);
         updateThemeSwitchUI();
     }
-    
+
     function updateThemeSwitchUI() {
         const isDark = document.documentElement.classList.contains('dark');
         const checkbox = document.getElementById('theme-switch-checkbox');
@@ -2399,7 +2436,7 @@ const HTML_CONTENT = `
     function scrollToTop() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    
+
     // Auth and mode
     async function toggleEditMode() {
         document.getElementById('profile-dropdown').classList.add('hidden');
@@ -2411,11 +2448,11 @@ const HTML_CONTENT = `
         if (!isEditMode) {
              isEditMode = true;
              updateUIState();
-             
-             renderCategories(); 
-             
+
+             renderCategories();
+
              // Notify the user
-             // logAction('Enter Edit Mode', {}); 
+             // logAction('Enter Edit Mode', {});
         } else {
              // Exit Edit Mode
              isEditMode = false;
@@ -2423,7 +2460,7 @@ const HTML_CONTENT = `
              renderCategories();
         }
     }
-    
+
     async function toggleLogin() {
         if (!isLoggedIn) {
              document.getElementById('password-input').value = '';
@@ -2435,7 +2472,7 @@ const HTML_CONTENT = `
              }
         }
     }
-    
+
     function showAddDialog() {
         toggleOverlay('dialog-overlay', true);
         document.getElementById('name-input').value = '';
@@ -2443,18 +2480,18 @@ const HTML_CONTENT = `
         document.getElementById('tips-input').value = '';
         document.getElementById('icon-input').value = '';
         document.getElementById('private-checkbox').checked = false;
-        
+
         document.getElementById('category-select-value').value = '';
         document.getElementById('category-select-text').textContent = 'Select a category';
-        
+
         const btn = document.getElementById('dialog-confirm-btn');
         const newBtn = btn.cloneNode(true);
         btn.parentNode.replaceChild(newBtn, btn);
         newBtn.onclick = addCard;
-        
+
         document.getElementById('dialog-cancel-btn').onclick = hideAddDialog;
     }
-    
+
     function showEditDialog(link) {
         toggleOverlay('dialog-overlay', true);
         document.getElementById('name-input').value = link.name;
@@ -2462,22 +2499,22 @@ const HTML_CONTENT = `
         document.getElementById('tips-input').value = link.tips || '';
         document.getElementById('icon-input').value = link.icon || '';
         document.getElementById('private-checkbox').checked = link.isPrivate;
-        
+
         const linkCategory = link.category || (() => {
             for (const c in categories) if (categories[c].links.some(l => l.url === link.url)) return c;
             return '';
         })();
         document.getElementById('category-select-value').value = linkCategory;
         document.getElementById('category-select-text').textContent = linkCategory || 'Select a category';
-        
+
         const btn = document.getElementById('dialog-confirm-btn');
         const newBtn = btn.cloneNode(true);
         btn.parentNode.replaceChild(newBtn, btn);
         newBtn.onclick = () => updateCard(link);
-        
+
         document.getElementById('dialog-cancel-btn').onclick = hideAddDialog;
     }
-    
+
     function hideAddDialog() {
         toggleOverlay('dialog-overlay', false);
     }
@@ -2557,7 +2594,7 @@ const HTML_CONTENT = `
 
         return res;
     };
-    
+
     document.getElementById('password-cancel-btn').onclick = () => {
          toggleOverlay('password-dialog-overlay', false);
     };
@@ -2569,14 +2606,14 @@ const HTML_CONTENT = `
             const input = document.getElementById('category-name-input');
             input.value = defaultVal;
             input.focus();
-            
+
             const close = (val) => {
                 toggleOverlay('category-dialog', false);
                 document.getElementById('category-confirm-btn').onclick = null;
                 document.getElementById('category-cancel-btn').onclick = null;
                 resolve(val);
             };
-            
+
             document.getElementById('category-confirm-btn').onclick = () => close(input.value.trim());
             document.getElementById('category-cancel-btn').onclick = () => close(null);
         });
@@ -2586,7 +2623,7 @@ const HTML_CONTENT = `
         return new Promise(resolve => {
             toggleOverlay('custom-confirm-overlay', true);
             document.getElementById('custom-confirm-message').innerText = msg;
-            
+
             const close = (val) => {
                 toggleOverlay('custom-confirm-overlay', false);
                 document.getElementById('custom-confirm-ok').onclick = null;
@@ -2661,19 +2698,19 @@ const HTML_CONTENT = `
         tooltip.textContent = text;
         tooltip.classList.remove('hidden');
 
-        const offset = 12; 
+        const offset = 12;
         let left = e.clientX + offset;
         let top = e.clientY + offset;
-        
+
         const tooltipRect = tooltip.getBoundingClientRect();
-        
+
         if (left + tooltipRect.width > window.innerWidth) {
             left = e.clientX - tooltipRect.width - offset;
         }
         if (top + tooltipRect.height > window.innerHeight) {
             top = e.clientY - tooltipRect.height - offset;
         }
-        
+
         tooltip.style.left = left + 'px';
         tooltip.style.top = top + 'px';
     }
@@ -2684,13 +2721,13 @@ const HTML_CONTENT = `
             tooltip.classList.add('hidden');
         }
     }
-    
+
 
     async function backupUserData() {
         try {
             const res = await fetchWithAuth('/api/backupData', {
                 method: 'POST',
-                headers: { 
+                headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({}),
@@ -2704,11 +2741,11 @@ const HTML_CONTENT = `
             return d.success;
         } catch(e) { return false; }
     }
-    
+
     async function reloadCardsAsAdmin() {
          await loadLinks();
     }
-    
+
     async function validateTokenOrRedirect() {
         const valid = await validateToken();
         if(!valid) {
@@ -2718,7 +2755,7 @@ const HTML_CONTENT = `
         }
         return true;
     }
-    
+
     async function validateToken() {
         const t = localStorage.getItem('authToken');
         if(!t) return false;
@@ -2727,7 +2764,7 @@ const HTML_CONTENT = `
             return r.status === 200;
         } catch(e) { return false; }
     }
-    
+
     function logout() {
         // Logging out also notifies the server to revoke the generation and clears the HttpOnly refresh cookie
         const t = localStorage.getItem('authToken');
@@ -2738,22 +2775,22 @@ const HTML_CONTENT = `
             headers: t ? { 'Authorization': t } : {}
         }).finally(clean);
     }
-    
+
     async function exportData() {
         if(!await validateTokenOrRedirect()) return;
         if(!await customConfirm("Export data?")) return;
-        
+
         try {
             const res = await fetchWithAuth("/api/exportData", {
                 method: "POST"
             });
-            
+
             if (res.status === 401) {
                 logout();
                 await customAlert('Your login credentials have expired, please log in again');
                 return;
             }
-            
+
             if (!res.ok) throw new Error("Export failed");
             const data = await res.json();
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
@@ -2764,11 +2801,11 @@ const HTML_CONTENT = `
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-        } catch(e) { 
-            if(e.message !== 'Unauthorized') await customAlert("Export failed"); 
+        } catch(e) {
+            if(e.message !== 'Unauthorized') await customAlert("Export failed");
         }
     }
-    
+
     // Parse Netscape bookmark HTML exported by Chrome / Edge
     function parseBookmarks(html) {
         const parser = new DOMParser();
@@ -2868,14 +2905,14 @@ const HTML_CONTENT = `
     async function importData() {
         if(!await validateTokenOrRedirect()) return;
         if(!await customConfirm("Import data?This will overwrite existing data!")) return;
-        
+
         const fileInput = document.getElementById('import-file-input');
         fileInput.value = '';
-        
+
         fileInput.onchange = async (e) => {
             const file = e.target.files[0];
             if (!file) return;
-            
+
             try {
                 const reader = new FileReader();
                 reader.onload = async (event) => {
@@ -2904,12 +2941,16 @@ const HTML_CONTENT = `
                             await customAlert('Your login credentials have expired, please log in again');
                             return;
                         }
-                        if (!res.ok) throw new Error("Import failed");
+                        if (!res.ok) {
+                            let detail = '';
+                            try { detail = (await res.json()).error || ''; } catch {}
+                            throw new Error(detail ? 'Import failed: ' + detail : 'Import failed');
+                        }
                         await customAlert('Data imported successfully!');
-                        location.reload(); 
+                        location.reload();
                     } catch (error) {
                         console.error("Failed to parse file:", error);
-                        await customAlert('Invalid file format, please check the file content!');
+                        await customAlert(error && error.message ? error.message : 'Invalid file format, please check the file content!');
                     }
                 };
                 reader.readAsText(file);
@@ -2931,25 +2972,43 @@ let DEFAULT_USER = 'testUser';
 let ICON_API = 'https://api.xinac.net/icon/?url=';
 let PREFER_ICON_API = true;
 
+let _configResolved = false;
 function resolveConfig(env) {
+    // Env is constant per deployment; resolving once avoids mutating shared
+    // module state on every request in a reused isolate.
+    if (_configResolved) return;
+    _configResolved = true;
     if (env.DEFAULT_USER) DEFAULT_USER = env.DEFAULT_USER;
     if (env.ICON_API) ICON_API = env.ICON_API;
     if (env.PREFER_ICON_API !== undefined) PREFER_ICON_API = env.PREFER_ICON_API === 'true';
 }
 
+// Byte-based base64url: btoa() throws on non-ASCII input, and spreading a
+// large array into fromCharCode() can overflow the stack, so encode in chunks.
+function base64UrlEncodeBytes(bytes) {
+    let bin = '';
+    const CHUNK = 0x8000;
+    for (let i = 0; i < bytes.length; i += CHUNK) {
+        bin += String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK));
+    }
+    return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
 function base64UrlEncode(str) {
-    return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    return base64UrlEncodeBytes(new TextEncoder().encode(str));
 }
 
 function base64UrlEncodeUint8(arr) {
-    const str = String.fromCharCode(...arr);
-    return base64UrlEncode(str);
+    return base64UrlEncodeBytes(arr instanceof Uint8Array ? arr : new Uint8Array(arr));
 }
 
 function base64UrlDecode(str) {
     str = str.replace(/-/g, '+').replace(/_/g, '/');
     while (str.length % 4) str += '=';
-    return atob(str);
+    const bin = atob(str);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
 }
 
 async function createJWT(payload, secret) {
@@ -3019,8 +3078,14 @@ function parseCookie(cookieHeader) {
     const cookies = {};
     if (!cookieHeader) return cookies;
     cookieHeader.split(';').forEach(cookie => {
-        const [name, value] = cookie.trim().split('=');
-        cookies[name] = decodeURIComponent(value);
+        // Split on the FIRST '=' only: values (e.g. base64) may contain '='.
+        const eq = cookie.indexOf('=');
+        if (eq === -1) return;
+        const name = cookie.slice(0, eq).trim();
+        const value = cookie.slice(eq + 1).trim();
+        if (!name) return;
+        try { cookies[name] = decodeURIComponent(value); }
+        catch { cookies[name] = value; }
     });
     return cookies;
 }
@@ -3030,13 +3095,13 @@ async function validateServerToken(authHeader, env) {
         return { isValid: false, status: 401, response: { error: 'Unauthorized', message: 'Not logged in' } };
     }
     const token = authHeader.slice(7);
-    
+
     const payload = await validateJWT(token, env.JWT_SECRET);
-    
+
     if (!payload) {
         return { isValid: false, status: 401, response: { error: 'Invalid', message: 'Invalid token' } };
     }
-    
+
     if (payload.exp < Math.floor(Date.now() / 1000)) {
         return { isValid: false, status: 401, response: { error: 'Expired', message: 'Token expired' } };
     }
@@ -3146,11 +3211,25 @@ async function readLinksKv(env) {
     try {
         dataStr = await env.CARD_ORDER.get(DEFAULT_USER);
     } catch (e) {
+        // Fail loudly: a KV outage or a deleted namespace must surface as a
+        // 500, never as an empty nav page that a later save could overwrite.
         console.error('KV read failed:', e);
+        return { ok: false, error: 'KV_READ_FAILED' };
     }
     const { data } = safeJsonParse(dataStr, EMPTY_DATA);
     if (data) data.categories = normalizeCategories(data.categories || {});
-    return data;
+    return { ok: true, data };
+}
+
+// Total link count across all categories (array- and object-form safe).
+function countLinks(categories) {
+    let n = 0;
+    for (const name of Object.keys(categories || {})) {
+        const cat = categories[name];
+        const links = Array.isArray(cat) ? cat : (cat && cat.links);
+        if (Array.isArray(links)) n += links.length;
+    }
+    return n;
 }
 
 function filterPublic(categories) {
@@ -3175,7 +3254,7 @@ function corsHeaders(request, env) {
     };
 }
 
-const FETCH_ICON_MAX_HTML = 1 * 1024 * 1024; 
+const FETCH_ICON_MAX_HTML = 1 * 1024 * 1024;
 async function fetchBestIcon(targetUrl, resize = null) {
     const headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -3268,7 +3347,7 @@ async function fetchBestIcon(targetUrl, resize = null) {
 }
 
 const ICON_SCHEME_OK = new Set(['http:', 'https:']);
-const HOST_DENY = /(^|\.)(localhost|127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|169\.254\.|metadata\.google|i-1\.internal)/i;
+const HOST_DENY = /(^|\.)(localhost|127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|169\.254\.|metadata\.google|i-1\.internal|\[::1\]|0\.0\.0\.0)/i;
 // Only bitmaps are accepted; HTML/SVG/XML are never allowed through. SVG is only allowed for "trusted image hosts" (see allowSvg in safeFetchIcon)
 const ICON_CT_OK = /^image\/(png|jpeg|gif|webp|ico|x-icon|vnd\.microsoft\.icon|avif|bmp)/i;
 
@@ -3396,7 +3475,7 @@ async function handleIconProxy(request, ctx) {
                 'Access-Control-Allow-Origin': '*',
                 'X-Icon-Cache-Status': 'MISS',
             });
-            ctx.waitUntil(cache.put(cacheKey, response.clone()));
+            ctx.waitUntil(cache.put(cacheKey, response.clone()).catch(e => console.warn('icon cache put failed', e)));
         } else {
             const fallbackSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" style="display:block;width:100%;height:100%"><rect width="64" height="64" fill="white"/><path fill="black" d="M62 32C62 15.432 48.568 2 32 2C15.861 2 2.703 14.746 2.031 30.72c-.008.196-.01.395-.014.592c-.005.23-.017.458-.017.688v.101C2 48.614 15.432 62 32 62s30-13.386 30-29.899l-.002-.049zM37.99 59.351c-.525-.285-1.029-.752-1.234-1.388c-.371-1.152-.084-2.046.342-3.086c.34-.833-.117-1.795.109-2.667c.441-1.697.973-3.536.809-5.359c-.102-1.119-.35-1.17-1.178-1.816c-.873-.685-.873-1.654-1.457-2.52c-.529-.787.895-3.777.498-3.959c-.445-.205-1.457.063-1.777-.362c-.344-.458-.584-.999-1.057-1.354c-.305-.229-1.654-.995-2.014-.941c-1.813.271-3.777-1.497-4.934-2.65c-.797-.791-1.129-1.678-1.713-2.593c-.494-.775-1.242-.842-1.609-1.803c-.385-1.004-.156-2.29-.273-3.346c-.127-1.135-.691-1.497-1.396-2.365c-1.508-1.863-2.063-4.643-4.924-4.643c-1.537 0-1.428 3.348-2.666 2.899c-1.4-.507-3.566 1.891-3.535 1.568c.164-1.674 1.883-2.488 2.051-2.987c.549-1.638-2.453-1.246-2.068-2.612c.188-.672 2.098-1.161 1.703-1.562c-.119-.122-1.58-1.147-1.508-1.198c.271-.19 1.449.412 1.193-.37c-.086-.26-.225-.499-.357-.74a28 28 0 0 1 1.92-1.975c1.014-.083 2.066-.02 2.447.054c2.416.476 3.256 1.699 5.672.794c1.162-.434 5.445.319 6.059 1.537c.334.666 1.578-.403 2.063-.475c.52-.078 1.695.723 2.053.232c.943-1.291-.604-1.827 1.223-.833c1.225.667 3.619-2.266 2.861 1.181c-.547 2.485-2.557 2.54-4.031 4.159c-1.451 1.594 2.871 2.028 2.982 3.468c.32 4.146 2.531-.338 1.939-1.812c-1.145-2.855 1.303-2.071 2.289-.257c.547 1.007.963.159 1.633-.192c.543-.283.688 1.25.805 1.517c.385.887 1.65 1.152 1.436 2.294c-.238 1.259-1.133.881-2.008 1.094c-.977.237.158 1.059.016 1.359c-.154.328-1.332.464-1.646.65c-.924.544-.359 1.605-1.082 2.175c-.496.392-.996.137-1.092.871c-.113.865-1.707 1.143-1.5 1.97c.057.227.516 1.923.227 2.013c-.133.043-1.184-1.475-1.471-1.627c-.568-.301-3.15-.055-3.482 1.654c-.215 1.105 1.563 2.85 2.016 1.328c.561-1.873.828 1.091.693 1.207c.268.234 1.836-.385 1.371.7c-.197.459.193 1.656.889 1.287c.291-.154 1.041.31 1.172.061a2.14 2.14 0 0 1 .742-.692c.701-.41 1.75-.025 2.518.02c.469.027 4.313 2.124 4.334 2.545c.084 1.575 2.99 1.37 3.436 1.933c1.199 1.526.83.751-.045 2.706c-.441.984-.057 2.191-1.125 2.904c-.514.342-1.141.171-1.598.655c-.412.437-.25.959-.5 1.464c-.301.601-4.346 4.236-4.613 5.115c-.133.441-1.34.825-.322 1.248c.592.174-1.311 1.973-.396 2.718c.223.181.369.334.479.471c-.457.122-.91.233-1.369.333M35.594 4.237c-.039.145.02.316.271.483c.566.375-.162 1.208-.943.671c-.779-.537-2.531.241-2.41.644c.119.403.66.563 1.496.242c.834-.322 1.178.048 1.318.43c.096.259 0 .403-.027.752c-.025.349-.996.107-1.803.162c-.809.054-1.67-.162-1.645-.619c.027-.456-.861-1.289-1.391-1.637c-.529-.348.232-1.1.934-.537c.699.564.727-.107 1.535-.321c.459-.122.275-.305.119-.479q1.29.047 2.546.209m3.517 8.869c.605.164 1.656.929 1.656 1.291c0 .363-.477.817-.688.765c-1.523-.371-2.807-1.874-3.514-2.697c-1.234-1.435-1.156-.205-3.111-.826c-.5-.16-1.293-1.711-.768-2.476s1.131-.886 1.615-.683c.484.2 1.898-.645 2.223.362c.322 1.007 1.211 2.292 2.02 2.636c.81.342-.04 1.464.567 1.628m.485 4.673c.242.483-1.455-.564-1.859-1.047c-.402-.482-1.01-1.571-.523-2.054c.484-.482 1.57 1.005 2.141 1.33c1.129.645-.001 1.289.241 1.771m-8.594-7.315c.117-.161.365.242.586.645s-.084.971-.586.885c-.502-.084-.281-1.136 0-1.53m0-4.052s.473 1.154 0 .966s-.496-.671 0-.966m.096 3.65c-.135-.321-.166-1.64.162-2.04c.484-.59 1.266.564.74 1.02c-.525.457-.768 1.343-.902 1.02m-6.077 1.415c-.879-.063-.898-.823-1.02-1.226s-.85.765-1.586 0s.172-1.771.01-2.376c-.162-.604 1.736 0 2.02 0s1.051 1.248 1.252 1.227c.203-.02 1.293.987 1.293.584c0-.402.166-1.088.93-1.168c1.172-.121.121 1.289.08 1.838c-.039.549.891 1.504 1.232 1.907c.344.403-.867.686-1.07.443c-.201-.242-.727 0-1.172.322c-.443.322-1.656-.443-2.221-.685c-.566-.241 1.131-.804.252-.866m3.141-6.354c.781.269 1.225.51 1.609 0c.371-.492.654 1.073.385 1.502c-.27.431-.781.324-.863 0c-.08-.32-1.912-1.771-1.131-1.502m1.131 4.859c-.268-.35-.295-.752 0-1.047c.297-.295.201-.644.729-.751c.26-.054.295.348.295.724s.324.859 0 1.448c-.323.589-.754-.026-1.024-.374m2.205-5.969c-.012.074-.061.118-.184.106a.6.6 0 0 1-.236-.095q.21-.008.42-.011M25.389 5.15c.619 0 .539.418 1.051.719c.512.3.242-1.552.592-.854c.35.697 1.389 1.664.889 1.851c-.43.163-2.234.859-2.396.739s-.377-.63-.809-.739c-.432-.107-.889-1.127-1.186-1.1c-.113.01-.123-.184-.049-.442a28 28 0 0 1 1.572-.455c.058.158.146.281.336.281m13.519 30.025c-.645.666-1.756-.464-2.523-.424s-1.152-.765-1.818-.684c-.668.079.182-.847 1.111-.362c.927.483 3.756.925 3.23 1.47m12.93-22.934c-.188.24-.402.408-.607.585c-.605.524-1.736.484-1.898.846s-.566 1.489-1.98 1.494s-1.01 2.131-1.131 2.738s-.443 1.325-.848.801s-.566-.323-1.816-1.853s-.77-2.375-.365-2.818c.404-.442.566-1.49 0-1.329s-.889-.202-.768-.703s.727-.867 0-1.402s-.324-2.445-.889-4.189c-.566-1.745-1.334-.51-2.586-.443s-1.455-.873-.889-1.303a27.95 27.95 0 0 1 13.777 7.576"/></svg>';
             response = new Response(fallbackSvg, {
@@ -3415,15 +3494,48 @@ async function handleIconProxy(request, ctx) {
     return response;
 }
 
-const MIN_BACKUP_INTERVAL_MS = 10 * 60 * 1000; 
+const MIN_BACKUP_INTERVAL_MS = 10 * 60 * 1000;
+
+// Write one timestamped backup into a SECOND KV namespace
+// (env.CARD_ORDER_BACKUP). Bind it in wrangler.toml / the dashboard to enable:
+// the in-namespace rolling backups cannot survive a deleted namespace, but a
+// copy in a separate namespace can. Keeps the newest 10.
+async function writeOffsiteBackup(env, payload) {
+    const ns = env.CARD_ORDER_BACKUP;
+    if (!ns) return; // optional binding; no-op when unbound
+    try {
+        const now = Date.now();
+        const dateStr = new Date(now + 8 * 3600 * 1000).toISOString().replace(/[:.]/g, '-');
+        await ns.put(`backup_${DEFAULT_USER}_${dateStr}`, payload, { metadata: { timestamp: now } });
+        const list = await ns.list({ prefix: `backup_${DEFAULT_USER}_` });
+        const keys = list.keys.sort((a, b) => a.name.localeCompare(b.name));
+        if (keys.length > 10) {
+            for (const k of keys.slice(0, keys.length - 10)) await ns.delete(k.name);
+        }
+    } catch (e) {
+        console.error('Offsite backup failed:', e);
+    }
+}
+
+// Unconditional in-namespace backup of the current data (no 10-minute
+// throttle): used before destructive overwrites such as importData.
+async function backupNow(env, currentData) {
+    try {
+        const now = Date.now();
+        const dateStr = new Date(now + 8 * 3600 * 1000).toISOString().replace(/[:.]/g, '-');
+        await env.CARD_ORDER.put(`backup_${DEFAULT_USER}_${dateStr}`, currentData, { metadata: { timestamp: now } });
+    } catch (e) {
+        console.error('Pre-overwrite backup failed:', e);
+    }
+}
 
 async function handleSmartBackup(env, currentData) {
     try {
         const list = await env.CARD_ORDER.list({ prefix: `backup_${DEFAULT_USER}_` });
         let keys = list.keys;
-        
+
         keys.sort((a, b) => a.name.localeCompare(b.name));
-        
+
         let shouldBackup = true;
 
         if (keys.length > 0) {
@@ -3431,7 +3543,7 @@ async function handleSmartBackup(env, currentData) {
             if (lastBackupMeta && lastBackupMeta.timestamp) {
                  const timeDiff = Date.now() - lastBackupMeta.timestamp;
                  if (timeDiff < MIN_BACKUP_INTERVAL_MS) {
-                     shouldBackup = false; 
+                     shouldBackup = false;
                  }
             }
         }
@@ -3441,12 +3553,12 @@ async function handleSmartBackup(env, currentData) {
             const date = new Date(now + 8 * 3600 * 1000);
             const dateStr = date.toISOString().replace(/[:.]/g, '-');
             const backupKey = `backup_${DEFAULT_USER}_${dateStr}`;
-            
+
             await env.CARD_ORDER.put(backupKey, currentData, {
                 metadata: { timestamp: now }
             });
 
-            if (keys.length >= 10) { 
+            if (keys.length >= 10) {
                 const deleteCount = keys.length + 1 - 10;
                 if(deleteCount > 0) {
                     const toDelete = keys.slice(0, deleteCount);
@@ -3606,6 +3718,9 @@ export default {
                     headers: {
                         'ETag': etag,
                         'Cache-Control': 'public, max-age=60, s-maxage=300, must-revalidate',
+                        'X-Content-Type-Options': 'nosniff',
+                        'Referrer-Policy': 'no-referrer',
+                        'Content-Security-Policy': "frame-ancestors 'none'",
                     },
                 });
             }
@@ -3621,6 +3736,9 @@ export default {
                     'ETag': etag,
                     'Cache-Control': 'public, max-age=60, s-maxage=300, stale-while-revalidate=600',
                     'Vary': 'Accept-Encoding',
+                    'X-Content-Type-Options': 'nosniff',
+                    'Referrer-Policy': 'no-referrer',
+                    'Content-Security-Policy': "frame-ancestors 'none'",
                 },
             });
             ctx.waitUntil(caches.default.put(cacheKey, res.clone()).catch(e => console.warn('html cache put failed', e)));
@@ -3660,34 +3778,34 @@ export default {
                 const currentTime = Math.floor(Date.now() / 1000);
                 const kid = await currentKeyGen(env);
 
-                const accessTokenPayload = { 
-                    iat: currentTime, 
-                    exp: currentTime + 7200, 
+                const accessTokenPayload = {
+                    iat: currentTime,
+                    exp: currentTime + 7200,
                     role: 'admin',
                     type: 'access',
                     kid
                 };
                 const accessToken = await createJWT(accessTokenPayload, env.JWT_SECRET);
-                
-                const refreshTokenPayload = { 
-                    iat: currentTime, 
-                    exp: currentTime + 2592000, 
+
+                const refreshTokenPayload = {
+                    iat: currentTime,
+                    exp: currentTime + 2592000,
                     role: 'admin',
                     type: 'refresh',
                     kid
                 };
                 const refreshToken = await createJWT(refreshTokenPayload, env.JWT_SECRET);
-                
-                const response = new Response(JSON.stringify({ 
-                    valid: true, 
-                    token: `Bearer ${accessToken}` 
-                }), { 
-                    status: 200, 
-                    headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } 
+
+                const response = new Response(JSON.stringify({
+                    valid: true,
+                    token: `Bearer ${accessToken}`
+                }), {
+                    status: 200,
+                    headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' }
                 });
-                
+
                 response.headers.append('Set-Cookie', `refreshToken=${refreshToken}; HttpOnly; Secure; SameSite=Strict; Path=/api/refreshToken; Max-Age=2592000`);
-                
+
                 return response;
             } catch (e) {
                 return new Response(JSON.stringify({ valid: false, error: 'Auth failed' }), { status: 403, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
@@ -3698,18 +3816,18 @@ export default {
             try {
                 const cookies = parseCookie(request.headers.get('Cookie'));
                 const refreshToken = cookies.refreshToken;
-                
+
                 if (!refreshToken) {
                     return new Response(JSON.stringify({ error: 'Refresh token missing' }), { status: 401, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
                 }
-                
+
                 const payload = await validateJWT(refreshToken, env.JWT_SECRET);
                 const currentTime = Math.floor(Date.now() / 1000);
 
                 if (!payload || payload.exp < currentTime) {
                     return new Response(JSON.stringify({ error: 'Refresh token expired' }), { status: 401, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
                 }
-                
+
                 if (payload.type !== 'refresh') {
                     return new Response(JSON.stringify({ error: 'Invalid token type' }), { status: 400, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
                 }
@@ -3718,10 +3836,10 @@ export default {
                 if (!payload.kid || payload.kid !== kid) {
                     return new Response(JSON.stringify({ error: 'Refresh token revoked' }), { status: 401, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
                 }
-                
-                const newAccessTokenPayload = { 
-                    iat: currentTime, 
-                    exp: currentTime + 7200, 
+
+                const newAccessTokenPayload = {
+                    iat: currentTime,
+                    exp: currentTime + 7200,
                     role: 'admin',
                     type: 'access',
                     kid
@@ -3736,12 +3854,12 @@ export default {
                     kid
                 };
                 const newRefreshToken = await createJWT(newRefreshTokenPayload, env.JWT_SECRET);
-                
-                const response = new Response(JSON.stringify({ 
-                    accessToken: `Bearer ${newAccessToken}` 
-                }), { 
-                    status: 200, 
-                    headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } 
+
+                const response = new Response(JSON.stringify({
+                    accessToken: `Bearer ${newAccessToken}`
+                }), {
+                    status: 200,
+                    headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' }
                 });
 
                 response.headers.append('Set-Cookie', `refreshToken=${newRefreshToken}; HttpOnly; Secure; SameSite=Strict; Path=/api/refreshToken; Max-Age=2592000`);
@@ -3755,7 +3873,7 @@ export default {
         if (url.pathname === '/api/validateToken') {
             const validation = await validateServerToken(request.headers.get('Authorization'), env);
             return new Response(JSON.stringify(validation.isValid ? { valid: true } : validation.response), {
-                status: validation.status || 200, 
+                status: validation.status || 200,
                 headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' }
             });
         }
@@ -3782,7 +3900,11 @@ export default {
                 }
             }
 
-            const data = await readLinksKv(env);
+            const read = await readLinksKv(env);
+            if (!read.ok) {
+                return new Response(JSON.stringify({ error: 'KV_READ_FAILED' }), { status: 500, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
+            }
+            const data = read.data;
 
             if (data && data.categories) {
                 for (const name of Object.keys(data.categories)) {
@@ -3815,28 +3937,43 @@ export default {
             if (!check.ok) return new Response(JSON.stringify({ error: 'INVALID_DATA', detail: check.reason }), { status: 422, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
 
             try {
+                const oldRev = await getDataRev(env);
                 const currentData = await env.CARD_ORDER.get(DEFAULT_USER);
-                
+
+                // Guard: never let an empty write wipe real data (e.g. after a
+                // failed or empty load). Pass { force: true } to clear deliberately.
+                const existing = safeJsonParse(currentData, null).data;
+                const existingCount = existing ? countLinks(existing.categories) : 0;
+                if (countLinks(categories) === 0 && existingCount > 0 && !body.data.force) {
+                    return new Response(JSON.stringify({ error: 'REFUSE_EMPTY_OVERWRITE', detail: 'incoming data is empty but stored data has ' + existingCount + ' links' }), { status: 409, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
+                }
+
                 if (currentData) {
                     ctx.waitUntil(handleSmartBackup(env, currentData));
                 }
 
-                await env.CARD_ORDER.put(DEFAULT_USER, JSON.stringify({ categories: sanitizeCategories(categories) }));
+                const payload = JSON.stringify({ categories: sanitizeCategories(categories) });
+                await env.CARD_ORDER.put(DEFAULT_USER, payload);
+                // Offsite copy (second KV namespace, when bound).
+                ctx.waitUntil(writeOffsiteBackup(env, payload));
 
                 const rev = await bumpRev(env);
-                
+                // Drop the previous anonymous cache entry so a failed rev bump
+                // cannot leave visitors on stale data.
+                ctx.waitUntil(CACHE.delete(cacheKeyFor(new URL('/api/getLinks', request.url), oldRev, 'anon')).catch(e => console.warn('anon cache delete failed', e)));
+
                 return new Response(JSON.stringify({ success: true, rev }), { status: 200, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
             } catch (e) {
-                return new Response(JSON.stringify({ error: 'Bad Request' }), { status: 400, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
+                return new Response(JSON.stringify({ error: 'SAVE_FAILED' }), { status: 500, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
             }
         }
 
         if (url.pathname === '/api/backupData' && request.method === 'POST') {
             const validation = await validateServerToken(request.headers.get('Authorization'), env);
             if (!validation.isValid) return new Response(JSON.stringify(validation.response), { status: validation.status, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
-            
+
             const sourceData = await env.CARD_ORDER.get(DEFAULT_USER);
-            
+
             if(sourceData) {
                  const now = Date.now();
                  const date = new Date(now + 8 * 3600 * 1000);
@@ -3844,24 +3981,24 @@ export default {
                  await env.CARD_ORDER.put(`backup_${DEFAULT_USER}_${dateStr}`, sourceData, {
                      metadata: { timestamp: now }
                  });
-                 
+
                  return new Response(JSON.stringify({ success: true }), { status: 200, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
             }
             return new Response(JSON.stringify({ success: false, error: 'User data not found' }), { status: 404, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
         }
-        
+
         if (url.pathname === '/api/exportData' && request.method === 'POST') {
              const validation = await validateServerToken(request.headers.get('Authorization'), env);
              if (!validation.isValid) return new Response(JSON.stringify(validation.response), { status: validation.status, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
-             
+
              const data = await env.CARD_ORDER.get(DEFAULT_USER);
              return new Response(data || '{}', { status: 200, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
         }
-        
+
         if (url.pathname === '/api/importData' && request.method === 'POST') {
              const validation = await validateServerToken(request.headers.get('Authorization'), env);
              if (!validation.isValid) return new Response(JSON.stringify(validation.response), { status: validation.status, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
-              
+
              const bodyObj = await readJsonBody(request);
              if (!bodyObj.ok) return new Response(JSON.stringify({ error: bodyObj.reason }), { status: bodyObj.reason === 'TOO_LARGE' ? 413 : 400, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
 
@@ -3873,10 +4010,26 @@ export default {
              const cleanData = {
                  categories: sanitizeCategories(categories)
              };
-             
+
+             // Import overwrites everything: back up the current data first
+             // (unconditional backup + offsite copy), and refuse an empty
+             // import over non-empty stored data unless forced.
+             const oldRev = await getDataRev(env);
+             const currentData = await env.CARD_ORDER.get(DEFAULT_USER);
+             if (currentData) {
+                 await backupNow(env, currentData);
+                 ctx.waitUntil(writeOffsiteBackup(env, currentData));
+             }
+             const existing = safeJsonParse(currentData, null).data;
+             const existingCount = existing ? countLinks(existing.categories) : 0;
+             if (countLinks(categories) === 0 && existingCount > 0 && !bodyObj.data.force) {
+                 return new Response(JSON.stringify({ error: 'REFUSE_EMPTY_OVERWRITE', detail: 'imported data is empty but stored data has ' + existingCount + ' links' }), { status: 409, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
+             }
+
              await env.CARD_ORDER.put(DEFAULT_USER, JSON.stringify(cleanData));
 
              const rev = await bumpRev(env);
+             ctx.waitUntil(CACHE.delete(cacheKeyFor(new URL('/api/getLinks', request.url), oldRev, 'anon')).catch(e => console.warn('anon cache delete failed', e)));
              return new Response(JSON.stringify({ success: true, rev }), { status: 200, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
         }
 
