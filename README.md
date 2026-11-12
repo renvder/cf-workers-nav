@@ -135,6 +135,7 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 * Group panels: each named group is now shown inside a rounded panel (light mode: translucent white fill with a soft violet border; dark mode: a violet tint with a stronger violet border). The panel hides together with its group when a filter leaves it empty; ungrouped links and search results have no panel.
 * Panel titles: the group title now sits on the panel's top border, and the border breaks evenly around it. In APP view the panel's top padding is slightly larger, so the icon tiles and the link names sit the same distance from the panel's top and bottom edges.
 * Panel background removed: the group panels now have no fill in either mode — only the border outline shows, with the page background showing through.
+* One-tag filters: a category with only one filter tag now shows its pills row (previously the row only appeared with two or more tags, so a single tag had no visible UI).
 
 **2026-11-12**
 * Reliability: if the KV namespace is deleted or unreadable, `/api/getLinks` now returns HTTP 500 instead of a silently empty page; saving or importing an empty dataset over existing links is refused (HTTP 409) unless explicitly forced, and import backs up the current data first.

@@ -1405,12 +1405,17 @@ const HTML_CONTENT = `
         const cat = categories[category];
         if (!cat || !Array.isArray(cat.links)) return null;
         const tags = [...new Set(cat.links.map(linkFunctionTag).filter(Boolean))];
-        if (tags.length < 2) return null;
+        // v17: a single tag is still a useful filter (All vs that tag),
+        // so only suppress the row when there are no tags at all. The
+        // old "< 2" rule hid the row entirely whenever a section had
+        // exactly one tag, so a stored tag had no visible UI.
+        if (tags.length < 1) return null;
         const pills = document.createElement('div');
         pills.className = 'filter-pills flex gap-2 mb-4';
         pills.style.flexWrap = 'wrap';
-        const allTags = ['全部', ...tags];
-        let activeFilter = '全部';
+        // v18: the show-all pill reads "All" (Frost's request).
+        const allTags = ['All', ...tags];
+        let activeFilter = 'All';
         const pillBase = 'px-3 py-1 text-xs font-medium rounded-full border transition-all active:scale-95 cursor-pointer';
         const pillOn = 'bg-emerald-500 text-white shadow-sm';
         const pillOff = 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-300 dark:border-slate-600 hover:border-emerald-300';
@@ -1421,7 +1426,7 @@ const HTML_CONTENT = `
         };
         const applyFilter = () => {
             section.querySelectorAll('[data-filter-tag]').forEach(card => {
-                card.classList.toggle('hidden', activeFilter !== '全部' && card.dataset.filterTag !== activeFilter);
+                card.classList.toggle('hidden', activeFilter !== 'All' && card.dataset.filterTag !== activeFilter);
             });
             if (!isEditMode) {
                 section.querySelectorAll('.card-container').forEach(grid => {
@@ -1429,7 +1434,7 @@ const HTML_CONTENT = `
                     // The title is the panel's <legend>, so hiding
                     // the fieldset hides the title with it.
                     const panel = [...section.querySelectorAll('.group-panel')].find(p => p.dataset.group === grid.dataset.group);
-                    if (panel) panel.classList.toggle('hidden', activeFilter !== '全部' && !hasVisible);
+                    if (panel) panel.classList.toggle('hidden', activeFilter !== 'All' && !hasVisible);
                 });
             }
         };
@@ -1439,7 +1444,7 @@ const HTML_CONTENT = `
             pill.textContent = tag;
             pill.dataset.filter = tag;
             pill.onclick = () => {
-                activeFilter = (activeFilter === tag) ? '全部' : tag;
+                activeFilter = (activeFilter === tag) ? 'All' : tag;
                 paintPills();
                 applyFilter();
             };
