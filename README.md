@@ -131,7 +131,7 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 * Filter tags: each link can carry a short filter tag, editable in the Add/Edit Link dialog (with suggestions from the category's existing tags). Each category shows one row of filter pills under its title — clicking one shows only the matching links across all its groups, and groups with no match hide their header until the filter is cleared.
 * Tab highlight: clicking a category tab now highlights it immediately, and the scroll spy follows the actual scroll position (previously the highlight could stay stuck on the first tab when the page was short).
 * Group headers: more space between groups, and group titles are smaller and muted so they read as subordinate to the category title.
-* Tag length: the filter-tag limit is now 30 characters (was 20), so bilingual tags like "下載工具 | Download Manager" are no longer cut off on save.
+* Tag length: the filter-tag limit is now 30 characters (was 20), so tags are no longer cut off on save.
 * Group panels: each named group is now shown inside a rounded panel (light mode: translucent white fill with a soft violet border; dark mode: a violet tint with a stronger violet border). The panel hides together with its group when a filter leaves it empty; ungrouped links and search results have no panel.
 * Panel titles: the group title now sits on the panel's top border, and the border breaks evenly around it. In APP view the panel's top padding is slightly larger, so the icon tiles and the link names sit the same distance from the panel's top and bottom edges.
 * Panel background removed: the group panels now have no fill in either mode — only the border outline shows, with the page background showing through.
