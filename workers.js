@@ -226,7 +226,9 @@ const HTML_CONTENT = `
         /* ================ End Cyberpunk Terminal Theme ================ */
     </style>
     <style id="group-panel-style">
-        .group-panel{border:1px solid rgba(124,93,250,.25);border-radius:16px;padding:16px;background:transparent;margin:56px 0 0;min-width:0;}
+        /* v19: panel-to-panel gap 56px -> 48px (Frost: slightly too large); first panel stays 16px. */
+        /* v20: panel-to-panel gap 48px -> 32px, equal to the pills -> first-panel gap (Frost's option 1). First panel stays 16px. */
+        .group-panel{border:1px solid rgba(124,93,250,.25);border-radius:16px;padding:16px;background:transparent;margin:32px 0 0;min-width:0;}
         .group-panel-first{margin-top:16px;}
         .dark .group-panel{border-color:rgba(167,139,250,.30);}
         /* v13: the border must break evenly around the title text.
@@ -3936,12 +3938,26 @@ async function writeOffsiteBackup(env, payload) {
     if (!ns) return; // optional binding; no-op when unbound
     try {
         const now = Date.now();
-        const dateStr = new Date(now + 8 * 3600 * 1000).toISOString().replace(/[:.]/g, '-');
-        await ns.put(`backup_${DEFAULT_USER}_${dateStr}`, payload, { metadata: { timestamp: now } });
+        // v21: throttle the offsite backup to the same 10-minute cadence
+        // as the smart backup (MIN_BACKUP_INTERVAL_MS). This is NOT a
+        // timer: this function only runs when a save/import happens, and
+        // it writes only if 10+ minutes have passed since the last
+        // offsite backup. No save = no write at all.
         const list = await ns.list({ prefix: `backup_${DEFAULT_USER}_` });
         const keys = list.keys.sort((a, b) => a.name.localeCompare(b.name));
-        if (keys.length > 10) {
-            for (const k of keys.slice(0, keys.length - 10)) await ns.delete(k.name);
+        if (keys.length > 0) {
+            const lastMeta = keys[keys.length - 1].metadata;
+            if (lastMeta && lastMeta.timestamp && (now - lastMeta.timestamp) < MIN_BACKUP_INTERVAL_MS) {
+                return; // too soon since the last offsite backup, skip this one
+            }
+        }
+        const dateStr = new Date(now + 8 * 3600 * 1000).toISOString().replace(/[:.]/g, '-');
+        await ns.put(`backup_${DEFAULT_USER}_${dateStr}`, payload, { metadata: { timestamp: now } });
+        // Prune to the newest 10. The list above was taken before this
+        // put, so there are now keys.length + 1 backups; delete the
+        // oldest (keys.length + 1 - 10) when that is positive.
+        if (keys.length >= 10) {
+            for (const k of keys.slice(0, keys.length - 10 + 1)) await ns.delete(k.name);
         }
     } catch (e) {
         console.error('Offsite backup failed:', e);

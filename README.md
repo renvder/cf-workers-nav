@@ -136,6 +136,8 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 * Panel titles: the group title now sits on the panel's top border, and the border breaks evenly around it. In APP view the panel's top padding is slightly larger, so the icon tiles and the link names sit the same distance from the panel's top and bottom edges.
 * Panel background removed: the group panels now have no fill in either mode — only the border outline shows, with the page background showing through.
 * One-tag filters: a category with only one filter tag now shows its pills row (previously the row only appeared with two or more tags, so a single tag had no visible UI).
+* Panel spacing: the gap between group panels inside a category is now 32px (was 56px) — tighter, matching the gap between the filter pills and the first panel.
+* Offsite backup throttle: the backup copy in the second KV namespace is now written at most once every 10 minutes (was on every save), so each save costs about 2 KV writes instead of 3 — the free plan now allows about 500 saves per day. If a namespace vanished, at most 10 minutes of edits would be lost.
 
 **2026-11-12**
 * Reliability: if the KV namespace is deleted or unreadable, `/api/getLinks` now returns HTTP 500 instead of a silently empty page; saving or importing an empty dataset over existing links is refused (HTTP 409) unless explicitly forced, and import backs up the current data first.
