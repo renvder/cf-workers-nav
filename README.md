@@ -33,15 +33,15 @@
 
 ## Interface Preview
 
-### Default View
+### Light Mode
 | Card View | APP View |
 |-|-|
 | ![Desktop Preview](images/69bcc641f5194220aba98e128326ff9f.webp)| ![APP View](images/5a5b09901a3b4f81b104fc9f94983299.webp)|
 
-### Edit Mode
+### Dark Mode
 | Card View | APP View |
 |-|-|
-| ![Edit Mode](images/439d9791b4024c2bb46faadf9e974cf4.webp)| ![APP View](images/83814f619d014d3f945eefdcf7adec2d.webp)|
+| ![Desktop Preview (Dark Mode)](images/439d9791b4024c2bb46faadf9e974cf4.webp)| ![APP View](images/83814f619d014d3f945eefdcf7adec2d.webp)|
 
 ## Deployment
 
