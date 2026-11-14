@@ -29,7 +29,7 @@
 * **📂 Flexible Data Management**: Add, edit, or delete links directly on the page. Supports importing HTML bookmarks from Chrome/Edge, plus JSON import/export. Every save automatically keeps a backup of the previous data (at most one per 10 minutes, latest 10 kept). If a second KV namespace is bound as `CARD_ORDER_BACKUP`, every save/import also writes a timestamped copy there, so your links survive even if the main namespace is lost. Import backs up the current data first, and saving or importing an empty dataset over existing data is refused unless explicitly forced; if the KV read fails, the API returns HTTP 500 instead of a silently empty page. Categories also support sub-groups: create an empty group inside a category first, then add links into it, or drag cards between groups. Links can also carry a short filter tag, editable in the Add/Edit dialog; each category shows one row of filter pills under its title, and clicking one shows only the matching links across all its groups. Each named group is shown inside a rounded panel with no fill (only the border outline), with its title sitting on the panel's top border.
 * **🩺 One-Click Check** (login required): Check whether each site is reachable and how fast it responds, right from your browser.
 * **🖼️ Sharp, Bandwidth-Friendly Icons**: Icons are resized and re-encoded (AVIF/WebP where supported) at the edge, and served via `srcset` so Retina, 4K and 5K screens get a crisp icon while ordinary screens don't download more than they need. Requires **Image Resizing** to be turned on for your domain (see below).
-* **🔍 Multi-Engine Search**: Search via Google, Bing, or DuckDuckGo, or perform instant quick searches across your saved bookmarks.
+* **🔍 Multi-Engine Search**: Search via Google, Bing, or DuckDuckGo, or perform instant quick searches across your saved bookmarks. In-site search unifies Simplified/Traditional Chinese.
 
 ## Interface Preview
 
@@ -126,6 +126,10 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 
 ## 📝 Changelog
 
+**2026-11-15**
+* iPad/iOS background stability: fixed the dark-mode grid texture jumping during scroll (fixed blend-mode overlay became a normal body background, big blur blobs became radial gradients).
+* Unified Simplified/Traditional search: queries and stored data are normalized before matching, so Simplified and Traditional Chinese searches cross-match. The page embeds the OpenCC `TSCharacters` table (Apache-2.0).
+
 **2026-11-13**
 * Sub-groups: a category can now hold named sub-groups. Create an empty group first via the "+ New Group" button, then add links into it (or drag cards across groups); groups can be renamed or deleted (deleting a group ungroups its links, never deletes them). Empty groups survive save and reload.
 * Filter tags: each link can carry a short filter tag, editable in the Add/Edit Link dialog (with suggestions from the category's existing tags). Each category shows one row of filter pills under its title — clicking one shows only the matching links across all its groups, and groups with no match hide their header until the filter is cleared.
@@ -159,4 +163,4 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 
 This project is a fork of [lineagett/cf-workers-nav](https://github.com/lineagett/cf-workers-nav), with additional reliability and backup hardening.
 
-Special thanks to **[Cloudflare](https://www.cloudflare.com/)**, **[Tailwind CSS](https://tailwindcss.com/)**, **[hmhm2022](https://github.com/hmhm2022)**, and **[xinac](https://api.xinac.net/)**.
+Special thanks to **[Cloudflare](https://www.cloudflare.com/)**, **[Tailwind CSS](https://tailwindcss.com/)**, **[hmhm2022](https://github.com/hmhm2022)**, **[xinac](https://api.xinac.net/)**, and **[OpenCC](https://github.com/BYVoid/OpenCC)** (source of the Apache-2.0 Simplified/Traditional character table used by unified search).
