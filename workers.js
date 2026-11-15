@@ -201,6 +201,177 @@ const HTML_CONTENT = `
         .bg-blob-b { background: radial-gradient(closest-side, rgba(147,197,253,0.28), rgba(147,197,253,0) 78%); }
         html.dark .bg-blob-a { background: radial-gradient(closest-side, rgba(99,102,241,0.16), rgba(99,102,241,0) 78%); }
         html.dark .bg-blob-b { background: radial-gradient(closest-side, rgba(147,51,234,0.16), rgba(147,51,234,0) 78%); }
+
+        /* Ultrawide ("fish-screen") full-fill: scale the WHOLE UI by percentage.
+           zoom scales cards, text, icons, spacing and the top bar together, so
+           filling the screen never means "wide canvas, tiny widgets". Media
+           queries evaluate in the zoomed layout viewport, so the stages
+           cascade self-consistently (each zoom shrinks the layout width and
+           only the next stage that still matches applies). The max-w-7xl caps
+           (nav inner + main) are widened via higher-specificity selectors;
+           mobile layouts are untouched (min-width 1700 never matches). */
+        @media (min-width: 1700px) {
+            html { zoom: 1.25; }
+            #topnav-inner, main.max-w-7xl { max-width: min(92vw, 1600px); }
+        }
+        @media (min-width: 2200px) {
+            html { zoom: 1.35; }
+            #topnav-inner, main.max-w-7xl { max-width: min(92vw, 2300px); }
+            /* Card view tops out at xl:grid-cols-5 in the precompiled Tailwind CSS;
+               extend to 6 columns on ultrawide (also enlarges APP-view cells,
+               consistent with the overall scale-up). */
+            .card-container { grid-template-columns: repeat(6, minmax(0, 1fr)) !important; }
+        }
+        @media (min-width: 2700px) {
+            html { zoom: 1.45; }
+            #topnav-inner, main.max-w-7xl { max-width: min(92vw, 2500px); }
+        }
+
+        /* Touch devices (pointer: coarse): tapping the search bar pops an ugly
+           emerald focus ring around the whole shell. Kill the ring on touch —
+           the shadow + lift animation remain as focus feedback. Desktop
+           keyboard users keep the ring (accessibility). The ID selector beats
+           the precompiled Tailwind .focus-within\:ring-2 class. */
+        @media (pointer: coarse) {
+            #search-shell:focus-within {
+                --tw-ring-shadow: 0 0 #0000;
+                --tw-ring-offset-shadow: 0 0 #0000;
+            }
+        }
+
+        /* iOS WebKit (Safari / in-app browsers): text inputs get a native
+           purple focus box from the user agent (iOS 15+) which Tailwind's
+           outline-none cannot suppress. Dropping -webkit-appearance removes
+           the UA decoration; the focus ring then follows our own CSS. The
+           @supports query scopes this to WebKit only — desktop unaffected. */
+        @supports (-webkit-touch-callout: none) {
+            #search-input {
+                -webkit-appearance: none;
+            }
+            #search-input:focus {
+                outline: none;
+            }
+        }
+
+        /* Classes added after the tw-compiled snapshot: plain-CSS equivalents
+           so they actually apply (Tailwind prebuild cannot grow at runtime). */
+        .leading-snug { line-height: 1.375; }
+        .break-words { overflow-wrap: break-word; }
+        .shrink-0 { flex-shrink: 0; }
+        .items-start { align-items: flex-start; }
+        /* Card color tints (v24): the star feature was dropped; card colors
+           are subtle 135deg gradients + matching border tints, chosen from
+           the editor swatches. Pure CSS so no Tailwind rebuild is needed. */
+        .color-swatch {
+            width: 28px;
+            height: 28px;
+            border-radius: 9999px;
+            border: 2px solid rgba(148,163,184,.35);
+            cursor: pointer;
+            padding: 0;
+            transition: box-shadow .2s, border-color .2s;
+        }
+        .color-swatch.sel {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99,102,241,.35);
+        }
+        html.dark .color-swatch { border-color: rgba(100,116,139,.45); }
+        html.dark .color-swatch.sel {
+            border-color: #818cf8;
+            box-shadow: 0 0 0 3px rgba(129,140,248,.4);
+        }
+        .card-c-violet { background-image: linear-gradient(135deg, rgba(124,58,237,.13), rgba(124,58,237,.04) 45%, rgba(124,58,237,0) 78%); }
+        .card-c-violet:hover { border-color: rgba(124,58,237,.35); }
+        .card-c-emerald { background-image: linear-gradient(135deg, rgba(16,185,129,.12), rgba(16,185,129,.04) 45%, rgba(16,185,129,0) 78%); }
+        .card-c-emerald:hover { border-color: rgba(16,185,129,.35); }
+        .card-c-sky { background-image: linear-gradient(135deg, rgba(2,132,199,.12), rgba(2,132,199,.04) 45%, rgba(2,132,199,0) 78%); }
+        .card-c-sky:hover { border-color: rgba(2,132,199,.35); }
+        .card-c-amber { background-image: linear-gradient(135deg, rgba(245,158,11,.13), rgba(245,158,11,.04) 45%, rgba(245,158,11,0) 78%); }
+        .card-c-amber:hover { border-color: rgba(245,158,11,.35); }
+        .card-c-rose { background-image: linear-gradient(135deg, rgba(225,29,72,.10), rgba(225,29,72,.035) 45%, rgba(225,29,72,0) 78%); }
+        .card-c-rose:hover { border-color: rgba(225,29,72,.33); }
+        .card-c-slate { background-image: linear-gradient(135deg, rgba(100,116,139,.14), rgba(100,116,139,.05) 45%, rgba(100,116,139,0) 78%); }
+        .card-c-slate:hover { border-color: rgba(100,116,139,.35); }
+        html.dark .card-c-violet { background-image: linear-gradient(135deg, rgba(167,139,250,.16), rgba(167,139,250,.05) 45%, rgba(167,139,250,0) 78%); }
+        html.dark .card-c-violet:hover { border-color: rgba(167,139,250,.45); }
+        html.dark .card-c-emerald { background-image: linear-gradient(135deg, rgba(52,211,153,.14), rgba(52,211,153,.045) 45%, rgba(52,211,153,0) 78%); }
+        html.dark .card-c-emerald:hover { border-color: rgba(52,211,153,.45); }
+        html.dark .card-c-sky { background-image: linear-gradient(135deg, rgba(56,189,248,.15), rgba(56,189,248,.045) 45%, rgba(56,189,248,0) 78%); }
+        html.dark .card-c-sky:hover { border-color: rgba(56,189,248,.45); }
+        html.dark .card-c-amber { background-image: linear-gradient(135deg, rgba(251,191,36,.13), rgba(251,191,36,.04) 45%, rgba(251,191,36,0) 78%); }
+        html.dark .card-c-amber:hover { border-color: rgba(251,191,36,.45); }
+        html.dark .card-c-rose { background-image: linear-gradient(135deg, rgba(253,164,175,.13), rgba(253,164,175,.04) 45%, rgba(253,164,175,0) 78%); }
+        html.dark .card-c-rose:hover { border-color: rgba(253,164,175,.42); }
+        html.dark .card-c-slate { background-image: linear-gradient(135deg, rgba(148,163,184,.15), rgba(148,163,184,.05) 45%, rgba(148,163,184,0) 78%); }
+        html.dark .card-c-slate:hover { border-color: rgba(148,163,184,.45); }
+        /* Phase 2: language capsule (EN | label) in the top nav. */
+        .lang-capsule {
+            display: flex; align-items: center;
+            border: 1px solid rgba(148,163,184,.45); border-radius: 9999px;
+            background: rgba(255,255,255,.65); backdrop-filter: blur(4px);
+            overflow: hidden; flex-shrink: 0;
+        }
+        .lang-seg {
+            padding: .3rem .6rem; font-size: .8rem; font-weight: 600;
+            color: rgba(100,116,139,.85); background: transparent;
+            border: none; cursor: pointer; transition: background .2s, color .2s;
+            line-height: 1.1;
+        }
+        .lang-seg:hover { color: #6d28d9; }
+        .lang-seg.active { background: linear-gradient(135deg,#8b5cf6,#7c3aed); color: #fff; }
+        html.dark .lang-capsule { background: rgba(23,10,41,.55); border-color: rgba(148,163,184,.28); }
+        html.dark .lang-seg { color: rgba(203,213,225,.75); }
+        html.dark .lang-seg:hover { color: #c4b5fd; }
+        html.dark .lang-seg.active { color: #fff; }
+        /* Phase 2: keep the top nav static when the language flips. Text length
+           differences (This site / 本站, Settings / 設定, EN / label) are absorbed
+           by fixed widths with centered text, so nothing shifts when toggling. */
+        #current-engine-label { text-align: center; }
+        #lang-capsule .lang-seg { width: 52px; text-align: center; box-sizing: border-box; }
+        @media (min-width: 768px) {
+            #current-engine-label { width: 80px; }
+            #menu-toggle { display: inline-block; width: 70px; text-align: center; }
+        }
+        /* Mobile-only top bar compaction: the fixed desktop widths above only
+           apply at >=768px, so phones get auto-sized segments and tighter
+           spacing — the settings avatar no longer gets clipped at the right.
+           Desktop layout is untouched by this block. */
+        @media (max-width: 767px) {
+            #topnav-inner { padding-left: 12px; padding-right: 12px; }
+            #topnav-inner .h-16 { gap: 10px; }
+            #lang-capsule .lang-seg { width: auto; padding: .25rem .5rem; }
+            #search-engine-btn { padding-left: 10px; padding-right: 6px; }
+            #search-button { padding-left: 10px; padding-right: 10px; }
+            #search-input { padding-left: 6px; padding-right: 6px; }
+            #profile-menu-toggle { padding: 6px 10px; }
+            #topnav-inner a div.w-8 { width: 28px; height: 28px; }
+            #topnav-inner a { padding: 6px 8px; }
+        }
+        /* Phase 1: detail popup border themed to match the site: light = soft
+           slate, dark = purple glow. */
+        .detail-box {
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,.25);
+            border: 1px solid rgba(148,163,184,.25);
+        }
+        html.dark .detail-box {
+            box-shadow: 0 0 26px rgba(147,51,234,.22), 0 25px 50px -12px rgba(0,0,0,.6);
+            border-color: rgba(168,85,247,.35);
+        }
+
+        /* Phase 1: the edit dialog has more fields now, so its height is
+           capped to the viewport and the form area scrolls — header and
+           Confirm/Cancel stay visible. JS sets the exact cap in zoomed CSS px
+           (see fitDialogHeight); this CSS rule is the no-JS baseline. */
+        #dialog-box {
+            max-height: 92vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        #dialog-box .space-y-4 {
+            overflow-y: auto;
+            min-height: 0;
+        }
         html.dark ::selection {
             background: rgba(168, 85, 247, 0.4);
             color: #f6f1ff;
@@ -213,6 +384,21 @@ const HTML_CONTENT = `
         }
         html.dark input:focus, html.dark button:focus-visible {
             box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.5), 0 0 12px rgba(168, 85, 247, 0.4);
+        }
+        /* The search box is the one field that must NOT pop the big purple box.
+           The glow above is intended for the form fields (dialog, login), where
+           it reads as a tasteful focus ring. The search input spans the whole
+           bar (flex-1), so that same glow looks like an ugly "outer frame" while
+           typing. Excluding #search-input (the ID selector beats the generic
+           rule) drops the box; the shell gets a gentle border+glow as the only
+           focus feedback — subtle, no box. */
+        html.dark #search-input:focus {
+            box-shadow: none;
+            outline: none;
+        }
+        html.dark #search-shell:focus-within {
+            border-color: rgba(168, 85, 247, 0.4);
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.12);
         }
         html.dark #dialog-box, html.dark #password-dialog-box, html.dark #custom-alert-box,
         html.dark #custom-confirm-box, html.dark #category-dialog-box,
@@ -232,6 +418,17 @@ const HTML_CONTENT = `
         }
         @keyframes nav-caret-blink { 50% { opacity: 0; } }
         html.dark #search-input::placeholder { color: #8347d1; }
+        /* The show-all pill has a fixed slot: "All" (3 narrow latin chars) and
+           "全部" (2 full-width CJK chars) render at different widths, so the
+           pill breathes when the language toggles. One fixed width + centered
+           text keeps the row layout identical in both languages. Only the
+           All pill is pinned; tag pills stay content-sized. */
+        .filter-pills button[data-filter="All"] {
+            width: 52px;
+            box-sizing: border-box;
+            text-align: center;
+            flex-shrink: 0;
+        }
         /* ================ End Cyberpunk Terminal Theme ================ */
     </style>
     <style id="group-panel-style">
@@ -302,7 +499,7 @@ const HTML_CONTENT = `
     <!-- Top fixed navigation -->
     <div class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
         <div class="backdrop-blur-md bg-gray-100/80 dark:bg-[#0a0414]/85 border-b border-slate-200/40 dark:border-slate-700/40 shadow-sm [transform:translateZ(0)]">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div id="topnav-inner" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16 gap-4">
 
                     <!-- Logo -->
@@ -317,7 +514,7 @@ const HTML_CONTENT = `
 
                     <!-- Search Bar -->
                     <div class="flex-1 max-w-2xl mx-auto">
-                        <div class="relative flex items-center w-full h-10 rounded-xl focus-within:ring-2 focus-within:ring-emerald-500/50 focus-within:shadow-lg focus-within:-translate-y-0.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 shadow-sm hover:shadow-lg transition-all duration-300">
+                        <div id="search-shell" class="relative flex items-center w-full h-10 rounded-xl focus-within:ring-2 focus-within:ring-emerald-500/50 focus-within:shadow-lg focus-within:-translate-y-0.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 shadow-sm hover:shadow-lg transition-all duration-300">
 
                             <!-- Custom Search Engine Dropdown -->
                             <div class="relative h-full" id="search-engine-wrapper">
@@ -355,6 +552,11 @@ const HTML_CONTENT = `
 
                     <!-- Profile / Settings -->
                     <div class="relative flex items-center gap-2">
+                        <!-- Language capsule: EN | <user label> -->
+                        <div id="lang-capsule" class="lang-capsule">
+                            <button type="button" class="lang-seg active" data-lang="en">EN</button>
+                            <button type="button" class="lang-seg" data-lang="zh" id="lang-seg-2">漢</button>
+                        </div>
                         <div id="profile-dropdown-wrapper" class="relative">
                             <button id="profile-menu-toggle" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 transition-all text-sm font-medium border border-transparent hover:border-slate-200 dark:hover:border-slate-700 hover:shadow-sm">
                                 <div class="w-7 h-7 rounded-full bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-600 flex items-center justify-center shadow-inner">
@@ -434,6 +636,13 @@ const HTML_CONTENT = `
                                             <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-emerald-500"></div>
                                         </label>
                                     </div>
+                                    <div class="px-3 py-2 flex items-center gap-3 text-sm text-slate-700 dark:text-slate-200">
+                                        <input type="text" id="lang2-label-input" maxlength="3" class="w-14 px-2 py-1 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 text-sm outline-none text-center dark:text-white" placeholder="漢">
+                                        <span class="flex items-center gap-3">
+                                            <svg class="w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3"></path><path d="M9 20h6"></path><path d="M12 4v16"></path></svg>
+                                            Second Language Label
+                                        </span>
+                                    </div>
                                     <div class="h-px bg-slate-100 dark:bg-slate-700/50 mx-1 my-1"></div>
                                     <button id="login-Btn" onclick="toggleLogin()" class="w-full text-left px-3 py-2.5 rounded-lg text-sm text-slate-700 dark:text-slate-200 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 transition-colors flex items-center gap-3 font-medium">
                                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
@@ -484,18 +693,42 @@ const HTML_CONTENT = `
                 <span class="w-1 h-6 bg-emerald-500 rounded-full"></span>
                 Edit Info
             </h3>
-            <div class="space-y-4">
+            <div class="space-y-4 custom-scrollbar">
                 <div>
                     <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Name <span class="text-red-500">*</span></label>
                     <input type="text" id="name-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Site name">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Subtitle (EN)</label>
+                    <input type="text" id="sub-en-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Optional — shown as the card's second line">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Subtitle (漢)</label>
+                    <input type="text" id="name-zh-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="可選 — 繁體副標題">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">URL <span class="text-red-500">*</span></label>
                     <input type="text" id="url-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="https://...">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Description</label>
-                    <input type="text" id="tips-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="A short description...">
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Short Intro (EN)</label>
+                    <input type="text" id="intro-en-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Optional — short intro shown on the card">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Short Intro (漢)</label>
+                    <input type="text" id="intro-zh-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="可選 — 卡片上顯示的簡短介紹">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Description (EN)</label>
+                    <textarea id="detail-input" rows="3" style="resize:none" class="w-full px-4 py-2.5 rounded-xl leading-relaxed bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Full description shown in the popup..."></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Description (漢)</label>
+                    <textarea id="detail-zh-input" rows="3" style="resize:none" class="w-full px-4 py-2.5 rounded-xl leading-relaxed bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Optional — Chinese description"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Button Label</label>
+                    <input type="text" id="btn-label-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Open Link">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Icon URL</label>
@@ -530,10 +763,43 @@ const HTML_CONTENT = `
                     <input type="checkbox" id="private-checkbox" class="w-5 h-5 text-emerald-500 rounded focus:ring-emerald-500 border-gray-300 bg-gray-100">
                     <label for="private-checkbox" class="text-sm text-slate-600 dark:text-slate-300 font-medium">Set as private link (visible only when logged in)</label>
                 </div>
+                <div class="pt-2">
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Card Color</label>
+                    <div id="color-picker" class="flex items-center gap-2">
+                        <button type="button" class="color-swatch" data-color="" title="Plain — no tint" style="background:linear-gradient(135deg,#e2e8f0,#f8fafc)"></button>
+                        <button type="button" class="color-swatch" data-color="violet" title="Violet" style="background:linear-gradient(135deg,#a78bfa,#7c3aed)"></button>
+                        <button type="button" class="color-swatch" data-color="emerald" title="Emerald" style="background:linear-gradient(135deg,#34d399,#059669)"></button>
+                        <button type="button" class="color-swatch" data-color="sky" title="Sky" style="background:linear-gradient(135deg,#38bdf8,#0284c7)"></button>
+                        <button type="button" class="color-swatch" data-color="amber" title="Amber" style="background:linear-gradient(135deg,#fbbf24,#d97706)"></button>
+                        <button type="button" class="color-swatch" data-color="rose" title="Rose" style="background:linear-gradient(135deg,#fb7185,#be123c)"></button>
+                        <button type="button" class="color-swatch" data-color="slate" title="Slate" style="background:linear-gradient(135deg,#94a3b8,#475569)"></button>
+                    </div>
+                </div>
             </div>
             <div class="flex justify-end gap-3 mt-8">
                 <button id="dialog-cancel-btn" class="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 transition-colors">Cancel</button>
                 <button id="dialog-confirm-btn" class="px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-emerald-500 hover:bg-emerald-600 shadow-lg shadow-emerald-500/25 transition-all hover:translate-y-[-1px]">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card Detail Popup (Phase 1): click a card → detail + custom jump button.
+         .detail-box gets the themed border/glow from the custom style block. -->
+    <div id="detail-overlay" class="hidden fixed inset-0 z-[70] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 overlay-hidden">
+        <div id="detail-box" class="detail-box bg-white dark:bg-[#170a29] rounded-2xl w-full max-w-md p-6 transform transition-all duration-300 dialog-scale-hidden">
+            <div class="flex items-start gap-4 mb-4">
+                <div class="w-12 h-12 shrink-0 rounded-xl bg-slate-100 dark:bg-slate-600 p-2 shadow-md overflow-hidden">
+                    <img id="detail-icon" class="w-full h-full object-contain" alt="">
+                </div>
+                <div class="min-w-0 flex-1">
+                    <h3 id="detail-title" class="text-base font-bold text-slate-800 dark:text-slate-100 leading-snug break-words"></h3>
+                    <div id="detail-sub" class="text-sm text-slate-500 dark:text-slate-400 mt-1 break-words hidden"></div>
+                </div>
+            </div>
+            <div id="detail-text" class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-wrap break-words mb-6 max-h-48 overflow-y-auto custom-scrollbar"></div>
+            <div class="flex justify-end gap-3">
+                <button id="detail-close-btn" class="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 transition-colors">Close</button>
+                <button id="detail-open-btn" class="px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-emerald-500 hover:bg-emerald-600 shadow-lg shadow-emerald-500/25 transition-all hover:translate-y-[-1px]">Open Link</button>
             </div>
         </div>
     </div>
@@ -661,7 +927,7 @@ const HTML_CONTENT = `
         tag.classList.remove('checking', 'online', 'slow', 'offline');
         if (state === 'checking') {
             tag.classList.add('checking', 'visible');
-            tag.textContent = 'Checking...';
+            tag.textContent = T('Checking...');
             tag.title = '';
         } else if (state && state.online) {
             const latency = Number(state.latency) || 0;
@@ -677,7 +943,7 @@ const HTML_CONTENT = `
             tag.title = state.status != null ? ('HTTP ' + state.status + ', ' + latency + 'ms') : ('Online ' + latency + 'ms');
         } else {
             tag.classList.add('offline', 'visible');
-            tag.textContent = 'Offline';
+            tag.textContent = T('Offline');
             tag.title = state && state.status != null ? ('HTTP ' + state.status) : 'Offline or timeout';
         }
     }
@@ -740,14 +1006,14 @@ const HTML_CONTENT = `
         checkAllRunning = true;
 
         const statusEl = document.getElementById('check-all-status');
-        if (statusEl) statusEl.textContent = 'Checking...';
+        if (statusEl) statusEl.textContent = T('Checking...');
 
         const links = getAllLinks().filter((l) => l && l.url);
         const total = links.length;
 
         if (total === 0) {
             checkAllRunning = false;
-            if (statusEl) statusEl.textContent = '0 sites';
+            if (statusEl) statusEl.textContent = T('0 sites');
             return;
         }
 
@@ -865,7 +1131,7 @@ const HTML_CONTENT = `
     }
 
     function updateSearchEngineUI(value) {
-        const label = searchEngineLabels[value] || "This site";
+        const label = searchEngineLabels[value] || T("This site");
         const icon = searchEngineIcons[value] || searchEngineIcons['site'];
 
         document.getElementById('current-engine-label').textContent = label;
@@ -1403,7 +1669,7 @@ const HTML_CONTENT = `
         addCardPlaceholder.onclick = () => {
              showAddDialog();
              document.getElementById('category-select-value').value = category;
-             document.getElementById('category-select-text').textContent = category;
+             document.getElementById('category-select-text').textContent = T(category);
              document.getElementById('group-input').value = group;
              updateGroupDatalist(category);
              updateTagDatalist(category);
@@ -1444,6 +1710,7 @@ const HTML_CONTENT = `
     // hidden (the title is the panel's legend, so it hides with it)
     // while a filter is active (view mode only); the "+" tile in edit
     // mode is never filtered.
+    const catActiveFilter = {};
     function buildSectionFilterPills(category, section) {
         const cat = categories[category];
         if (!cat || !Array.isArray(cat.links)) return null;
@@ -1458,7 +1725,10 @@ const HTML_CONTENT = `
         pills.style.flexWrap = 'wrap';
         // v18: the show-all pill reads "All" (Frost's request).
         const allTags = ['All', ...tags];
-        let activeFilter = 'All';
+        // Language toggles rebuild sections; restore this section's last
+        // filter so switching language never resets the pill row.
+        const saved = catActiveFilter[category];
+        let activeFilter = (saved && tags.includes(saved)) ? saved : 'All';
         const pillBase = 'px-3 py-1 text-xs font-medium rounded-full border transition-all active:scale-95 cursor-pointer';
         const pillOn = 'bg-emerald-500 text-white shadow-sm';
         const pillOff = 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-300 dark:border-slate-600 hover:border-emerald-300';
@@ -1484,16 +1754,18 @@ const HTML_CONTENT = `
         allTags.forEach(tag => {
             const pill = document.createElement('button');
             pill.type = 'button';
-            pill.textContent = tag;
+            pill.textContent = (tag === 'All') ? T('All') : tag;
             pill.dataset.filter = tag;
             pill.onclick = () => {
                 activeFilter = (activeFilter === tag) ? 'All' : tag;
+                catActiveFilter[category] = activeFilter;
                 paintPills();
                 applyFilter();
             };
             pills.appendChild(pill);
         });
         paintPills();
+        pills._apply = applyFilter;
         return pills;
     }
 
@@ -1688,6 +1960,7 @@ const HTML_CONTENT = `
         });
 
         container.replaceChildren(fragment);
+        document.querySelectorAll('#sections-container .filter-pills').forEach(p => { if (p._apply) p._apply(); });
 
         if (renderButtons) renderCategoryButtons();
 
@@ -1726,7 +1999,7 @@ const HTML_CONTENT = `
             btn.className = 'category-button whitespace-nowrap px-4 py-1.5 text-xs font-medium rounded-xl border border-slate-300 dark:border-slate-600 transition-all active:scale-95 shadow-sm scroll-snap-align-start';
             btn.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300', 'hover:bg-emerald-50', 'hover:text-emerald-600', 'dark:hover:bg-slate-700', 'hover:border-emerald-300', 'dark:hover:border-emerald-500/50');
 
-            btn.textContent = cat;
+            btn.textContent = T(cat);
             btn.dataset.target = cat;
             btn.onclick = () => {
                 scrollToCategory(cat);
@@ -1893,7 +2166,15 @@ const HTML_CONTENT = `
         }
     }
 
+    // The user's own last selection (pill click or settled scroll position),
+    // remembered across language switches. Re-rendering changes section
+    // heights (CJK text is shorter/taller than latin), so the page clamps the
+    // scroll and the position-based spy would re-pick a different section.
+    // The lock absorbs those re-render scroll events; highlightButton below
+    // updates this at every highlight point (click, scroll, language switch).
+    let lastActiveCat = null;
     function highlightButton(id) {
+        lastActiveCat = id;
         const buttons = document.querySelectorAll('.category-button');
         buttons.forEach(btn => {
             if (sectionId(btn.dataset.target) === id) {
@@ -1947,8 +2228,8 @@ const HTML_CONTENT = `
         const checkAllMenu = document.getElementById('check-all-menu');
 
         loginBtn.innerHTML = isLoggedIn ?
-            '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Logout' :
-            '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg> Login';
+            '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> ' + T('Logout') :
+            '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg> ' + T('Login');
 
         if(isLoggedIn) {
             loginBtn.classList.replace('text-red-500', 'text-slate-700');
@@ -2030,6 +2311,10 @@ const HTML_CONTENT = `
         }
 
         card.className = \`group relative h-full w-full rounded-2xl transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)] cursor-pointer select-none \${cardBaseClass}\`;
+
+        if (link.color && COLOR_KEYS.includes(link.color)) {
+            card.classList.add('card-c-' + link.color);
+        }
 
         if (isEditMode) {
             card.setAttribute('draggable', 'true');
@@ -2137,11 +2422,26 @@ const HTML_CONTENT = `
 
         card.appendChild(header);
 
+        // Card layout (v23): line 1 = main title (single language, "name");
+        // line 2 = subtitle in the current UI language; line 3 = short intro
+        // (current language, max 2 lines). Bilingual fields fall back to the
+        // other language when one is empty. See cardSubtitle/cardIntro.
+        const sub = cardSubtitle(link);
+        const intro = cardIntro(link);
+
         if (!isAppLayout) {
-            const desc = document.createElement('div');
-            desc.className = 'text-xs text-slate-500 dark:text-slate-400 line-clamp-2 min-h-[1.25rem] card-tip leading-relaxed pointer-events-none w-full';
-            desc.textContent = link.tips || '';
-            card.appendChild(desc);
+            if (sub) {
+                const subEl = document.createElement('div');
+                subEl.className = 'text-xs text-slate-500 dark:text-slate-400 truncate w-full leading-snug relative z-10';
+                subEl.textContent = sub;
+                card.appendChild(subEl);
+            }
+            if (intro) {
+                const introEl = document.createElement('div');
+                introEl.className = 'text-xs text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed w-full relative z-10 mt-1';
+                introEl.textContent = intro;
+                card.appendChild(introEl);
+            }
         }
 
         if (link.isPrivate && !isAppLayout) {
@@ -2178,11 +2478,11 @@ const HTML_CONTENT = `
             dropdown.innerHTML = \`
                 <button class="menu-edit w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-slate-700/50 hover:text-emerald-600 transition-colors flex items-center gap-2">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-                    Edit
+                    \${T('Edit')}
                 </button>
                 <button class="menu-delete w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 transition-colors flex items-center gap-2">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                    Delete
+                    \${T('Delete')}
                 </button>
             \`;
 
@@ -2212,16 +2512,20 @@ const HTML_CONTENT = `
         }
 
         if (!isEditMode) {
-            card.onclick = () => {
-                 const target = safeUrl(link.url);
-                 if (target) window.open(target, '_blank', 'noopener,noreferrer');
+            const openDirect = () => {
+                const target = safeUrl(link.url);
+                if (target) window.open(target, '_blank', 'noopener,noreferrer');
             };
-        }
-
-
-        if (!isEditMode && link.tips) {
-            card.classList.add('has-tooltip');
-            card.setAttribute('data-tooltip', link.tips);
+            // Plain click (mouse, touch, stylus — same on every device) opens
+            // the detail popup; Ctrl/Cmd+click and middle-click keep the old
+            // direct-open feel.
+            card.onclick = (e) => {
+                if (e.ctrlKey || e.metaKey) { openDirect(); return; }
+                showDetailPopup(link);
+            };
+            card.addEventListener('auxclick', (e) => {
+                if (e.button === 1) openDirect();
+            });
         }
 
         return card;
@@ -2297,10 +2601,10 @@ const HTML_CONTENT = `
         Object.keys(categories).forEach(cat => {
             const item = document.createElement('div');
             item.className = 'px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-slate-700 cursor-pointer transition-colors';
-            item.textContent = cat;
+            item.textContent = T(cat);
             item.onclick = () => {
                 document.getElementById('category-select-value').value = cat;
-                document.getElementById('category-select-text').textContent = cat;
+                document.getElementById('category-select-text').textContent = T(cat);
                 updateGroupDatalist(cat);
                 updateTagDatalist(cat);
                 menu.classList.add('hidden');
@@ -2358,6 +2662,7 @@ const HTML_CONTENT = `
             if (firstBlock) section.insertBefore(pills, firstBlock);
             else if (newGroupBtn) section.insertBefore(pills, newGroupBtn);
             else section.appendChild(pills);
+            if (pills._apply) pills._apply();
         }
     }
 
@@ -2374,7 +2679,16 @@ const HTML_CONTENT = `
 
         const newLink = {
             name, url, category,
-            tips: document.getElementById('tips-input').value.trim(),
+            tips: '',
+            subEn: document.getElementById('sub-en-input').value.trim().slice(0, 120),
+            nameZh: document.getElementById('name-zh-input').value.trim().slice(0, 120),
+            introEn: document.getElementById('intro-en-input').value.trim().slice(0, 160),
+            introZh: document.getElementById('intro-zh-input').value.trim().slice(0, 160),
+            detail: document.getElementById('detail-input').value.trim().slice(0, 400),
+            detailZh: document.getElementById('detail-zh-input').value.trim().slice(0, 400),
+            btnLabel: document.getElementById('btn-label-input').value.trim().slice(0, 30),
+            color: selColor,
+            star: false,
             icon: document.getElementById('icon-input').value.trim(),
             group: document.getElementById('group-input').value.trim().slice(0, 120),
             tag: document.getElementById('tag-input').value.trim().slice(0, 30),
@@ -2418,7 +2732,16 @@ const HTML_CONTENT = `
         const updatedLink = {
             name: document.getElementById('name-input').value.trim(),
             url: document.getElementById('url-input').value.trim(),
-            tips: document.getElementById('tips-input').value.trim(),
+            tips: oldLink.tips,
+            subEn: document.getElementById('sub-en-input').value.trim().slice(0, 120),
+            nameZh: document.getElementById('name-zh-input').value.trim().slice(0, 120),
+            introEn: document.getElementById('intro-en-input').value.trim().slice(0, 160),
+            introZh: document.getElementById('intro-zh-input').value.trim().slice(0, 160),
+            detail: document.getElementById('detail-input').value.trim().slice(0, 400),
+            detailZh: document.getElementById('detail-zh-input').value.trim().slice(0, 400),
+            btnLabel: document.getElementById('btn-label-input').value.trim().slice(0, 30),
+            star: oldLink.star,
+            color: selColor,
             icon: document.getElementById('icon-input').value.trim(),
             group: document.getElementById('group-input').value.trim().slice(0, 120),
             tag: document.getElementById('tag-input').value.trim().slice(0, 30),
@@ -2939,11 +3262,28 @@ const HTML_CONTENT = `
         }
     }
 
+    // innerWidth/innerHeight are unzoomed viewport px; the dialog lives in
+    // zoomed CSS px, so the usable height is innerHeight / zoom. Cap the
+    // dialog at 88% of that so the form scrolls inside on any screen.
+    function fitDialogHeight() {
+        const z = getZoom();
+        document.getElementById('dialog-box').style.maxHeight = Math.round(window.innerHeight / z * 0.88) + 'px';
+    }
+
     function showAddDialog() {
         toggleOverlay('dialog-overlay', true);
+        fitDialogHeight();
         document.getElementById('name-input').value = '';
         document.getElementById('url-input').value = '';
-        document.getElementById('tips-input').value = '';
+        document.getElementById('sub-en-input').value = '';
+        document.getElementById('name-zh-input').value = '';
+        document.getElementById('intro-en-input').value = '';
+        document.getElementById('intro-zh-input').value = '';
+        document.getElementById('detail-input').value = '';
+        document.getElementById('detail-zh-input').value = '';
+        document.getElementById('btn-label-input').value = '';
+        selColor = '';
+        markColorSel();
         document.getElementById('icon-input').value = '';
         document.getElementById('private-checkbox').checked = false;
         document.getElementById('group-input').value = '';
@@ -2952,7 +3292,7 @@ const HTML_CONTENT = `
         updateTagDatalist('');
 
         document.getElementById('category-select-value').value = '';
-        document.getElementById('category-select-text').textContent = 'Select a category';
+        document.getElementById('category-select-text').textContent = T('Select a category');
 
         const btn = document.getElementById('dialog-confirm-btn');
         const newBtn = btn.cloneNode(true);
@@ -2964,9 +3304,20 @@ const HTML_CONTENT = `
 
     function showEditDialog(link) {
         toggleOverlay('dialog-overlay', true);
+        fitDialogHeight();
         document.getElementById('name-input').value = link.name;
         document.getElementById('url-input').value = link.url;
-        document.getElementById('tips-input').value = link.tips || '';
+        document.getElementById('sub-en-input').value = link.subEn || '';
+        document.getElementById('name-zh-input').value = link.nameZh || '';
+        // Legacy cards have no intro fields: their tips text fills the English
+        // short intro, so the card line keeps working and one edit saves all.
+        document.getElementById('intro-en-input').value = link.introEn || link.tips || '';
+        document.getElementById('intro-zh-input').value = link.introZh || '';
+        document.getElementById('detail-input').value = link.detail || '';
+        document.getElementById('detail-zh-input').value = link.detailZh || '';
+        document.getElementById('btn-label-input').value = link.btnLabel || '';
+        selColor = link.color || '';
+        markColorSel();
         document.getElementById('icon-input').value = link.icon || '';
         document.getElementById('private-checkbox').checked = link.isPrivate;
 
@@ -2975,7 +3326,7 @@ const HTML_CONTENT = `
             return '';
         })();
         document.getElementById('category-select-value').value = linkCategory;
-        document.getElementById('category-select-text').textContent = linkCategory || 'Select a category';
+        document.getElementById('category-select-text').textContent = linkCategory ? T(linkCategory) : T('Select a category');
         document.getElementById('group-input').value = link.group || '';
         document.getElementById('tag-input').value = linkFunctionTag(link);
         updateGroupDatalist(linkCategory);
@@ -2992,6 +3343,251 @@ const HTML_CONTENT = `
     function hideAddDialog() {
         toggleOverlay('dialog-overlay', false);
     }
+
+    // Phase 1: card detail popup. Click a card (mouse or touch) → detail text,
+    // custom jump button. Esc closes, Enter opens the link, clicking the dim
+    // background closes, Ctrl/Cmd+click and middle-click open the link directly.
+    let currentDetailLink = null;
+
+    // UI language (Phase 2): 'en' is the default; 'zh' is the second language
+    // whose tab shows the user-defined label (default 漢, editable in Settings).
+    // Preference persists only with Remember Settings; missing/invalid falls back to en.
+    const LANG_KEY = 'langPref';
+    const LANG2_LABEL_KEY = 'lang2_label';
+    const LANG2_DEFAULT_LABEL = '漢';
+    let LANG = (localStorage.getItem('savePreferences') === 'true' && localStorage.getItem(LANG_KEY) === 'zh') ? 'zh' : 'en';
+
+    // UI vocabulary table (exact English string -> zh). Covers static chrome,
+    // JS-built menus/statuses, placeholders and data-tooltip values.
+    const VOCAB = {
+        'Settings': '設定',
+        'Edit Mode': '編輯模式',
+        'Edit Mode (login required)': '編輯模式（需登入）',
+        'One-Click Check': '一鍵檢查',
+        'Export Config': '匯出配置',
+        'Import Config': '匯入配置',
+        'APP View': 'APP 視圖',
+        'Dark Mode': '深色模式',
+        'Remember Settings': '記憶設置',
+        'Second Language Label': '第二語言標籤',
+        'Login': '登入',
+        'Logout': '登出',
+        'Login / Logout': '登入／登出',
+        'New Category': '新增分類',
+        'Back to top': '回到頂部',
+        'Search': '搜尋',
+        'This site': '本站',
+        'Search Engine': '搜尋引擎',
+        'Edit': '編輯',
+        'Delete': '刪除',
+        'Checking...': '檢查中…',
+        'Offline': '離線',
+        '0 sites': '0 個網站',
+        'Select a category': '選擇分類',
+        'Confirm Login': '確認登入',
+        'Cancel': '取消',
+        'Confirm': '確認',
+        'Open Link': '打開連結',
+        'Card Color': '卡片顏色',
+        'All': '全部',
+        'Edit Info': '編輯資訊',
+        'Name': '名稱',
+        'Subtitle (EN)': '副標題 (英)',
+        'Subtitle (漢)': '副標題 (漢)',
+        'URL': '網址',
+        'Short Intro (EN)': '簡短介紹 (英)',
+        'Short Intro (漢)': '簡短介紹 (漢)',
+        'Description (EN)': '詳細說明 (英)',
+        'Description (漢)': '詳細說明 (漢)',
+        'Button Label': '按鈕標籤',
+        'Icon URL': '圖標網址',
+        'Group': '分組',
+        'Tag': '標籤',
+        'Category': '分類',
+        'Set as private link (visible only when logged in)': '設為私人連結（僅登入後可見）',
+        'Close': '關閉',
+        'Authentication': '身分驗證',
+        'Please enter the admin password to continue': '請輸入管理密碼以繼續',
+        'Access password': '訪問密碼',
+        'Site name': '網站名稱',
+        'Optional — shown as the card\\'s second line': '可選 — 顯示於卡片第二行',
+        'Leave blank to auto-fetch': '留空以自動抓取',
+        'Optional — leave blank for no group': '可選 — 留空為無分組',
+        'Optional — leave blank for no tag': '可選 — 留空為無標籤',
+        'Full description shown in the popup...': '完整說明將於彈窗顯示…',
+        'Plain — no tint': '素色 — 不染色',
+        'Violet': '紫紅',
+        'Emerald': '翠綠',
+        'Sky': '天青',
+        'Amber': '琥珀',
+        'Rose': '玫紅',
+        'Slate': '灰藍',
+    };
+    function T(s) { return (LANG === 'zh' && VOCAB[s]) ? VOCAB[s] : s; }
+    function lang2Label() {
+        const v = (localStorage.getItem(LANG2_LABEL_KEY) || '').trim();
+        return v || LANG2_DEFAULT_LABEL;
+    }
+
+    // Originals cache keyed by text node / element, so switching back to en
+    // restores exactly what was rendered. Nodes are collected lazily on each pass.
+    const langOriginals = new Map();
+    function applyLang() {
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+            acceptNode(node) {
+                const p = node.parentNode;
+                if (!p || p.nodeName === 'SCRIPT' || p.nodeName === 'STYLE' || p.nodeName === 'TEXTAREA') return NodeFilter.FILTER_SKIP;
+                if (!node.textContent.trim()) return NodeFilter.FILTER_SKIP;
+                // Render-time T() already localizes these; letting the walker
+                // cache them would poison the en restore with zh text.
+                if (p.closest('.filter-pills') || p.closest('#category-buttons-container') || p.closest('#category-select-text')) return NodeFilter.FILTER_SKIP;
+                return NodeFilter.FILTER_ACCEPT;
+            }
+        });
+        while (walker.nextNode()) {
+            const node = walker.currentNode;
+            if (!langOriginals.has(node)) langOriginals.set(node, node.textContent);
+            const orig = langOriginals.get(node).trim();
+            node.textContent = (LANG === 'zh' && VOCAB[orig]) ? VOCAB[orig] : langOriginals.get(node);
+        }
+        document.querySelectorAll('[placeholder]').forEach(el => {
+            if (!langOriginals.has(el)) langOriginals.set(el, el.getAttribute('placeholder'));
+            const orig = langOriginals.get(el).trim();
+            el.setAttribute('placeholder', (LANG === 'zh' && VOCAB[orig]) ? VOCAB[orig] : langOriginals.get(el));
+        });
+        document.querySelectorAll('[data-tooltip]').forEach(el => {
+            if (!langOriginals.has(el)) langOriginals.set(el, el.getAttribute('data-tooltip'));
+            const orig = langOriginals.get(el).trim();
+            el.setAttribute('data-tooltip', (LANG === 'zh' && VOCAB[orig]) ? VOCAB[orig] : langOriginals.get(el));
+        });
+        document.querySelectorAll('[title]').forEach(el => {
+            if (!langOriginals.has(el)) langOriginals.set(el, el.getAttribute('title'));
+            const orig = langOriginals.get(el).trim();
+            el.setAttribute('title', (LANG === 'zh' && VOCAB[orig]) ? VOCAB[orig] : langOriginals.get(el));
+        });
+    }
+    function updateLangCapsule() {
+        document.querySelectorAll('#lang-capsule .lang-seg').forEach(b => {
+            b.classList.toggle('active', b.dataset.lang === LANG);
+        });
+        const seg2 = document.getElementById('lang-seg-2');
+        if (seg2) seg2.textContent = lang2Label();
+    }
+    function setLang(lang) {
+        if (lang !== 'en' && lang !== 'zh') return;
+        LANG = lang;
+        if (localStorage.getItem('savePreferences') === 'true') localStorage.setItem(LANG_KEY, lang);
+        updateLangCapsule();
+        renderSearchEngineMenu();
+        renderCategoryButtons();
+        const q = document.getElementById('search-input').value.trim();
+        // Lock the spy BEFORE re-rendering: renderCategorySections ends by
+        // re-arming setupScrollSpy, whose immediate first pass runs the
+        // position check on the freshly resized page (CJK content makes the
+        // page shorter/taller, so the scroll clamps and the position-based
+        // pick lands on a different section). Without this lock, that pass
+        // overwrites lastActiveCat, and the forced restore below highlights
+        // the overwrite — that was the en/zh ping-pong.
+        if (lastActiveCat) spyLockedUntil = Date.now() + 600;
+        if (q) { searchLinks(q); } else { renderCategorySections({ renderButtons: true }); }
+        if (lastActiveCat) {
+            spyLockedUntil = Date.now() + 900;
+            highlightButton(lastActiveCat);
+            // Anchor the user's section at the viewport top so the page's
+            // new scroll position and the remembered selection agree exactly.
+            // Then late scroll events (smooth-scroll animation, clamping after
+            // the page height changes) find the spy re-picking the SAME
+            // section, so the highlight can never drift.
+            const selSec = document.getElementById(lastActiveCat);
+            if (selSec) selSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        applyLang();
+        const lbl = document.getElementById('lang2-label-input');
+        if (lbl) lbl.value = lang2Label();
+        const overlay = document.getElementById('detail-overlay');
+        if (currentDetailLink && overlay && !overlay.classList.contains('hidden')) showDetailPopup(currentDetailLink);
+    }
+    document.querySelectorAll('#lang-capsule .lang-seg').forEach(b => {
+        b.onclick = () => setLang(b.dataset.lang);
+    });
+    const lang2Input = document.getElementById('lang2-label-input');
+    if (lang2Input) {
+        lang2Input.value = lang2Label();
+        lang2Input.addEventListener('input', () => {
+            localStorage.setItem(LANG2_LABEL_KEY, lang2Input.value.trim()); // label kept as typed
+            updateLangCapsule();
+        });
+        lang2Input.addEventListener('click', e => e.stopPropagation()); // typing must not close the dropdown
+    }
+    updateLangCapsule();
+    if (LANG === 'zh') applyLang(); // cards render after this block, so LANG is already set
+
+    // Card colors (v24): subtle gradient tints picked from editor swatches.
+    // '' = plain (site default). Star feature removed; legacy star key kept.
+    const COLOR_KEYS = ['violet', 'emerald', 'sky', 'amber', 'rose', 'slate'];
+    let selColor = '';
+    function markColorSel() {
+        document.querySelectorAll('.color-swatch').forEach(b => b.classList.toggle('sel', b.dataset.color === selColor));
+    }
+    document.querySelectorAll('.color-swatch').forEach(b => {
+        b.onclick = () => { selColor = b.dataset.color; markColorSel(); };
+    });
+
+    function cardSubtitle(link) {
+        return LANG === 'zh' ? (link.nameZh || link.subEn || '') : (link.subEn || link.nameZh || '');
+    }
+    function cardIntro(link) {
+        // Legacy tips text counts as an English short intro.
+        return LANG === 'zh' ? (link.introZh || link.introEn || '') : (link.introEn || link.introZh || link.tips || '');
+    }
+
+    function showDetailPopup(link) {
+        currentDetailLink = link;
+        const titleEl = document.getElementById('detail-title');
+        const subEl = document.getElementById('detail-sub');
+        const textEl = document.getElementById('detail-text');
+        const img = document.getElementById('detail-icon');
+
+        titleEl.textContent = link.name;
+        const sub = cardSubtitle(link);
+        subEl.textContent = sub;
+        subEl.classList.toggle('hidden', !sub);
+
+        const detail = link.detail || link.detailZh || link.tips || '';
+        textEl.textContent = detail;
+        textEl.classList.toggle('hidden', !detail);
+
+        // Same icon proxy route as the cards, at popup display size.
+        const isCustom = !!(link.icon && link.icon.startsWith('http'));
+        img.style.display = '';
+        img.src = imgApi + encodeURIComponent(isCustom ? link.icon : link.url) + (isCustom ? '&direct=1' : '') + '&w=64';
+        img.onerror = () => { img.style.display = 'none'; };
+
+        document.getElementById('detail-open-btn').textContent = link.btnLabel || T('Open Link');
+
+        toggleOverlay('detail-overlay', true);
+    }
+
+    function closeDetailPopup() {
+        toggleOverlay('detail-overlay', false);
+    }
+
+    function openDetailLink() {
+        if (!currentDetailLink) return;
+        const target = safeUrl(currentDetailLink.url);
+        if (target) window.open(target, '_blank', 'noopener,noreferrer');
+    }
+
+    document.getElementById('detail-close-btn').onclick = closeDetailPopup;
+    document.getElementById('detail-open-btn').onclick = openDetailLink;
+    document.getElementById('detail-overlay').addEventListener('mousedown', (e) => {
+        if (e.target === document.getElementById('detail-overlay')) closeDetailPopup();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (document.getElementById('detail-overlay').classList.contains('hidden')) return;
+        if (e.key === 'Escape') closeDetailPopup();
+        else if (e.key === 'Enter') openDetailLink();
+    });
 
     document.getElementById('password-confirm-btn').onclick = async () => {
          const pwd = document.getElementById('password-input').value;
@@ -3152,7 +3748,7 @@ const HTML_CONTENT = `
                 const text = target.getAttribute('data-tooltip');
                 if (text) {
                     activeTarget = target;
-                    showTooltip(e, text);
+                    showTooltip(e, text, target);
                 } else {
                     hideTooltip();
                 }
@@ -3167,23 +3763,54 @@ const HTML_CONTENT = `
         window.addEventListener('scroll', hideTooltip, { passive: true });
     }
 
-    function showTooltip(e, text) {
+    let zoomProbe = null;
+    function getZoom() {
+        // Under html { zoom: N }, getBoundingClientRect() reports zoomed visual
+        // px while clientX / innerWidth report unzoomed px. A 100px fixed probe
+        // measures the effective zoom factor, so every coordinate can be
+        // converted to zoomed CSS px (the space the tooltip is positioned in).
+        if (!zoomProbe) {
+            zoomProbe = document.createElement('div');
+            zoomProbe.style.cssText = 'position:fixed;top:0;left:0;width:100px;height:0;pointer-events:none;z-index:-1';
+            document.body.appendChild(zoomProbe);
+        }
+        const z = zoomProbe.getBoundingClientRect().width / 100;
+        return z > 1 ? z : 1;
+    }
+
+    function showTooltip(e, text, target) {
         const tooltip = document.getElementById('custom-tooltip');
         tooltip.textContent = text;
         tooltip.classList.remove('hidden');
 
-        const offset = 12;
-        let left = e.clientX + offset;
-        let top = e.clientY + offset;
+        const z = getZoom();
+        // 14 CSS px is too close under zoom: the pointer hotspot sits on the
+        // tooltip's top lines. 30 CSS px (≈40 visual px at zoom 1.35) keeps
+        // the pointer clear of the text.
+        const offset = 30;
+        const margin = 8;
+        // Pointer coords are unzoomed visual px; the tooltip lives in zoomed
+        // CSS px space, so divide by the zoom factor.
+        const cssX = e.clientX / z;
+        const cssY = e.clientY / z;
 
         const tooltipRect = tooltip.getBoundingClientRect();
+        const cssW = tooltipRect.width / z;
+        const cssH = tooltipRect.height / z;
+        const viewW = window.innerWidth / z;
+        const viewH = window.innerHeight / z;
 
-        if (left + tooltipRect.width > window.innerWidth) {
-            left = e.clientX - tooltipRect.width - offset;
-        }
-        if (top + tooltipRect.height > window.innerHeight) {
-            top = e.clientY - tooltipRect.height - offset;
-        }
+        // Default: directly below the pointer, horizontally centered on it.
+        let left = cssX - cssW / 2;
+        let top = cssY + offset;
+
+        // Near the right edge: whole box below-left of the pointer;
+        // near the left edge: below-right of the pointer.
+        if (left + cssW > viewW - margin) left = cssX - cssW - offset;
+        if (left < margin) left = cssX + offset;
+        // Near the bottom edge: flip above the pointer.
+        if (top + cssH > viewH - margin) top = cssY - cssH - offset;
+        if (top < margin) top = margin;
 
         tooltip.style.left = left + 'px';
         tooltip.style.top = top + 'px';
