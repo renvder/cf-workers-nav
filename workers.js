@@ -7,7 +7,7 @@ const HTML_CONTENT = `
     <meta name="color-scheme" content="light dark">
     <meta name="theme-color" content="#f3edfb">
     <title>RENVDER NAV</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20128%20128%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22grad%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%3Cstop%20offset%3D%220%25%22%20style%3D%22stop-color%3A%23a855f7%3Bstop-opacity%3A1%22%20%2F%3E%3Cstop%20offset%3D%22100%25%22%20style%3D%22stop-color%3A%237e22ce%3Bstop-opacity%3A1%22%20%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22128%22%20height%3D%22128%22%20rx%3D%2224%22%20fill%3D%22url%28%23grad%29%22%2F%3E%3Cpolyline%20points%3D%2234%2C40%2060%2C64%2034%2C88%22%20fill%3D%22none%22%20stroke%3D%22white%22%20stroke-width%3D%2211%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3Crect%20x%3D%2268%22%20y%3D%2282%22%20width%3D%2230%22%20height%3D%2211%22%20rx%3D%222%22%20fill%3D%22white%22%2F%3E%3C%2Fsvg%3E">
+    <link id="favicon-link" rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20128%20128%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22grad%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%3Cstop%20offset%3D%220%25%22%20style%3D%22stop-color%3A%23a855f7%3Bstop-opacity%3A1%22%20%2F%3E%3Cstop%20offset%3D%22100%25%22%20style%3D%22stop-color%3A%237e22ce%3Bstop-opacity%3A1%22%20%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22128%22%20height%3D%22128%22%20rx%3D%2224%22%20fill%3D%22url%28%23grad%29%22%2F%3E%3Cpolyline%20points%3D%2234%2C40%2060%2C64%2034%2C88%22%20fill%3D%22none%22%20stroke%3D%22white%22%20stroke-width%3D%2211%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3Crect%20x%3D%2268%22%20y%3D%2282%22%20width%3D%2230%22%20height%3D%2211%22%20rx%3D%222%22%20fill%3D%22white%22%2F%3E%3C%2Fsvg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -280,6 +280,25 @@ const HTML_CONTENT = `
             border-color: #818cf8;
             box-shadow: 0 0 0 3px rgba(129,140,248,.4);
         }
+        /* Logo customization (v25): preset gallery tiles + selected ring. */
+        .logo-preset {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 1px solid rgba(148,163,184,.35);
+            color: white;
+            transition: box-shadow .2s, transform .2s;
+        }
+        .logo-preset.sel {
+            box-shadow: 0 0 0 3px rgba(139,92,246,.5);
+            border-color: #8b5cf6;
+        }
+        html.dark .logo-preset { border-color: rgba(100,116,139,.45); }
+        html.dark .logo-preset.sel { border-color: #8b5cf6; box-shadow: 0 0 0 3px rgba(139,92,246,.45); }
         .card-c-violet { background-image: linear-gradient(135deg, rgba(124,58,237,.13), rgba(124,58,237,.04) 45%, rgba(124,58,237,0) 78%); }
         .card-c-violet:hover { border-color: rgba(124,58,237,.35); }
         .card-c-emerald { background-image: linear-gradient(135deg, rgba(16,185,129,.12), rgba(16,185,129,.04) 45%, rgba(16,185,129,0) 78%); }
@@ -340,9 +359,10 @@ const HTML_CONTENT = `
             #topnav-inner { padding-left: 12px; padding-right: 12px; }
             #topnav-inner .h-16 { gap: 10px; }
             #lang-capsule .lang-seg { width: auto; padding: .25rem .5rem; }
-            #search-engine-btn { padding-left: 10px; padding-right: 6px; }
-            #search-button { padding-left: 10px; padding-right: 10px; }
-            #search-input { padding-left: 6px; padding-right: 6px; }
+            #search-engine-btn { padding-left: 8px; padding-right: 6px; }
+            #search-button { padding-left: 8px; padding-right: 8px; }
+            #search-shell > div.w-px { margin-left: 3px; margin-right: 3px; }
+            #search-input { padding-left: 4px; padding-right: 4px; font-size: 16px; }
             #profile-menu-toggle { padding: 6px 10px; }
             #topnav-inner a div.w-8 { width: 28px; height: 28px; }
             #topnav-inner a { padding: 6px 8px; }
@@ -357,6 +377,10 @@ const HTML_CONTENT = `
             box-shadow: 0 0 26px rgba(147,51,234,.22), 0 25px 50px -12px rgba(0,0,0,.6);
             border-color: rgba(168,85,247,.35);
         }
+        /* The Open Link button is tinted with the card's color by JS. Inline
+           background beats the Tailwind hover class, so hover feedback is a
+           brightness lift that works for every color and for the plain green. */
+        #detail-open-btn:hover { filter: brightness(1.12); }
 
         /* Phase 1: the edit dialog has more fields now, so its height is
            capped to the viewport and the form area scrolls — header and
@@ -504,12 +528,12 @@ const HTML_CONTENT = `
 
                     <!-- Logo -->
                     <a class="flex items-center gap-2 flex-shrink-0 group cursor-pointer bg-white/50 dark:bg-transparent hover:bg-white dark:hover:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200/50 dark:border-transparent transition-all duration-300 hover:shadow-md hover:shadow-emerald-500/10 hover:-translate-y-0.5" href="#" onclick="location.reload()">
-                        <div class="w-8 h-8 flex items-center justify-center bg-gradient-to-tr from-emerald-500 to-teal-600 rounded-lg text-white shadow-lg shadow-emerald-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
+                        <div id="logo-visual" class="w-8 h-8 flex items-center justify-center bg-gradient-to-tr from-emerald-500 to-teal-600 rounded-lg text-white shadow-lg shadow-emerald-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
                             </svg>
                         </div>
-                        <span class="font-bold text-lg tracking-wide text-slate-700 dark:text-slate-100 hidden sm:block">RENVDER NAV</span>
+                        <span id="site-name" class="font-bold text-lg tracking-wide text-slate-700 dark:text-slate-100 hidden sm:block">RENVDER NAV</span>
                     </a>
 
                     <!-- Search Bar -->
@@ -595,6 +619,10 @@ const HTML_CONTENT = `
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4-4m0 0l-4 4m4-4v12"></path></svg>
                                             Import Config
                                         </button>
+                                        <button onclick="openLogoDialog()" class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-slate-700/50 hover:text-emerald-600 transition-colors flex items-center gap-3">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3l14 9-9 7L5 3z"></path><path d="M10 12L19 3"></path></svg>
+                                            Logo
+                                        </button>
                                         <!-- File input (hidden) -->
                                         <input type="file" id="import-file-input" accept=".json,.html,.htm" class="hidden">
                                     </div>
@@ -636,7 +664,7 @@ const HTML_CONTENT = `
                                             <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-emerald-500"></div>
                                         </label>
                                     </div>
-                                    <div class="px-3 py-2 flex items-center gap-3 text-sm text-slate-700 dark:text-slate-200">
+                                    <div id="lang2-setting-row" class="px-3 py-2 flex items-center gap-3 text-sm text-slate-700 dark:text-slate-200 hidden">
                                         <input type="text" id="lang2-label-input" maxlength="3" class="w-14 px-2 py-1 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 text-sm outline-none text-center dark:text-white" placeholder="漢">
                                         <span class="flex items-center gap-3">
                                             <svg class="w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3"></path><path d="M9 20h6"></path><path d="M12 4v16"></path></svg>
@@ -800,6 +828,36 @@ const HTML_CONTENT = `
             <div class="flex justify-end gap-3">
                 <button id="detail-close-btn" class="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 transition-colors">Close</button>
                 <button id="detail-open-btn" class="px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-emerald-500 hover:bg-emerald-600 shadow-lg shadow-emerald-500/25 transition-all hover:translate-y-[-1px]">Open Link</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logo customization (v25): preset gallery + color, or an image URL.
+         When URL is non-empty it wins; preset+color used otherwise. Login only. -->
+    <div id="logo-overlay" class="hidden fixed inset-0 z-[70] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 overlay-hidden">
+        <div id="logo-box" class="bg-white dark:bg-[#170a29] rounded-2xl shadow-2xl p-6 w-full max-w-sm border border-slate-100 dark:border-slate-700 transform transition-all duration-300 dialog-scale-hidden">
+            <h3 class="text-lg font-bold mb-3 text-slate-800 dark:text-white">Logo</h3>
+            <div class="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">Site Name</div>
+            <input type="text" id="logo-name-input" class="w-full px-3 py-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 text-sm outline-none dark:text-slate-200 mb-3" placeholder="RENVDER NAV">
+            <div class="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">Logo Style</div>
+            <div id="logo-presets" class="flex flex-wrap gap-3 mb-4"></div>
+            <div class="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">Color</div>
+            <div id="logo-colors" class="flex flex-wrap gap-2 mb-4"></div>
+            <div class="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">Image URL</div>
+            <input type="text" id="logo-url-input" class="w-full px-3 py-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 text-sm outline-none dark:text-slate-200 mb-3" placeholder="https://...">
+            <div class="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">Shape</div>
+            <div class="flex gap-2 mb-4">
+                <button id="logo-shape-square" class="px-4 py-2 rounded-lg text-sm font-medium border border-slate-200 dark:border-slate-600">Square</button>
+                <button id="logo-shape-circle" class="px-4 py-2 rounded-lg text-sm font-medium border border-slate-200 dark:border-slate-600">Circle</button>
+            </div>
+            <div class="flex items-center gap-3 mb-2">
+                <div class="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Preview</div>
+                <div id="logo-preview" class="w-8 h-8 flex items-center justify-center rounded-lg text-white"></div>
+                <div id="logo-name-preview" class="font-bold text-lg tracking-wide text-slate-700 dark:text-slate-100"></div>
+            </div>
+            <div class="flex justify-end gap-3 mt-4">
+                <button id="logo-cancel-btn" class="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 transition-colors">Cancel</button>
+                <button id="logo-save-btn" class="px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-emerald-500 hover:bg-emerald-600 shadow-lg shadow-emerald-500/25 transition-all hover:translate-y-[-1px]">Confirm</button>
             </div>
         </div>
     </div>
@@ -1143,6 +1201,8 @@ const HTML_CONTENT = `
         if (loadingMask) loadingMask.classList.remove('hidden');
         initializeUIComponents();
         renderSearchEngineMenu();
+        buildLogoDialog();
+        loadLogoSetting();
         await checkLoginStatusAndLoad();
         if (loadingMask) loadingMask.classList.add('hidden');
         document.addEventListener('visibilitychange', async () => {
@@ -2226,6 +2286,7 @@ const HTML_CONTENT = `
         const addCategoryContainer = document.getElementById('add-category-container');
         const dataToolsMenu = document.getElementById('data-tools-menu');
         const checkAllMenu = document.getElementById('check-all-menu');
+        const lang2Row = document.getElementById('lang2-setting-row');
 
         loginBtn.innerHTML = isLoggedIn ?
             '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> ' + T('Logout') :
@@ -2235,9 +2296,11 @@ const HTML_CONTENT = `
             loginBtn.classList.replace('text-red-500', 'text-slate-700');
             if(dataToolsMenu) dataToolsMenu.classList.remove('hidden');
             if(checkAllMenu) checkAllMenu.classList.remove('hidden');
+            if(lang2Row) lang2Row.classList.remove('hidden');
         } else {
             if(dataToolsMenu) dataToolsMenu.classList.add('hidden');
             if(checkAllMenu) checkAllMenu.classList.add('hidden');
+            if(lang2Row) lang2Row.classList.add('hidden');
         }
 
         if (isEditMode) {
@@ -3389,6 +3452,17 @@ const HTML_CONTENT = `
         'Confirm': '確認',
         'Open Link': '打開連結',
         'Card Color': '卡片顏色',
+        'Logo': '標誌',
+        'Site Name': '站名',
+        'Logo Style': '樣式',
+        'Color': '配色',
+        'Image URL': '圖片網址',
+        'Shape': '形狀',
+        'Square': '方形',
+        'Circle': '圓形',
+        'Preview': '預覽',
+        'Logo saved': '標誌已保存',
+        'Save failed': '保存失敗',
         'All': '全部',
         'Edit Info': '編輯資訊',
         'Name': '名稱',
@@ -3440,7 +3514,7 @@ const HTML_CONTENT = `
                 if (!node.textContent.trim()) return NodeFilter.FILTER_SKIP;
                 // Render-time T() already localizes these; letting the walker
                 // cache them would poison the en restore with zh text.
-                if (p.closest('.filter-pills') || p.closest('#category-buttons-container') || p.closest('#category-select-text')) return NodeFilter.FILTER_SKIP;
+                if (p.closest('.filter-pills') || p.closest('#category-buttons-container') || p.closest('#category-select-text') || p.closest('#site-name')) return NodeFilter.FILTER_SKIP;
                 return NodeFilter.FILTER_ACCEPT;
             }
         });
@@ -3514,6 +3588,7 @@ const HTML_CONTENT = `
     if (lang2Input) {
         lang2Input.value = lang2Label();
         lang2Input.addEventListener('input', () => {
+            if (!isLoggedIn) return;
             localStorage.setItem(LANG2_LABEL_KEY, lang2Input.value.trim()); // label kept as typed
             updateLangCapsule();
         });
@@ -3563,9 +3638,209 @@ const HTML_CONTENT = `
         img.src = imgApi + encodeURIComponent(isCustom ? link.icon : link.url) + (isCustom ? '&direct=1' : '') + '&w=64';
         img.onerror = () => { img.style.display = 'none'; };
 
+        // Tint the Open Link button with the card's color. Solid swatch colors
+        // keep white text; an uncolored card resets to the CSS green.
+        const COLOR_BUTTON = { violet: '#7c3aed', emerald: '#059669', sky: '#0284c7', amber: '#d97706', rose: '#be123c', slate: '#475569' };
+        document.getElementById('detail-open-btn').style.background = COLOR_BUTTON[link.color] || '';
+
         document.getElementById('detail-open-btn').textContent = link.btnLabel || T('Open Link');
 
         toggleOverlay('detail-overlay', true);
+    }
+
+    /* Logo customization (v25): top bar icon + favicon follow one KV setting.
+       Gallery presets are tinted gradient tiles with a white glyph; an image
+       URL wins when non-empty (two modes, mutually exclusive). The engine
+       logos inside the search box are untouched. */
+    const LOGO_PRESETS = {
+        star: '<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>',
+        terminal: '<polyline points="4 17 10 12 4 7"></polyline><line x1="12" y1="22" x2="20" y2="22"></line>',
+        bolt: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>',
+        globe: '<circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>',
+        bookmark: '<path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>',
+        navigation: '<polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>'
+    };
+    const LOGO_COLORS = ['violet', 'purple', 'emerald', 'sky', 'amber', 'rose', 'slate'];
+    const LOGO_GRADIENTS = {
+        violet: ['#a78bfa', '#7c3aed'],
+        purple: ['#a855f7', '#7e22ce'],
+        emerald: ['#34d399', '#059669'],
+        sky: ['#38bdf8', '#0284c7'],
+        amber: ['#fbbf24', '#d97706'],
+        rose: ['#fb7185', '#be123c'],
+        slate: ['#94a3b8', '#475569']
+    };
+    let logoState = { preset: 'star', color: 'purple', url: '', shape: 'square', name: '' };
+
+    function logoSvgMarkup(inner, size, strokeW) {
+        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + strokeW + '" stroke-linecap="round" stroke-linejoin="round" width="' + size + '" height="' + size + '">' + inner + '</svg>';
+    }
+
+    function logoSrcForUrl() {
+        return imgApi + encodeURIComponent(logoState.url) + '&direct=1&w=64';
+    }
+
+    function faviconForPreset() {
+        const g = LOGO_GRADIENTS[logoState.color] || LOGO_GRADIENTS.purple;
+        const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">'
+            + '<defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">'
+            + '<stop offset="0%" stop-color="' + g[0] + '"/><stop offset="100%" stop-color="' + g[1] + '"/>'
+            + '</linearGradient></defs>'
+            + '<rect width="128" height="128" rx="24" fill="url(#grad)"/>'
+            + '<g transform="translate(16 16) scale(4)" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">'
+            + (LOGO_PRESETS[logoState.preset] || LOGO_PRESETS.star) + '</g></svg>';
+        return 'data:image/svg+xml,' + encodeURIComponent(svg);
+    }
+
+    // Shared painter for the top bar box and the dialog preview box.
+    function paintLogoBox(box) {
+        const g = LOGO_GRADIENTS[logoState.color] || LOGO_GRADIENTS.purple;
+        box.style.borderRadius = logoState.shape === 'circle' ? '9999px' : '8px';
+        if (logoState.url) {
+            box.style.background = 'transparent';
+            box.className = 'w-8 h-8 flex items-center justify-center overflow-hidden text-white shadow-lg shadow-emerald-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300';
+            box.innerHTML = '<img src="' + logoSrcForUrl() + '" alt="logo" class="w-full h-full object-cover" onerror="logoRenderFail()">';
+        } else {
+            box.style.background = 'linear-gradient(135deg, ' + g[0] + ', ' + g[1] + ')';
+            box.className = 'w-8 h-8 flex items-center justify-center text-white shadow-lg shadow-emerald-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300';
+            box.innerHTML = logoSvgMarkup(LOGO_PRESETS[logoState.preset] || LOGO_PRESETS.star, 20, 2.2);
+        }
+    }
+
+    function renderLogo() {
+        paintLogoBox(document.getElementById('logo-visual'));
+        const fav = document.getElementById('favicon-link');
+        if (fav) fav.href = logoState.url ? logoSrcForUrl() : faviconForPreset();
+        const nameEl = document.getElementById('site-name');
+        if (nameEl) nameEl.textContent = logoState.name || 'RENVDER NAV';
+        const preview = document.getElementById('logo-preview');
+        if (preview) {
+            preview.className = 'w-8 h-8 flex items-center justify-center text-white overflow-hidden';
+            preview.style.borderRadius = logoState.shape === 'circle' ? '9999px' : '8px';
+            preview.style.background = logoState.url ? 'transparent' : 'linear-gradient(135deg, ' + (LOGO_GRADIENTS[logoState.color] || LOGO_GRADIENTS.purple)[0] + ', ' + (LOGO_GRADIENTS[logoState.color] || LOGO_GRADIENTS.purple)[1] + ')';
+            preview.innerHTML = logoState.url
+                ? '<img src="' + logoSrcForUrl() + '" alt="" class="w-full h-full object-cover" onerror="this.style.display=\\\'none\\\'">'
+                : logoSvgMarkup(LOGO_PRESETS[logoState.preset] || LOGO_PRESETS.star, 20, 2.2);
+        }
+        const namePrev = document.getElementById('logo-name-preview');
+        if (namePrev) namePrev.textContent = logoState.name || 'RENVDER NAV';
+    }
+
+    // Image URL failed to load: fall back to the gallery so nothing goes blank.
+    function logoRenderFail() {
+        logoState.url = '';
+        const input = document.getElementById('logo-url-input');
+        if (input) input.value = '';
+        renderLogo();
+    }
+
+    function refreshLogoDialog() {
+        document.querySelectorAll('#logo-presets button').forEach(b => {
+            const g = LOGO_GRADIENTS[logoState.color] || LOGO_GRADIENTS.purple;
+            b.style.background = 'linear-gradient(135deg, ' + g[0] + ', ' + g[1] + ')';
+            b.style.borderRadius = logoState.shape === 'circle' ? '9999px' : '12px';
+            b.innerHTML = logoSvgMarkup(LOGO_PRESETS[b.dataset.preset], 20, 2.2);
+            b.classList.toggle('sel', !logoState.url && b.dataset.preset === logoState.preset);
+        });
+        document.querySelectorAll('#logo-colors button').forEach(b => {
+            const g = LOGO_GRADIENTS[b.dataset.color];
+            b.style.background = 'linear-gradient(135deg, ' + g[0] + ', ' + g[1] + ')';
+            b.classList.toggle('sel', !logoState.url && b.dataset.color === logoState.color);
+        });
+        const sq = document.getElementById('logo-shape-square');
+        const ci = document.getElementById('logo-shape-circle');
+        sq.classList.toggle('bg-emerald-500', logoState.shape === 'square');
+        sq.classList.toggle('text-white', logoState.shape === 'square');
+        sq.classList.toggle('text-slate-600', logoState.shape !== 'square');
+        sq.classList.toggle('dark:text-slate-300', logoState.shape !== 'square');
+        ci.classList.toggle('bg-emerald-500', logoState.shape === 'circle');
+        ci.classList.toggle('text-white', logoState.shape === 'circle');
+        ci.classList.toggle('text-slate-600', logoState.shape !== 'circle');
+        ci.classList.toggle('dark:text-slate-300', logoState.shape !== 'circle');
+        renderLogo();
+    }
+
+    function openLogoDialog() {
+        if (!isLoggedIn) return;
+        const input = document.getElementById('logo-url-input');
+        input.value = logoState.url;
+        document.getElementById('logo-name-input').value = logoState.name;
+        refreshLogoDialog();
+        toggleOverlay('logo-overlay', true);
+    }
+
+    async function saveLogo() {
+        try {
+            const body = { logo: { preset: logoState.preset, color: logoState.color, url: logoState.url, shape: logoState.shape, name: logoState.name.trim() } };
+            const res = await fetchWithAuth('/api/logo', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+            const out = await res.json();
+            if (!res.ok || !out.success) { customAlert(T('Save failed')); return; }
+            renderLogo();
+            toggleOverlay('logo-overlay', false);
+            customAlert(T('Logo saved'));
+        } catch (e) {
+            customAlert(T('Save failed'));
+        }
+    }
+
+    function buildLogoDialog() {
+        const presetBox = document.getElementById('logo-presets');
+        Object.keys(LOGO_PRESETS).forEach(key => {
+            const b = document.createElement('button');
+            b.className = 'logo-preset';
+            b.dataset.preset = key;
+            b.onclick = () => {
+                // Picking a preset clears the URL: the two modes cannot coexist.
+                logoState.preset = key;
+                logoState.url = '';
+                const input = document.getElementById('logo-url-input');
+                if (input) input.value = '';
+                refreshLogoDialog();
+            };
+            presetBox.appendChild(b);
+        });
+        const colorBox = document.getElementById('logo-colors');
+        LOGO_COLORS.forEach(key => {
+            const b = document.createElement('button');
+            b.className = 'color-swatch';
+            b.dataset.color = key;
+            b.onclick = () => { logoState.color = key; refreshLogoDialog(); };
+            colorBox.appendChild(b);
+        });
+        document.getElementById('logo-url-input').addEventListener('input', (e) => {
+            logoState.url = e.target.value.trim();
+            refreshLogoDialog();
+        });
+        document.getElementById('logo-name-input').addEventListener('input', (e) => {
+            logoState.name = e.target.value;
+            refreshLogoDialog();
+        });
+        document.getElementById('logo-shape-square').onclick = () => { logoState.shape = 'square'; refreshLogoDialog(); };
+        document.getElementById('logo-shape-circle').onclick = () => { logoState.shape = 'circle'; refreshLogoDialog(); };
+        document.getElementById('logo-save-btn').onclick = saveLogo;
+        document.getElementById('logo-cancel-btn').onclick = () => toggleOverlay('logo-overlay', false);
+        document.getElementById('logo-overlay').addEventListener('mousedown', (e) => {
+            if (e.target === document.getElementById('logo-overlay')) toggleOverlay('logo-overlay', false);
+        });
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('logo-overlay').classList.contains('hidden')) return;
+            if (e.key === 'Escape') toggleOverlay('logo-overlay', false);
+        });
+    }
+
+    function loadLogoSetting() {
+        fetch('/api/logo').then(r => r.json()).then(logo => {
+            if (logo && typeof logo === 'object') {
+                logoState = {
+                    preset: LOGO_PRESETS[logo.preset] ? logo.preset : 'star',
+                    color: LOGO_GRADIENTS[logo.color] ? logo.color : 'purple',
+                    url: typeof logo.url === 'string' ? logo.url : '',
+                    shape: logo.shape === 'circle' ? 'circle' : 'square',
+                    name: typeof logo.name === 'string' ? logo.name.trim() : ''
+                };
+            }
+            renderLogo();
+        }).catch(() => renderLogo());
     }
 
     function closeDetailPopup() {
@@ -4814,6 +5089,40 @@ function sanitizeCategories(raw) {
     return out;
 }
 
+/* Logo customization (Phase 4): the site logo (top bar + favicon) is one KV key
+   `${DEFAULT_USER}_logo`, independent of the categories data, so import/export
+   can carry it without touching the schema. Two modes, mutually exclusive:
+   a preset glyph tinted with a palette color, or an image URL. */
+const LOGO_PRESETS = ['star', 'terminal', 'bolt', 'globe', 'bookmark', 'navigation'];
+const LOGO_COLORS = ['violet', 'purple', 'emerald', 'sky', 'amber', 'rose', 'slate'];
+const LOGO_SHAPES = ['square', 'circle'];
+
+function sanitizeLogo(raw) {
+    if (!raw || typeof raw !== 'object') return null;
+    const out = {};
+    out.preset = LOGO_PRESETS.includes(raw.preset) ? raw.preset : 'star';
+    out.color = LOGO_COLORS.includes(raw.color) ? raw.color : 'purple';
+    out.shape = LOGO_SHAPES.includes(raw.shape) ? raw.shape : 'square';
+    if (raw.name !== undefined) {
+        if (typeof raw.name !== 'string') return null;
+        const n = raw.name.trim();
+        if (n.length > 40) return null;
+        out.name = n;
+    } else {
+        out.name = '';
+    }
+    if (typeof raw.url === 'string') {
+        const u = raw.url.trim();
+        if (u.length > 300 || (u.length > 0 && !/^https?:\/\//.test(u))) return null;
+        out.url = u;
+    } else if (raw.url !== undefined) {
+        return null;
+    } else {
+        out.url = '';
+    }
+    return out;
+}
+
 async function readJsonBody(request, maxBytes = 8 * 1024 * 1024) {
     const len = Number(request.headers.get('content-length') || 0);
     if (len > maxBytes) return { ok: false, reason: 'TOO_LARGE' };
@@ -5138,12 +5447,34 @@ export default {
             return new Response(JSON.stringify({ success: false, error: 'User data not found' }), { status: 404, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
         }
 
+        if (url.pathname === '/api/logo' && request.method === 'GET') {
+            const logoStr = await env.CARD_ORDER.get(DEFAULT_USER + '_logo');
+            return new Response(logoStr || 'null', { status: 200, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
+        }
+
+        if (url.pathname === '/api/logo' && request.method === 'POST') {
+            const validation = await validateServerToken(request.headers.get('Authorization'), env);
+            if (!validation.isValid) return new Response(JSON.stringify(validation.response), { status: validation.status, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
+
+            const bodyObj = await readJsonBody(request);
+            if (!bodyObj.ok) return new Response(JSON.stringify({ error: bodyObj.reason }), { status: bodyObj.reason === 'TOO_LARGE' ? 413 : 400, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
+
+            const cleanLogo = sanitizeLogo(bodyObj.data.logo);
+            if (!cleanLogo) return new Response(JSON.stringify({ error: 'INVALID_LOGO' }), { status: 422, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
+            await env.CARD_ORDER.put(DEFAULT_USER + '_logo', JSON.stringify(cleanLogo));
+            return new Response(JSON.stringify({ success: true }), { status: 200, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
+        }
+
         if (url.pathname === '/api/exportData' && request.method === 'POST') {
              const validation = await validateServerToken(request.headers.get('Authorization'), env);
              if (!validation.isValid) return new Response(JSON.stringify(validation.response), { status: validation.status, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
 
              const data = await env.CARD_ORDER.get(DEFAULT_USER);
-             return new Response(data || '{}', { status: 200, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
+             const logoStr = await env.CARD_ORDER.get(DEFAULT_USER + '_logo');
+             const exportOut = safeJsonParse(data, {}).data || {};
+             const logoVal = safeJsonParse(logoStr, null).data;
+             if (logoVal) exportOut.logo = logoVal;
+             return new Response(JSON.stringify(exportOut), { status: 200, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
         }
 
         if (url.pathname === '/api/importData' && request.method === 'POST') {
@@ -5178,6 +5509,10 @@ export default {
              }
 
              await env.CARD_ORDER.put(DEFAULT_USER, JSON.stringify(cleanData));
+
+              // An imported file may carry the logo setting; write it when valid.
+              const importedLogo = sanitizeLogo(bodyObj.data.logo);
+              if (importedLogo) await env.CARD_ORDER.put(DEFAULT_USER + '_logo', JSON.stringify(importedLogo));
 
              const rev = await bumpRev(env);
              ctx.waitUntil(CACHE.delete(cacheKeyFor(new URL('/api/getLinks', request.url), oldRev, 'anon')).catch(e => console.warn('anon cache delete failed', e)));
