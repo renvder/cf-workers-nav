@@ -31,6 +31,7 @@
 * **🖼️ Sharp, Bandwidth-Friendly Icons**: Icons are resized and re-encoded (AVIF/WebP where supported) at the edge, and served via `srcset` so Retina, 4K and 5K screens get a crisp icon while ordinary screens don't download more than they need. Requires **Image Resizing** to be turned on for your domain (see below).
 * **🔍 Multi-Engine Search**: Search via Google, Bing, or DuckDuckGo, or perform instant quick searches across your saved bookmarks. In-site search unifies Simplified/Traditional Chinese.
 * **🌐 Bilingual Interface**: One tap in the top bar switches the whole page between English and Chinese — labels, tooltips, placeholders, filter pills and buttons all follow. Each link can store a subtitle and a short intro in both languages, and cards show the one for the current language. The second language's label is customizable.
+* **🏷️ Custom Logo & Site Name** (login required): choose a logo style from a built-in gallery with colours and shapes, or replace it with a custom image URL (the two are exclusive); the browser tab icon and the top-bar logo update together, and the top-bar site name can be renamed from Settings.
 * **🗂️ Card Detail Popup**: A plain click on a card opens a detail popup — icon, title, subtitle, full description, and an **Open Link** button. Ctrl/Cmd+click and middle-click open the link directly, as before.
 * **🎨 Card Colors**: Every link can be assigned a color from a soft palette; the color tints the card background, and the border tint appears only on hover.
 * **🖥️ Big-Screen Friendly**: On wide and ultrawide monitors the page automatically scales to fill the screen, and the card grid extends to six columns on the widest setups. Phones keep the mobile layout.
@@ -129,6 +130,13 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 </details>
 
 ## 📝 Changelog
+
+**2026-11-16**
+* Logo customisation (login required): pick a style from a built-in gallery, choose a colour, switch between rounded square and circle, or use a custom image URL instead (gallery and URL are exclusive); the tab icon and the top-bar logo update together.
+* Site name: the top-bar site name can be renamed in the same dialog; leaving it empty restores the default. The browser tab title is unchanged.
+* Login-gated settings: the second-language label, data tools and Logo settings all appear only when logged in.
+* Mobile typing: the mobile search bar uses 16px text, so iOS Safari no longer zooms the page while typing.
+* Popup button: the Open Link button in the detail popup is tinted with the card's colour.
 
 **2026-11-15**
 * iPad/iOS background stability: fixed the dark-mode grid texture jumping during scroll (fixed blend-mode overlay became a normal body background, big blur blobs became radial gradients).
