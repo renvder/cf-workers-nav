@@ -15,7 +15,7 @@
 📋 Easy-to-deploy Personal Startpage
 
 > A lightweight browser startpage powered by Cloudflare Workers.
-> Features bookmark management, automatic favicon fetching, drag-and-drop reordering, and password-protected private links—all in a single Worker file for effortless setup.
+> Features bookmark management, automatic favicon fetching, drag-and-drop reordering, a bilingual interface, and password-protected private links—all in a single Worker file for effortless setup.
 
 ## ✨ Features
 
@@ -30,6 +30,10 @@
 * **🩺 One-Click Check** (login required): Check whether each site is reachable and how fast it responds, right from your browser.
 * **🖼️ Sharp, Bandwidth-Friendly Icons**: Icons are resized and re-encoded (AVIF/WebP where supported) at the edge, and served via `srcset` so Retina, 4K and 5K screens get a crisp icon while ordinary screens don't download more than they need. Requires **Image Resizing** to be turned on for your domain (see below).
 * **🔍 Multi-Engine Search**: Search via Google, Bing, or DuckDuckGo, or perform instant quick searches across your saved bookmarks. In-site search unifies Simplified/Traditional Chinese.
+* **🌐 Bilingual Interface**: One tap in the top bar switches the whole page between English and Chinese — labels, tooltips, placeholders, filter pills and buttons all follow. Each link can store a subtitle and a short intro in both languages, and cards show the one for the current language. The second language's label is customizable.
+* **🗂️ Card Detail Popup**: A plain click on a card opens a detail popup — icon, title, subtitle, full description, and an **Open Link** button. Ctrl/Cmd+click and middle-click open the link directly, as before.
+* **🎨 Card Colors**: Every link can be assigned a color from a soft palette; the color tints the card background, and the border tint appears only on hover.
+* **🖥️ Big-Screen Friendly**: On wide and ultrawide monitors the page automatically scales to fill the screen, and the card grid extends to six columns on the widest setups. Phones keep the mobile layout.
 
 ## Interface Preview
 
@@ -129,6 +133,14 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 **2026-11-15**
 * iPad/iOS background stability: fixed the dark-mode grid texture jumping during scroll (fixed blend-mode overlay became a normal body background, big blur blobs became radial gradients).
 * Unified Simplified/Traditional search: queries and stored data are normalized before matching, so Simplified and Traditional Chinese searches cross-match. The page embeds the OpenCC `TSCharacters` table (Apache-2.0).
+* Bilingual interface: a top-bar capsule switches the whole page between English and the second language — labels, tooltips, placeholders, filter pills and buttons all follow. Each link can store a subtitle and a short intro in both languages, and cards show the current language's one. The language choice is remembered, persisted across visits when **Remember Settings** is on.
+* Card layout: cards now show the main title, the subtitle in the current language, and a short intro in the space below.
+* Detail popup: clicking a card opens a detail popup (icon, title, subtitle, full description, Open Link). Ctrl/Cmd+click and middle-click open the link directly, as before.
+* Card colors: each link can be assigned a color from a soft palette; the background is tinted with it, and the border tint appears only on hover.
+* Big screens: the page auto-scales on wide and ultrawide monitors so it fills the screen, and the card grid extends to six columns on ultrawide.
+* Top bar: language switching no longer shifts the top bar elements; switching keeps the view anchored at the active category; on phones the top bar is compacted so the settings button is no longer clipped.
+* Search: typing in the search bar no longer draws a large purple focus frame; the bar shows a soft glow instead.
+* Edit dialog: its height is capped to the screen, the form scrolls, and the header and Confirm/Cancel stay visible. Tooltips follow the cursor.
 
 **2026-11-13**
 * Sub-groups: a category can now hold named sub-groups. Create an empty group first via the "+ New Group" button, then add links into it (or drag cards across groups); groups can be renamed or deleted (deleting a group ungroups its links, never deletes them). Empty groups survive save and reload.
