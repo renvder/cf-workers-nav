@@ -33,7 +33,7 @@
 * **🌐 Bilingual Interface**: One tap in the top bar switches the whole page between English and Chinese — labels, tooltips, placeholders, filter pills and buttons all follow. Each link can store a subtitle and a short intro in both languages, and cards show the one for the current language. The second language's label is customizable.
 * **🏷️ Custom Logo & Site Name** (login required): choose a logo style from a built-in gallery with colours and shapes, or replace it with a custom image URL (the two are exclusive); the browser tab icon and the top-bar logo update together, and the top-bar site name can be renamed from Settings.
 * **🗂️ Card Detail Popup**: A plain click on a card opens a detail popup — icon, title, subtitle, full description, and an **Open Link** button. Ctrl/Cmd+click and middle-click open the link directly, as before.
-* **🎨 Card Colors**: Every link can be assigned a color from a soft palette; the color tints the card background, and the border tint appears only on hover.
+* **🎨 Card Colors**: Every link can be assigned a color from a soft palette; the color tints the card background, the border tint appears only on hover, and the subtitle is tinted with the same color.
 * **🖥️ Big-Screen Friendly**: On wide and ultrawide monitors the page automatically scales to fill the screen, and the card grid extends to six columns on the widest setups. Phones keep the mobile layout.
 
 ## Interface Preview
@@ -137,6 +137,7 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 * Login-gated settings: the second-language label, data tools and Logo settings all appear only when logged in.
 * Mobile typing: the mobile search bar uses 16px text, so iOS Safari no longer zooms the page while typing.
 * Popup button: the Open Link button in the detail popup is tinted with the card's colour.
+* Card layout: the subtitle now sits directly under the title beside the icon, tinted with the card's colour, while the short intro stays gray below — the same three-level hierarchy as the detail popup.
 
 **2026-11-15**
 * iPad/iOS background stability: fixed the dark-mode grid texture jumping during scroll (fixed blend-mode overlay became a normal body background, big blur blobs became radial gradients).
