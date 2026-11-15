@@ -323,6 +323,20 @@ const HTML_CONTENT = `
         html.dark .card-c-rose:hover { border-color: rgba(253,164,175,.42); }
         html.dark .card-c-slate { background-image: linear-gradient(135deg, rgba(148,163,184,.15), rgba(148,163,184,.05) 45%, rgba(148,163,184,0) 78%); }
         html.dark .card-c-slate:hover { border-color: rgba(148,163,184,.45); }
+        .card-sub { color: #64748b; }
+        html.dark .card-sub { color: #94a3b8; }
+        .card-c-violet .card-sub { color: #7c3aed; }
+        html.dark .card-c-violet .card-sub { color: #a78bfa; }
+        .card-c-emerald .card-sub { color: #047857; }
+        html.dark .card-c-emerald .card-sub { color: #34d399; }
+        .card-c-sky .card-sub { color: #0369a1; }
+        html.dark .card-c-sky .card-sub { color: #38bdf8; }
+        .card-c-amber .card-sub { color: #b45309; }
+        html.dark .card-c-amber .card-sub { color: #fbbf24; }
+        .card-c-rose .card-sub { color: #be123c; }
+        html.dark .card-c-rose .card-sub { color: #fb7185; }
+        .card-c-slate .card-sub { color: #475569; }
+        html.dark .card-c-slate .card-sub { color: #cbd5e1; }
         /* Phase 2: language capsule (EN | label) in the top nav. */
         .lang-capsule {
             display: flex; align-items: center;
@@ -2469,13 +2483,28 @@ const HTML_CONTENT = `
         const title = document.createElement('div');
         const titleAlign = isAppLayout
             ? 'text-center text-xs sm:text-sm font-medium mt-1 w-[120%] truncate px-1 text-slate-700 dark:text-slate-200 drop-shadow-sm'
-            : 'font-semibold text-sm flex-1 truncate text-slate-700 dark:text-slate-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors pointer-events-none';
+            : 'font-semibold text-sm truncate text-slate-700 dark:text-slate-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors pointer-events-none';
 
         title.className = \`card-title pointer-events-none \${titleAlign}\`;
         title.textContent = link.name;
 
+        const sub = cardSubtitle(link);
+        const intro = cardIntro(link);
+
+        const textCol = document.createElement('div');
+        textCol.className = 'flex-1 flex flex-col';
+        textCol.style.minWidth = '0';
+        textCol.appendChild(title);
+
+        if (!isAppLayout && sub) {
+            const subEl = document.createElement('div');
+            subEl.className = 'text-xs font-medium truncate card-sub mt-1 pointer-events-none relative z-10';
+            subEl.textContent = sub;
+            textCol.appendChild(subEl);
+        }
+
         header.appendChild(iconWrap);
-        header.appendChild(title);
+        header.appendChild(textCol);
 
         const statusTag = document.createElement('span');
         statusTag.className = 'card-status-tag';
@@ -2485,26 +2514,14 @@ const HTML_CONTENT = `
 
         card.appendChild(header);
 
-        // Card layout (v23): line 1 = main title (single language, "name");
-        // line 2 = subtitle in the current UI language; line 3 = short intro
-        // (current language, max 2 lines). Bilingual fields fall back to the
-        // other language when one is empty. See cardSubtitle/cardIntro.
-        const sub = cardSubtitle(link);
-        const intro = cardIntro(link);
-
-        if (!isAppLayout) {
-            if (sub) {
-                const subEl = document.createElement('div');
-                subEl.className = 'text-xs text-slate-500 dark:text-slate-400 truncate w-full leading-snug relative z-10';
-                subEl.textContent = sub;
-                card.appendChild(subEl);
-            }
-            if (intro) {
-                const introEl = document.createElement('div');
-                introEl.className = 'text-xs text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed w-full relative z-10 mt-1';
-                introEl.textContent = intro;
-                card.appendChild(introEl);
-            }
+        // Card layout (v26): title + subtitle share one column beside the icon
+        // (subtitle is tinted with the card's color, see .card-sub CSS), and
+        // the short intro stays the full-width gray line below it.
+        if (!isAppLayout && intro) {
+            const introEl = document.createElement('div');
+            introEl.className = 'text-xs text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed w-full relative z-10 mt-1';
+            introEl.textContent = intro;
+            card.appendChild(introEl);
         }
 
         if (link.isPrivate && !isAppLayout) {
