@@ -30,7 +30,7 @@
 * **🩺 One-Click Check** (login required): Check whether each site is reachable and how fast it responds, right from your browser.
 * **🖼️ Sharp, Bandwidth-Friendly Icons**: Icons are resized and re-encoded (AVIF/WebP where supported) at the edge, and served via `srcset` so Retina, 4K and 5K screens get a crisp icon while ordinary screens don't download more than they need. Requires **Image Resizing** to be turned on for your domain (see below).
 * **🔍 Multi-Engine Search**: Search via Google, Bing, or DuckDuckGo, or perform instant quick searches across your saved bookmarks. In-site search unifies Simplified/Traditional Chinese.
-* **🌐 Bilingual Interface**: One tap in the top bar switches the whole page between English and Chinese — labels, tooltips, placeholders, filter pills and buttons all follow. Each link can store a subtitle and a short intro in both languages, and cards show the one for the current language. The second language's label is customizable.
+* **🌐 Bilingual Interface**: One tap switches the whole page between English and Chinese — labels, tooltips, placeholders, filter pills and buttons all follow. On desktop the switch is the top-bar capsule; on phones it lives in the Settings menu. Each link can store a subtitle and a short intro in both languages, and cards show the one for the current language. The second language's label is customizable.
 * **🏷️ Custom Logo & Site Name** (login required): choose a logo style from a built-in gallery with colours and shapes, or replace it with a custom image URL (the two are exclusive); the browser tab icon and the top-bar logo update together, and the top-bar site name can be renamed from Settings.
 * **🗂️ Card Detail Popup**: A plain click on a card opens a detail popup — icon, title, subtitle, full description, and an **Open Link** button. Ctrl/Cmd+click and middle-click open the link directly, as before.
 * **🎨 Card Colors**: Every link can be assigned a color from a soft palette; the color tints the card background, the border tint appears only on hover, and the subtitle is tinted with the same color.
@@ -132,6 +132,7 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 ## 📝 Changelog
 
 **2026-11-16**
+* Language switching is split by device: desktop switches with the top-bar capsule only, phones with the language row in the Settings menu only — each device has exactly one switch.
 * Logo customisation (login required): pick a style from a built-in gallery, choose a colour, switch between rounded square and circle, or use a custom image URL instead (gallery and URL are exclusive); the tab icon and the top-bar logo update together.
 * Site name: the top-bar site name can be renamed in the same dialog; leaving it empty restores the default. The browser tab title is unchanged.
 * Login-gated settings: the second-language label, data tools and Logo settings all appear only when logged in.
