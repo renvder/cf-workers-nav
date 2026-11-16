@@ -132,6 +132,12 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 ## 📝 Changelog
 
 **2026-11-16**
+* App view: App cards show the icon only, centered, for a cleaner grid.
+* Icon display: icons are centered server-side with a guaranteed transparent margin on all sides, so full-bleed circular icons no longer look clipped by the card corners; icon sources are tried in a fixed priority order, starting with the site's own icon link.
+* Language checkboxes in the Settings menu appear only when logged in.
+* Small screens: card text shrinks on narrow screens so titles fit.
+
+**2026-11-16**
 * Language switching is split by device: desktop switches with the top-bar capsule only, phones with the language row in the Settings menu only — each device has exactly one switch.
 * Logo customisation (login required): pick a style from a built-in gallery, choose a colour, switch between rounded square and circle, or use a custom image URL instead (gallery and URL are exclusive); the tab icon and the top-bar logo update together.
 * Site name: the top-bar site name can be renamed in the same dialog; leaving it empty restores the default. The browser tab title is unchanged.
