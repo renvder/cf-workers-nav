@@ -8,6 +8,17 @@ const HTML_CONTENT = `
     <meta name="theme-color" content="#f3edfb">
     <title>RENVDER NAV</title>
     <link id="favicon-link" rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20128%20128%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22grad%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%3Cstop%20offset%3D%220%25%22%20style%3D%22stop-color%3A%23a855f7%3Bstop-opacity%3A1%22%20%2F%3E%3Cstop%20offset%3D%22100%25%22%20style%3D%22stop-color%3A%237e22ce%3Bstop-opacity%3A1%22%20%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22128%22%20height%3D%22128%22%20rx%3D%2224%22%20fill%3D%22url%28%23grad%29%22%2F%3E%3Cpolyline%20points%3D%2234%2C40%2060%2C64%2034%2C88%22%20fill%3D%22none%22%20stroke%3D%22white%22%20stroke-width%3D%2211%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3Crect%20x%3D%2268%22%20y%3D%2282%22%20width%3D%2230%22%20height%3D%2211%22%20rx%3D%222%22%20fill%3D%22white%22%2F%3E%3C%2Fsvg%3E">
+    <script>
+    (function () {
+        try {
+            var c = JSON.parse(localStorage.getItem('logo_cache') || 'null');
+            if (c && c.f) {
+                var l = document.getElementById('favicon-link');
+                if (l) l.href = c.f;
+            }
+        } catch (e) {}
+    })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -337,6 +348,10 @@ const HTML_CONTENT = `
         html.dark .card-c-rose .card-sub { color: #fb7185; }
         .card-c-slate .card-sub { color: #475569; }
         html.dark .card-c-slate .card-sub { color: #cbd5e1; }
+        .icon-bg { background: linear-gradient(135deg,#8b5cf6,#7c3aed); }
+        html.dark .icon-bg { background: #0f172a; }
+        .icon-bg-app { background: linear-gradient(135deg,#8b5cf6,#7c3aed); }
+        html.dark .icon-bg-app { background: #475569; }
         /* Phase 2: language capsule (EN | label) in the top nav. */
         .lang-capsule {
             display: flex; align-items: center;
@@ -361,9 +376,14 @@ const HTML_CONTENT = `
            by fixed widths with centered text, so nothing shifts when toggling. */
         #current-engine-label { text-align: center; }
         #lang-capsule .lang-seg { width: 52px; text-align: center; box-sizing: border-box; }
+        #settings-lang-capsule .lang-seg { width: 52px; text-align: center; box-sizing: border-box; }
         @media (min-width: 768px) {
             #current-engine-label { width: 80px; }
             #menu-toggle { display: inline-block; width: 70px; text-align: center; }
+            /* Desktop switches language with the top bar capsule; the settings
+               row is mobile-only, so hide the whole row on desktop — mirror of
+               the mobile block hiding #lang-capsule. */
+            #settings-lang-row { display: none; }
         }
         /* Mobile-only top bar compaction: the fixed desktop widths above only
            apply at >=768px, so phones get auto-sized segments and tighter
@@ -373,6 +393,7 @@ const HTML_CONTENT = `
             #topnav-inner { padding-left: 12px; padding-right: 12px; }
             #topnav-inner .h-16 { gap: 10px; }
             #lang-capsule .lang-seg { width: auto; padding: .25rem .5rem; }
+            #lang-capsule { display: none; }
             #search-engine-btn { padding-left: 8px; padding-right: 6px; }
             #search-button { padding-left: 8px; padding-right: 8px; }
             #search-shell > div.w-px { margin-left: 3px; margin-right: 3px; }
@@ -380,6 +401,11 @@ const HTML_CONTENT = `
             #profile-menu-toggle { padding: 6px 10px; }
             #topnav-inner a div.w-8 { width: 28px; height: 28px; }
             #topnav-inner a { padding: 6px 8px; }
+            /* iOS Safari force-zooms the whole page when a focused text box
+               is under 16px, and the zoom persists after the box blurs — the
+               login, logo and edit dialog fields all triggered it on phones.
+               Every text box on mobile is therefore 16px. */
+            input, textarea, select { font-size: 16px; }
         }
         /* Phase 1: detail popup border themed to match the site: light = soft
            slate, dark = purple glow. */
@@ -542,11 +568,7 @@ const HTML_CONTENT = `
 
                     <!-- Logo -->
                     <a class="flex items-center gap-2 flex-shrink-0 group cursor-pointer bg-white/50 dark:bg-transparent hover:bg-white dark:hover:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200/50 dark:border-transparent transition-all duration-300 hover:shadow-md hover:shadow-emerald-500/10 hover:-translate-y-0.5" href="#" onclick="location.reload()">
-                        <div id="logo-visual" class="w-8 h-8 flex items-center justify-center bg-gradient-to-tr from-emerald-500 to-teal-600 rounded-lg text-white shadow-lg shadow-emerald-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                            </svg>
-                        </div>
+                        <div id="logo-visual" class="w-8 h-8 flex items-center justify-center rounded-lg text-white shadow-lg shadow-emerald-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300" style="background: linear-gradient(135deg,#a855f7,#7e22ce)"></div>
                         <span id="site-name" class="font-bold text-lg tracking-wide text-slate-700 dark:text-slate-100 hidden sm:block">RENVDER NAV</span>
                     </a>
 
@@ -606,6 +628,19 @@ const HTML_CONTENT = `
                             <!-- Dropdown Menu -->
                             <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-60 bg-white dark:bg-[#170a29] rounded-xl shadow-xl ring-1 ring-black/5 dark:ring-white/10 overflow-hidden transform origin-top-right transition-all z-50 dropdown-enter">
                                 <div class="p-2 space-y-1">
+                                    <!-- Language row: on phones the top bar capsule is hidden (top bar gives its room to the search
+                                         bar), so switching lives here; on desktop the top bar capsule is the switch and the whole
+                                         row is hidden by the min-width:768px media block above. -->
+                                    <div id="settings-lang-row" class="px-3 py-2.5 flex items-center justify-between text-sm text-slate-700 dark:text-slate-200 rounded-lg">
+                                        <span class="flex items-center gap-3">
+                                            <svg class="w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20"></path><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                                            Language
+                                        </span>
+                                        <div id="settings-lang-capsule" class="lang-capsule">
+                                            <button type="button" class="lang-seg active" data-lang="en">EN</button>
+                                            <button type="button" class="lang-seg" data-lang="zh" id="lang-seg-2b">漢</button>
+                                        </div>
+                                    </div>
                                     <!-- Edit Mode -->
                                     <button id="edit-mode-btn" onclick="toggleEditMode()" class="w-full text-left px-3 py-2.5 rounded-lg text-sm text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-slate-700/50 hover:text-emerald-600 transition-colors flex items-center gap-3 font-medium">
                                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
@@ -830,8 +865,9 @@ const HTML_CONTENT = `
     <div id="detail-overlay" class="hidden fixed inset-0 z-[70] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 overlay-hidden">
         <div id="detail-box" class="detail-box bg-white dark:bg-[#170a29] rounded-2xl w-full max-w-md p-6 transform transition-all duration-300 dialog-scale-hidden">
             <div class="flex items-start gap-4 mb-4">
-                <div class="w-12 h-12 shrink-0 rounded-xl bg-slate-100 dark:bg-slate-600 p-2 shadow-md overflow-hidden">
+                <div class="w-12 h-12 shrink-0 rounded-xl icon-bg p-2 shadow-md overflow-hidden relative">
                     <img id="detail-icon" class="w-full h-full object-contain" alt="">
+                    <span id="detail-icon-spin" style="position:absolute;inset:8px;display:none;align-items:center;justify-content:center;"><span class="block icon-spinner rounded-full animate-spin" style="width:60%;height:60%;aspect-ratio:1/1;"></span></span>
                 </div>
                 <div class="min-w-0 flex-1">
                     <h3 id="detail-title" class="text-base font-bold text-slate-800 dark:text-slate-100 leading-snug break-words"></h3>
@@ -1215,6 +1251,15 @@ const HTML_CONTENT = `
         if (loadingMask) loadingMask.classList.remove('hidden');
         initializeUIComponents();
         renderSearchEngineMenu();
+        // Paint the cached logo first so the built-in star never flashes on
+        // reload; loadLogoSetting() then corrects it from the server.
+        try {
+            const cachedLogo = JSON.parse(localStorage.getItem('logo_cache') || 'null');
+            if (cachedLogo && cachedLogo.s) {
+                logoState = cachedLogo.s;
+                renderLogo();
+            }
+        } catch (e) {}
         buildLogoDialog();
         loadLogoSetting();
         await checkLoginStatusAndLoad();
@@ -2429,13 +2474,13 @@ const HTML_CONTENT = `
         let iconClass = 'relative w-full h-full opacity-0 transition duration-300';
         if (isAppLayout) {
              // APP style: large icon, white background, large corner radius, shadow
-             iconClass += ' rounded-[1.2rem] object-contain bg-slate-100 dark:bg-slate-600 p-2 shadow-md hover:shadow-lg group-hover:scale-105 group-active:scale-95 z-10';
+             iconClass += ' rounded-[1.2rem] object-contain icon-bg-app p-2 shadow-md hover:shadow-lg group-hover:scale-105 group-active:scale-95 z-10';
              if (link.isPrivate) {
                  iconClass += ' ring-2 ring-amber-400';
              }
         } else {
              // List style: small icon, light background
-             iconClass += ' rounded-lg object-contain bg-slate-100 dark:bg-slate-900 p-1 border border-slate-200 dark:border-slate-700 transition-transform group-hover:scale-105 pointer-events-none';
+             iconClass += ' rounded-lg object-contain icon-bg p-1 border border-slate-200 dark:border-slate-700 transition-transform group-hover:scale-105 pointer-events-none';
         }
         icon.className = iconClass;
 
@@ -2446,13 +2491,13 @@ const HTML_CONTENT = `
         // same resizing instead of loading the original file straight from wherever it's hosted.
         const baseW = isAppLayout ? 64 : 36;
         const cacheKey = link.url + '|' + (link.icon || '') + '|' + baseW;
-        let resolvedSrc, resolvedSrcset;
+        let resolvedSrc, resolvedSrcset, base;
         if (iconCache.has(cacheKey)) {
             ({ src: resolvedSrc, srcset: resolvedSrcset } = iconCache.get(cacheKey));
         } else {
             const isCustom = !!(link.icon && link.icon.startsWith('http'));
             const sourceUrl = isCustom ? link.icon : link.url;
-            const base = imgApi + encodeURIComponent(sourceUrl) + (isCustom ? '&direct=1' : '') + '&w=';
+            base = imgApi + encodeURIComponent(sourceUrl) + (isCustom ? '&direct=1' : '') + '&w=';
             resolvedSrc = base + baseW;
             resolvedSrcset = \`\${base}\${baseW} 1x, \${base}\${baseW * 2} 2x, \${base}\${baseW * 3} 3x\`;
             if (iconCache.size > 1000) iconCache.clear();
@@ -2469,6 +2514,14 @@ const HTML_CONTENT = `
                 this.classList.add('opacity-100');
                 this.classList.remove('opacity-0');
                 spinner.remove();
+                // Warm the popup-size icon in the background: prefetch the
+                // exact URL the popup will use, so opening a popup reads it
+                // straight from the browser cache (the proxy response is
+                // cacheable for a week, same URL = same cache entry).
+                if (base) {
+                    const pre = new Image();
+                    pre.src = base + 64;
+                }
             };
             icon.onerror = function() {
                 iconFailed.add(resolvedSrc);
@@ -3471,6 +3524,7 @@ const HTML_CONTENT = `
         'Card Color': '卡片顏色',
         'Logo': '標誌',
         'Site Name': '站名',
+        'Language': '語言',
         'Logo Style': '樣式',
         'Color': '配色',
         'Image URL': '圖片網址',
@@ -3558,11 +3612,13 @@ const HTML_CONTENT = `
         });
     }
     function updateLangCapsule() {
-        document.querySelectorAll('#lang-capsule .lang-seg').forEach(b => {
+        document.querySelectorAll('.lang-capsule .lang-seg').forEach(b => {
             b.classList.toggle('active', b.dataset.lang === LANG);
         });
         const seg2 = document.getElementById('lang-seg-2');
         if (seg2) seg2.textContent = lang2Label();
+        const seg2b = document.getElementById('lang-seg-2b');
+        if (seg2b) seg2b.textContent = lang2Label();
     }
     function setLang(lang) {
         if (lang !== 'en' && lang !== 'zh') return;
@@ -3598,7 +3654,7 @@ const HTML_CONTENT = `
         const overlay = document.getElementById('detail-overlay');
         if (currentDetailLink && overlay && !overlay.classList.contains('hidden')) showDetailPopup(currentDetailLink);
     }
-    document.querySelectorAll('#lang-capsule .lang-seg').forEach(b => {
+    document.querySelectorAll('.lang-capsule .lang-seg').forEach(b => {
         b.onclick = () => setLang(b.dataset.lang);
     });
     const lang2Input = document.getElementById('lang2-label-input');
@@ -3650,10 +3706,19 @@ const HTML_CONTENT = `
         textEl.classList.toggle('hidden', !detail);
 
         // Same icon proxy route as the cards, at popup display size.
+        // Clear the previous card's bitmap the moment the popup opens: a
+        // browser keeps an <img>'s old picture on screen while a new src
+        // loads (~1s through the proxy), which read as a stale cache. Hide
+        // the old image, show the spinner, reveal the new one on load.
         const isCustom = !!(link.icon && link.icon.startsWith('http'));
-        img.style.display = '';
+        const spin = document.getElementById('detail-icon-spin');
+        img.style.display = 'none';
+        if (spin) spin.style.display = 'flex';
+        img.onload = () => { img.style.display = ''; if (spin) spin.style.display = 'none'; };
         img.src = imgApi + encodeURIComponent(isCustom ? link.icon : link.url) + (isCustom ? '&direct=1' : '') + '&w=64';
-        img.onerror = () => { img.style.display = 'none'; };
+        // Re-opening the same card: the image is already in cache, show at once.
+        if (img.complete && img.naturalWidth > 0) { img.style.display = ''; if (spin) spin.style.display = 'none'; }
+        img.onerror = () => { img.style.display = 'none'; if (spin) spin.style.display = 'none'; };
 
         // Tint the Open Link button with the card's color. Solid swatch colors
         // keep white text; an uncolored card resets to the CSS green.
@@ -3728,6 +3793,7 @@ const HTML_CONTENT = `
         paintLogoBox(document.getElementById('logo-visual'));
         const fav = document.getElementById('favicon-link');
         if (fav) fav.href = logoState.url ? logoSrcForUrl() : faviconForPreset();
+        try { localStorage.setItem('logo_cache', JSON.stringify({ s: logoState, f: fav ? fav.href : '' })); } catch (e) {}
         const nameEl = document.getElementById('site-name');
         if (nameEl) nameEl.textContent = logoState.name || 'RENVDER NAV';
         const preview = document.getElementById('logo-preview');
