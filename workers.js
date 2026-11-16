@@ -291,6 +291,7 @@ const HTML_CONTENT = `
             border-color: #818cf8;
             box-shadow: 0 0 0 3px rgba(129,140,248,.4);
         }
+        #color-picker { flex-wrap: wrap; }
         /* Logo customization (v25): preset gallery tiles + selected ring. */
         .logo-preset {
             width: 46px;
@@ -322,6 +323,14 @@ const HTML_CONTENT = `
         .card-c-rose:hover { border-color: rgba(225,29,72,.33); }
         .card-c-slate { background-image: linear-gradient(135deg, rgba(100,116,139,.14), rgba(100,116,139,.05) 45%, rgba(100,116,139,0) 78%); }
         .card-c-slate:hover { border-color: rgba(100,116,139,.35); }
+        .card-c-cyan { background-image: linear-gradient(135deg, rgba(8,145,178,.12), rgba(8,145,178,.04) 45%, rgba(8,145,178,0) 78%); }
+        .card-c-cyan:hover { border-color: rgba(8,145,178,.35); }
+        .card-c-indigo { background-image: linear-gradient(135deg, rgba(79,70,229,.12), rgba(79,70,229,.04) 45%, rgba(79,70,229,0) 78%); }
+        .card-c-indigo:hover { border-color: rgba(79,70,229,.35); }
+        .card-c-fuchsia { background-image: linear-gradient(135deg, rgba(192,38,211,.11), rgba(192,38,211,.035) 45%, rgba(192,38,211,0) 78%); }
+        .card-c-fuchsia:hover { border-color: rgba(192,38,211,.35); }
+        .card-c-orange { background-image: linear-gradient(135deg, rgba(234,88,12,.12), rgba(234,88,12,.04) 45%, rgba(234,88,12,0) 78%); }
+        .card-c-orange:hover { border-color: rgba(234,88,12,.35); }
         html.dark .card-c-violet { background-image: linear-gradient(135deg, rgba(167,139,250,.16), rgba(167,139,250,.05) 45%, rgba(167,139,250,0) 78%); }
         html.dark .card-c-violet:hover { border-color: rgba(167,139,250,.45); }
         html.dark .card-c-emerald { background-image: linear-gradient(135deg, rgba(52,211,153,.14), rgba(52,211,153,.045) 45%, rgba(52,211,153,0) 78%); }
@@ -334,6 +343,14 @@ const HTML_CONTENT = `
         html.dark .card-c-rose:hover { border-color: rgba(253,164,175,.42); }
         html.dark .card-c-slate { background-image: linear-gradient(135deg, rgba(148,163,184,.15), rgba(148,163,184,.05) 45%, rgba(148,163,184,0) 78%); }
         html.dark .card-c-slate:hover { border-color: rgba(148,163,184,.45); }
+        html.dark .card-c-cyan { background-image: linear-gradient(135deg, rgba(34,211,238,.14), rgba(34,211,238,.045) 45%, rgba(34,211,238,0) 78%); }
+        html.dark .card-c-cyan:hover { border-color: rgba(34,211,238,.45); }
+        html.dark .card-c-indigo { background-image: linear-gradient(135deg, rgba(129,140,248,.15), rgba(129,140,248,.045) 45%, rgba(129,140,248,0) 78%); }
+        html.dark .card-c-indigo:hover { border-color: rgba(129,140,248,.45); }
+        html.dark .card-c-fuchsia { background-image: linear-gradient(135deg, rgba(232,121,249,.13), rgba(232,121,249,.04) 45%, rgba(232,121,249,0) 78%); }
+        html.dark .card-c-fuchsia:hover { border-color: rgba(232,121,249,.45); }
+        html.dark .card-c-orange { background-image: linear-gradient(135deg, rgba(251,146,60,.13), rgba(251,146,60,.04) 45%, rgba(251,146,60,0) 78%); }
+        html.dark .card-c-orange:hover { border-color: rgba(251,146,60,.45); }
         .card-sub { color: #64748b; }
         html.dark .card-sub { color: #94a3b8; }
         .card-c-violet .card-sub { color: #7c3aed; }
@@ -348,10 +365,18 @@ const HTML_CONTENT = `
         html.dark .card-c-rose .card-sub { color: #fb7185; }
         .card-c-slate .card-sub { color: #475569; }
         html.dark .card-c-slate .card-sub { color: #cbd5e1; }
+        .card-c-cyan .card-sub { color: #0e7490; }
+        html.dark .card-c-cyan .card-sub { color: #22d3ee; }
+        .card-c-indigo .card-sub { color: #4338ca; }
+        html.dark .card-c-indigo .card-sub { color: #818cf8; }
+        .card-c-fuchsia .card-sub { color: #a210cc; }
+        html.dark .card-c-fuchsia .card-sub { color: #e879f9; }
+        .card-c-orange .card-sub { color: #c2410c; }
+        html.dark .card-c-orange .card-sub { color: #fb923c; }
         .icon-bg { background: linear-gradient(135deg,#8b5cf6,#7c3aed); }
         html.dark .icon-bg { background: #0f172a; }
-        .icon-bg-app { background: linear-gradient(135deg,#8b5cf6,#7c3aed); }
-        html.dark .icon-bg-app { background: #475569; }
+        .icon-bg-app { background: linear-gradient(135deg,#f5f3ff,#e6dff9); border: 1px solid rgba(124,58,237,.32); }
+        html.dark .icon-bg-app { background: linear-gradient(135deg,#3b2b5e,#241540); border: 1px solid rgba(168,85,247,.38); }
         /* Phase 2: language capsule (EN | label) in the top nav. */
         .lang-capsule {
             display: flex; align-items: center;
@@ -494,6 +519,16 @@ const HTML_CONTENT = `
             flex-shrink: 0;
         }
         /* ================ End Cyberpunk Terminal Theme ================ */
+        /* JS-generated Tailwind arbitrary classes are not in the precompiled bundle: hand-written equivalents */
+        .card-anim { transition: transform .3s cubic-bezier(.25,.8,.25,1), box-shadow .3s cubic-bezier(.25,.8,.25,1), border-color .3s cubic-bezier(.25,.8,.25,1); }
+        .card-desc { font-size: 11px; }
+        @media (max-width:767px) {
+            /* mobile portrait cards have less horizontal room: shrink card text */
+            .card-container .card-title { font-size: 12px; }
+            .card-container .card-sub { font-size: 10px; }
+            .card-container .card-desc { font-size: 10px; }
+        }
+        .mask-gradient { -webkit-mask-image: linear-gradient(to right, #000 90%, transparent); mask-image: linear-gradient(to right, #000 90%, transparent); }
     </style>
     <style id="group-panel-style">
         /* v19: panel-to-panel gap 56px -> 48px (Frost: slightly too large); first panel stays 16px. */
@@ -713,11 +748,11 @@ const HTML_CONTENT = `
                                             <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-emerald-500"></div>
                                         </label>
                                     </div>
-                                    <div id="lang2-setting-row" class="px-3 py-2 flex items-center gap-3 text-sm text-slate-700 dark:text-slate-200 hidden">
-                                        <input type="text" id="lang2-label-input" maxlength="3" class="w-14 px-2 py-1 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 text-sm outline-none text-center dark:text-white" placeholder="漢">
+                                    <div id="langs-setting-row" class="px-3 py-2 flex items-center justify-between gap-3 text-sm text-slate-700 dark:text-slate-200">
+                                        <label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" id="lang-en-check" style="accent-color:#10b981"><span>EN</span></label><label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" id="lang-zh-check" style="accent-color:#10b981"><span>漢</span></label>
                                         <span class="flex items-center gap-3">
                                             <svg class="w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3"></path><path d="M9 20h6"></path><path d="M12 4v16"></path></svg>
-                                            Second Language Label
+                                            Language
                                         </span>
                                     </div>
                                     <div class="h-px bg-slate-100 dark:bg-slate-700/50 mx-1 my-1"></div>
@@ -771,55 +806,61 @@ const HTML_CONTENT = `
                 Edit Info
             </h3>
             <div class="space-y-4 custom-scrollbar">
-                <div>
+                <div id="name-field">
                     <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Name <span class="text-red-500">*</span></label>
                     <input type="text" id="name-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Site name">
                 </div>
-                <div>
+                <div id="sub-en-field">
                     <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Subtitle (EN)</label>
                     <input type="text" id="sub-en-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Optional — shown as the card's second line">
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Subtitle (漢)</label>
+                <div id="name-zh-field">
+                    <label id="name-zh-label" class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Subtitle (漢)</label>
                     <input type="text" id="name-zh-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="可選 — 繁體副標題">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">URL <span class="text-red-500">*</span></label>
                     <input type="text" id="url-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="https://...">
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Short Intro (EN)</label>
-                    <input type="text" id="intro-en-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Optional — short intro shown on the card">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Short Intro (漢)</label>
-                    <input type="text" id="intro-zh-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="可選 — 卡片上顯示的簡短介紹">
-                </div>
-                <div>
+                <div id="detail-field">
                     <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Description (EN)</label>
-                    <textarea id="detail-input" rows="3" style="resize:none" class="w-full px-4 py-2.5 rounded-xl leading-relaxed bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Full description shown in the popup..."></textarea>
+                    <textarea id="detail-input" rows="3" style="resize:none" class="w-full px-4 py-2.5 rounded-xl leading-relaxed bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Full description shown in the card and popup..."></textarea>
                 </div>
-                <div>
+                <div id="detail-zh-field">
                     <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Description (漢)</label>
                     <textarea id="detail-zh-input" rows="3" style="resize:none" class="w-full px-4 py-2.5 rounded-xl leading-relaxed bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Optional — Chinese description"></textarea>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Button Label</label>
+                <div id="btn-label-field">
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Button Label (EN)</label>
                     <input type="text" id="btn-label-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Open Link">
+                </div>
+                <div id="btn-label-zh-field">
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Button Label (漢)</label>
+                    <input type="text" id="btn-label-zh-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Open Link">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Icon URL</label>
                     <input type="text" id="icon-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Leave blank to auto-fetch">
                 </div>
-                <div>
+                <div id="group-field">
                     <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Group</label>
                     <input type="text" id="group-input" list="group-datalist" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Optional — leave blank for no group">
                     <datalist id="group-datalist"></datalist>
                 </div>
-                <div>
+                <div id="group-zh-field">
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Group (漢)</label>
+                    <input type="text" id="group-zh-input" list="group-zh-datalist" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Optional — Chinese name">
+                    <datalist id="group-zh-datalist"></datalist>
+                </div>
+                <div id="tag-field">
                     <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Tag</label>
                     <input type="text" id="tag-input" list="tag-datalist" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Optional — leave blank for no tag">
                     <datalist id="tag-datalist"></datalist>
+                </div>
+                <div id="tag-zh-field">
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Tag (漢)</label>
+                    <input type="text" id="tag-zh-input" list="tag-zh-datalist" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Optional — Chinese name">
+                    <datalist id="tag-zh-datalist"></datalist>
                 </div>
 
                 <!-- Custom Category Dropdown -->
@@ -836,6 +877,11 @@ const HTML_CONTENT = `
                     </div>
                 </div>
 
+                <div id="category-zh-field">
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Category (漢)</label>
+                    <input type="text" id="category-zh-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Optional — Chinese name">
+                </div>
+
                 <div class="flex items-center gap-2 pt-2">
                     <input type="checkbox" id="private-checkbox" class="w-5 h-5 text-emerald-500 rounded focus:ring-emerald-500 border-gray-300 bg-gray-100">
                     <label for="private-checkbox" class="text-sm text-slate-600 dark:text-slate-300 font-medium">Set as private link (visible only when logged in)</label>
@@ -850,6 +896,10 @@ const HTML_CONTENT = `
                         <button type="button" class="color-swatch" data-color="amber" title="Amber" style="background:linear-gradient(135deg,#fbbf24,#d97706)"></button>
                         <button type="button" class="color-swatch" data-color="rose" title="Rose" style="background:linear-gradient(135deg,#fb7185,#be123c)"></button>
                         <button type="button" class="color-swatch" data-color="slate" title="Slate" style="background:linear-gradient(135deg,#94a3b8,#475569)"></button>
+                        <button type="button" class="color-swatch" data-color="cyan" title="Cyan" style="background:linear-gradient(135deg,#22d3ee,#0891b2)"></button>
+                        <button type="button" class="color-swatch" data-color="indigo" title="Indigo" style="background:linear-gradient(135deg,#818cf8,#4f46e5)"></button>
+                        <button type="button" class="color-swatch" data-color="fuchsia" title="Fuchsia" style="background:linear-gradient(135deg,#e879f9,#c026d3)"></button>
+                        <button type="button" class="color-swatch" data-color="orange" title="Orange" style="background:linear-gradient(135deg,#fb923c,#ea580c)"></button>
                     </div>
                 </div>
             </div>
@@ -1205,7 +1255,7 @@ const HTML_CONTENT = `
 
     // Search engine icon mapping (SVG paths)
     const searchEngineIcons = {
-        site:   '<svg width="16" height="16" fill="#FFD700" stroke="#FFD700" viewBox="0 0 24 24"><path fill="#FFD700" stroke="#FFD700" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>',
+        site:   '<svg width="16" height="16" fill="#FFD700" stroke="#FFD700" viewBox="0 0 24 24"><path fill="#FFD700" stroke="#FFD700" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>',
         duckduckgo: '<svg width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#DE5833"/><ellipse cx="10.5" cy="14.3" rx="5.2" ry="4.1" fill="#fff"/><circle cx="15" cy="9" r="3.3" fill="#fff"/><path d="M17.9 8.4l3.1-1.1-1.5 2.9z" fill="#F4A93B"/><circle cx="16" cy="8.1" r="0.75" fill="#14181c"/></svg>',
         bing:   '<svg width="16" height="16" viewBox="0 0 32 32"><path fill="#008373" d="m4.807 0l6.391 2.25v22.495l9.005-5.193l-4.411-2.073l-2.786-6.932l14.188 4.984v7.245L11.204 32l-6.396-3.563z"/></svg>',
         google: '<svg width="16" height="16" viewBox="0 0 256 262"><path fill="#4285F4" d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622l38.755 30.023l2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"/><path fill="#34A853" d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055c-34.523 0-63.824-22.773-74.269-54.25l-1.531.13l-40.298 31.187l-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"/><path fill="#FBBC05" d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82c0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602z"/><path fill="#EB4335" d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0C79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"/></svg>'
@@ -1500,7 +1550,7 @@ const HTML_CONTENT = `
         } catch (error) {
             logAction(actionName + ' failed', { error: error.message });
             if (error.message !== 'Unauthorized') {
-                 await customAlert(error.message && error.message.indexOf('Failed to save') === 0 ? error.message : actionName + ' failed, please try again');
+                 await customAlert(error.message && error.message.indexOf('Failed to save') === 0 ? error.message : T('Operation failed, please try again') + ' (' + actionName + ')');
             }
         }
     }
@@ -1547,31 +1597,55 @@ const HTML_CONTENT = `
         await saveLinks();
     }
 
+    // Rename a category, bilingual-aware (v27, mirroring renameGroup). The raw
+    // key is the shared identity; the Chinese display comes from the " | "
+    // format halves, falling back to the links' categoryZh slot. Prefill is
+    // the name as displayed in the current view. Bilingual + zh view writes
+    // the links' categoryZh slot (raw key kept); bilingual + EN view renames
+    // the key and keeps the Chinese half of the " | " format; zh-only renames
+    // key and categoryZh together; en-only renames the key.
     async function editCategoryName(oldName) {
         if (!await validateTokenOrRedirect()) return;
-        const newName = await showCategoryDialog('Please enter the new category name', oldName);
-        if (!newName || newName === oldName) return;
-        if (categories[newName]) {
-            await customAlert('This name already exists');
-            return;
+        const m = langMode();
+        const shown = pickBilingual(oldName, 'c');
+        const newName = await showCategoryDialog('Please enter the new category name', shown);
+        if (!newName) return;
+        if (newName.length > 120) { await customAlert('Category name is too long (max 120 characters)'); return; }
+        const cat = categories[oldName];
+        if (!cat) return;
+        const catLinks = cat.links || [];
+        // The typed text belongs to the active view. In bilingual zh view it
+        // is the Chinese half: rewrite the " | " key's zh half, composing
+        // "zh | key" for plain keys. In bilingual EN view it is the English
+        // half (zh half kept). zh-only renames key + categoryZh together;
+        // en-only renames the key. The links' categoryZh slot is (re)written
+        // whenever a zh name was typed, so plain categories display the new
+        // name in zh view.
+        let target = newName;
+        if (m === 'both') {
+            if (LANG === 'zh') {
+                const enHalf = oldName.includes(' | ') ? oldName.split(' | ').slice(1).join(' | ').trim() : oldName;
+                target = newName + ' | ' + enHalf;
+            } else {
+                const zhHalf = oldName.includes(' | ') ? oldName.split(' | ')[0].trim() : zhNameOf('c', oldName);
+                target = zhHalf ? zhHalf + ' | ' + newName : newName;
+            }
         }
-
-        const keys = Object.keys(categories);
+        if (target === oldName) return;
+        if (categories[target]) { await customAlert('This name already exists'); return; }
         const newCategories = {};
-
-        keys.forEach(key => {
+        Object.keys(categories).forEach(key => {
             if (key === oldName) {
                 const data = categories[oldName];
-                data.links.forEach(item => item.category = newName);
-                newCategories[newName] = data;
+                data.links.forEach(item => item.category = target);
+                newCategories[target] = data;
             } else {
                 newCategories[key] = categories[key];
             }
         });
-
         Object.keys(categories).forEach(k => delete categories[k]);
         Object.assign(categories, newCategories);
-
+        if (LANG === 'zh' && m !== 'en') catLinks.forEach(l => { l.categoryZh = newName.slice(0, 60); });
         renderCategories();
         renderCategoryButtons();
         updateCategorySelect();
@@ -1580,7 +1654,7 @@ const HTML_CONTENT = `
 
     async function deleteCategory(category) {
         if (!await validateTokenOrRedirect()) return;
-        if (await customConfirm(\`Delete "\${category}" category and all its links?\`)) {
+        if (await customConfirm(T('Delete "') + category + T('" category and all its links?'))) {
             delete categories[category];
             updateCategorySelect();
             renderCategories();
@@ -1600,26 +1674,45 @@ const HTML_CONTENT = `
         }
     }
 
-    // Rename a group: the entry in the category's groups list is renamed,
-    // and so is the group field on every link in that group.
+    // Rename a group, bilingual-aware (v27). The raw key is the shared identity;
+    // the Chinese display name lives in the links' groupZh slot. Bilingual + EN
+    // view renames the raw key only (Chinese slot untouched); bilingual + 漢 view
+    // renames the Chinese slot only (raw key untouched); zh-only renames both
+    // (there the raw key IS the name); en-only renames the raw key. Prefill is
+    // the name as currently displayed, so the dialog shows what the user sees.
     async function renameGroup(category, oldName) {
         if (!await validateTokenOrRedirect()) return;
-        const newName = await showCategoryDialog('Rename group', oldName);
+        const m = langMode();
+        const shown = (m === 'en') ? oldName : pickBilingual(oldName, 'g');
+        const newName = await showCategoryDialog('Rename group', shown);
         if (newName === null || newName === undefined) return;
         if (!newName) { await customAlert('Group name cannot be empty'); return; }
-        if (newName === oldName) return;
         if (newName.length > 120) { await customAlert('Group name is too long (max 120 characters)'); return; }
+        const cat = categories[category];
+        if (!cat) return;
+        const groupLinks = (cat.links || []).filter(l => (l.group || '') === oldName);
+        if (m === 'both' && LANG === 'zh' && groupLinks.length) {
+            if (newName === shown) return;
+            if (groupNamesOf(category).some(g => pickBilingual(g, 'g') === newName)) {
+                await customAlert('A group with this name already exists in this category');
+                return;
+            }
+            groupLinks.forEach(l => { l.groupZh = newName.slice(0, 60); });
+            renderCategoryGrid(category);
+            await saveLinks();
+            return;
+        }
+        if (newName === oldName) return;
         if (groupNamesOf(category).includes(newName)) {
             await customAlert('A group with this name already exists in this category');
             return;
         }
-        const cat = categories[category];
-        if (!cat) return;
         if (Array.isArray(cat.groups)) {
             const i = cat.groups.indexOf(oldName);
             if (i !== -1) cat.groups[i] = newName;
         }
         (cat.links || []).forEach(l => { if ((l.group || '') === oldName) l.group = newName; });
+        if (m === 'zh') groupLinks.forEach(l => { l.groupZh = newName.slice(0, 60); });
         renderCategoryGrid(category);
         await saveLinks();
     }
@@ -1628,14 +1721,14 @@ const HTML_CONTENT = `
     // links become ungrouped, they are NOT deleted.
     async function deleteGroup(category, groupName) {
         if (!await validateTokenOrRedirect()) return;
-        if (!await customConfirm('Delete group "' + groupName + '"? Its links will become ungrouped, not deleted.')) return;
+        if (!await customConfirm(T('Delete group "') + groupName + T('"? Its links will become ungrouped, not deleted.'))) return;
         const cat = categories[category];
         if (!cat) return;
         if (Array.isArray(cat.groups)) {
             const i = cat.groups.indexOf(groupName);
             if (i !== -1) cat.groups.splice(i, 1);
         }
-        (cat.links || []).forEach(l => { if ((l.group || '') === groupName) l.group = ''; });
+        (cat.links || []).forEach(l => { if ((l.group || '') === groupName) { l.group = ''; l.groupZh = ''; } });
         renderCategoryGrid(category);
         await saveLinks();
     }
@@ -1698,14 +1791,22 @@ const HTML_CONTENT = `
             const normCat = toSimplified(category).toLowerCase();
             // Category name containment counts as a match for every link in it,
             // e.g. searching "压缩" finds all links under a "压缩工具" category.
-            const catMatch = lowerQuery.includes(normCat) || normCat.includes(lowerQuery);
+            const catZh = toSimplified(catZhOf(category)).toLowerCase();
+            const catMatch = langMode() === 'zh'
+                ? (catZh && (lowerQuery.includes(catZh) || catZh.includes(lowerQuery)))
+                : langMode() === 'en'
+                ? (lowerQuery.includes(normCat) || normCat.includes(lowerQuery))
+                : (lowerQuery.includes(normCat) || normCat.includes(lowerQuery) || (catZh && (lowerQuery.includes(catZh) || catZh.includes(lowerQuery))));
             const matchedLinks = (categoryData.links || []).filter(link => {
-                const nameMatch = link.name && toSimplified(link.name).toLowerCase().includes(lowerQuery);
-                const tipsMatch = link.tips && toSimplified(link.tips).toLowerCase().includes(lowerQuery);
-                const urlMatch = link.url && link.url.toLowerCase().includes(lowerQuery);
-                const groupMatch = link.group && toSimplified(link.group).toLowerCase().includes(lowerQuery);
-                const tagMatch = link.tag && toSimplified(link.tag).toLowerCase().includes(lowerQuery);
-                return catMatch || nameMatch || tipsMatch || urlMatch || groupMatch || tagMatch;
+                const m = langMode();
+                // single-language mode matches only that language's slots, so
+                // hidden-language content cannot surface invisible cards.
+                const fields = [];
+                if (m === 'zh') fields.push(link.nameZh, link.name, link.detailZh, link.groupZh, link.tagZh);
+                else if (m === 'en') fields.push(link.name, link.subEn, link.detail, link.tips, link.group, link.tag);
+                else fields.push(link.name, link.subEn, link.nameZh, link.detail, link.detailZh, link.tips, link.group, link.groupZh, link.tag, link.tagZh);
+                const hay = toSimplified(fields.filter(f => typeof f === 'string').join('\\n')).toLowerCase();
+                return catMatch || hay.includes(lowerQuery) || (link.url && link.url.toLowerCase().includes(lowerQuery));
             });
             if (matchedLinks.length > 0) {
                 result[category] = { ...categoryData, links: matchedLinks };
@@ -1788,9 +1889,11 @@ const HTML_CONTENT = `
         addCardPlaceholder.onclick = () => {
              showAddDialog();
              document.getElementById('category-select-value').value = category;
-             document.getElementById('category-select-text').textContent = T(category);
-             document.getElementById('group-input').value = group;
-             updateGroupDatalist(category);
+             document.getElementById('category-select-text').textContent = pickBilingual(category, 'c');
+             document.getElementById('group-input').value = langMode() === 'zh' ? '' : group;
+             document.getElementById('group-zh-input').value = langMode() === 'zh' ? group : zhNameOf('g', group);
+              document.getElementById('category-zh-input').value = catZhOf(category);
+              updateGroupDatalist(category);
              updateTagDatalist(category);
         };
         return addCardPlaceholder;
@@ -1873,7 +1976,7 @@ const HTML_CONTENT = `
         allTags.forEach(tag => {
             const pill = document.createElement('button');
             pill.type = 'button';
-            pill.textContent = (tag === 'All') ? T('All') : tag;
+            pill.textContent = (tag === 'All') ? T('All') : pickBilingual(tag, 't');
             pill.dataset.filter = tag;
             pill.onclick = () => {
                 activeFilter = (activeFilter === tag) ? 'All' : tag;
@@ -1922,13 +2025,14 @@ const HTML_CONTENT = `
 
                 const nameEl = document.createElement('span');
                 nameEl.className = 'text-sm font-semibold text-slate-500 dark:text-slate-400';
-                nameEl.textContent = group;
+                nameEl.textContent = pickBilingual(group, 'g');
                 header.appendChild(nameEl);
 
                 if (isEditMode) {
                     const btnBase = 'w-7 h-7 flex items-center justify-center rounded-lg transition-all duration-200 hover:scale-105 active:scale-95';
                     const btnWrap = document.createElement('div');
                     btnWrap.className = 'flex items-center gap-0.5 ml-1';
+                    btnWrap.style.gap = '2px'; btnWrap.style.marginLeft = '4px';
                     btnWrap.innerHTML = \`
                         <button class="\${btnBase} text-slate-400 hover:text-blue-600 hover:bg-blue-100 dark:text-slate-500 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 has-tooltip" data-tooltip="Rename group" data-action="rename-group" data-category="\${escAttr(category)}" data-group="\${escAttr(group)}">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
@@ -1995,10 +2099,10 @@ const HTML_CONTENT = `
             titleContainer.className = 'flex items-center gap-3 mb-5 pb-2 border-b border-slate-200/60 dark:border-slate-700/60';
 
             const title = document.createElement('h2');
-            title.className = 'text-lg font-bold text-slate-700 dark:text-slate-100 flex items-center gap-2';
+            title.className = 'section-title text-lg font-bold text-slate-700 dark:text-slate-100 flex items-center gap-2';
             const badge = document.createElement('span');
             badge.className = 'w-1.5 h-5 bg-emerald-500 rounded-full inline-block shadow-sm';
-            title.append(badge, ' ' + category);
+            title.append(badge, ' ' + pickBilingual(category, 'c'));
             titleContainer.appendChild(title);
 
             // Title bar actions in edit mode
@@ -2067,6 +2171,7 @@ const HTML_CONTENT = `
             if (isEditMode && !searchMode) {
                 const newGroupBtn = document.createElement('button');
                 newGroupBtn.className = 'new-group-button w-full mt-6 py-4 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:border-emerald-500 hover:text-emerald-600 dark:hover:border-emerald-500 dark:hover:text-emerald-500 hover:bg-emerald-50/50 dark:hover:bg-slate-800/50 transition-all flex items-center justify-center gap-2 group';
+                newGroupBtn.style.marginTop = '1.5rem';
                 newGroupBtn.innerHTML = \`
                     <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/30 flex items-center justify-center transition-colors pointer-events-none">
                         <svg class="w-5 h-5 text-slate-400 group-hover:text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
@@ -2118,7 +2223,7 @@ const HTML_CONTENT = `
             btn.className = 'category-button whitespace-nowrap px-4 py-1.5 text-xs font-medium rounded-xl border border-slate-300 dark:border-slate-600 transition-all active:scale-95 shadow-sm scroll-snap-align-start';
             btn.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300', 'hover:bg-emerald-50', 'hover:text-emerald-600', 'dark:hover:bg-slate-700', 'hover:border-emerald-300', 'dark:hover:border-emerald-500/50');
 
-            btn.textContent = T(cat);
+            btn.textContent = pickBilingual(cat, 'c');
             btn.dataset.target = cat;
             btn.onclick = () => {
                 scrollToCategory(cat);
@@ -2345,7 +2450,6 @@ const HTML_CONTENT = `
         const addCategoryContainer = document.getElementById('add-category-container');
         const dataToolsMenu = document.getElementById('data-tools-menu');
         const checkAllMenu = document.getElementById('check-all-menu');
-        const lang2Row = document.getElementById('lang2-setting-row');
 
         loginBtn.innerHTML = isLoggedIn ?
             '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> ' + T('Logout') :
@@ -2355,12 +2459,15 @@ const HTML_CONTENT = `
             loginBtn.classList.replace('text-red-500', 'text-slate-700');
             if(dataToolsMenu) dataToolsMenu.classList.remove('hidden');
             if(checkAllMenu) checkAllMenu.classList.remove('hidden');
-            if(lang2Row) lang2Row.classList.remove('hidden');
         } else {
             if(dataToolsMenu) dataToolsMenu.classList.add('hidden');
             if(checkAllMenu) checkAllMenu.classList.add('hidden');
-            if(lang2Row) lang2Row.classList.add('hidden');
         }
+
+        // Language checkboxes are admin-only: the row is not shown at all when logged out.
+        const langsRow = document.getElementById('langs-setting-row');
+        if (langsRow) langsRow.classList.toggle('hidden', !isLoggedIn);
+        updateLangSwitchUi();
 
         if (isEditMode) {
             editModeBtn.innerHTML = '<span class="text-red-500 flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>Exit Edit</span>';
@@ -2425,16 +2532,18 @@ const HTML_CONTENT = `
         const card = document.createElement('div');
 
         let cardBaseClass = isAppLayout
-            ? 'flex flex-col items-center justify-start py-1 gap-1.5 hover:z-10'
+            ? 'flex flex-col items-center justify-center py-1 gap-1.5 hover:z-10'
             : 'flex flex-col p-4 bg-white/90 dark:bg-[#170a29]/60 backdrop-blur-sm bg-white/80 border border-gray-200 dark:border-slate-700/50 hover:border-emerald-500/50 dark:hover:border-emerald-400/50 shadow-sm hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.1)] dark:shadow-none dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.4)] hover:-translate-y-1.5';
 
         if (link.isPrivate && !isAppLayout) {
             cardBaseClass += ' ring-1 ring-amber-400/40 bg-amber-50/80 dark:bg-amber-900/10 !border-amber-200 dark:!border-amber-700/50';
         }
 
-        card.className = \`group relative h-full w-full rounded-2xl transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)] cursor-pointer select-none \${cardBaseClass}\`;
+        card.className = \`group relative h-full w-full rounded-2xl card-anim transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)] cursor-pointer select-none \${cardBaseClass}\`;
 
-        if (link.color && COLOR_KEYS.includes(link.color)) {
+        // Card color tints are a list-mode feature: App layout cards stay
+        // neutral, so the icon tile never picks up the selected card color.
+        if (link.color && COLOR_KEYS.includes(link.color) && !isAppLayout) {
             card.classList.add('card-c-' + link.color);
         }
 
@@ -2446,6 +2555,7 @@ const HTML_CONTENT = `
 
         card.dataset.isPrivate = link.isPrivate;
         card.setAttribute('data-url', link.url);
+        card.setAttribute('data-name', link.name);
 
         const header = document.createElement('div');
         header.className = isAppLayout
@@ -2542,12 +2652,12 @@ const HTML_CONTENT = `
         title.textContent = link.name;
 
         const sub = cardSubtitle(link);
-        const intro = cardIntro(link);
+        const desc = cardDesc(link);
 
         const textCol = document.createElement('div');
         textCol.className = 'flex-1 flex flex-col';
         textCol.style.minWidth = '0';
-        textCol.appendChild(title);
+        if (!isAppLayout) textCol.appendChild(title);
 
         if (!isAppLayout && sub) {
             const subEl = document.createElement('div');
@@ -2557,7 +2667,7 @@ const HTML_CONTENT = `
         }
 
         header.appendChild(iconWrap);
-        header.appendChild(textCol);
+        if (!isAppLayout) header.appendChild(textCol);
 
         const statusTag = document.createElement('span');
         statusTag.className = 'card-status-tag';
@@ -2569,12 +2679,13 @@ const HTML_CONTENT = `
 
         // Card layout (v26): title + subtitle share one column beside the icon
         // (subtitle is tinted with the card's color, see .card-sub CSS), and
-        // the short intro stays the full-width gray line below it.
-        if (!isAppLayout && intro) {
-            const introEl = document.createElement('div');
-            introEl.className = 'text-xs text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed w-full relative z-10 mt-1';
-            introEl.textContent = intro;
-            card.appendChild(introEl);
+        // the detail description shows as the full-width gray line below,
+        // 11px (below the 12px subtitle), clamped to 2 lines with ellipsis.
+        if (!isAppLayout && desc) {
+            const descEl = document.createElement('div');
+            descEl.className = 'card-desc text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed w-full relative z-10 mt-1';
+            descEl.textContent = desc;
+            card.appendChild(descEl);
         }
 
         if (link.isPrivate && !isAppLayout) {
@@ -2734,10 +2845,11 @@ const HTML_CONTENT = `
         Object.keys(categories).forEach(cat => {
             const item = document.createElement('div');
             item.className = 'px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-slate-700 cursor-pointer transition-colors';
-            item.textContent = T(cat);
+            item.textContent = pickBilingual(cat, 'c');
             item.onclick = () => {
                 document.getElementById('category-select-value').value = cat;
-                document.getElementById('category-select-text').textContent = T(cat);
+                document.getElementById('category-select-text').textContent = pickBilingual(cat, 'c');
+                document.getElementById('category-zh-input').value = catZhOf(cat);
                 updateGroupDatalist(cat);
                 updateTagDatalist(cat);
                 menu.classList.add('hidden');
@@ -2758,6 +2870,19 @@ const HTML_CONTENT = `
             opt.value = g;
             dl.appendChild(opt);
         });
+        // Chinese suggestions: the groupZh values links in this category declare.
+        const dlZh = document.getElementById('group-zh-datalist');
+        if (dlZh) {
+            dlZh.innerHTML = '';
+            const cat = categories[category];
+            if (cat && Array.isArray(cat.links)) {
+                [...new Set(cat.links.map(l => l.groupZh).filter(Boolean))].forEach(g => {
+                    const opt = document.createElement('option');
+                    opt.value = g;
+                    dlZh.appendChild(opt);
+                });
+            }
+        }
     }
 
     // Refresh the Tag field's suggestions from the selected category's existing tags
@@ -2772,6 +2897,16 @@ const HTML_CONTENT = `
             opt.value = t;
             dl.appendChild(opt);
         });
+        // Chinese suggestions: the tagZh values links in this category declare.
+        const dlZh = document.getElementById('tag-zh-datalist');
+        if (dlZh) {
+            dlZh.innerHTML = '';
+            [...new Set(cat.links.map(l => l.tagZh).filter(Boolean))].forEach(t => {
+                const opt = document.createElement('option');
+                opt.value = t;
+                dlZh.appendChild(opt);
+            });
+        }
     }
 
     // Incremental update: rebuild a single category's grids (one per group).
@@ -2791,7 +2926,7 @@ const HTML_CONTENT = `
         // Rebuild the section's filter row (its tag set may have changed).
         const pills = buildSectionFilterPills(category, section);
         if (pills) {
-            const firstBlock = section.querySelector('.group-header, .card-container');
+            const firstBlock = section.querySelector(':scope > .group-panel, :scope > .card-container');
             if (firstBlock) section.insertBefore(pills, firstBlock);
             else if (newGroupBtn) section.insertBefore(pills, newGroupBtn);
             else section.appendChild(pills);
@@ -2801,7 +2936,7 @@ const HTML_CONTENT = `
 
     async function addCard() {
         if (!await validateTokenOrRedirect()) return;
-        const name = document.getElementById('name-input').value.trim();
+        const name = langMode() === 'zh' ? document.getElementById('name-zh-input').value.trim() : document.getElementById('name-input').value.trim();
         const url = document.getElementById('url-input').value.trim();
         const category = document.getElementById('category-select-value').value;
 
@@ -2815,17 +2950,20 @@ const HTML_CONTENT = `
             tips: '',
             subEn: document.getElementById('sub-en-input').value.trim().slice(0, 120),
             nameZh: document.getElementById('name-zh-input').value.trim().slice(0, 120),
-            introEn: document.getElementById('intro-en-input').value.trim().slice(0, 160),
-            introZh: document.getElementById('intro-zh-input').value.trim().slice(0, 160),
             detail: document.getElementById('detail-input').value.trim().slice(0, 400),
             detailZh: document.getElementById('detail-zh-input').value.trim().slice(0, 400),
             btnLabel: document.getElementById('btn-label-input').value.trim().slice(0, 30),
+            btnLabelZh: document.getElementById('btn-label-zh-input').value.trim().slice(0, 30),
+            groupZh: document.getElementById('group-zh-input').value.trim().slice(0, 60),
+            tagZh: document.getElementById('tag-zh-input').value.trim().slice(0, 60),
+            categoryZh: document.getElementById('category-zh-input').value.trim().slice(0, 60),
             color: selColor,
             star: false,
             icon: document.getElementById('icon-input').value.trim(),
-            group: document.getElementById('group-input').value.trim().slice(0, 120),
-            tag: document.getElementById('tag-input').value.trim().slice(0, 30),
-            isPrivate: document.getElementById('private-checkbox').checked
+            group: langMode() === 'zh' ? document.getElementById('group-zh-input').value.trim().slice(0, 120) : document.getElementById('group-input').value.trim().slice(0, 120),
+            tag: langMode() === 'zh' ? document.getElementById('tag-zh-input').value.trim().slice(0, 30) : document.getElementById('tag-input').value.trim().slice(0, 30),
+            isPrivate: document.getElementById('private-checkbox').checked,
+            isDirect: false
         };
 
         hideAddDialog();
@@ -2863,27 +3001,38 @@ const HTML_CONTENT = `
         if (!await validateTokenOrRedirect()) return;
 
         const updatedLink = {
-            name: document.getElementById('name-input').value.trim(),
+            name: langMode() === 'zh' ? (document.getElementById('name-zh-input').value.trim() || oldLink.name) : document.getElementById('name-input').value.trim(),
             url: document.getElementById('url-input').value.trim(),
             tips: oldLink.tips,
             subEn: document.getElementById('sub-en-input').value.trim().slice(0, 120),
             nameZh: document.getElementById('name-zh-input').value.trim().slice(0, 120),
-            introEn: document.getElementById('intro-en-input').value.trim().slice(0, 160),
-            introZh: document.getElementById('intro-zh-input').value.trim().slice(0, 160),
             detail: document.getElementById('detail-input').value.trim().slice(0, 400),
             detailZh: document.getElementById('detail-zh-input').value.trim().slice(0, 400),
             btnLabel: document.getElementById('btn-label-input').value.trim().slice(0, 30),
+            btnLabelZh: document.getElementById('btn-label-zh-input').value.trim().slice(0, 30),
+            groupZh: document.getElementById('group-zh-input').value.trim().slice(0, 60),
+            tagZh: document.getElementById('tag-zh-input').value.trim().slice(0, 60),
+            categoryZh: document.getElementById('category-zh-input').value.trim().slice(0, 60),
             star: oldLink.star,
             color: selColor,
+            isDirect: !!oldLink.isDirect,
             icon: document.getElementById('icon-input').value.trim(),
-            group: document.getElementById('group-input').value.trim().slice(0, 120),
-            tag: document.getElementById('tag-input').value.trim().slice(0, 30),
+            group: langMode() === 'zh' ? (document.getElementById('group-zh-input').value.trim().slice(0, 120) || oldLink.group) : document.getElementById('group-input').value.trim().slice(0, 120),
+            tag: langMode() === 'zh' ? (document.getElementById('tag-zh-input').value.trim().slice(0, 30) || oldLink.tag) : document.getElementById('tag-input').value.trim().slice(0, 30),
             category: document.getElementById('category-select-value').value,
             isPrivate: document.getElementById('private-checkbox').checked
         };
 
         let found = false;
         let oldCategory = null;
+
+        // The name is required by the server (BAD_NAME rejects the whole save,
+        // breaking every later save): in EN/both view it has no fallback, so
+        // refuse an empty title here.
+        if (!updatedLink.name) {
+            await customAlert('Please fill in the required info (name, URL)');
+            return;
+        }
 
         // Fallback: if the form category is empty (can happen when legacy link.category is missing), fall back to oldLink's original category,
         // avoiding writing into categories[undefined]
@@ -2942,8 +3091,9 @@ const HTML_CONTENT = `
     async function removeCard(card) {
         if (!await validateTokenOrRedirect()) return;
         const url = card.getAttribute('data-url');
-        const titleEl = card.querySelector('.card-title');
-        const name = titleEl ? titleEl.textContent : '';
+        // Match by the stamped neutral name, not the displayed title: in zh
+        // view the title is nameZh, so title text can never match l.name.
+        const name = card.getAttribute('data-name') || '';
         for (const cat in categories) {
             const idx = findLinkIndex(categories[cat].links, url, name);
             if (idx !== -1) {
@@ -3270,8 +3420,7 @@ const HTML_CONTENT = `
 
     function updateCardCategory(card, newCategory) {
         const url = card.getAttribute('data-url');
-        const titleEl = card.querySelector('.card-title');
-        const name = titleEl ? titleEl.textContent : '';
+        const name = card.getAttribute('data-name') || '';
         let item = null;
         for (const cat in categories) {
              const idx = findLinkIndex(categories[cat].links, url, name);
@@ -3316,8 +3465,7 @@ const HTML_CONTENT = `
             const cards = sec.querySelectorAll('.card');
             cards.forEach(c => {
                  const url = c.getAttribute('data-url');
-                 const titleEl = c.querySelector('.card-title');
-                 const name = titleEl ? titleEl.textContent : '';
+                 const name = c.getAttribute('data-name') || '';
                  let idx = pool.findIndex(l => l.url === url && l.name === name);
                  if (idx === -1) idx = pool.findIndex(l => l.url === url);
                  if (idx !== -1) {
@@ -3335,6 +3483,18 @@ const HTML_CONTENT = `
                      newCategories[catName].links.push(original);
                  }
             });
+        });
+
+        // Links whose cards are not rendered right now (a search filter is
+        // active) must be re-appended to their own category, otherwise the
+        // rebuild below would persist the filtered subset and delete the rest.
+        pool.forEach(l => {
+            const c = l.category;
+            if (!newCategories[c]) {
+                const oc = categories[c] || {};
+                newCategories[c] = { isHidden: oc.isHidden || false, groups: (Array.isArray(oc.groups) ? oc.groups.slice() : []), links: [] };
+            }
+            newCategories[c].links.push(l);
         });
 
         Object.keys(categories).forEach(k => delete categories[k]);
@@ -3410,17 +3570,19 @@ const HTML_CONTENT = `
         document.getElementById('url-input').value = '';
         document.getElementById('sub-en-input').value = '';
         document.getElementById('name-zh-input').value = '';
-        document.getElementById('intro-en-input').value = '';
-        document.getElementById('intro-zh-input').value = '';
         document.getElementById('detail-input').value = '';
         document.getElementById('detail-zh-input').value = '';
         document.getElementById('btn-label-input').value = '';
+        document.getElementById('btn-label-zh-input').value = '';
         selColor = '';
         markColorSel();
         document.getElementById('icon-input').value = '';
         document.getElementById('private-checkbox').checked = false;
         document.getElementById('group-input').value = '';
         document.getElementById('tag-input').value = '';
+        document.getElementById('group-zh-input').value = '';
+        document.getElementById('tag-zh-input').value = '';
+        document.getElementById('category-zh-input').value = '';
         updateGroupDatalist('');
         updateTagDatalist('');
 
@@ -3441,15 +3603,15 @@ const HTML_CONTENT = `
         document.getElementById('name-input').value = link.name;
         document.getElementById('url-input').value = link.url;
         document.getElementById('sub-en-input').value = link.subEn || '';
-        document.getElementById('name-zh-input').value = link.nameZh || '';
-        // Legacy cards have no intro fields: their tips text fills the English
-        // short intro, so the card line keeps working and one edit saves all.
-        document.getElementById('intro-en-input').value = link.introEn || link.tips || '';
-        document.getElementById('intro-zh-input').value = link.introZh || '';
+        document.getElementById('name-zh-input').value = langMode() === 'zh' ? link.name : (link.nameZh || '');
         document.getElementById('detail-input').value = link.detail || '';
         document.getElementById('detail-zh-input').value = link.detailZh || '';
         document.getElementById('btn-label-input').value = link.btnLabel || '';
-        selColor = link.color || '';
+        document.getElementById('btn-label-zh-input').value = link.btnLabelZh || '';
+        document.getElementById('group-zh-input').value = link.groupZh || '';
+        document.getElementById('tag-zh-input').value = link.tagZh || '';
+        document.getElementById('category-zh-input').value = link.categoryZh || '';
+        selColor = COLOR_KEYS.includes(link.color) ? link.color : '';
         markColorSel();
         document.getElementById('icon-input').value = link.icon || '';
         document.getElementById('private-checkbox').checked = link.isPrivate;
@@ -3459,9 +3621,13 @@ const HTML_CONTENT = `
             return '';
         })();
         document.getElementById('category-select-value').value = linkCategory;
-        document.getElementById('category-select-text').textContent = linkCategory ? T(linkCategory) : T('Select a category');
+        if (!link.categoryZh) document.getElementById('category-zh-input').value = catZhOf(linkCategory);
+        document.getElementById('category-select-text').textContent = linkCategory ? pickBilingual(linkCategory, 'c') : T('Select a category');
         document.getElementById('group-input').value = link.group || '';
-        document.getElementById('tag-input').value = linkFunctionTag(link);
+        // Prefill the stored tag, not the fallback function-tag map: saving
+        // the dialog materializes whatever is in this box, so a prefilled map
+        // value would become a real stored tag on cards that never had one.
+        document.getElementById('tag-input').value = (link.tag === undefined ? '' : link.tag);
         updateGroupDatalist(linkCategory);
         updateTagDatalist(linkCategory);
 
@@ -3486,15 +3652,31 @@ const HTML_CONTENT = `
     // whose tab shows the user-defined label (default 漢, editable in Settings).
     // Preference persists only with Remember Settings; missing/invalid falls back to en.
     const LANG_KEY = 'langPref';
-    const LANG2_LABEL_KEY = 'lang2_label';
-    const LANG2_DEFAULT_LABEL = '漢';
-    let LANG = (localStorage.getItem('savePreferences') === 'true' && localStorage.getItem(LANG_KEY) === 'zh') ? 'zh' : 'en';
+    // Language coverage (v27): which languages the site contains. Device-local
+    // (localStorage only), default zh-only. Both checked = bilingual UI with the
+    // switch visible; one language alone hides the desktop capsule, dims the
+    // mobile settings row to a dark inoperable state, and shows only that
+    // language's editor fields. 漢 is fixed text — the custom label feature is
+    // removed. The last checked language can never be unchecked.
+    const LANGS_KEY = 'langs';
+    let LANGS = (() => {
+        try {
+            const v = JSON.parse(localStorage.getItem(LANGS_KEY) || 'null');
+            if (v && typeof v.en === 'boolean' && typeof v.zh === 'boolean' && (v.en || v.zh)) return v;
+        } catch (e) {}
+        return { en: false, zh: true };
+    })();
+    function langMode() { return LANGS.en && LANGS.zh ? 'both' : (LANGS.zh ? 'zh' : 'en'); }
+    function forcedLang() { const m = langMode(); return m === 'both' ? null : m; }
+    let LANG = forcedLang() || ((localStorage.getItem('savePreferences') === 'true' && localStorage.getItem(LANG_KEY) === 'zh') ? 'zh' : 'en');
 
     // UI vocabulary table (exact English string -> zh). Covers static chrome,
     // JS-built menus/statuses, placeholders and data-tooltip values.
     const VOCAB = {
         'Settings': '設定',
         'Edit Mode': '編輯模式',
+        'Enter Edit Mode': '進入編輯模式',
+        'Exit Edit': '退出編輯',
         'Edit Mode (login required)': '編輯模式（需登入）',
         'One-Click Check': '一鍵檢查',
         'Export Config': '匯出配置',
@@ -3502,7 +3684,6 @@ const HTML_CONTENT = `
         'APP View': 'APP 視圖',
         'Dark Mode': '深色模式',
         'Remember Settings': '記憶設置',
-        'Second Language Label': '第二語言標籤',
         'Login': '登入',
         'Logout': '登出',
         'Login / Logout': '登入／登出',
@@ -3517,6 +3698,10 @@ const HTML_CONTENT = `
         'Offline': '離線',
         '0 sites': '0 個網站',
         'Select a category': '選擇分類',
+        'Please enter a new category name': '請輸入新分類名稱',
+        'Please enter a new group name': '請輸入新分組名稱',
+        'Please enter the new category name': '請輸入新的分類名稱',
+        'Rename group': '重新命名分組',
         'Confirm Login': '確認登入',
         'Cancel': '取消',
         'Confirm': '確認',
@@ -3540,11 +3725,11 @@ const HTML_CONTENT = `
         'Subtitle (EN)': '副標題 (英)',
         'Subtitle (漢)': '副標題 (漢)',
         'URL': '網址',
-        'Short Intro (EN)': '簡短介紹 (英)',
-        'Short Intro (漢)': '簡短介紹 (漢)',
         'Description (EN)': '詳細說明 (英)',
         'Description (漢)': '詳細說明 (漢)',
-        'Button Label': '按鈕標籤',
+        'Optional — Chinese description': '可選 — 詳細說明（漢）',
+        'Button Label (EN)': '按鈕標籤 (英)',
+        'Button Label (漢)': '按鈕標籤 (漢)',
         'Icon URL': '圖標網址',
         'Group': '分組',
         'Tag': '標籤',
@@ -3559,7 +3744,11 @@ const HTML_CONTENT = `
         'Leave blank to auto-fetch': '留空以自動抓取',
         'Optional — leave blank for no group': '可選 — 留空為無分組',
         'Optional — leave blank for no tag': '可選 — 留空為無標籤',
-        'Full description shown in the popup...': '完整說明將於彈窗顯示…',
+        'Optional — Chinese name': '可選 — 中文名',
+        'Group (漢)': '分組 (漢)',
+        'Tag (漢)': '標籤 (漢)',
+        'Category (漢)': '分類 (漢)',
+        'Full description shown in the card and popup...': '完整說明將於卡片與彈窗顯示…',
         'Plain — no tint': '素色 — 不染色',
         'Violet': '紫紅',
         'Emerald': '翠綠',
@@ -3567,12 +3756,81 @@ const HTML_CONTENT = `
         'Amber': '琥珀',
         'Rose': '玫紅',
         'Slate': '灰藍',
+        'Cyan': '青綠',
+        'Indigo': '靛藍',
+        'Fuchsia': '品紅',
+        'Orange': '橘',
+        'Check liveness and latency for all sites?': '檢測全站網站的存活與延遲？',
+        'Error loading links, please refresh the page and try again': '載入連結出錯，請重新整理頁面再試一次',
+        'Your login credentials have expired, please log in again': '登入憑證已過期，請重新登入',
+        'Your session has expired, please log in again': '登入階段已過期，請重新登入',
+        'Operation failed, please try again': '操作失敗，請再試一次',
+        'This category already exists': '此分類已存在',
+        'This name already exists': '此名稱已存在',
+        'Group name cannot be empty': '分組名稱不能為空',
+        'Group name is too long (max 120 characters)': '分組名稱太長（最多 120 字元）',
+        'Category name is too long (max 120 characters)': '分類名稱太長（最多 120 字元）',
+        'A group with this name already exists in this category': '此分類已有同名分組',
+        'Delete "': '確定要刪除分類 "',
+        '" category and all its links?': '"，連同其全部連結？',
+        'This is the last category. Deleting it clears ALL data. Continue?': '這是最後一個分類，刪除它會清空全部資料。繼續？',
+        'Delete group "': '確定要刪除分組 "',
+        '"? Its links will become ungrouped, not deleted.': '"？其連結不會刪除，只是還原為未分組。',
+        'No matching sites found.': '找不到符合的網站。',
+        'Please fill in the required info (name, URL, category)': '請填寫必要資料（名稱、網址、分類）',
+        'Please fill in the required info (name, URL)': '請填寫必要資料（名稱、網址）',
+        'Add failed: ': '新增失敗：',
+        'Log out?': '登出？',
+        'Login successful': '登入成功',
+        'Login Error': '登入錯誤',
+        'Incorrect password': '密碼錯誤',
+        'Incorrect password, ': '密碼錯誤，還剩 ',
+        ' attempt(s) remaining': ' 次可試',
+        'Login is locked, please try again in ': '登入已鎖定，請在 ',
+        's before trying again': ' 秒後再試',
+        'Lockout period has ended, you can try logging in again': '鎖定時間已結束，可以再試登入',
+        'Export data?': '匯出資料？',
+        'Export failed': '匯出失敗',
+        'Import data?This will overwrite existing data!': '匯入資料？這會覆蓋現有的全部資料！',
+        'Data imported successfully!': '資料匯入成功！',
+        'Invalid file format, please check the file content!': '檔案格式不對，請檢查檔案內容！',
+        'Data import failed, please try again!': '資料匯入失敗，請再試一次！',
     };
     function T(s) { return (LANG === 'zh' && VOCAB[s]) ? VOCAB[s] : s; }
-    function lang2Label() {
-        const v = (localStorage.getItem(LANG2_LABEL_KEY) || '').trim();
-        return v || LANG2_DEFAULT_LABEL;
+    // Bilingual display names for shared names (category / group / tag).
+    // Two sources: the user's "中文 | English" format (zh = left half, en =
+    // right half), and the per-card (漢) fields — for a raw name, the first
+    // card in data order that filled that field supplies the Chinese name.
+    function zhNameOf(kind, raw) {
+        for (const c in categories) {
+            const links = categories[c].links || [];
+            for (let i = 0; i < links.length; i++) {
+                const l = links[i];
+                if (kind === 'c' && c === raw && l.categoryZh) return l.categoryZh;
+                if (kind === 'g' && l.group === raw && l.groupZh) return l.groupZh;
+                if (kind === 't' && l.tag === raw && l.tagZh) return l.tagZh;
+            }
+        }
+        return '';
     }
+    function pickBilingual(s, kind) {
+        const parts = String(s).split(' | ');
+        if (parts.length >= 2) return LANG === 'zh' ? parts[0] : parts.slice(1).join(' | ');
+        if (LANG !== 'zh') return s;
+        return zhNameOf(kind, s) || s;
+    }
+    // (漢)-box prefill for a category name: the " | " format left half, else
+    // the scan of cards' categoryZh. The dropdown selection, the "+" tile and
+    // the edit dialog all prefill through this, so the 漢 box never lags
+    // behind the selected category (save writes it to the card's own slot).
+    function catZhOf(cat) {
+        if (!cat) return '';
+        const parts = String(cat).split(' | ');
+        if (parts.length >= 2) return parts[0].trim();
+        return zhNameOf('c', cat);
+    }
+    // lang2Label removed: the custom second-language label feature is dropped (v27),
+// the 漢 tab is fixed text.
 
     // Originals cache keyed by text node / element, so switching back to en
     // restores exactly what was rendered. Nodes are collected lazily on each pass.
@@ -3585,7 +3843,7 @@ const HTML_CONTENT = `
                 if (!node.textContent.trim()) return NodeFilter.FILTER_SKIP;
                 // Render-time T() already localizes these; letting the walker
                 // cache them would poison the en restore with zh text.
-                if (p.closest('.filter-pills') || p.closest('#category-buttons-container') || p.closest('#category-select-text') || p.closest('#site-name')) return NodeFilter.FILTER_SKIP;
+                if (p.closest('.filter-pills') || p.closest('#category-buttons-container') || p.closest('#category-select-text') || p.closest('#site-name') || p.closest('.section-title') || p.closest('.group-header') || p.closest('#category-select-menu') || p.closest('#name-zh-label')) return NodeFilter.FILTER_SKIP;
                 return NodeFilter.FILTER_ACCEPT;
             }
         });
@@ -3615,18 +3873,23 @@ const HTML_CONTENT = `
         document.querySelectorAll('.lang-capsule .lang-seg').forEach(b => {
             b.classList.toggle('active', b.dataset.lang === LANG);
         });
-        const seg2 = document.getElementById('lang-seg-2');
-        if (seg2) seg2.textContent = lang2Label();
-        const seg2b = document.getElementById('lang-seg-2b');
-        if (seg2b) seg2b.textContent = lang2Label();
     }
     function setLang(lang) {
         if (lang !== 'en' && lang !== 'zh') return;
+        if (forcedLang()) return; // single-language mode: the switch is not operable
         LANG = lang;
         if (localStorage.getItem('savePreferences') === 'true') localStorage.setItem(LANG_KEY, lang);
+        refreshLangRender();
+    }
+    function refreshLangRender() {
         updateLangCapsule();
         renderSearchEngineMenu();
         renderCategoryButtons();
+        // The category dropdown text is JS-localized (walk skips it), so it
+        // needs this explicit refresh; the menu list is rebuilt the same way.
+        const csel = document.getElementById('category-select-value').value;
+        document.getElementById('category-select-text').textContent = csel ? pickBilingual(csel, 'c') : T('Select a category');
+        updateCategorySelect();
         const q = document.getElementById('search-input').value.trim();
         // Lock the spy BEFORE re-rendering: renderCategorySections ends by
         // re-arming setupScrollSpy, whose immediate first pass runs the
@@ -3649,44 +3912,90 @@ const HTML_CONTENT = `
             if (selSec) selSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
         applyLang();
-        const lbl = document.getElementById('lang2-label-input');
-        if (lbl) lbl.value = lang2Label();
+        applyFieldVisibility();
         const overlay = document.getElementById('detail-overlay');
         if (currentDetailLink && overlay && !overlay.classList.contains('hidden')) showDetailPopup(currentDetailLink);
     }
     document.querySelectorAll('.lang-capsule .lang-seg').forEach(b => {
         b.onclick = () => setLang(b.dataset.lang);
     });
-    const lang2Input = document.getElementById('lang2-label-input');
-    if (lang2Input) {
-        lang2Input.value = lang2Label();
-        lang2Input.addEventListener('input', () => {
-            if (!isLoggedIn) return;
-            localStorage.setItem(LANG2_LABEL_KEY, lang2Input.value.trim()); // label kept as typed
-            updateLangCapsule();
+    const langEnCheck = document.getElementById('lang-en-check');
+    const langZhCheck = document.getElementById('lang-zh-check');
+    // single-language mode hides the other language's editor fields; in zh-only
+    // mode the (漢) field doubles as the card title input, so its label swaps.
+    const FIELD_LANG = { 'name-field': 'en', 'sub-en-field': 'en', 'detail-field': 'en', 'btn-label-field': 'en', 'group-field': 'en', 'tag-field': 'en',
+        'name-zh-field': 'zh', 'detail-zh-field': 'zh', 'btn-label-zh-field': 'zh', 'group-zh-field': 'zh', 'tag-zh-field': 'zh', 'category-zh-field': 'zh' };
+    function applyFieldVisibility() {
+        const m = langMode();
+        Object.keys(FIELD_LANG).forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.toggle('hidden', !LANGS[FIELD_LANG[id]]);
         });
-        lang2Input.addEventListener('click', e => e.stopPropagation()); // typing must not close the dropdown
+        const zhLabel = document.getElementById('name-zh-label');
+        if (zhLabel) zhLabel.textContent = m === 'zh' ? '標題 (漢)' : (LANG === 'zh' ? '副標題 (漢)' : 'Subtitle (漢)');
     }
+    function syncLangChecks() {
+        if (langEnCheck) langEnCheck.checked = LANGS.en;
+        if (langZhCheck) langZhCheck.checked = LANGS.zh;
+    }
+    function updateLangSwitchUi() {
+        const single = langMode() !== 'both';
+        const cap = document.getElementById('lang-capsule');
+        if (cap) cap.classList.toggle('hidden', single);
+        const row = document.getElementById('settings-lang-row');
+        if (row) {
+            if (!single) {
+                row.style.display = ''; row.style.opacity = '1'; row.style.pointerEvents = 'auto';
+            } else if (isLoggedIn) {
+                row.style.display = ''; row.style.opacity = '0.4'; row.style.pointerEvents = 'none';
+            } else {
+                row.style.display = 'none';
+            }
+        }
+    }
+    function onLangCheck() {
+        if (!isLoggedIn) { syncLangChecks(); return; } // checkboxes are admin-only
+        const next = { en: langEnCheck.checked, zh: langZhCheck.checked };
+        if (!next.en && !next.zh) { syncLangChecks(); return; } // the last checked language stays on
+        LANGS = next;
+        localStorage.setItem(LANGS_KEY, JSON.stringify(LANGS));
+        LANG = forcedLang() || LANG;
+        refreshLangRender();
+        updateLangSwitchUi();
+    }
+    if (langEnCheck) langEnCheck.onchange = onLangCheck;
+    if (langZhCheck) langZhCheck.onchange = onLangCheck;
+    syncLangChecks();
     updateLangCapsule();
+    updateLangSwitchUi();
+    applyFieldVisibility();
     if (LANG === 'zh') applyLang(); // cards render after this block, so LANG is already set
 
     // Card colors (v24): subtle gradient tints picked from editor swatches.
     // '' = plain (site default). Star feature removed; legacy star key kept.
-    const COLOR_KEYS = ['violet', 'emerald', 'sky', 'amber', 'rose', 'slate'];
+    const COLOR_KEYS = ['violet', 'emerald', 'sky', 'amber', 'rose', 'slate', 'cyan', 'indigo', 'fuchsia', 'orange'];
     let selColor = '';
     function markColorSel() {
-        document.querySelectorAll('.color-swatch').forEach(b => b.classList.toggle('sel', b.dataset.color === selColor));
+        document.querySelectorAll('#color-picker .color-swatch').forEach(b => b.classList.toggle('sel', b.dataset.color === selColor));
     }
-    document.querySelectorAll('.color-swatch').forEach(b => {
+    document.querySelectorAll('#color-picker .color-swatch').forEach(b => {
         b.onclick = () => { selColor = b.dataset.color; markColorSel(); };
     });
 
     function cardSubtitle(link) {
-        return LANG === 'zh' ? (link.nameZh || link.subEn || '') : (link.subEn || link.nameZh || '');
+        const m = langMode();
+        if (m === 'zh') return link.nameZh || ''; // zh-only: the zh subtitle stays in the subtitle slot
+        if (m === 'en') return link.subEn || '';
+        return LANG === 'zh' ? (link.nameZh || '') : (link.subEn || '');
     }
-    function cardIntro(link) {
-        // Legacy tips text counts as an English short intro.
-        return LANG === 'zh' ? (link.introZh || link.introEn || '') : (link.introEn || link.introZh || link.tips || '');
+    function cardDesc(link) {
+        // Card line = the detail description in the current language. Single-language
+        // mode shows blank when that language's content is missing; bilingual mode
+        // keeps the other language as fallback. Legacy tips stays popup-only.
+        const m = langMode();
+        if (m === 'zh') return link.detailZh || '';
+        if (m === 'en') return link.detail || '';
+        return LANG === 'zh' ? (link.detailZh || '') : (link.detail || '');
     }
 
     function showDetailPopup(link) {
@@ -3701,7 +4010,9 @@ const HTML_CONTENT = `
         subEl.textContent = sub;
         subEl.classList.toggle('hidden', !sub);
 
-        const detail = link.detail || link.detailZh || link.tips || '';
+        // Same language rule as the card line: zh picks the zh detail first,
+        // en picks English; legacy tips stays the last-resort fallback.
+        const detail = cardDesc(link);
         textEl.textContent = detail;
         textEl.classList.toggle('hidden', !detail);
 
@@ -3722,10 +4033,13 @@ const HTML_CONTENT = `
 
         // Tint the Open Link button with the card's color. Solid swatch colors
         // keep white text; an uncolored card resets to the CSS green.
-        const COLOR_BUTTON = { violet: '#7c3aed', emerald: '#059669', sky: '#0284c7', amber: '#d97706', rose: '#be123c', slate: '#475569' };
+        const COLOR_BUTTON = { violet: '#7c3aed', emerald: '#059669', sky: '#0284c7', amber: '#d97706', rose: '#be123c', slate: '#475569', cyan: '#0891b2', indigo: '#4f46e5', fuchsia: '#c026d3', orange: '#ea580c' };
         document.getElementById('detail-open-btn').style.background = COLOR_BUTTON[link.color] || '';
 
-        document.getElementById('detail-open-btn').textContent = link.btnLabel || T('Open Link');
+        // Bilingual label, same language rule as the card/popup detail:
+        // zh picks the zh label first, en picks English, default T('Open Link').
+        const btnMode = langMode();
+        document.getElementById('detail-open-btn').textContent = btnMode === 'zh' ? (link.btnLabelZh || T('Open Link')) : (link.btnLabel || T('Open Link'));
 
         toggleOverlay('detail-overlay', true);
     }
@@ -3781,7 +4095,7 @@ const HTML_CONTENT = `
         if (logoState.url) {
             box.style.background = 'transparent';
             box.className = 'w-8 h-8 flex items-center justify-center overflow-hidden text-white shadow-lg shadow-emerald-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300';
-            box.innerHTML = '<img src="' + logoSrcForUrl() + '" alt="logo" class="w-full h-full object-cover" onerror="logoRenderFail()">';
+            box.innerHTML = '<img src="' + logoSrcForUrl() + '" alt="logo" class="w-full h-full object-cover" style="object-fit:cover" onerror="logoRenderFail()">';
         } else {
             box.style.background = 'linear-gradient(135deg, ' + g[0] + ', ' + g[1] + ')';
             box.className = 'w-8 h-8 flex items-center justify-center text-white shadow-lg shadow-emerald-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300';
@@ -3802,7 +4116,7 @@ const HTML_CONTENT = `
             preview.style.borderRadius = logoState.shape === 'circle' ? '9999px' : '8px';
             preview.style.background = logoState.url ? 'transparent' : 'linear-gradient(135deg, ' + (LOGO_GRADIENTS[logoState.color] || LOGO_GRADIENTS.purple)[0] + ', ' + (LOGO_GRADIENTS[logoState.color] || LOGO_GRADIENTS.purple)[1] + ')';
             preview.innerHTML = logoState.url
-                ? '<img src="' + logoSrcForUrl() + '" alt="" class="w-full h-full object-cover" onerror="this.style.display=\\\'none\\\'">'
+                ? '<img src="' + logoSrcForUrl() + '" alt="" class="w-full h-full object-cover" style="object-fit:cover" onerror="this.style.display=\\\'none\\\'">'
                 : logoSvgMarkup(LOGO_PRESETS[logoState.preset] || LOGO_PRESETS.star, 20, 2.2);
         }
         const namePrev = document.getElementById('logo-name-preview');
@@ -3967,9 +4281,9 @@ const HTML_CONTENT = `
              } else if (res.status === 429 && data.locked) {
                  await customAlertRateLimit(data.retryAfter || 900);
              } else {
-                 var remMsg = 'Incorrect password';
+                 var remMsg = T('Incorrect password');
                  var remaining = typeof data.remaining === 'number' ? data.remaining : 0;
-                 if (remaining > 0) remMsg = 'Incorrect password, ' + remaining + ' attempt(s) remaining';
+                 if (remaining > 0) remMsg = T('Incorrect password, ') + remaining + T(' attempt(s) remaining');
                  await customAlert(remMsg);
              }
          } catch(e) { await customAlert('Login Error'); }
@@ -4030,7 +4344,7 @@ const HTML_CONTENT = `
     function showCategoryDialog(title, defaultVal = '') {
         return new Promise(resolve => {
             toggleOverlay('category-dialog', true);
-            document.getElementById('category-dialog-title').innerText = title;
+            document.getElementById('category-dialog-title').innerText = T(title);
             const input = document.getElementById('category-name-input');
             input.value = defaultVal;
             input.focus();
@@ -4050,7 +4364,7 @@ const HTML_CONTENT = `
     function customConfirm(msg) {
         return new Promise(resolve => {
             toggleOverlay('custom-confirm-overlay', true);
-            document.getElementById('custom-confirm-message').innerText = msg;
+            document.getElementById('custom-confirm-message').innerText = T(msg);
 
             const close = (val) => {
                 toggleOverlay('custom-confirm-overlay', false);
@@ -4066,7 +4380,7 @@ const HTML_CONTENT = `
     function customAlert(msg) {
         return new Promise(resolve => {
              toggleOverlay('custom-alert-overlay', true);
-             document.getElementById('custom-alert-content').innerText = msg;
+             document.getElementById('custom-alert-content').innerText = T(msg);
              document.getElementById('custom-alert-confirm').onclick = () => {
                  toggleOverlay('custom-alert-overlay', false);
                  resolve();
@@ -4080,11 +4394,11 @@ const HTML_CONTENT = `
             toggleOverlay('custom-alert-overlay', true);
             const timer = setInterval(() => {
                 if (seconds > 0) {
-                    content.innerText = 'Login is locked, please try again in ' + seconds + 's before trying again';
+                    content.innerText = T('Login is locked, please try again in ') + seconds + T('s before trying again');
                     seconds--;
                 } else {
                     clearInterval(timer);
-                    content.innerText = 'Lockout period has ended, you can try logging in again';
+                    content.innerText = T('Lockout period has ended, you can try logging in again');
                 }
             }, 1000);
             document.getElementById('custom-alert-confirm').onclick = () => {
@@ -4295,15 +4609,17 @@ const HTML_CONTENT = `
 
             const idx = raw.search(sep);
             if (idx === -1) {
-                return { name: raw, tips: raw };
+                return { name: raw.slice(0, 120), tips: raw.slice(0, 500) };
             }
 
             const name = raw.slice(0, idx).trim();
             const tips = raw.slice(idx).replace(/^[\\s|:：–—-]+/, '').trim();
 
             return {
-                name: name || raw,
-                tips: tips || raw
+                // Clamp to the server caps (MAX_NAME 120): one overlong
+                // bookmark title must not reject the entire import.
+                name: (name || raw).slice(0, 120),
+                tips: (tips || raw).slice(0, 500)
             };
         }
 
@@ -4379,7 +4695,7 @@ const HTML_CONTENT = `
                         const content = event.target.result;
                         const trimmed = content.trimStart();
                         let data;
-                        if (trimmed.startsWith('<!DOCTYPE') || /<(DL|H3)\b/i.test(trimmed)) {
+                        if (trimmed.startsWith('<!DOCTYPE') || /<(DL|H3)\\b/i.test(trimmed)) {
                             // Chrome / Edge bookmark HTML
                             data = parseBookmarks(content);
                             if (!data) throw new Error("No valid bookmarks found");
@@ -4402,7 +4718,7 @@ const HTML_CONTENT = `
                         }
                         if (!res.ok) {
                             let detail = '';
-                            try { detail = (await res.json()).error || ''; } catch {}
+                            try { const j = await res.json(); detail = j.detail || j.error || ''; } catch {}
                             throw new Error(detail ? 'Import failed: ' + detail : 'Import failed');
                         }
                         await customAlert('Data imported successfully!');
@@ -4571,7 +4887,11 @@ async function validateServerToken(authHeader, env) {
 
     const gen = await currentKeyGen(env);
 
-    if (!payload.kid || payload.kid !== gen) {
+    if (!gen) {
+        return { isValid: false, status: 503, response: { error: 'Service Unavailable', message: 'KV unavailable, try again later' } };
+    }
+
+    if (payload.kid && payload.kid !== gen) {
         return { isValid: false, status: 401, response: { error: 'Revoked', message: 'Session invalid, please log in again' } };
     }
 
@@ -4583,13 +4903,22 @@ async function currentKeyGen(env) {
     const now = Date.now();
     if (_genCache.value !== null && _genCache.expireAt > now) return _genCache.value;
     let v = null;
-    try { v = await env.CARD_ORDER.get('__keygen__', 'text'); } catch (e) { console.warn('keygen read failed', e); }
+    try { v = await env.CARD_ORDER.get('__keygen__', 'text'); }
+    catch (e) {
+        // Fail closed on KV read failure: fabricating '1' and caching it for
+        // 60s made login mint tokens with a fake kid, and bumpKeyGen would
+        // increment FROM that fake value, losing the real generation.
+        console.warn('keygen read failed', e);
+        return null;
+    }
     _genCache = { value: (v || '1'), expireAt: now + 60_000 };
     return _genCache.value;
 }
 async function bumpKeyGen(env) {
     try {
-        const gen = String(Number((await currentKeyGen(env)) || '1') + 1);
+        const cur = await currentKeyGen(env);
+        if (!cur) return null;
+        const gen = String(Number(cur) + 1);
         _genCache = { value: gen, expireAt: Date.now() + 60_000 };
         await env.CARD_ORDER.put('__keygen__', gen);
         return gen;
@@ -4608,7 +4937,12 @@ async function getDataRev(env) {
     let rev = '0';
     try {
         rev = (await env.CARD_ORDER.get('__rev__', 'text')) || '0';
-    } catch (e) { console.warn('rev read failed:', e); }
+    } catch (e) {
+        // Do NOT cache a fabricated rev: caching it would let every request
+        // in the next 60s share the fake key and serve the same stale body.
+        console.warn('rev read failed:', e);
+        return rev;
+    }
     _revCache = { value: rev, expireAt: now + 60_000 };
     return rev;
 }
@@ -4642,7 +4976,18 @@ async function sendCached(body, request, cacheKey, cacheable, extraHeaders = {})
         'Vary': 'Accept-Encoding',
     };
     const res = new Response(body, { status: 200, headers });
-    if (cacheable) ctxSafePut(cacheKey, res.clone());
+    if (cacheable) {
+        // Store a cacheable copy in the edge cache. The client response is
+        // no-store on purpose (login pollution), but storing THAT means the
+        // cache never keeps anything: store headers must allow caching.
+        const storeHeaders = {
+            'Content-Type': 'application/json',
+            ...extraHeaders,
+            'Cache-Control': 'public, max-age=60, s-maxage=60',
+            'Vary': 'Accept-Encoding',
+        };
+        ctxSafePut(cacheKey, new Response(body, { status: 200, headers: storeHeaders }));
+    }
     return res;
 }
 
@@ -4675,8 +5020,17 @@ async function readLinksKv(env) {
         console.error('KV read failed:', e);
         return { ok: false, error: 'KV_READ_FAILED' };
     }
-    const { data } = safeJsonParse(dataStr, EMPTY_DATA);
-    if (data) data.categories = normalizeCategories(data.categories || {});
+    const parsed = safeJsonParse(dataStr, null);
+    if (!parsed.data) {
+        // Stored JSON is unparseable: serving EMPTY_DATA here would show an
+        // empty page, mark the site writable, and let the empty-overwrite
+        // guard be satisfied with 0 > 0 — the repair path needs data to back
+        // up. Surface it as a KV failure instead (500, not cacheable).
+        console.error('Stored data JSON parse failed');
+        return { ok: false, error: 'KV_READ_FAILED' };
+    }
+    const data = parsed.data;
+    data.categories = normalizeCategories(data.categories || {});
     return { ok: true, data };
 }
 
@@ -4735,11 +5089,25 @@ async function fetchBestIcon(targetUrl, resize = null) {
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 6000);
     try {
-        const response = await fetch(targetUrl, {
+        // Manual redirects: re-check every hop against the denylist, same
+        // SSRF rule as safeFetchIcon.
+        const fetchOpts = {
             headers: headers,
-            redirect: 'follow',
+            redirect: 'manual',
             signal: ctrl.signal
-        });
+        };
+        let response = await fetch(targetUrl, fetchOpts);
+        let hops = 0;
+        while (response.status >= 300 && response.status < 400 && hops < 5) {
+            const loc = response.headers.get('location');
+            if (!loc) return null;
+            let next;
+            try { next = new URL(loc, targetUrl); } catch { return null; }
+            if (!ICON_SCHEME_OK.has(next.protocol) || HOST_DENY.test(next.hostname)) return null;
+            targetUrl = next.toString();
+            hops++;
+            response = await fetch(targetUrl, fetchOpts);
+        }
         if (!response.ok) return null;
 
         const candidates = [];
@@ -4810,6 +5178,194 @@ const HOST_DENY = /(^|\.)(localhost|127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01]
 // Only bitmaps are accepted; HTML/SVG/XML are never allowed through. SVG is only allowed for "trusted image hosts" (see allowSvg in safeFetchIcon)
 const ICON_CT_OK = /^image\/(png|jpeg|gif|webp|ico|x-icon|vnd\.microsoft\.icon|avif|bmp)/i;
 
+// Icon centering: favicon PNGs ship with asymmetric transparent margins, so the
+// glyph looks off-center inside the white tile. Decode the PNG, find the visible
+// glyph bounding box, re-pad it into a square canvas centered on the glyph.
+// Padding guarantees 4px transparent margin per side, so full-bleed glyphs get a
+// white ring inside the tile and never look edge-clipped.
+// Only 8-bit non-interlaced PNG is decoded; everything else passes through untouched.
+const CRC_TABLE = (() => {
+    const t = new Int32Array(256);
+    for (let n = 0; n < 256; n++) {
+        let c = n;
+        for (let k = 0; k < 8; k++) c = (c & 1) ? (0xedb88320 ^ (c >>> 1)) : (c >>> 1);
+        t[n] = c;
+    }
+    return t;
+})();
+async function streamBytes(stream) {
+    const reader = stream.getReader();
+    const chunks = [];
+    while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        chunks.push(value);
+    }
+    let total = 0;
+    for (const c of chunks) total += c.length;
+    const out = new Uint8Array(total);
+    let pos = 0;
+    for (const c of chunks) { out.set(c, pos); pos += c.length; }
+    return out;
+}
+
+function crc32(bytes) {
+    let c = 0xffffffff;
+    for (let i = 0; i < bytes.length; i++) c = CRC_TABLE[(c ^ bytes[i]) & 0xff] ^ (c >>> 8);
+    return (c ^ 0xffffffff) >>> 0;
+}
+function pngChunk(type, data) {
+    const out = new Uint8Array(12 + data.length);
+    const dv = new DataView(out.buffer);
+    dv.setUint32(0, data.length);
+    for (let i = 0; i < 4; i++) out[4 + i] = type.charCodeAt(i);
+    out.set(data, 8);
+    dv.setUint32(8 + data.length, crc32(out.subarray(4, 8 + data.length)));
+    return out;
+}
+async function pngEncode(w, h, rgba) {
+    const rows = new Uint8Array(h * (1 + w * 4));
+    for (let y = 0; y < h; y++) {
+        const rowStart = y * (1 + w * 4);
+        rows[rowStart] = 0; // filter 0
+        rows.set(rgba.subarray(y * w * 4, (y + 1) * w * 4), rowStart + 1);
+    }
+    const compressed = await streamBytes(new Response(new Blob([rows])).body
+        .pipeThrough(new CompressionStream('deflate')));
+    const ihdr = new Uint8Array(13);
+    const dv = new DataView(ihdr.buffer);
+    dv.setUint32(0, w);
+    dv.setUint32(4, h);
+    ihdr[8] = 8; ihdr[9] = 6; ihdr[10] = 0; ihdr[11] = 0; ihdr[12] = 0;
+    const parts = [
+        new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
+        pngChunk('IHDR', ihdr),
+        pngChunk('IDAT', compressed),
+        pngChunk('IEND', new Uint8Array(0)),
+    ];
+    let total = 0;
+    for (const p of parts) total += p.length;
+    const out = new Uint8Array(total);
+    let pos = 0;
+    for (const p of parts) { out.set(p, pos); pos += p.length; }
+    return out;
+}
+async function centerIconPNG(bytes) {
+    try {
+        const sig = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
+        if (!bytes || bytes.length < 24) return null;
+        for (let i = 0; i < 8; i++) if (bytes[i] !== sig[i]) return null;
+        const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+        let w = 0, h = 0, bitDepth = 0, colorType = 0, interlace = 0;
+        let plte = null, trns = null;
+        const idatParts = [];
+        let pos = 8;
+        while (pos + 12 <= bytes.length) {
+            const len = dv.getUint32(pos);
+            const type = String.fromCharCode(bytes[pos + 4], bytes[pos + 5], bytes[pos + 6], bytes[pos + 7]);
+            const dataStart = pos + 8;
+            if (len < 0 || dataStart + len > bytes.length) return null;
+            if (type === 'IHDR') {
+                w = dv.getUint32(dataStart);
+                h = dv.getUint32(dataStart + 4);
+                bitDepth = bytes[dataStart + 8];
+                colorType = bytes[dataStart + 9];
+                interlace = bytes[dataStart + 12];
+            } else if (type === 'PLTE') { plte = bytes.subarray(dataStart, dataStart + len); }
+            else if (type === 'tRNS') { trns = bytes.subarray(dataStart, dataStart + len); }
+            else if (type === 'IDAT') { idatParts.push(bytes.subarray(dataStart, dataStart + len)); }
+            else if (type === 'IEND') break;
+            pos += 12 + len;
+        }
+        if (bitDepth !== 8 || interlace !== 0) return null;
+        const chIn = colorType === 6 ? 4 : colorType === 2 ? 3 : colorType === 4 ? 2 : colorType === 3 ? 1 : 0;
+        if (!chIn) return null;
+        if (w < 16 || h < 16 || w * h > 512 * 512) return null;
+        if (colorType === 3 && !trns) return null; // palette without transparency: glyph fills canvas, nothing to center
+        const raw = await streamBytes(new Response(new Blob(idatParts.map(p => p.slice()))).body
+            .pipeThrough(new DecompressionStream('deflate')));
+        const stride = w * chIn;
+        if (raw.length < h * (stride + 1)) return null;
+        const rowsData = new Uint8Array(h * stride);
+        const bpp = chIn;
+        for (let y = 0; y < h; y++) {
+            const f = raw[y * (stride + 1)];
+            const line = raw.subarray(y * (stride + 1) + 1, y * (stride + 1) + 1 + stride);
+            const cur = rowsData.subarray(y * stride, (y + 1) * stride);
+            const prev = y > 0 ? rowsData.subarray((y - 1) * stride, y * stride) : null;
+            for (let x = 0; x < stride; x++) {
+                let v = line[x];
+                if (f === 1) { if (x >= bpp) v = (v + cur[x - bpp]) & 0xff; }
+                else if (f === 2) { if (prev) v = (v + prev[x]) & 0xff; }
+                else if (f === 3) {
+                    const a = x >= bpp ? cur[x - bpp] : 0;
+                    const b = prev ? prev[x] : 0;
+                    v = (v + ((a + b) >> 1)) & 0xff;
+                } else if (f === 4) {
+                    const a = x >= bpp ? cur[x - bpp] : 0;
+                    const b = prev ? prev[x] : 0;
+                    const c = (x >= bpp && prev) ? prev[x - bpp] : 0;
+                    const p = a + b - c;
+                    const pa = Math.abs(p - a), pb = Math.abs(p - b), pc = Math.abs(p - c);
+                    const pr = (pa <= pb && pa <= pc) ? a : (pb <= pc ? b : c);
+                    v = (v + pr) & 0xff;
+                }
+                cur[x] = v;
+            }
+        }
+        const rgba = new Uint8Array(w * h * 4);
+        for (let i = 0; i < w * h; i++) {
+            const o = i * chIn, d = i * 4;
+            if (colorType === 6) {
+                rgba[d] = rowsData[o]; rgba[d + 1] = rowsData[o + 1];
+                rgba[d + 2] = rowsData[o + 2]; rgba[d + 3] = rowsData[o + 3];
+            } else if (colorType === 2) {
+                rgba[d] = rowsData[o]; rgba[d + 1] = rowsData[o + 1]; rgba[d + 2] = rowsData[o + 2];
+                rgba[d + 3] = (trns && trns.length >= 6 && rowsData[o] === trns[1] && rowsData[o + 1] === trns[3] && rowsData[o + 2] === trns[5]) ? 0 : 255;
+            } else if (colorType === 4) {
+                const g = rowsData[o];
+                rgba[d] = g; rgba[d + 1] = g; rgba[d + 2] = g;
+                rgba[d + 3] = (trns && trns.length > i) ? trns[i] : 255;
+            } else { // palette
+                const idx = rowsData[o];
+                const p = idx * 3;
+                rgba[d] = (plte && plte.length > p + 2) ? plte[p] : 0;
+                rgba[d + 1] = (plte && plte.length > p + 2) ? plte[p + 1] : 0;
+                rgba[d + 2] = (plte && plte.length > p + 2) ? plte[p + 2] : 0;
+                rgba[d + 3] = (trns && trns.length > idx) ? trns[idx] : 255;
+            }
+        }
+        let minX = w, minY = h, maxX = -1, maxY = -1;
+        for (let y = 0; y < h; y++) {
+            for (let x = 0; x < w; x++) {
+                if (rgba[(y * w + x) * 4 + 3] > 10) {
+                    if (x < minX) minX = x;
+                    if (x > maxX) maxX = x;
+                    if (y < minY) minY = y;
+                    if (y > maxY) maxY = y;
+                }
+            }
+        }
+        if (maxX < 0) return null;
+        const bw = maxX - minX + 1, bh = maxY - minY + 1;
+        const ml = minX, mr = w - 1 - maxX, mt = minY, mb = h - 1 - maxY;
+        // Margins of at least 4px on all four sides: already centered with breathing room, pass through.
+        if (ml >= 4 && mr >= 4 && mt >= 4 && mb >= 4) return null;
+        // Otherwise re-pad: glyph gets a guaranteed 4px transparent margin per side,
+        // so a full-bleed circle (margins ~0, looks edge-clipped in the white tile) shrinks
+        // slightly and shows a clean white ring around it.
+        let side = Math.max(bw, bh) + 8;
+        if (side > 216) side = 216;
+        const ox = Math.floor((side - bw) / 2), oy = Math.floor((side - bh) / 2);
+        const canvas = new Uint8Array(side * side * 4);
+        for (let y = 0; y < bh; y++) {
+            const srcStart = ((minY + y) * w + minX) * 4;
+            canvas.set(rgba.subarray(srcStart, srcStart + bw * 4), (oy + y) * side * 4 + ox * 4);
+        }
+        return await pngEncode(side, side, canvas);
+    } catch { return null; }
+}
+
 async function safeFetchIcon(target, ms = 3500, allowSvg = false, resize = null) {
     let u;
     try { u = new URL(target); } catch { return null; }
@@ -4821,7 +5377,7 @@ async function safeFetchIcon(target, ms = 3500, allowSvg = false, resize = null)
     try {
         const fetchOpts = {
             headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' },
-            redirect: 'follow',
+            redirect: 'manual',
             signal: ctrl.signal,
         };
         // Cloudflare Image Resizing: shrink the source icon to the requested display size at the edge.
@@ -4838,13 +5394,35 @@ async function safeFetchIcon(target, ms = 3500, allowSvg = false, resize = null)
                 },
             };
         }
-        const res = await fetch(u.toString(), fetchOpts);
+        let res = await fetch(u.toString(), fetchOpts);
+        // Manual redirects: re-check every hop against the denylist. With
+        // redirect:'follow' an allowed public site can bounce the fetch to an
+        // internal/private host that the first check never sees (SSRF).
+        let hops = 0;
+        while (res.status >= 300 && res.status < 400 && hops < 5) {
+            const loc = res.headers.get('location');
+            if (!loc) return null;
+            let next;
+            try { next = new URL(loc, u); } catch { return null; }
+            if (!ICON_SCHEME_OK.has(next.protocol)) return null;
+            if (HOST_DENY.test(next.hostname)) return null;
+            u = next;
+            hops++;
+            res = await fetch(u.toString(), fetchOpts);
+        }
         if (!res.ok) return null;
         const ct = (res.headers.get('content-type') || '').toLowerCase();
         if (allowSvg) {
             if (!ICON_CT_OK.test(ct) && ct !== 'image/svg+xml') return null;
         } else if (!ICON_CT_OK.test(ct)) {
             return null;
+        }
+        if (/^image\/png/.test(ct)) {
+            try {
+                const bytes = new Uint8Array(await res.arrayBuffer());
+                const out = await centerIconPNG(bytes);
+                return new Response(out || bytes, { status: 200, headers: { 'Content-Type': 'image/png' } });
+            } catch { return null; }
         }
         return res;
     } catch (e) {
@@ -4870,16 +5448,17 @@ async function handleIconProxy(request, ctx) {
     // (a custom icon URL saved on the link), so skip the site-icon-discovery steps.
     const isDirect = url.searchParams.get('direct') === '1';
 
-    // Content negotiation: let Cloudflare re-encode to AVIF/WebP when the visitor's browser supports it.
-    const accept = request.headers.get('Accept') || '';
-    let format = null;
-    if (/image\/avif/.test(accept)) format = 'avif';
-    else if (/image\/webp/.test(accept)) format = 'webp';
+    // Centering requires decodable PNG: force Cloudflare Image Resizing to
+    // re-encode every icon to PNG, so every format gets the same centered canvas.
+    const format = 'png';
     const resize = { width, format };
 
     // The chosen size and format each get their own cache entry.
     const cacheUrl = new URL(url.toString());
-    cacheUrl.searchParams.set('_fmt', format || 'orig');
+    cacheUrl.searchParams.set('_fmt', format);
+    // Version stamp: bump when the fetch pipeline changes so stale cache entries
+    // (e.g. icons captured by the old source order) stop being served.
+    cacheUrl.searchParams.set('_v', '4');
     const cacheKey = new Request(cacheUrl.toString(), request);
     const cache = caches.default;
 
@@ -4913,19 +5492,31 @@ async function handleIconProxy(request, ctx) {
         let upstreamResponse = null;
         if (isDirect) {
             upstreamResponse = await safeFetchIcon(targetUrl, 3500, true, resize);
-        } else if (PREFER_ICON_API) {
-            const upstreamApi = `${ICON_API}${encodeURIComponent(targetUrl)}`;
-            upstreamResponse = await safeFetchIcon(upstreamApi, 3500, true, resize);
+        } else {
+            // Site's own designed icon first: HTML link discovery (apple-touch-icon
+            // etc.) is high-resolution and the site's brand icon. Then the
+            // third-party icon API (site-brand SVG cache), then the site's own
+            // favicon.ico, and last the public snapshots (s2 sz=128, DuckDuckGo
+            // ip3) that rescue anti-bot sites where every site fetch fails.
+            // Snapshots are last because they are often white-background /
+            // lower quality, and the API cache can lag a site's real logo.
+            upstreamResponse = await fetchBestIcon(targetUrl, resize);
+            if (!upstreamResponse && PREFER_ICON_API) {
+                const upstreamApi = `${ICON_API}${encodeURIComponent(targetUrl)}`;
+                upstreamResponse = await safeFetchIcon(upstreamApi, 3500, true, resize);
+            }
             if (!upstreamResponse) {
                 upstreamResponse = await safeFetchIcon(new URL('/favicon.ico', targetUrl).toString(), 3500, false, resize);
-                if (!upstreamResponse) {
-                    upstreamResponse = await fetchBestIcon(targetUrl, resize);
-                }
             }
-        } else {
-            upstreamResponse = await safeFetchIcon(new URL('/favicon.ico', targetUrl).toString(), 3500, false, resize);
             if (!upstreamResponse) {
-                upstreamResponse = await fetchBestIcon(targetUrl, resize);
+                let host = '';
+                try { host = new URL(targetUrl).hostname; } catch { host = ''; }
+                if (host) {
+                    upstreamResponse = await safeFetchIcon('https://www.google.com/s2/favicons?domain=' + host + '&sz=128', 3500, true, resize);
+                    if (!upstreamResponse) {
+                        upstreamResponse = await safeFetchIcon('https://icons.duckduckgo.com/ip3/' + host + '.ico', 3500, true, resize);
+                    }
+                }
             }
         }
         if (upstreamResponse) {
@@ -4941,12 +5532,16 @@ async function handleIconProxy(request, ctx) {
                 status: 200,
                 headers: {
                     'Content-Type': 'image/svg+xml',
-                    'Cache-Control': 'public, max-age=604800, s-maxage=604800, immutable',
+                    // Cache the globe for 1 hour only: a site that gets a real
+                    // favicon later (or a transient upstream outage) recovers
+                    // within an hour instead of serving 7-day stale globes.
+                    'Cache-Control': 'public, max-age=3600, s-maxage=3600',
                     'Access-Control-Allow-Origin': '*',
                     'X-Icon-Cache-Status': 'DEFAULT',
                     'Cross-Origin-Resource-Policy': 'same-origin',
                 },
             });
+            ctx.waitUntil(cache.put(cacheKey, response.clone()).catch(e => console.warn('icon fallback cache put failed', e)));
         }
     }
 
@@ -4969,7 +5564,7 @@ async function writeOffsiteBackup(env, payload) {
         // timer: this function only runs when a save/import happens, and
         // it writes only if 10+ minutes have passed since the last
         // offsite backup. No save = no write at all.
-        const list = await ns.list({ prefix: `backup_${DEFAULT_USER}_` });
+        const list = await ns.list({ prefix: `backup_${DEFAULT_USER}_`, includeMetadata: true });
         const keys = list.keys.sort((a, b) => a.name.localeCompare(b.name));
         if (keys.length > 0) {
             const lastMeta = keys[keys.length - 1].metadata;
@@ -4996,7 +5591,17 @@ async function backupNow(env, currentData) {
     try {
         const now = Date.now();
         const dateStr = new Date(now + 8 * 3600 * 1000).toISOString().replace(/[:.]/g, '-');
-        await env.CARD_ORDER.put(`backup_${DEFAULT_USER}_${dateStr}`, currentData, { metadata: { timestamp: now } });
+        // Unique suffix: two imports in the same second used to write the
+        // same key, silently losing one snapshot.
+        const key = `backup_${DEFAULT_USER}_${dateStr}_${(now % 100000).toString().padStart(5, '0')}_${Math.random().toString(36).slice(2, 6)}`;
+        await env.CARD_ORDER.put(key, currentData, { metadata: { timestamp: now } });
+        // Prune to the newest 10: the smart-backup prune only runs on
+        // throttled saves, so pre-overwrite snapshots must prune themselves.
+        const list = await env.CARD_ORDER.list({ prefix: `backup_${DEFAULT_USER}_` });
+        const names = list.keys.map(k => k.name).sort((a, b) => a.localeCompare(b));
+        if (names.length > 10) {
+            for (const k of names.slice(0, names.length - 10)) await env.CARD_ORDER.delete(k);
+        }
     } catch (e) {
         console.error('Pre-overwrite backup failed:', e);
     }
@@ -5004,7 +5609,7 @@ async function backupNow(env, currentData) {
 
 async function handleSmartBackup(env, currentData) {
     try {
-        const list = await env.CARD_ORDER.list({ prefix: `backup_${DEFAULT_USER}_` });
+        const list = await env.CARD_ORDER.list({ prefix: `backup_${DEFAULT_USER}_`, includeMetadata: true });
         let keys = list.keys;
 
         keys.sort((a, b) => a.name.localeCompare(b.name));
@@ -5079,6 +5684,8 @@ const MAX_CATEGORIES = 100;
 const MAX_GROUPS = 100;
 const MAX_LINKS_TOTAL = 3000;
 const MAX_NAME = 120, MAX_TIPS = 500, MAX_URL = 2048, MAX_TAG = 30;
+const MAX_SUB = 120, MAX_DETAIL = 400, MAX_BTN = 30, MAX_ZH = 60;
+const CARD_COLORS = ['violet', 'emerald', 'sky', 'amber', 'rose', 'slate', 'cyan', 'indigo', 'fuchsia', 'orange'];
 const URL_SCHEME_OK = new Set(['http:', 'https:']);
 
 function validateCategories(raw) {
@@ -5166,6 +5773,20 @@ function sanitizeCategories(raw) {
                 // untagged). Omitted for links that never had a tag, so the
                 // frontend fallback map still applies to them.
                 ...(l.tag !== undefined ? { tag: String(l.tag).slice(0, MAX_TAG) } : {}),
+                // Bilingual slots + look (v26/v27): keep every field the editor
+                // writes. Dropping them here silently destroys user content on
+                // every save (subtitles, Chinese texts, button labels, colors).
+                subEn: l.subEn ? String(l.subEn).slice(0, MAX_SUB) : '',
+                nameZh: l.nameZh ? String(l.nameZh).slice(0, MAX_SUB) : '',
+                detail: l.detail ? String(l.detail).slice(0, MAX_DETAIL) : '',
+                detailZh: l.detailZh ? String(l.detailZh).slice(0, MAX_DETAIL) : '',
+                btnLabel: l.btnLabel ? String(l.btnLabel).slice(0, MAX_BTN) : '',
+                btnLabelZh: l.btnLabelZh ? String(l.btnLabelZh).slice(0, MAX_BTN) : '',
+                groupZh: l.groupZh ? String(l.groupZh).slice(0, MAX_ZH) : '',
+                tagZh: l.tagZh ? String(l.tagZh).slice(0, MAX_ZH) : '',
+                categoryZh: l.categoryZh ? String(l.categoryZh).slice(0, MAX_ZH) : '',
+                color: CARD_COLORS.includes(l.color) ? l.color : '',
+                star: !!l.star,
             })),
         };
     }
@@ -5249,6 +5870,11 @@ export default {
             }
 
             if (url.pathname === '/api/icon') {
+                if (request.method !== 'GET' && request.method !== 'HEAD') {
+                    // Reject non-GET: HEAD is cacheable, POST/PUT bodies must
+                    // never leak into the edge cache key.
+                    return new Response(JSON.stringify({ error: 'METHOD_NOT_ALLOWED' }), { status: 405, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
+                }
                 return handleIconProxy(request, ctx);
             }
 
@@ -5304,7 +5930,12 @@ export default {
                     return new Response(JSON.stringify({ valid: false, locked: true, remaining: 0, retryAfter: waitSec }), { status: 429, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
                 }
 
-                const { password } = await request.json();
+                // readJsonBody enforces the size cap; a bare request.json()
+                // lets a huge body hit the JSON parser unbounded, and the
+                // text.length check is UTF-16 chars, not bytes.
+                const body = await readJsonBody(request, 16 * 1024);
+                if (!body.ok) return new Response(JSON.stringify({ error: body.reason }), { status: body.reason === 'TOO_LARGE' ? 413 : 400, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
+                const { password } = body.data;
                 const passwordOk = typeof password === 'string' && (await timingSafeStringEqual(password, env.ADMIN_PASSWORD));
                 if (!passwordOk) {
                     const newAttempts = attempts + 1;
@@ -5320,6 +5951,7 @@ export default {
 
                 const currentTime = Math.floor(Date.now() / 1000);
                 const kid = await currentKeyGen(env);
+                if (!kid) return new Response(JSON.stringify({ valid: false, error: 'KV unavailable, try again later' }), { status: 503, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
 
                 const accessTokenPayload = {
                     iat: currentTime,
@@ -5376,6 +6008,7 @@ export default {
                 }
 
                 const kid = await currentKeyGen(env);
+                if (!kid) return new Response(JSON.stringify({ error: 'KV unavailable, try again later' }), { status: 503, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
                 if (!payload.kid || payload.kid !== kid) {
                     return new Response(JSON.stringify({ error: 'Refresh token revoked' }), { status: 401, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
                 }
@@ -5465,7 +6098,7 @@ export default {
                 body = JSON.stringify({ categories: filterPublic(data.categories) });
                 cacheable = true;
             }
-            return sendCached(body, request, cacheKey, cacheable, { 'X-KV-Cache': 'MISS' });
+            return sendCached(body, request, cacheKey, cacheable, { 'X-KV-Cache': 'MISS', ...corsHeaders(request, env) });
         }
 
         if (url.pathname === '/api/saveData' && request.method === 'POST') {
@@ -5485,8 +6118,10 @@ export default {
 
                 // Guard: never let an empty write wipe real data (e.g. after a
                 // failed or empty load). Pass { force: true } to clear deliberately.
-                const existing = safeJsonParse(currentData, null).data;
-                const existingCount = existing ? countLinks(existing.categories) : 0;
+                const parsed = safeJsonParse(currentData, null);
+                // An unparseable stored blob must NOT count as empty: that
+                // would let an empty incoming payload overwrite it unforced.
+                const existingCount = parsed.data ? countLinks(parsed.data.categories) : -1;
                 if (countLinks(categories) === 0 && existingCount > 0 && !body.data.force) {
                     return new Response(JSON.stringify({ error: 'REFUSE_EMPTY_OVERWRITE', detail: 'incoming data is empty but stored data has ' + existingCount + ' links' }), { status: 409, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
                 }
@@ -5585,8 +6220,10 @@ export default {
                  await backupNow(env, currentData);
                  ctx.waitUntil(writeOffsiteBackup(env, currentData));
              }
-             const existing = safeJsonParse(currentData, null).data;
-             const existingCount = existing ? countLinks(existing.categories) : 0;
+             const parsed = safeJsonParse(currentData, null);
+             // Same rule as the save path: an unparseable stored blob is
+             // never a safe empty target for an empty import.
+             const existingCount = parsed.data ? countLinks(parsed.data.categories) : -1;
              if (countLinks(categories) === 0 && existingCount > 0 && !bodyObj.data.force) {
                  return new Response(JSON.stringify({ error: 'REFUSE_EMPTY_OVERWRITE', detail: 'imported data is empty but stored data has ' + existingCount + ' links' }), { status: 409, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
              }
