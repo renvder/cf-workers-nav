@@ -915,7 +915,7 @@ const HTML_CONTENT = `
     <div id="detail-overlay" class="hidden fixed inset-0 z-[70] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 overlay-hidden">
         <div id="detail-box" class="detail-box bg-white dark:bg-[#170a29] rounded-2xl w-full max-w-md p-6 transform transition-all duration-300 dialog-scale-hidden">
             <div class="flex items-start gap-4 mb-4">
-                <div class="w-12 h-12 shrink-0 rounded-xl icon-bg p-2 shadow-md overflow-hidden relative">
+                <div class="w-12 h-12 shrink-0 rounded-xl icon-bg shadow-md overflow-hidden relative" style="padding:9px">
                     <img id="detail-icon" class="w-full h-full object-contain" alt="">
                     <span id="detail-icon-spin" style="position:absolute;inset:8px;display:none;align-items:center;justify-content:center;"><span class="block icon-spinner rounded-full animate-spin" style="width:60%;height:60%;aspect-ratio:1/1;"></span></span>
                 </div>
@@ -2490,6 +2490,10 @@ const HTML_CONTENT = `
 
     const imgApi = '/api/icon?url=';
     const iconCache = new Map();
+    // The exact icon URL the browser loaded for a link (srcset picks one by
+    // screen density; all sizes return the same bytes). The popup reuses it,
+    // so opening a popup reads the browser cache instead of fetching again.
+    const iconPickedUrl = new Map();
     const iconFailed = new Set();
 
     function createIconFallback(refEl) {
@@ -2584,15 +2588,19 @@ const HTML_CONTENT = `
         let iconClass = 'relative w-full h-full opacity-0 transition duration-300';
         if (isAppLayout) {
              // APP style: large icon, white background, large corner radius, shadow
-             iconClass += ' rounded-[1.2rem] object-contain icon-bg-app p-2 shadow-md hover:shadow-lg group-hover:scale-105 group-active:scale-95 z-10';
+             iconClass += ' rounded-[1.2rem] object-contain icon-bg-app shadow-md hover:shadow-lg group-hover:scale-105 group-active:scale-95 z-10';
              if (link.isPrivate) {
                  iconClass += ' ring-2 ring-amber-400';
              }
         } else {
              // List style: small icon, light background
-             iconClass += ' rounded-lg object-contain icon-bg p-1 border border-slate-200 dark:border-slate-700 transition-transform group-hover:scale-105 pointer-events-none';
+             iconClass += ' rounded-lg object-contain icon-bg border border-slate-200 dark:border-slate-700 transition-transform group-hover:scale-105 pointer-events-none';
         }
         icon.className = iconClass;
+        // Corner clearance: inner padding must exceed radius/√2 so tight-margin
+        // icons keep all four edges visible inside the rounded tile. App tile
+        // radius 19.2px needs >13.6, list tile radius 8px needs >5.66.
+        icon.style.padding = isAppLayout ? '14px' : '6px';
 
         // Request the icon at the size it's actually displayed (36px list / 64px APP), then let the
         // browser pick 1x/2x/3x via srcset so Retina/4K/5K screens stay sharp without oversized downloads
@@ -2624,14 +2632,12 @@ const HTML_CONTENT = `
                 this.classList.add('opacity-100');
                 this.classList.remove('opacity-0');
                 spinner.remove();
-                // Warm the popup-size icon in the background: prefetch the
-                // exact URL the popup will use, so opening a popup reads it
-                // straight from the browser cache (the proxy response is
-                // cacheable for a week, same URL = same cache entry).
-                if (base) {
-                    const pre = new Image();
-                    pre.src = base + 64;
-                }
+                // Remember the exact URL the browser picked for this link so
+                // the popup reuses it: same URL = straight from the browser
+                // cache, zero extra fetch when a popup opens.
+                const pickedKey = link.url + '|' + (link.icon || '');
+                if (iconPickedUrl.size > 2000) iconPickedUrl.clear();
+                iconPickedUrl.set(pickedKey, this.currentSrc || resolvedSrc);
             };
             icon.onerror = function() {
                 iconFailed.add(resolvedSrc);
@@ -4026,7 +4032,7 @@ const HTML_CONTENT = `
         img.style.display = 'none';
         if (spin) spin.style.display = 'flex';
         img.onload = () => { img.style.display = ''; if (spin) spin.style.display = 'none'; };
-        img.src = imgApi + encodeURIComponent(isCustom ? link.icon : link.url) + (isCustom ? '&direct=1' : '') + '&w=64';
+        img.src = iconPickedUrl.get(link.url + '|' + (link.icon || '')) || (imgApi + encodeURIComponent(isCustom ? link.icon : link.url) + (isCustom ? '&direct=1' : '') + '&w=64');
         // Re-opening the same card: the image is already in cache, show at once.
         if (img.complete && img.naturalWidth > 0) { img.style.display = ''; if (spin) spin.style.display = 'none'; }
         img.onerror = () => { img.style.display = 'none'; if (spin) spin.style.display = 'none'; };
@@ -4928,7 +4934,11 @@ async function bumpKeyGen(env) {
     }
 }
 
-const CACHE = caches.default;
+// Node-based verification harnesses (verify.mjs, test suites) have no caches
+// global; under Workers globalThis.caches exists and the real default cache is
+// used. The stub keeps module load side-effect-free under Node.
+const CACHE = globalThis.caches ? globalThis.caches.default
+    : { open: async () => ({ match: async () => null }), match: async () => undefined, put: async () => {} };
 let _revCache = { value: null, expireAt: 0 };
 
 async function getDataRev(env) {
@@ -5068,7 +5078,7 @@ function corsHeaders(request, env) {
 }
 
 const FETCH_ICON_MAX_HTML = 1 * 1024 * 1024;
-async function fetchBestIcon(targetUrl, resize = null) {
+async function fetchBestIcon(targetUrl) {
     const headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
@@ -5155,13 +5165,13 @@ async function fetchBestIcon(targetUrl, resize = null) {
         const urls = [];
         const pushUrl = (x) => { if (!urls.includes(x)) urls.push(x); };
         candidates.slice(0, 3).forEach((c) => pushUrl(c.url));
-        pushUrl(new URL('/favicon.ico', targetUrl).toString());
         pushUrl(new URL('/favicon.svg', targetUrl).toString());
+        pushUrl(new URL('/favicon.ico', targetUrl).toString());
         const deadline = Date.now() + 4000;
         for (const iconUrl of urls) {
             const ms = Math.min(1500, deadline - Date.now());
             if (ms <= 0) break;
-            const res = await safeFetchIcon(iconUrl, ms, true, resize);
+            const res = await safeFetchIcon(iconUrl, ms, true);
             if (res) return res;
         }
         return null;
@@ -5250,11 +5260,31 @@ async function pngEncode(w, h, rgba) {
     for (const p of parts) { out.set(p, pos); pos += p.length; }
     return out;
 }
+// No pixel peeling: peeling white backgrounds off pixels is what produced
+// jagged, cut-out edges. Pixels are never modified.
+// White plates are handled by rejection instead: centerIconPNG runs a center
+// census, and any icon whose center is a white plate (snapshot tiles, opaque
+// apple-touch squares, palette favicons with no tRNS) is refused, so the next
+// transparent source gets a chance. Original bytes are served untouched, so
+// transparent sources keep their alpha exactly as the site shipped them.
+// Snapshot tiles (Google s2, DuckDuckGo) are full-canvas white rect SVGs.
+// stripWhiteSvg drops the white rect so the glyph floats on the tile
+// background instead of showing a white plate. Gradient-filled rects (colored
+// tiles, our own logo) are left alone. Returns null when nothing is left.
+function stripWhiteSvg(text) {
+    if (text.length > 12000) return null;
+    const stripped = text.replace(/<rect[^>]*fill\s*=\s*["'](?:white|#ffffff|#fff|#f8f8f8)["'][^>]*\/?>\s*/gi, '')
+        .replace(/<rect[^>]*style\s*=\s*["'][^"']*\bfill\s*:\s*(?:white|#ffffff|#fff|#f8f8f8)[^"']*["'][^>]*\/?>\s*/gi, '');
+    if (stripped.includes('<path') || stripped.includes('<circle') || stripped.includes('<polyline') || stripped.includes('<polygon')) return stripped;
+    return null;
+}
+
+
 async function centerIconPNG(bytes) {
     try {
         const sig = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
-        if (!bytes || bytes.length < 24) return null;
-        for (let i = 0; i < 8; i++) if (bytes[i] !== sig[i]) return null;
+        if (!bytes || bytes.length < 24) return { out: null, opaque: false };
+        for (let i = 0; i < 8; i++) if (bytes[i] !== sig[i]) return { out: null, opaque: false };
         const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
         let w = 0, h = 0, bitDepth = 0, colorType = 0, interlace = 0;
         let plte = null, trns = null;
@@ -5264,7 +5294,7 @@ async function centerIconPNG(bytes) {
             const len = dv.getUint32(pos);
             const type = String.fromCharCode(bytes[pos + 4], bytes[pos + 5], bytes[pos + 6], bytes[pos + 7]);
             const dataStart = pos + 8;
-            if (len < 0 || dataStart + len > bytes.length) return null;
+            if (len < 0 || dataStart + len > bytes.length) return { out: null, opaque: false };
             if (type === 'IHDR') {
                 w = dv.getUint32(dataStart);
                 h = dv.getUint32(dataStart + 4);
@@ -5277,15 +5307,19 @@ async function centerIconPNG(bytes) {
             else if (type === 'IEND') break;
             pos += 12 + len;
         }
-        if (bitDepth !== 8 || interlace !== 0) return null;
+        if (bitDepth !== 8 || interlace !== 0) return { out: null, opaque: false };
         const chIn = colorType === 6 ? 4 : colorType === 2 ? 3 : colorType === 4 ? 2 : colorType === 3 ? 1 : 0;
-        if (!chIn) return null;
-        if (w < 16 || h < 16 || w * h > 512 * 512) return null;
-        if (colorType === 3 && !trns) return null; // palette without transparency: glyph fills canvas, nothing to center
+        if (!chIn) return { out: null, opaque: false };
+        // Small canvases pass through untouched: cropping + re-padding a small
+        // source would shrink the canvas below its own resolution, and the tile
+        // upscale from a shrunken canvas blurs the icon. Census is for big
+        // canvases, where white plates actually show up.
+        if (w < 48 || h < 48 || w * h > 512 * 512) return { out: null, opaque: false };
+        if (colorType === 3 && !trns) return { out: null, opaque: true }; // palette with no tRNS: fully opaque white plate -> refuse
         const raw = await streamBytes(new Response(new Blob(idatParts.map(p => p.slice()))).body
             .pipeThrough(new DecompressionStream('deflate')));
         const stride = w * chIn;
-        if (raw.length < h * (stride + 1)) return null;
+        if (raw.length < h * (stride + 1)) return { out: null, opaque: false };
         const rowsData = new Uint8Array(h * stride);
         const bpp = chIn;
         for (let y = 0; y < h; y++) {
@@ -5346,11 +5380,27 @@ async function centerIconPNG(bytes) {
                 }
             }
         }
-        if (maxX < 0) return null;
+        // White plate census: snapshot tiles, opaque apple-touch squares and
+        // white-background PNG logos have a solid white center. A genuinely
+        // transparent icon has transparent pixels mixed into its center, so a
+        // center majority of white-opaque pixels means "white plate": refuse
+        // it, so safeFetchIcon moves on to the next transparent source.
+        const ccx = Math.floor(w * 0.15), cce = Math.ceil(w * 0.85);
+        const ccy = Math.floor(h * 0.15), ccey = Math.ceil(h * 0.85);
+        let whiteOpaque = 0, centerTot = 0;
+        for (let y = ccy; y < ccey; y++) {
+            for (let x = ccx; x < cce; x++) {
+                const d = (y * w + x) * 4;
+                centerTot++;
+                if (rgba[d + 3] > 10 && rgba[d] >= 240 && rgba[d + 1] >= 240 && rgba[d + 2] >= 240) whiteOpaque++;
+            }
+        }
+        if (centerTot > 0 && whiteOpaque / centerTot >= 0.55) return { out: null, opaque: true };
+        if (maxX < 0) return { out: null, opaque: true }; // fully transparent: nothing to show
         const bw = maxX - minX + 1, bh = maxY - minY + 1;
         const ml = minX, mr = w - 1 - maxX, mt = minY, mb = h - 1 - maxY;
         // Margins of at least 4px on all four sides: already centered with breathing room, pass through.
-        if (ml >= 4 && mr >= 4 && mt >= 4 && mb >= 4) return null;
+        if (ml >= 4 && mr >= 4 && mt >= 4 && mb >= 4) return { out: null, opaque: false };
         // Otherwise re-pad: glyph gets a guaranteed 4px transparent margin per side,
         // so a full-bleed circle (margins ~0, looks edge-clipped in the white tile) shrinks
         // slightly and shows a clean white ring around it.
@@ -5362,11 +5412,11 @@ async function centerIconPNG(bytes) {
             const srcStart = ((minY + y) * w + minX) * 4;
             canvas.set(rgba.subarray(srcStart, srcStart + bw * 4), (oy + y) * side * 4 + ox * 4);
         }
-        return await pngEncode(side, side, canvas);
-    } catch { return null; }
+        return { out: await pngEncode(side, side, canvas), opaque: false };
+    } catch { return { out: null, opaque: false }; }
 }
 
-async function safeFetchIcon(target, ms = 3500, allowSvg = false, resize = null) {
+async function safeFetchIcon(target, ms = 3500, allowSvg = false) {
     let u;
     try { u = new URL(target); } catch { return null; }
     if (!ICON_SCHEME_OK.has(u.protocol)) return null;
@@ -5380,20 +5430,13 @@ async function safeFetchIcon(target, ms = 3500, allowSvg = false, resize = null)
             redirect: 'manual',
             signal: ctrl.signal,
         };
-        // Cloudflare Image Resizing: shrink the source icon to the requested display size at the edge.
-        // Ignored automatically if Image Resizing isn't enabled on the zone, or if the source format can't be transformed (e.g. .ico, .svg) - the original is returned unresized in that case, never an error.
-        if (resize && resize.width > 0) {
-            fetchOpts.cf = {
-                image: {
-                    width: resize.width,
-                    height: resize.width,
-                    fit: 'contain',
-                    background: 'transparent',
-                    quality: 82,
-                    ...(resize.format ? { format: resize.format } : {}),
-                },
-            };
-        }
+        // No Cloudflare Image Resizing: icons are fetched and served as original
+        // bytes, pixels never transformed. Image Resizing only executes on the
+        // deployed zone (wrangler dev ignores it), which is why the deployed page
+        // rendered differently from the local preview: SVG got rasterized at 64px
+        // (thin strokes turned jagged), 16/32px favicons got upscaled and
+        // re-encoded, and the forced-PNG step made every format go through the
+        // conversion line. Original bytes in preview and in production alike.
         let res = await fetch(u.toString(), fetchOpts);
         // Manual redirects: re-check every hop against the denylist. With
         // redirect:'follow' an allowed public site can bounce the fetch to an
@@ -5420,9 +5463,29 @@ async function safeFetchIcon(target, ms = 3500, allowSvg = false, resize = null)
         if (/^image\/png/.test(ct)) {
             try {
                 const bytes = new Uint8Array(await res.arrayBuffer());
-                const out = await centerIconPNG(bytes);
-                return new Response(out || bytes, { status: 200, headers: { 'Content-Type': 'image/png' } });
+                // centerIconPNG decodes for inspection only: a white plate is
+                // refused (the next transparent source gets a chance), a glyph
+                // with tight margins is re-padded. Pixels are never peeled.
+                const r = await centerIconPNG(bytes);
+                if (r.opaque) return null;
+                return new Response(r.out || bytes, { status: 200, headers: { 'Content-Type': 'image/png' } });
             } catch { return null; }
+        }
+        // JPEG and BMP have no alpha channel at all: they are white plates by
+        // definition. Refuse them so the next transparent source gets a chance.
+        if (/^image\/(jpeg|bmp)/.test(ct)) return null;
+        if (ct === 'image/svg+xml') {
+            // Snapshot tiles (Google s2, DuckDuckGo) are full-canvas white rect SVGs.
+            // Drop the white rect so the glyph floats on the tile background instead
+            // of showing a white plate. Gradient-filled rects (colored tiles, our own
+            // logo) are left alone.
+            try {
+                const text = await res.text();
+                const stripped = stripWhiteSvg(text);
+                if (stripped) {
+                    return new Response(stripped, { status: 200, headers: { 'Content-Type': 'image/svg+xml' } });
+                }
+            } catch { }
         }
         return res;
     } catch (e) {
@@ -5442,23 +5505,15 @@ async function handleIconProxy(request, ctx) {
     // Requested display size (CSS pixels). The client sends 1x/2x/3x via srcset so
     // Retina/4K/5K screens get a sharp icon without oversized icons on ordinary screens.
     // Clamped to a sane range so a crafted request can't force very large/expensive transforms.
-    const reqW = Math.round(Number(url.searchParams.get('w')) || 0);
-    const width = Math.min(216, Math.max(24, reqW || 72));
     // "direct=1": the caller already knows targetUrl points straight at an image
     // (a custom icon URL saved on the link), so skip the site-icon-discovery steps.
     const isDirect = url.searchParams.get('direct') === '1';
-
-    // Centering requires decodable PNG: force Cloudflare Image Resizing to
-    // re-encode every icon to PNG, so every format gets the same centered canvas.
-    const format = 'png';
-    const resize = { width, format };
-
-    // The chosen size and format each get their own cache entry.
-    const cacheUrl = new URL(url.toString());
-    cacheUrl.searchParams.set('_fmt', format);
+    // No resizing at all: the client's w/srcset values stay in the URL as part
+    // of the cache key, and the browser tile scales the original icon with CSS.
     // Version stamp: bump when the fetch pipeline changes so stale cache entries
-    // (e.g. icons captured by the old source order) stop being served.
-    cacheUrl.searchParams.set('_v', '4');
+    // (e.g. icons captured by the old resize pipeline) stop being served.
+    const cacheUrl = new URL(url.toString());
+    cacheUrl.searchParams.set('_v', '6');
     const cacheKey = new Request(cacheUrl.toString(), request);
     const cache = caches.default;
 
@@ -5477,8 +5532,7 @@ async function handleIconProxy(request, ctx) {
             ...extraHeaders,
         }
     });
-    // For an upstream Response that already passed the safeFetchIcon allowlist (bitmap/SVG), return it according to its real type
-    // (after Image Resizing, that may now be image/webp or image/avif rather than the original format).
+    // For an upstream Response that already passed the safeFetchIcon allowlist (bitmap/SVG), return it with its real content type.
     const buildRespFromUpstream = (upstream, extraHeaders = {}) => {
         const rawCt = (upstream.headers.get('content-type') || '').toLowerCase();
         const okCt = /^image\/(png|jpeg|gif|webp|avif|svg\+xml|x-icon|vnd\.microsoft\.icon)/;
@@ -5491,32 +5545,35 @@ async function handleIconProxy(request, ctx) {
     } else {
         let upstreamResponse = null;
         if (isDirect) {
-            upstreamResponse = await safeFetchIcon(targetUrl, 3500, true, resize);
+            upstreamResponse = await safeFetchIcon(targetUrl, 3500, true);
         } else {
             // Site's own designed icon first: HTML link discovery (apple-touch-icon
             // etc.) is high-resolution and the site's brand icon. Then the
-            // third-party icon API (site-brand SVG cache), then the site's own
-            // favicon.ico, and last the public snapshots (s2 sz=128, DuckDuckGo
-            // ip3) that rescue anti-bot sites where every site fetch fails.
-            // Snapshots are last because they are often white-background /
-            // lower quality, and the API cache can lag a site's real logo.
-            upstreamResponse = await fetchBestIcon(targetUrl, resize);
+            // third-party icon API (site-brand SVG cache), then the public
+            // snapshots (DuckDuckGo ip3 200px, Google s2 up to site size), and
+            // LAST the site's own favicon.ico — the 16px .ico is the blurriest
+            // source, served only when nothing larger exists. Every source goes
+            // through the transparency gate in safeFetchIcon: white plates
+            // (opaque apple-touch squares, white-background logos, palette
+            // favicons, JPEG snapshots) are refused and the next transparent
+            // source is tried. Nothing with a white plate is served.
+            upstreamResponse = await fetchBestIcon(targetUrl);
             if (!upstreamResponse && PREFER_ICON_API) {
                 const upstreamApi = `${ICON_API}${encodeURIComponent(targetUrl)}`;
-                upstreamResponse = await safeFetchIcon(upstreamApi, 3500, true, resize);
-            }
-            if (!upstreamResponse) {
-                upstreamResponse = await safeFetchIcon(new URL('/favicon.ico', targetUrl).toString(), 3500, false, resize);
+                upstreamResponse = await safeFetchIcon(upstreamApi, 3500, true);
             }
             if (!upstreamResponse) {
                 let host = '';
                 try { host = new URL(targetUrl).hostname; } catch { host = ''; }
                 if (host) {
-                    upstreamResponse = await safeFetchIcon('https://www.google.com/s2/favicons?domain=' + host + '&sz=128', 3500, true, resize);
+                    upstreamResponse = await safeFetchIcon('https://icons.duckduckgo.com/ip3/' + host + '.ico', 3500, true);
                     if (!upstreamResponse) {
-                        upstreamResponse = await safeFetchIcon('https://icons.duckduckgo.com/ip3/' + host + '.ico', 3500, true, resize);
+                        upstreamResponse = await safeFetchIcon('https://www.google.com/s2/favicons?domain=' + host + '&sz=256', 3500, true);
                     }
                 }
+            }
+            if (!upstreamResponse) {
+                upstreamResponse = await safeFetchIcon(new URL('/favicon.ico', targetUrl).toString(), 3500, false);
             }
         }
         if (upstreamResponse) {
@@ -5527,7 +5584,7 @@ async function handleIconProxy(request, ctx) {
             });
             ctx.waitUntil(cache.put(cacheKey, response.clone()).catch(e => console.warn('icon cache put failed', e)));
         } else {
-            const fallbackSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" style="display:block;width:100%;height:100%"><rect width="64" height="64" fill="white"/><path fill="black" d="M62 32C62 15.432 48.568 2 32 2C15.861 2 2.703 14.746 2.031 30.72c-.008.196-.01.395-.014.592c-.005.23-.017.458-.017.688v.101C2 48.614 15.432 62 32 62s30-13.386 30-29.899l-.002-.049zM37.99 59.351c-.525-.285-1.029-.752-1.234-1.388c-.371-1.152-.084-2.046.342-3.086c.34-.833-.117-1.795.109-2.667c.441-1.697.973-3.536.809-5.359c-.102-1.119-.35-1.17-1.178-1.816c-.873-.685-.873-1.654-1.457-2.52c-.529-.787.895-3.777.498-3.959c-.445-.205-1.457.063-1.777-.362c-.344-.458-.584-.999-1.057-1.354c-.305-.229-1.654-.995-2.014-.941c-1.813.271-3.777-1.497-4.934-2.65c-.797-.791-1.129-1.678-1.713-2.593c-.494-.775-1.242-.842-1.609-1.803c-.385-1.004-.156-2.29-.273-3.346c-.127-1.135-.691-1.497-1.396-2.365c-1.508-1.863-2.063-4.643-4.924-4.643c-1.537 0-1.428 3.348-2.666 2.899c-1.4-.507-3.566 1.891-3.535 1.568c.164-1.674 1.883-2.488 2.051-2.987c.549-1.638-2.453-1.246-2.068-2.612c.188-.672 2.098-1.161 1.703-1.562c-.119-.122-1.58-1.147-1.508-1.198c.271-.19 1.449.412 1.193-.37c-.086-.26-.225-.499-.357-.74a28 28 0 0 1 1.92-1.975c1.014-.083 2.066-.02 2.447.054c2.416.476 3.256 1.699 5.672.794c1.162-.434 5.445.319 6.059 1.537c.334.666 1.578-.403 2.063-.475c.52-.078 1.695.723 2.053.232c.943-1.291-.604-1.827 1.223-.833c1.225.667 3.619-2.266 2.861 1.181c-.547 2.485-2.557 2.54-4.031 4.159c-1.451 1.594 2.871 2.028 2.982 3.468c.32 4.146 2.531-.338 1.939-1.812c-1.145-2.855 1.303-2.071 2.289-.257c.547 1.007.963.159 1.633-.192c.543-.283.688 1.25.805 1.517c.385.887 1.65 1.152 1.436 2.294c-.238 1.259-1.133.881-2.008 1.094c-.977.237.158 1.059.016 1.359c-.154.328-1.332.464-1.646.65c-.924.544-.359 1.605-1.082 2.175c-.496.392-.996.137-1.092.871c-.113.865-1.707 1.143-1.5 1.97c.057.227.516 1.923.227 2.013c-.133.043-1.184-1.475-1.471-1.627c-.568-.301-3.15-.055-3.482 1.654c-.215 1.105 1.563 2.85 2.016 1.328c.561-1.873.828 1.091.693 1.207c.268.234 1.836-.385 1.371.7c-.197.459.193 1.656.889 1.287c.291-.154 1.041.31 1.172.061a2.14 2.14 0 0 1 .742-.692c.701-.41 1.75-.025 2.518.02c.469.027 4.313 2.124 4.334 2.545c.084 1.575 2.99 1.37 3.436 1.933c1.199 1.526.83.751-.045 2.706c-.441.984-.057 2.191-1.125 2.904c-.514.342-1.141.171-1.598.655c-.412.437-.25.959-.5 1.464c-.301.601-4.346 4.236-4.613 5.115c-.133.441-1.34.825-.322 1.248c.592.174-1.311 1.973-.396 2.718c.223.181.369.334.479.471c-.457.122-.91.233-1.369.333M35.594 4.237c-.039.145.02.316.271.483c.566.375-.162 1.208-.943.671c-.779-.537-2.531.241-2.41.644c.119.403.66.563 1.496.242c.834-.322 1.178.048 1.318.43c.096.259 0 .403-.027.752c-.025.349-.996.107-1.803.162c-.809.054-1.67-.162-1.645-.619c.027-.456-.861-1.289-1.391-1.637c-.529-.348.232-1.1.934-.537c.699.564.727-.107 1.535-.321c.459-.122.275-.305.119-.479q1.29.047 2.546.209m3.517 8.869c.605.164 1.656.929 1.656 1.291c0 .363-.477.817-.688.765c-1.523-.371-2.807-1.874-3.514-2.697c-1.234-1.435-1.156-.205-3.111-.826c-.5-.16-1.293-1.711-.768-2.476s1.131-.886 1.615-.683c.484.2 1.898-.645 2.223.362c.322 1.007 1.211 2.292 2.02 2.636c.81.342-.04 1.464.567 1.628m.485 4.673c.242.483-1.455-.564-1.859-1.047c-.402-.482-1.01-1.571-.523-2.054c.484-.482 1.57 1.005 2.141 1.33c1.129.645-.001 1.289.241 1.771m-8.594-7.315c.117-.161.365.242.586.645s-.084.971-.586.885c-.502-.084-.281-1.136 0-1.53m0-4.052s.473 1.154 0 .966s-.496-.671 0-.966m.096 3.65c-.135-.321-.166-1.64.162-2.04c.484-.59 1.266.564.74 1.02c-.525.457-.768 1.343-.902 1.02m-6.077 1.415c-.879-.063-.898-.823-1.02-1.226s-.85.765-1.586 0s.172-1.771.01-2.376c-.162-.604 1.736 0 2.02 0s1.051 1.248 1.252 1.227c.203-.02 1.293.987 1.293.584c0-.402.166-1.088.93-1.168c1.172-.121.121 1.289.08 1.838c-.039.549.891 1.504 1.232 1.907c.344.403-.867.686-1.07.443c-.201-.242-.727 0-1.172.322c-.443.322-1.656-.443-2.221-.685c-.566-.241 1.131-.804.252-.866m3.141-6.354c.781.269 1.225.51 1.609 0c.371-.492.654 1.073.385 1.502c-.27.431-.781.324-.863 0c-.08-.32-1.912-1.771-1.131-1.502m1.131 4.859c-.268-.35-.295-.752 0-1.047c.297-.295.201-.644.729-.751c.26-.054.295.348.295.724s.324.859 0 1.448c-.323.589-.754-.026-1.024-.374m2.205-5.969c-.012.074-.061.118-.184.106a.6.6 0 0 1-.236-.095q.21-.008.42-.011M25.389 5.15c.619 0 .539.418 1.051.719c.512.3.242-1.552.592-.854c.35.697 1.389 1.664.889 1.851c-.43.163-2.234.859-2.396.739s-.377-.63-.809-.739c-.432-.107-.889-1.127-1.186-1.1c-.113.01-.123-.184-.049-.442a28 28 0 0 1 1.572-.455c.058.158.146.281.336.281m13.519 30.025c-.645.666-1.756-.464-2.523-.424s-1.152-.765-1.818-.684c-.668.079.182-.847 1.111-.362c.927.483 3.756.925 3.23 1.47m12.93-22.934c-.188.24-.402.408-.607.585c-.605.524-1.736.484-1.898.846s-.566 1.489-1.98 1.494s-1.01 2.131-1.131 2.738s-.443 1.325-.848.801s-.566-.323-1.816-1.853s-.77-2.375-.365-2.818c.404-.442.566-1.49 0-1.329s-.889-.202-.768-.703s.727-.867 0-1.402s-.324-2.445-.889-4.189c-.566-1.745-1.334-.51-2.586-.443s-1.455-.873-.889-1.303a27.95 27.95 0 0 1 13.777 7.576"/></svg>';
+            const fallbackSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" style="display:block;width:100%;height:100%"><path fill="black" d="M62 32C62 15.432 48.568 2 32 2C15.861 2 2.703 14.746 2.031 30.72c-.008.196-.01.395-.014.592c-.005.23-.017.458-.017.688v.101C2 48.614 15.432 62 32 62s30-13.386 30-29.899l-.002-.049zM37.99 59.351c-.525-.285-1.029-.752-1.234-1.388c-.371-1.152-.084-2.046.342-3.086c.34-.833-.117-1.795.109-2.667c.441-1.697.973-3.536.809-5.359c-.102-1.119-.35-1.17-1.178-1.816c-.873-.685-.873-1.654-1.457-2.52c-.529-.787.895-3.777.498-3.959c-.445-.205-1.457.063-1.777-.362c-.344-.458-.584-.999-1.057-1.354c-.305-.229-1.654-.995-2.014-.941c-1.813.271-3.777-1.497-4.934-2.65c-.797-.791-1.129-1.678-1.713-2.593c-.494-.775-1.242-.842-1.609-1.803c-.385-1.004-.156-2.29-.273-3.346c-.127-1.135-.691-1.497-1.396-2.365c-1.508-1.863-2.063-4.643-4.924-4.643c-1.537 0-1.428 3.348-2.666 2.899c-1.4-.507-3.566 1.891-3.535 1.568c.164-1.674 1.883-2.488 2.051-2.987c.549-1.638-2.453-1.246-2.068-2.612c.188-.672 2.098-1.161 1.703-1.562c-.119-.122-1.58-1.147-1.508-1.198c.271-.19 1.449.412 1.193-.37c-.086-.26-.225-.499-.357-.74a28 28 0 0 1 1.92-1.975c1.014-.083 2.066-.02 2.447.054c2.416.476 3.256 1.699 5.672.794c1.162-.434 5.445.319 6.059 1.537c.334.666 1.578-.403 2.063-.475c.52-.078 1.695.723 2.053.232c.943-1.291-.604-1.827 1.223-.833c1.225.667 3.619-2.266 2.861 1.181c-.547 2.485-2.557 2.54-4.031 4.159c-1.451 1.594 2.871 2.028 2.982 3.468c.32 4.146 2.531-.338 1.939-1.812c-1.145-2.855 1.303-2.071 2.289-.257c.547 1.007.963.159 1.633-.192c.543-.283.688 1.25.805 1.517c.385.887 1.65 1.152 1.436 2.294c-.238 1.259-1.133.881-2.008 1.094c-.977.237.158 1.059.016 1.359c-.154.328-1.332.464-1.646.65c-.924.544-.359 1.605-1.082 2.175c-.496.392-.996.137-1.092.871c-.113.865-1.707 1.143-1.5 1.97c.057.227.516 1.923.227 2.013c-.133.043-1.184-1.475-1.471-1.627c-.568-.301-3.15-.055-3.482 1.654c-.215 1.105 1.563 2.85 2.016 1.328c.561-1.873.828 1.091.693 1.207c.268.234 1.836-.385 1.371.7c-.197.459.193 1.656.889 1.287c.291-.154 1.041.31 1.172.061a2.14 2.14 0 0 1 .742-.692c.701-.41 1.75-.025 2.518.02c.469.027 4.313 2.124 4.334 2.545c.084 1.575 2.99 1.37 3.436 1.933c1.199 1.526.83.751-.045 2.706c-.441.984-.057 2.191-1.125 2.904c-.514.342-1.141.171-1.598.655c-.412.437-.25.959-.5 1.464c-.301.601-4.346 4.236-4.613 5.115c-.133.441-1.34.825-.322 1.248c.592.174-1.311 1.973-.396 2.718c.223.181.369.334.479.471c-.457.122-.91.233-1.369.333M35.594 4.237c-.039.145.02.316.271.483c.566.375-.162 1.208-.943.671c-.779-.537-2.531.241-2.41.644c.119.403.66.563 1.496.242c.834-.322 1.178.048 1.318.43c.096.259 0 .403-.027.752c-.025.349-.996.107-1.803.162c-.809.054-1.67-.162-1.645-.619c.027-.456-.861-1.289-1.391-1.637c-.529-.348.232-1.1.934-.537c.699.564.727-.107 1.535-.321c.459-.122.275-.305.119-.479q1.29.047 2.546.209m3.517 8.869c.605.164 1.656.929 1.656 1.291c0 .363-.477.817-.688.765c-1.523-.371-2.807-1.874-3.514-2.697c-1.234-1.435-1.156-.205-3.111-.826c-.5-.16-1.293-1.711-.768-2.476s1.131-.886 1.615-.683c.484.2 1.898-.645 2.223.362c.322 1.007 1.211 2.292 2.02 2.636c.81.342-.04 1.464.567 1.628m.485 4.673c.242.483-1.455-.564-1.859-1.047c-.402-.482-1.01-1.571-.523-2.054c.484-.482 1.57 1.005 2.141 1.33c1.129.645-.001 1.289.241 1.771m-8.594-7.315c.117-.161.365.242.586.645s-.084.971-.586.885c-.502-.084-.281-1.136 0-1.53m0-4.052s.473 1.154 0 .966s-.496-.671 0-.966m.096 3.65c-.135-.321-.166-1.64.162-2.04c.484-.59 1.266.564.74 1.02c-.525.457-.768 1.343-.902 1.02m-6.077 1.415c-.879-.063-.898-.823-1.02-1.226s-.85.765-1.586 0s.172-1.771.01-2.376c-.162-.604 1.736 0 2.02 0s1.051 1.248 1.252 1.227c.203-.02 1.293.987 1.293.584c0-.402.166-1.088.93-1.168c1.172-.121.121 1.289.08 1.838c-.039.549.891 1.504 1.232 1.907c.344.403-.867.686-1.07.443c-.201-.242-.727 0-1.172.322c-.443.322-1.656-.443-2.221-.685c-.566-.241 1.131-.804.252-.866m3.141-6.354c.781.269 1.225.51 1.609 0c.371-.492.654 1.073.385 1.502c-.27.431-.781.324-.863 0c-.08-.32-1.912-1.771-1.131-1.502m1.131 4.859c-.268-.35-.295-.752 0-1.047c.297-.295.201-.644.729-.751c.26-.054.295.348.295.724s.324.859 0 1.448c-.323.589-.754-.026-1.024-.374m2.205-5.969c-.012.074-.061.118-.184.106a.6.6 0 0 1-.236-.095q.21-.008.42-.011M25.389 5.15c.619 0 .539.418 1.051.719c.512.3.242-1.552.592-.854c.35.697 1.389 1.664.889 1.851c-.43.163-2.234.859-2.396.739s-.377-.63-.809-.739c-.432-.107-.889-1.127-1.186-1.1c-.113.01-.123-.184-.049-.442a28 28 0 0 1 1.572-.455c.058.158.146.281.336.281m13.519 30.025c-.645.666-1.756-.464-2.523-.424s-1.152-.765-1.818-.684c-.668.079.182-.847 1.111-.362c.927.483 3.756.925 3.23 1.47m12.93-22.934c-.188.24-.402.408-.607.585c-.605.524-1.736.484-1.898.846s-.566 1.489-1.98 1.494s-1.01 2.131-1.131 2.738s-.443 1.325-.848.801s-.566-.323-1.816-1.853s-.77-2.375-.365-2.818c.404-.442.566-1.49 0-1.329s-.889-.202-.768-.703s.727-.867 0-1.402s-.324-2.445-.889-4.189c-.566-1.745-1.334-.51-2.586-.443s-1.455-.873-.889-1.303a27.95 27.95 0 0 1 13.777 7.576"/></svg>';
             response = new Response(fallbackSvg, {
                 status: 200,
                 headers: {
@@ -6261,3 +6318,7 @@ export default {
         }
     }
 };
+
+// Verification harnesses import HTML_CONTENT and the icon functions from
+// workers_copy.mjs (this file plus the export line appended by build_copy.ps1);
+// the Workers runtime allows only a default export.
