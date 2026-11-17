@@ -377,6 +377,11 @@ const HTML_CONTENT = `
         html.dark .icon-bg { background: #0f172a; }
         .icon-bg-app { background: linear-gradient(135deg,#f5f3ff,#e6dff9); border: 1px solid rgba(124,58,237,.32); }
         html.dark .icon-bg-app { background: linear-gradient(135deg,#3b2b5e,#241540); border: 1px solid rgba(168,85,247,.38); }
+        .app-grid { display:grid; gap:12px; grid-template-columns:repeat(4,64px); justify-content:center; }
+        @media (min-width:640px) { .app-grid { grid-template-columns:repeat(5,64px); } }
+        @media (min-width:768px) { .app-grid { grid-template-columns:repeat(6,64px); } }
+        @media (min-width:1024px) { .app-grid { grid-template-columns:repeat(8,64px); } }
+        @media (min-width:1280px) { .app-grid { grid-template-columns:repeat(10,64px); } }
         /* Phase 2: language capsule (EN | label) in the top nav. */
         .lang-capsule {
             display: flex; align-items: center;
@@ -544,7 +549,7 @@ const HTML_CONTENT = `
            invisible indent spacer + 8px flex gap), so the right padding
            is 28px too. The text itself does not move. */
         .group-panel > legend.group-header{margin:0;padding:0 28px 0 8px;}
-        .app-layout .group-panel{padding-top:18px;}
+        .list-view .group-panel{padding-top:18px;}
     </style>
         <script>
         // --- 主題管理邏輯 ---
@@ -654,7 +659,8 @@ html:not(.dark) ::-webkit-scrollbar-thumb:hover { background: rgba(106,99,179,.4
 html:not(.dark) .bg-white\\/90, html:not(.dark) .bg-white\\/80 { background-color:#ffffff; }
 html:not(.dark) .bg-slate-50 { background-color:#f7f7fb; }
 html:not(.dark) .text-slate-500 { color:#5d617f; }
-html:not(.dark) .icon-bg, html:not(.dark) .icon-bg-app { background:#e5e4f1; border-color:transparent; }
+html:not(.dark) .icon-bg { background:#e5e4f1; border-color:transparent; }
+html:not(.dark) .icon-bg-app { background:#dfddef; border-color:#bab8d5; }
 html:not(.dark) .lang-capsule { background:#f583c0; border-color:#bab8d5; }
 html:not(.dark) .lang-seg { background:#ffffff; color:#5d617f; }
 html:not(.dark) .lang-seg:hover { color:#6a63b3; }
@@ -667,7 +673,26 @@ html:not(.dark) .logo-preset.sel { border-color:#6a63b3; box-shadow:0 0 0 3px rg
 /* Item 4 (ten colors, light): card fill stays pure white (no tint), the card
    color only paints the hover border (small area), and the subtitle uses the
    colour's high-grade grey (hue kept, chroma halved, lightness stays mid-high). */
-html:not(.dark) .card-c-violet, html:not(.dark) .card-c-emerald, html:not(.dark) .card-c-sky, html:not(.dark) .card-c-amber, html:not(.dark) .card-c-rose, html:not(.dark) .card-c-slate, html:not(.dark) .card-c-cyan, html:not(.dark) .card-c-indigo, html:not(.dark) .card-c-fuchsia, html:not(.dark) .card-c-orange { background-image:none; }
+html:not(.dark) .card-c-violet { background-image: none; background-color: rgba(172,156,240,.10); }
+html:not(.dark) .card-c-emerald { background-image: none; background-color: rgba(128,175,226,.10); }
+html:not(.dark) .card-c-sky { background-image: none; background-color: rgba(149,167,234,.10); }
+html:not(.dark) .card-c-amber { background-image: none; background-color: rgba(165,162,231,.10); }
+html:not(.dark) .card-c-rose { background-image: none; background-color: rgba(181,156,227,.10); }
+html:not(.dark) .card-c-slate { background-image: none; background-color: rgba(144,173,215,.08); }
+html:not(.dark) .card-c-cyan { background-image: none; background-color: rgba(141,170,231,.10); }
+html:not(.dark) .card-c-indigo { background-image: none; background-color: rgba(157,163,239,.10); }
+html:not(.dark) .card-c-fuchsia { background-image: none; background-color: rgba(177,156,232,.10); }
+html:not(.dark) .card-c-orange { background-image: none; background-color: rgba(120,177,224,.10); }
+html:not(.dark) .list-view .card-c-violet { background-image: none; background-color: rgba(172,156,240,.10); }
+html:not(.dark) .list-view .card-c-emerald { background-image: none; background-color: rgba(128,175,226,.10); }
+html:not(.dark) .list-view .card-c-sky { background-image: none; background-color: rgba(149,167,234,.10); }
+html:not(.dark) .list-view .card-c-amber { background-image: none; background-color: rgba(165,162,231,.10); }
+html:not(.dark) .list-view .card-c-rose { background-image: none; background-color: rgba(181,156,227,.10); }
+html:not(.dark) .list-view .card-c-slate { background-image: none; background-color: rgba(144,173,215,.08); }
+html:not(.dark) .list-view .card-c-cyan { background-image: none; background-color: rgba(141,170,231,.10); }
+html:not(.dark) .list-view .card-c-indigo { background-image: none; background-color: rgba(157,163,239,.10); }
+html:not(.dark) .list-view .card-c-fuchsia { background-image: none; background-color: rgba(177,156,232,.10); }
+html:not(.dark) .list-view .card-c-orange { background-image: none; background-color: rgba(120,177,224,.10); }
 html:not(.dark) .card-c-violet:hover { border-color:#7c3aed; }
 html:not(.dark) .card-c-emerald:hover { border-color:#10b981; }
 html:not(.dark) .card-c-sky:hover { border-color:#0284c7; }
@@ -679,16 +704,27 @@ html:not(.dark) .card-c-indigo:hover { border-color:#4f46e5; }
 html:not(.dark) .card-c-fuchsia:hover { border-color:#c026d3; }
 html:not(.dark) .card-c-orange:hover { border-color:#ea580c; }
 html:not(.dark) .card-sub { color:#5d617f; }
-html:not(.dark) .card-c-violet .card-sub { color:#8f7dd0; }
-html:not(.dark) .card-c-emerald .card-sub { color:#71ac8f; }
-html:not(.dark) .card-c-sky .card-sub { color:#6692b3; }
-html:not(.dark) .card-c-amber .card-sub { color:#d6ab7a; }
-html:not(.dark) .card-c-rose .card-sub { color:#c66f73; }
-html:not(.dark) .card-c-slate .card-sub { color:#858d99; }
-html:not(.dark) .card-c-cyan .card-sub { color:#6694a4; }
-html:not(.dark) .card-c-indigo .card-sub { color:#7b85d1; }
-html:not(.dark) .card-c-fuchsia .card-sub { color:#b170b9; }
-html:not(.dark) .card-c-orange .card-sub { color:#c0795f; }
+html:not(.dark) .card-c-violet .card-sub { color:#7c6fb0; }
+html:not(.dark) .card-c-emerald .card-sub { color:#597da5; }
+html:not(.dark) .card-c-sky .card-sub { color:#6977ab; }
+html:not(.dark) .card-c-amber .card-sub { color:#7673a9; }
+html:not(.dark) .card-c-rose .card-sub { color:#826ea6; }
+html:not(.dark) .card-c-slate .card-sub { color:#6b82a3; }
+html:not(.dark) .card-c-cyan .card-sub { color:#647aa9; }
+html:not(.dark) .card-c-indigo .card-sub { color:#7074af; }
+html:not(.dark) .card-c-fuchsia .card-sub { color:#7f6faa; }
+html:not(.dark) .card-c-orange .card-sub { color:#537fa3; }
+</style>
+<style id="list-view">
+.list-view .list-grid { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 12px; }
+.list-view .card { background-color: transparent; border-color: transparent; box-shadow: none; }
+html.dark .list-view .card { background-image: none; }
+.list-view .card:hover { transform: none; background-color: rgba(106,99,179,.07); border-color: rgba(106,99,179,.30); box-shadow: none; }
+html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); border-color: rgba(168,85,247,.35); }
+@media (max-width: 640px) {
+    .list-view .card { border-bottom: 1px solid rgba(106,99,179,.18); border-radius: 0; }
+    html.dark .list-view .card { border-bottom-color: rgba(135,123,210,.16); }
+}
 </style>
 </head>
 
@@ -708,7 +744,7 @@ html:not(.dark) .card-c-orange .card-sub { color:#c0795f; }
                 <div class="flex items-center justify-between h-16 gap-4">
 
                     <!-- Logo -->
-                    <a class="flex items-center gap-2 flex-shrink-0 group cursor-pointer bg-white/50 dark:bg-transparent hover:bg-white dark:hover:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200/50 dark:border-transparent transition-all duration-300 hover:shadow-md hover:shadow-emerald-500/10 hover:-translate-y-0.5" href="#" onclick="location.reload()">
+                    <a class="flex items-center gap-2 flex-shrink-0 group cursor-pointer dark:bg-transparent px-3 py-1.5 rounded-xl transition-all duration-300 hover:bg-white/60 hover:-translate-y-0.5" href="#" onclick="location.reload()">
                         <div id="logo-visual" class="w-8 h-8 flex items-center justify-center rounded-lg text-white shadow-lg shadow-emerald-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300" style="background: linear-gradient(135deg,#a855f7,#7e22ce)"></div>
                         <span id="site-name" class="font-bold text-lg tracking-wide text-slate-700 dark:text-slate-100 hidden sm:block">RENVDER NAV</span>
                     </a>
@@ -826,10 +862,10 @@ html:not(.dark) .card-c-orange .card-sub { color:#c0795f; }
                                                 <rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect>
                                                 <rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect>
                                             </svg>
-                                            APP View
+                                            List View
                                         </span>
                                         <label class="relative inline-flex items-center cursor-pointer">
-                                            <input type="checkbox" id="layout-switch-checkbox" onchange="toggleAppLayout()" class="sr-only peer">
+                                            <input type="checkbox" id="layout-switch-checkbox" onchange="toggleListLayout()" class="sr-only peer">
                                             <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-emerald-500"></div>
                                         </label>
                                     </div>
@@ -1135,7 +1171,7 @@ html:not(.dark) .card-c-orange .card-sub { color:#c0795f; }
     <script>
     let isEditMode = false;
     let isLoggedIn = false;
-    let isAppLayout = localStorage.getItem('appLayout') === 'true';
+    let isListLayout = localStorage.getItem('appLayout') === 'true';
 
     let editCardMode = false;
     let isEditCategoryMode = false;
@@ -1328,13 +1364,13 @@ html:not(.dark) .card-c-orange .card-sub { color:#c0795f; }
         if (statusEl) statusEl.textContent = '';
     }
 
-    function toggleAppLayout() {
-        isAppLayout = !isAppLayout;
-        localStorage.setItem('appLayout', isAppLayout);
-        document.documentElement.classList.toggle('app-layout', isAppLayout);
+    function toggleListLayout() {
+        isListLayout = !isListLayout;
+        localStorage.setItem('appLayout', isListLayout);
+        document.documentElement.classList.toggle('list-view', isListLayout);
 
         const checkbox = document.getElementById('layout-switch-checkbox');
-        if (checkbox) checkbox.checked = isAppLayout;
+        if (checkbox) checkbox.checked = isListLayout;
 
         loadSections();
     }
@@ -1465,9 +1501,9 @@ html:not(.dark) .card-c-orange .card-sub { color:#c0795f; }
         });
 
         if(elements.layoutSwitchCheckbox) {
-            elements.layoutSwitchCheckbox.checked = isAppLayout;
+            elements.layoutSwitchCheckbox.checked = isListLayout;
         }
-        document.documentElement.classList.toggle('app-layout', isAppLayout);
+        document.documentElement.classList.toggle('list-view', isListLayout);
 
         const savedPref = localStorage.getItem('savePreferences') === 'true';
         elements.savePrefCheckbox.checked = savedPref;
@@ -1974,7 +2010,7 @@ html:not(.dark) .card-c-orange .card-sub { color:#c0795f; }
     // only drop target of an empty grid, which has no cards to drag over.
     function createAddCardPlaceholder(category, group) {
         const addCardPlaceholder = document.createElement('div');
-        const sizeClasses = isAppLayout
+        const sizeClasses = isListLayout
             ? 'w-16 h-16 rounded-[1.2rem] mx-auto'
             : 'min-h-[100px] p-4 rounded-2xl w-full';
 
@@ -2101,8 +2137,8 @@ html:not(.dark) .card-c-orange .card-sub { color:#c0795f; }
         const fragment = document.createDocumentFragment();
         // Adjust the grid column count based on layout mode
         // APP mode: 4 per row on mobile, 6 on tablet, 8-10 on large screens
-        const gridClasses = isAppLayout
-            ? 'grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-x-2 gap-y-6'
+        const gridClasses = isListLayout
+            ? 'list-grid'
             : 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4';
 
         let firstPanel = true;
@@ -2557,9 +2593,14 @@ html:not(.dark) .card-c-orange .card-sub { color:#c0795f; }
         const dataToolsMenu = document.getElementById('data-tools-menu');
         const checkAllMenu = document.getElementById('check-all-menu');
 
+        // Raw English base, NOT T(): the lang walker (applyLang) translates
+        // this from the English base and caches English in langOriginals.
+        // Writing T()'s result in zh mode cached Chinese as the "original",
+        // so switching back to EN left the button stuck in Chinese.
+        // Split label: logged out shows Login (登入), logged in shows Logout (登出).
         loginBtn.innerHTML = isLoggedIn ?
-            '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> ' + T('Logout') :
-            '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg> ' + T('Login');
+            '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Logout' :
+            '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg> Login';
 
         if(isLoggedIn) {
             loginBtn.classList.replace('text-red-500', 'text-slate-700');
@@ -2587,6 +2628,11 @@ html:not(.dark) .card-c-orange .card-sub { color:#c0795f; }
             document.body.classList.remove('edit-mode');
             if(addCategoryContainer) addCategoryContainer.classList.add('hidden');
         }
+
+        // The login button label was just re-rendered from the raw English
+        // base; run the lang walker so zh shows 登入／登出 right away and the
+        // English base stays cached for a clean EN restore.
+        if (LANG === 'zh') applyLang();
     }
 
     function loadSections() {
@@ -2642,19 +2688,20 @@ html:not(.dark) .card-c-orange .card-sub { color:#c0795f; }
 
         const card = document.createElement('div');
 
-        let cardBaseClass = isAppLayout
-            ? 'flex flex-col items-center justify-center py-1 gap-1.5 hover:z-10'
+        let cardBaseClass = isListLayout
+            ? 'flex flex-col gap-1.5 px-3 py-2.5 hover:z-10'
             : 'flex flex-col p-4 bg-white/90 dark:bg-[#170a29]/60 backdrop-blur-sm bg-white/80 border border-gray-200 dark:border-slate-700/50 hover:border-emerald-500/50 dark:hover:border-emerald-400/50 shadow-sm hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.1)] dark:shadow-none dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.4)] hover:-translate-y-1.5';
 
-        if (link.isPrivate && !isAppLayout) {
+        if (link.isPrivate && !isListLayout) {
             cardBaseClass += ' ring-1 ring-amber-400/40 bg-amber-50/80 dark:bg-amber-900/10 !border-amber-200 dark:!border-amber-700/50';
         }
 
         card.className = \`group relative h-full w-full rounded-2xl card-anim transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)] cursor-pointer select-none \${cardBaseClass}\`;
 
-        // Card color tints are a list-mode feature: App layout cards stay
-        // neutral, so the icon tile never picks up the selected card color.
-        if (link.color && COLOR_KEYS.includes(link.color) && !isAppLayout) {
+        // Card color tints apply in both layouts: the card-c-* classes keep
+        // the subtitle colored, while the list-view rules suppress the card's
+        // background gradient and border, so list rows show tint on text only.
+        if (link.color && COLOR_KEYS.includes(link.color)) {
             card.classList.add('card-c-' + link.color);
         }
 
@@ -2669,14 +2716,14 @@ html:not(.dark) .card-c-orange .card-sub { color:#c0795f; }
         card.setAttribute('data-name', link.name);
 
         const header = document.createElement('div');
-        header.className = isAppLayout
-            ? 'flex flex-col items-center justify-center w-full relative'
+        header.className = isListLayout
+            ? 'flex items-center gap-3 w-full'
             : 'flex items-center gap-3 mb-2.5 w-full';
 
         // Icon placeholder container: shows a spinner before the icon finishes loading
         const iconWrap = document.createElement('div');
-        const iconWrapClass = isAppLayout
-            ? 'relative w-14 h-14 sm:w-16 sm:h-16'
+        const iconWrapClass = isListLayout
+            ? 'relative w-10 h-10 shrink-0'
             : 'relative w-9 h-9';
         iconWrap.className = iconWrapClass;
 
@@ -2688,33 +2735,34 @@ html:not(.dark) .card-c-orange .card-sub { color:#c0795f; }
         const icon = document.createElement('img');
         icon.setAttribute('loading', 'lazy');
         icon.setAttribute('decoding', 'async');
-        icon.setAttribute('width', isAppLayout ? 64 : 36);
-        icon.setAttribute('height', isAppLayout ? 64 : 36);
+        icon.setAttribute('width', isListLayout ? 40 : 36);
+        icon.setAttribute('height', isListLayout ? 40 : 36);
 
         // Icon style
         let iconClass = 'relative w-full h-full opacity-0 transition duration-300';
-        if (isAppLayout) {
-             // APP style: large icon, white background, large corner radius, shadow
-             iconClass += ' rounded-[1.2rem] object-contain icon-bg-app shadow-md hover:shadow-lg group-hover:scale-105 group-active:scale-95 z-10';
+        if (isListLayout) {
+             // Row mode: bare icon, no plate, no border, no shadow; the icon
+             // is a click target that opens the link.
+             iconClass += ' rounded-lg object-contain cursor-pointer';
              if (link.isPrivate) {
                  iconClass += ' ring-2 ring-amber-400';
              }
         } else {
-             // List style: small icon, light background
+             // Card style: small icon, light background
              iconClass += ' rounded-lg object-contain icon-bg border border-slate-200 dark:border-slate-700 transition-transform group-hover:scale-105 pointer-events-none';
         }
         icon.className = iconClass;
         // Corner clearance: inner padding must exceed radius/√2 so tight-margin
         // icons keep all four edges visible inside the rounded tile. App tile
         // radius 19.2px needs >13.6, list tile radius 8px needs >5.66.
-        icon.style.padding = isAppLayout ? '8px' : '6px';
+        icon.style.padding = isListLayout ? '2px' : '6px';
 
         // Request the icon at the size it's actually displayed (36px list / 64px APP), then let the
         // browser pick 1x/2x/3x via srcset so Retina/4K/5K screens stay sharp without oversized downloads
         // on ordinary screens. A custom icon URL saved on the link is routed through the proxy too
         // (direct=1: fetch that URL directly as an image, skip favicon discovery), so it gets the
         // same resizing instead of loading the original file straight from wherever it's hosted.
-        const baseW = isAppLayout ? 64 : 36;
+        const baseW = isListLayout ? 48 : 36;
         const cacheKey = link.url + '|' + (link.icon || '') + '|' + baseW;
         let resolvedSrc, resolvedSrcset, base;
         if (iconCache.has(cacheKey)) {
@@ -2757,8 +2805,8 @@ html:not(.dark) .card-c-orange .card-sub { color:#c0795f; }
         iconWrap.appendChild(iconNode);
 
         const title = document.createElement('div');
-        const titleAlign = isAppLayout
-            ? 'text-center text-xs sm:text-sm font-medium mt-1 w-[120%] truncate px-1 text-slate-700 dark:text-slate-200 drop-shadow-sm'
+        const titleAlign = isListLayout
+            ? 'font-semibold text-sm truncate text-slate-700 dark:text-slate-100 transition-colors cursor-pointer'
             : 'font-semibold text-sm truncate text-slate-700 dark:text-slate-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors pointer-events-none';
 
         title.className = \`card-title pointer-events-none \${titleAlign}\`;
@@ -2770,9 +2818,9 @@ html:not(.dark) .card-c-orange .card-sub { color:#c0795f; }
         const textCol = document.createElement('div');
         textCol.className = 'flex-1 flex flex-col';
         textCol.style.minWidth = '0';
-        if (!isAppLayout) textCol.appendChild(title);
+        textCol.appendChild(title);
 
-        if (!isAppLayout && sub) {
+        if (sub) {
             const subEl = document.createElement('div');
             subEl.className = 'text-xs font-medium truncate card-sub mt-1 pointer-events-none relative z-10';
             subEl.textContent = sub;
@@ -2780,7 +2828,7 @@ html:not(.dark) .card-c-orange .card-sub { color:#c0795f; }
         }
 
         header.appendChild(iconWrap);
-        if (!isAppLayout) header.appendChild(textCol);
+        header.appendChild(textCol);
 
         const statusTag = document.createElement('span');
         statusTag.className = 'card-status-tag';
@@ -2794,14 +2842,16 @@ html:not(.dark) .card-c-orange .card-sub { color:#c0795f; }
         // (subtitle is tinted with the card's color, see .card-sub CSS), and
         // the detail description shows as the full-width gray line below,
         // 11px (below the 12px subtitle), clamped to 2 lines with ellipsis.
-        if (!isAppLayout && desc) {
+        if (desc) {
             const descEl = document.createElement('div');
-            descEl.className = 'card-desc text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed w-full relative z-10 mt-1';
+            descEl.className = isListLayout
+                ? 'card-desc text-slate-500 dark:text-slate-400 leading-relaxed w-full relative z-10 mt-1'
+                : 'card-desc text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed w-full relative z-10 mt-1';
             descEl.textContent = desc;
             card.appendChild(descEl);
         }
 
-        if (link.isPrivate && !isAppLayout) {
+        if (link.isPrivate && !isListLayout) {
             const badge = document.createElement('div');
             badge.className = 'absolute top-0 right-0 w-8 h-8 pointer-events-none overflow-hidden rounded-tr-2xl';
             badge.innerHTML = '<div class="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 rotate-45 w-8 h-8 bg-amber-400"></div>';
@@ -2817,14 +2867,10 @@ html:not(.dark) .card-c-orange .card-sub { color:#c0795f; }
 
         if (isEditMode) {
             const actionWrapper = document.createElement('div');
-            actionWrapper.className = isAppLayout
-                ? 'absolute top-[-4px] right-[-4px] z-30'
-                : 'absolute top-2 right-2 z-30';
+            actionWrapper.className = 'absolute top-2 right-2 z-30';
 
             const menuBtn = document.createElement('button');
-            const btnStyle = isAppLayout
-                ? 'w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 shadow-sm hover:bg-emerald-500 dark:hover:bg-emerald-600 hover:text-white'
-                : 'w-7 h-7 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100/80 dark:hover:bg-slate-700/50 backdrop-blur-sm';
+            const btnStyle = 'w-7 h-7 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100/80 dark:hover:bg-slate-700/50 backdrop-blur-sm';
 
             menuBtn.className = \`\${btnStyle} flex items-center justify-center transition-all duration-200\`;
             menuBtn.innerHTML = '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>';
@@ -2873,10 +2919,11 @@ html:not(.dark) .card-c-orange .card-sub { color:#c0795f; }
                 const target = safeUrl(link.url);
                 if (target) window.open(target, '_blank', 'noopener,noreferrer');
             };
-            // Plain click (mouse, touch, stylus — same on every device) opens
-            // the detail popup; Ctrl/Cmd+click and middle-click keep the old
-            // direct-open feel.
+            // Row mode (v4): no buttons at all. Clicking the icon, the title
+            // or anywhere on the row opens the link in a new window; Ctrl/Cmd
+            // and middle-click do the same. The detail text shows in full.
             card.onclick = (e) => {
+                if (isListLayout) { openDirect(); return; }
                 if (e.ctrlKey || e.metaKey) { openDirect(); return; }
                 showDetailPopup(link);
             };
@@ -3795,6 +3842,7 @@ html:not(.dark) .card-c-orange .card-sub { color:#c0795f; }
         'Export Config': '匯出配置',
         'Import Config': '匯入配置',
         'APP View': 'APP 視圖',
+        'List View': '列表视图',
         'Dark Mode': '深色模式',
         'Remember Settings': '記憶設置',
         'Login': '登入',
@@ -4109,6 +4157,9 @@ html:not(.dark) .card-c-orange .card-sub { color:#c0795f; }
     // Card colors (v24): subtle gradient tints picked from editor swatches.
     // '' = plain (site default). Star feature removed; legacy star key kept.
     const COLOR_KEYS = ['violet', 'emerald', 'sky', 'amber', 'rose', 'slate', 'cyan', 'indigo', 'fuchsia', 'orange'];
+    // Solid swatch colors for the open-link button (popup and list rows share
+    // this table); uncolored cards fall back to the CSS emerald.
+    const COLOR_BUTTON = { violet: '#7c3aed', emerald: '#059669', sky: '#0284c7', amber: '#d97706', rose: '#be123c', slate: '#475569', cyan: '#0891b2', indigo: '#4f46e5', fuchsia: '#c026d3', orange: '#ea580c' };
     let selColor = '';
     function markColorSel() {
         document.querySelectorAll('#color-picker .color-swatch').forEach(b => b.classList.toggle('sel', b.dataset.color === selColor));
@@ -4168,7 +4219,6 @@ html:not(.dark) .card-c-orange .card-sub { color:#c0795f; }
 
         // Tint the Open Link button with the card's color. Solid swatch colors
         // keep white text; an uncolored card resets to the CSS green.
-        const COLOR_BUTTON = { violet: '#7c3aed', emerald: '#059669', sky: '#0284c7', amber: '#d97706', rose: '#be123c', slate: '#475569', cyan: '#0891b2', indigo: '#4f46e5', fuchsia: '#c026d3', orange: '#ea580c' };
         document.getElementById('detail-open-btn').style.background = COLOR_BUTTON[link.color] || '';
 
         // Bilingual label, same language rule as the card/popup detail:
@@ -5294,13 +5344,14 @@ async function fetchBestIcon(targetUrl) {
         const urls = [];
         const pushUrl = (x) => { if (!urls.includes(x)) urls.push(x); };
         candidates.slice(0, 3).forEach((c) => pushUrl(c.url));
+        pushUrl(new URL('/apple-touch-icon.png', targetUrl).toString());
         pushUrl(new URL('/favicon.svg', targetUrl).toString());
         pushUrl(new URL('/favicon.ico', targetUrl).toString());
         const deadline = Date.now() + 4000;
-        for (const iconUrl of urls) {
+        for (const u of urls) {
             const ms = Math.min(1500, deadline - Date.now());
             if (ms <= 0) break;
-            const res = await safeFetchIcon(iconUrl, ms, true);
+            const res = await safeFetchIcon(u, ms, true);
             if (res) return res;
         }
         return null;
@@ -5533,10 +5584,61 @@ async function centerIconPNG(bytes) {
         }
         if (centerTot > 0 && whiteOpaque / centerTot >= 0.55) return { out: null, opaque: true };
         if (maxX < 0) return { out: null, opaque: true }; // fully transparent: nothing to show
+        // Glyph tint: read the glyph's own colors (pixels are inspected, never
+        // transformed) and derive a tile background from them. Dark glyphs get a
+        // light tint of the same hue; light/white silhouettes get a dark tile so
+        // they stay visible. Hue = saturation-weighted circular mean, so a
+        // multicolor glyph resolves to its dominant hue. Achromatic glyphs fall
+        // back to the site's lavender hue. Output is a plain hex, served to the
+        // client as a header; the tile renders it as its CSS background color.
+        let gr = 0, gg = 0, gb = 0, gn = 0, satSum = 0, vx = 0, vy = 0, wsum = 0;
+        for (let y = minY; y <= maxY; y++) {
+            for (let x = minX; x <= maxX; x++) {
+                const d = (y * w + x) * 4;
+                if (rgba[d + 3] > 128) {
+                    const pr = rgba[d], pg = rgba[d + 1], pb = rgba[d + 2];
+                    gr += pr; gg += pg; gb += pb; gn++;
+                    const mx = Math.max(pr, pg, pb), mn = Math.min(pr, pg, pb);
+                    const sat = mx > 0 ? (mx - mn) / mx : 0;
+                    satSum += sat;
+                    if (mx - mn > 24) {
+                        let hue = 0;
+                        if (mx === pr) hue = ((pg - pb) / (mx - mn) + 6) % 6;
+                        else if (mx === pg) hue = (pb - pr) / (mx - mn) + 2;
+                        else hue = (pr - pg) / (mx - mn) + 4;
+                        hue = (hue * 60) % 360;
+                        const wgt = sat * (mx / 255);
+                        vx += Math.cos(hue * Math.PI / 180) * wgt;
+                        vy += Math.sin(hue * Math.PI / 180) * wgt;
+                        wsum += wgt;
+                    }
+                }
+            }
+        }
+        let tint = null;
+        if (gn > 0) {
+            const glyphL = (0.2126 * gr + 0.7152 * gg + 0.0722 * gb) / (gn * 255);
+            const satAvg = satSum / gn;
+            const hue = wsum > 0.001 ? ((Math.atan2(vy, vx) * 180 / Math.PI) + 360) % 360 : 280;
+            const dark = glyphL >= 0.60; // light glyph -> dark tile; dark glyph -> light tint
+            const tl = dark ? 0.30 : 0.87;
+            const ts = Math.min(0.30, Math.max(dark ? 0.12 : 0.08, satAvg * 0.35));
+            const q = tl < 0.5 ? tl * (1 + ts) : tl + ts - tl * ts;
+            const p = 2 * tl - q;
+            const hslf = (t) => {
+                t = (((t % 360) + 360) % 360) / 360;
+                if (t < 1 / 6) return p + (q - p) * 6 * t;
+                if (t < 1 / 2) return q;
+                if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+                return p;
+            };
+            const hch = (v) => Math.round(v * 255).toString(16).padStart(2, '0');
+            tint = '#' + hch(hslf(hue + 120)) + hch(hslf(hue)) + hch(hslf(hue - 120));
+        }
         const bw = maxX - minX + 1, bh = maxY - minY + 1;
         const ml = minX, mr = w - 1 - maxX, mt = minY, mb = h - 1 - maxY;
         // Margins of at least 4px on all four sides: already centered with breathing room, pass through.
-        if (ml >= 4 && mr >= 4 && mt >= 4 && mb >= 4) return { out: null, opaque: false };
+        if (ml >= 4 && mr >= 4 && mt >= 4 && mb >= 4) return { out: null, opaque: false, tint };
         // Otherwise re-pad: glyph gets a guaranteed 4px transparent margin per side,
         // so a full-bleed circle (margins ~0, looks edge-clipped in the white tile) shrinks
         // slightly and shows a clean white ring around it.
@@ -5548,7 +5650,7 @@ async function centerIconPNG(bytes) {
             const srcStart = ((minY + y) * w + minX) * 4;
             canvas.set(rgba.subarray(srcStart, srcStart + bw * 4), (oy + y) * side * 4 + ox * 4);
         }
-        return { out: await pngEncode(side, side, canvas), opaque: false };
+        return { out: await pngEncode(side, side, canvas), opaque: false, tint };
     } catch { return { out: null, opaque: false }; }
 }
 
@@ -5604,7 +5706,9 @@ async function safeFetchIcon(target, ms = 3500, allowSvg = false) {
                 // with tight margins is re-padded. Pixels are never peeled.
                 const r = await centerIconPNG(bytes);
                 if (r.opaque) return null;
-                return new Response(r.out || bytes, { status: 200, headers: { 'Content-Type': 'image/png' } });
+                const pngHeaders = { 'Content-Type': 'image/png' };
+                if (r.tint) pngHeaders['X-Icon-Tint'] = r.tint;
+                return new Response(r.out || bytes, { status: 200, headers: pngHeaders });
             } catch { return null; }
         }
         // JPEG and BMP have no alpha channel at all: they are white plates by
@@ -5649,7 +5753,7 @@ async function handleIconProxy(request, ctx) {
     // Version stamp: bump when the fetch pipeline changes so stale cache entries
     // (e.g. icons captured by the old resize pipeline) stop being served.
     const cacheUrl = new URL(url.toString());
-    cacheUrl.searchParams.set('_v', '6');
+    cacheUrl.searchParams.set('_v', '8');
     const cacheKey = new Request(cacheUrl.toString(), request);
     const cache = caches.default;
 
@@ -5673,7 +5777,9 @@ async function handleIconProxy(request, ctx) {
         const rawCt = (upstream.headers.get('content-type') || '').toLowerCase();
         const okCt = /^image\/(png|jpeg|gif|webp|avif|svg\+xml|x-icon|vnd\.microsoft\.icon)/;
         const ct = okCt.test(rawCt) ? rawCt.split(';')[0].trim() : 'image/png';
-        return buildResp(upstream.body, { 'Content-Type': ct, ...extraHeaders });
+        const tintVal = upstream.headers.get('X-Icon-Tint') || '';
+        const tintHeader = /^#[0-9a-f]{6}$/.test(tintVal) ? { 'X-Icon-Tint': tintVal } : {};
+        return buildResp(upstream.body, { 'Content-Type': ct, ...extraHeaders, ...tintHeader });
     };
     if (response) {
         response = new Response(response.body, response);
