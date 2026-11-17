@@ -2598,10 +2598,15 @@ const HTML_CONTENT = `
              iconClass += ' rounded-lg object-contain icon-bg border border-slate-200 dark:border-slate-700 transition-transform group-hover:scale-105 pointer-events-none';
         }
         icon.className = iconClass;
-        // Corner clearance: inner padding must exceed radius/√2 so tight-margin
-        // icons keep all four edges visible inside the rounded tile. App tile
-        // radius 19.2px needs >13.6, list tile radius 8px needs >5.66.
-        icon.style.padding = isAppLayout ? '14px' : '6px';
+        // App tiles: the fetched logo is drawn inside the plate's content box, so
+        // the plate's inner padding is what makes the logo look small. Padding 14px
+        // on a 56px plate left only a 28px content box; 8px widens it to 40px and
+        // the logo displays ~43% larger. The plate size, radius, border, rows and
+        // spacing are untouched: only the logo's display area grows. Icons from the
+        // pipeline carry a guaranteed transparent margin, so the rounded corners
+        // sweep transparent area at the four corners, not the logo itself.
+        // List tiles keep the old corner clearance (radius 8px, padding 6px).
+        icon.style.padding = isAppLayout ? '8px' : '6px';
 
         // Request the icon at the size it's actually displayed (36px list / 64px APP), then let the
         // browser pick 1x/2x/3x via srcset so Retina/4K/5K screens stay sharp without oversized downloads
