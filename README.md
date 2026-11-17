@@ -33,7 +33,7 @@
 * **🌐 Bilingual Interface**: One tap switches the whole page between English and Chinese — labels, tooltips, placeholders, filter pills and buttons all follow. On desktop the switch is the top-bar capsule; on phones it lives in the Settings menu. Each link can store a subtitle and a short intro in both languages, and cards show the one for the current language. Which languages the interface includes (EN and/or Chinese) is a site-wide setting the admin controls with checkboxes in Settings (login required), and every visitor sees that state on any device.
 * **🏷️ Custom Logo & Site Name** (login required): choose a logo style from a built-in gallery with colours and shapes, or replace it with a custom image URL (the two are exclusive); the browser tab icon and the top-bar logo update together, and the top-bar site name can be renamed from Settings.
 * **🗂️ Card Detail Popup**: A plain click on a card opens a detail popup — icon, title, subtitle, full description, and an **Open Link** button. Ctrl/Cmd+click and middle-click open the link directly, as before.
-* **🎨 Card Colors**: Every link can be assigned a color from a soft palette; the color tints the card background, the border tint appears only on hover, and the subtitle is tinted with the same color.
+* **🎨 Card Colors**: Every link can be assigned a color from a soft palette; in dark mode the card background is tinted with it, the border tint appears only on hover, and the subtitle carries the color's tone; in light mode the card stays pure white and the color shows only as the hover border, with the subtitle in the same hue's muted grey.
 * **🖥️ Big-Screen Friendly**: On wide and ultrawide monitors the page automatically scales to fill the screen, and the card grid extends to six columns on the widest setups. Phones keep the mobile layout.
 
 ## Interface Preview
@@ -130,9 +130,13 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 
 **2026-11-17**
 * Icons: all server-side image processing (centering, resizing, background peeling) is removed and fetched images are served as-is, so the deployed page looks exactly like the local preview, without jagged edges. Icon sources are tried high-resolution first, solid-background icons are skipped, and tiny favicons are only a last resort, so card icons show clearly.
+* App view icons: the inner padding of the App icon tiles is reduced so the fetched logo displays larger inside the tile. Tile size, rows per line, spacing, rounded corners and border are unchanged; list-view cards and the popup keep the old behaviour.
 * Icon tiles: inner padding is widened so full-bleed icons are no longer clipped by the tile's rounded corners, and the hover zoom is kept.
 * Popup: the detail popup reuses the icon the card already loaded, so opening a popup causes no extra fetch.
 * Language checkboxes are a site-wide setting: the admin's choice is stored on the server, so every visitor on any device sees the same language mode; local storage is only a first-paint cache.
+* Light mode: the palette adopts the colour values of a published lavender scheme — flat light-lavender page #E7E6F3, pure white cards, three text layers (title #343A50, description #5D617F, subtitles in muted tones of the card colours), flat purple #6A63B3 for selection, hover and focus, pink #F583C0 for the language capsule, filter-pill hover and the colour-picker row, a slightly deeper top bar #DCDCEC, light-lavender icon tiles #E5E4F1; in light mode the ten card colours drive only the hover border, subtitles in the same hue's muted grey. Dark mode is unchanged.
+* Filter pills: hovering an unselected pill paints a contact background — pink #F583C0 in light mode; in dark mode the same scheme's dark accent applies: deep lavender #2E2840 with pink text #FF96C9.
+* Language capsule: pixel measurement showed the EN and Han glyphs sat ~0.75px above their segment centres; segment padding is now asymmetric (larger top, smaller bottom) so the text sits dead centre in the top-bar and settings capsules, in both modes.
 
 **2026-11-16**
 * App view: App cards show the icon only, centered, for a cleaner grid.
