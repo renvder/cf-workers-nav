@@ -129,6 +129,10 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 ## 📝 Changelog
 
 **2026-11-17**
+* Session reliability: a network blip (offline, WiFi switch, temporary server failure) is no longer treated as "session expired" and logged out; logout now happens only when the server explicitly rejects the session.
+* Icon reliability and freshness: SVG icons that failed to show now display; icons and the page update immediately after a redeploy (icon URLs carry a version stamp, the page cache key carries a content hash); one icon keeps one cached copy, not three.
+* List view on phones: cards stay inside the panel border, and the description shares the same left edge line as the title.
+* Server notes: edge caching works only on a custom domain (the Cache API is inactive on *.workers.dev); on the Free plan, processing a very large source icon may exceed the 10ms CPU limit.
 * List view: a third display style in Settings — compact rows with a bare icon, title and full description; clicking a row opens the link directly, management buttons show only in card view.
 * Icon tiles: the tile background is derived from the icon glyph's own dominant colour (pixels are inspected, never modified) — dark glyphs get a light tint, white silhouettes get a dark tile, so every icon stays visible.
 * App view: on wide screens the App grid extends to more columns for a denser icon wall.
