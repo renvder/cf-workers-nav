@@ -28,9 +28,9 @@
 * **🔒 Password Protection**: Hide sensitive links behind an admin password—visible only when logged in. Failed logins are rate-limited (5 wrong attempts locks that IP for 15 minutes).
 * **📂 Flexible Data Management**: Add, edit, or delete links directly on the page. Supports importing HTML bookmarks from Chrome/Edge, plus JSON import/export. Every save automatically keeps a backup of the previous data (at most one per 10 minutes, latest 10 kept). If a second KV namespace is bound as `CARD_ORDER_BACKUP`, every save/import also writes a timestamped copy there, so your links survive even if the main namespace is lost. Import backs up the current data first, and saving or importing an empty dataset over existing data is refused unless explicitly forced; if the KV read fails, the API returns HTTP 500 instead of a silently empty page. Categories also support sub-groups: create an empty group inside a category first, then add links into it, or drag cards between groups. Links can also carry a short filter tag, editable in the Add/Edit dialog; each category shows one row of filter pills under its title, and clicking one shows only the matching links across all its groups. Each named group is shown inside a rounded panel with no fill (only the border outline), with its title sitting on the panel's top border.
 * **🩺 One-Click Check** (login required): Check whether each site is reachable and how fast it responds, right from your browser.
-* **🖼️ Sharp, Bandwidth-Friendly Icons**: Icons are resized and re-encoded (AVIF/WebP where supported) at the edge, and served via `srcset` so Retina, 4K and 5K screens get a crisp icon while ordinary screens don't download more than they need. Requires **Image Resizing** to be turned on for your domain (see below).
+* **🖼️ Sharp, Bandwidth-Friendly Icons**: Icons are fetched from high-resolution sources, served unprocessed, and delivered via `srcset` so Retina, 4K and 5K screens get a crisp icon; responses are cached at the edge for a week, so repeat visits load instantly.
 * **🔍 Multi-Engine Search**: Search via Google, Bing, or DuckDuckGo, or perform instant quick searches across your saved bookmarks. In-site search unifies Simplified/Traditional Chinese.
-* **🌐 Bilingual Interface**: One tap switches the whole page between English and Chinese — labels, tooltips, placeholders, filter pills and buttons all follow. On desktop the switch is the top-bar capsule; on phones it lives in the Settings menu. Each link can store a subtitle and a short intro in both languages, and cards show the one for the current language. The second language's label is customizable.
+* **🌐 Bilingual Interface**: One tap switches the whole page between English and Chinese — labels, tooltips, placeholders, filter pills and buttons all follow. On desktop the switch is the top-bar capsule; on phones it lives in the Settings menu. Each link can store a subtitle and a short intro in both languages, and cards show the one for the current language. Which languages the interface includes (EN and/or Chinese) is a site-wide setting the admin controls with checkboxes in Settings (login required), and every visitor sees that state on any device.
 * **🏷️ Custom Logo & Site Name** (login required): choose a logo style from a built-in gallery with colours and shapes, or replace it with a custom image URL (the two are exclusive); the browser tab icon and the top-bar logo update together, and the top-bar site name can be renamed from Settings.
 * **🗂️ Card Detail Popup**: A plain click on a card opens a detail popup — icon, title, subtitle, full description, and an **Open Link** button. Ctrl/Cmd+click and middle-click open the link directly, as before.
 * **🎨 Card Colors**: Every link can be assigned a color from a soft palette; the color tints the card background, the border tint appears only on hover, and the subtitle is tinted with the same color.
@@ -73,9 +73,6 @@
 
 5. **Add a Custom Domain** (Optional):
    - Under **Settings > Domains & Routes**, assign a custom domain or use the provided `*.workers.dev` subdomain.
-
-6. **Turn on Image Resizing** (recommended, for sharp/lightweight icons):
-   - In the Cloudflare dashboard, open your domain's **Speed** tab and enable **Image Resizing**. The Free plan includes 5,000 unique image transformations per month, far more than a personal nav page needs. Without this enabled, icons are still served correctly, just at their original (unresized) size.
 
 <br/>
 
@@ -131,14 +128,17 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 
 ## 📝 Changelog
 
+**2026-11-17**
+* Icons: all server-side image processing (centering, resizing, background peeling) is removed and fetched images are served as-is, so the deployed page looks exactly like the local preview, without jagged edges. Icon sources are tried high-resolution first, solid-background icons are skipped, and tiny favicons are only a last resort, so card icons show clearly.
+* Icon tiles: inner padding is widened so full-bleed icons are no longer clipped by the tile's rounded corners, and the hover zoom is kept.
+* Popup: the detail popup reuses the icon the card already loaded, so opening a popup causes no extra fetch.
+* Language checkboxes are a site-wide setting: the admin's choice is stored on the server, so every visitor on any device sees the same language mode; local storage is only a first-paint cache.
+
 **2026-11-16**
 * App view: App cards show the icon only, centered, for a cleaner grid.
 * Icon display: icons are centered server-side with a guaranteed transparent margin on all sides, so full-bleed circular icons no longer look clipped by the card corners; icon sources are tried in a fixed priority order, starting with the site's own icon link.
-* Language checkboxes in the Settings menu appear only when logged in.
+* Language switching is split by device: desktop switches with the top-bar capsule only; phones use the language checkboxes in the Settings menu, which appear only when logged in.
 * Small screens: card text shrinks on narrow screens so titles fit.
-
-**2026-11-16**
-* Language switching is split by device: desktop switches with the top-bar capsule only, phones with the language row in the Settings menu only — each device has exactly one switch.
 * Logo customisation (login required): pick a style from a built-in gallery, choose a colour, switch between rounded square and circle, or use a custom image URL instead (gallery and URL are exclusive); the tab icon and the top-bar logo update together.
 * Site name: the top-bar site name can be renamed in the same dialog; leaving it empty restores the default. The browser tab title is unchanged.
 * Login-gated settings: the second-language label, data tools and Logo settings all appear only when logged in.
