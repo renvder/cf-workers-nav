@@ -21,7 +21,7 @@
 
 * **⚡️ Serverless Architecture**: Runs entirely on Cloudflare Workers with zero server setup or maintenance.
 * **💾 Cloudflare KV Storage**: Reliable, persistent key-value storage for all your links and settings.
-* **🎨 Clean, Modern UI**: Built with Tailwind CSS (precompiled and embedded in the page, so no external CDN is needed), with a responsive layout for desktop and mobile, plus two display styles (Card view and APP view).
+* **🎨 Clean, Modern UI**: Built with Tailwind CSS (precompiled and embedded in the page, so no external CDN is needed), with a responsive layout for desktop and mobile, plus three display styles (Card view, APP view and List view).
 * **🚀 Light Startup**: No external scripts run on the page, web fonts load in the background without blocking it, and the "Loading…" indicator appears right away.
 * **🌗 Dark Mode That Follows Your System**: Automatically matches your device's light/dark setting on desktop and mobile, and switches live when the system switches (e.g. scheduled day/night mode). You can also toggle it manually from the Settings menu; a manual choice is only remembered across visits if **Remember Settings** is turned on.
 * **🖱️ Drag-and-Drop Reordering**: Rearrange categories and bookmark cards via mouse drag on desktop or long-press on mobile.
@@ -129,12 +129,16 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 ## 📝 Changelog
 
 **2026-11-17**
+* List view: a third display style in Settings — compact rows with a bare icon, title and full description; clicking a row opens the link directly, management buttons show only in card view.
+* Icon tiles: the tile background is derived from the icon glyph's own dominant colour (pixels are inspected, never modified) — dark glyphs get a light tint, white silhouettes get a dark tile, so every icon stays visible.
+* App view: on wide screens the App grid extends to more columns for a denser icon wall.
+* Login button: shows Login when logged out and Logout when logged in (登入／登出 in Chinese); switching language restores the label cleanly in both directions.
 * Icons: all server-side image processing (centering, resizing, background peeling) is removed and fetched images are served as-is, so the deployed page looks exactly like the local preview, without jagged edges. Icon sources are tried high-resolution first, solid-background icons are skipped, and tiny favicons are only a last resort, so card icons show clearly.
 * App view icons: the inner padding of the App icon tiles is reduced so the fetched logo displays larger inside the tile. Tile size, rows per line, spacing, rounded corners and border are unchanged; list-view cards and the popup keep the old behaviour.
 * Icon tiles: inner padding is widened so full-bleed icons are no longer clipped by the tile's rounded corners, and the hover zoom is kept.
 * Popup: the detail popup reuses the icon the card already loaded, so opening a popup causes no extra fetch.
 * Language checkboxes are a site-wide setting: the admin's choice is stored on the server, so every visitor on any device sees the same language mode; local storage is only a first-paint cache.
-* Light mode: the palette adopts the colour values of a published lavender scheme — flat light-lavender page #E7E6F3, pure white cards, three text layers (title #343A50, description #5D617F, subtitles in muted tones of the card colours), flat purple #6A63B3 for selection, hover and focus, pink #F583C0 for the language capsule, filter-pill hover and the colour-picker row, a slightly deeper top bar #DCDCEC, light-lavender icon tiles #E5E4F1; in light mode the ten card colours drive only the hover border, subtitles in the same hue's muted grey. Dark mode is unchanged.
+* Light mode: the palette adopts the colour values of a published lavender scheme — flat light-lavender page #E7E6F3, pure white cards, three text layers (title #343A50, description #5D617F, subtitles in muted tones of the card colours), flat purple #6A63B3 for selection, hover and focus, pink #F583C0 for the language capsule, filter-pill hover and the colour-picker row, a slightly deeper top bar #DCDCEC, light-lavender icon tiles #E5E4F1; in light mode the ten card colours show as flat muted fills with the same hue's muted grey subtitles, so light mode is no longer vivid. Dark mode is unchanged.
 * Filter pills: hovering an unselected pill paints a contact background — pink #F583C0 in light mode; in dark mode the same scheme's dark accent applies: deep lavender #2E2840 with pink text #FF96C9.
 * Language capsule: pixel measurement showed the EN and Han glyphs sat ~0.75px above their segment centres; segment padding is now asymmetric (larger top, smaller bottom) so the text sits dead centre in the top-bar and settings capsules, in both modes.
 
