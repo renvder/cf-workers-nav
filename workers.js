@@ -2468,6 +2468,7 @@ const HTML_CONTENT = `
         const langsRow = document.getElementById('langs-setting-row');
         if (langsRow) langsRow.classList.toggle('hidden', !isLoggedIn);
         updateLangSwitchUi();
+        if (isLoggedIn) loadSiteLangs(); // the admin sees the live site state right after login
 
         if (isEditMode) {
             editModeBtn.innerHTML = '<span class="text-red-500 flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>Exit Edit</span>';
@@ -3968,6 +3969,11 @@ const HTML_CONTENT = `
         LANG = forcedLang() || LANG;
         refreshLangRender();
         updateLangSwitchUi();
+        // Persist as the site-wide setting: every visitor on any device sees
+        // this state. The write is admin-authenticated; failures keep the
+        // checkboxes in the just-applied state for this session.
+        const t = localStorage.getItem('authToken');
+        fetch('/api/langs', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': t }, body: JSON.stringify({ langs: LANGS }) }).catch(() => {});
     }
     if (langEnCheck) langEnCheck.onchange = onLangCheck;
     if (langZhCheck) langZhCheck.onchange = onLangCheck;
@@ -3975,6 +3981,23 @@ const HTML_CONTENT = `
     updateLangCapsule();
     updateLangSwitchUi();
     applyFieldVisibility();
+    // Site-wide language setting lives on the server. localStorage is just the
+    // first-paint cache: every visitor loads the admin's state and the page
+    // corrects itself the moment the answer arrives, on any device/browser.
+    function applySiteLangs(v) {
+        if (!v || typeof v.en !== 'boolean' || typeof v.zh !== 'boolean' || (!v.en && !v.zh)) return;
+        if (v.en === LANGS.en && v.zh === LANGS.zh) return;
+        LANGS = { en: v.en, zh: v.zh };
+        localStorage.setItem(LANGS_KEY, JSON.stringify(LANGS));
+        if (forcedLang()) LANG = forcedLang();
+        syncLangChecks();
+        refreshLangRender();
+        updateLangSwitchUi();
+    }
+    function loadSiteLangs() {
+        fetch('/api/langs').then(r => r.json()).then(v => applySiteLangs(v)).catch(() => {});
+    }
+    loadSiteLangs();
     if (LANG === 'zh') applyLang(); // cards render after this block, so LANG is already set
 
     // Card colors (v24): subtle gradient tints picked from editor swatches.
@@ -6237,6 +6260,27 @@ export default {
             const cleanLogo = sanitizeLogo(bodyObj.data.logo);
             if (!cleanLogo) return new Response(JSON.stringify({ error: 'INVALID_LOGO' }), { status: 422, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
             await env.CARD_ORDER.put(DEFAULT_USER + '_logo', JSON.stringify(cleanLogo));
+            return new Response(JSON.stringify({ success: true }), { status: 200, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
+        }
+
+        // Site-wide language mode: one KV entry written by the admin, read by
+        // every visitor (anonymous included) at page start. localStorage is
+        // only a first-paint cache; the server value is the truth.
+        if (url.pathname === '/api/langs' && request.method === 'GET') {
+            const langsStr = await env.CARD_ORDER.get(DEFAULT_USER + '_langs');
+            return new Response(langsStr || 'null', { status: 200, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
+        }
+
+        if (url.pathname === '/api/langs' && request.method === 'POST') {
+            const validation = await validateServerToken(request.headers.get('Authorization'), env);
+            if (!validation.isValid) return new Response(JSON.stringify(validation.response), { status: validation.status, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
+
+            const bodyObj = await readJsonBody(request);
+            if (!bodyObj.ok) return new Response(JSON.stringify({ error: bodyObj.reason }), { status: bodyObj.reason === 'TOO_LARGE' ? 413 : 400, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
+
+            const v = bodyObj.data.langs;
+            if (!v || typeof v.en !== 'boolean' || typeof v.zh !== 'boolean' || (!v.en && !v.zh)) return new Response(JSON.stringify({ error: 'INVALID_LANGS' }), { status: 422, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
+            await env.CARD_ORDER.put(DEFAULT_USER + '_langs', JSON.stringify({ en: v.en, zh: v.zh }));
             return new Response(JSON.stringify({ success: true }), { status: 200, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
         }
 
