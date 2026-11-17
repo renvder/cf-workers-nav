@@ -990,6 +990,10 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
                     <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Icon URL</label>
                     <input type="text" id="icon-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Leave blank to auto-fetch">
                 </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Icon URL (Dark Mode)</label>
+                    <input type="text" id="icon-dark-input" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Leave blank to use the same icon">
+                </div>
                 <div id="group-field">
                     <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Group</label>
                     <input type="text" id="group-input" list="group-datalist" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white" placeholder="Optional — leave blank for no group">
@@ -1494,6 +1498,9 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
             const isDark = e.target.checked;
             window.isDarkTheme = isDark;
             applyTheme(isDark);
+            // Custom icon URLs are per-mode: rebuild the cards so every icon
+            // re-points to the slot that matches the new mode.
+            renderCategories();
 
             const savePrefCheckbox = document.getElementById('save-preference-checkbox');
             if (savePrefCheckbox && savePrefCheckbox.checked) {
@@ -2764,13 +2771,17 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
         // (direct=1: fetch that URL directly as an image, skip favicon discovery), so it gets the
         // same resizing instead of loading the original file straight from wherever it's hosted.
         const baseW = isListLayout ? 48 : 36;
-        const cacheKey = link.url + '|' + (link.icon || '') + '|' + baseW;
+        // Two custom icon slots: icon = normal mode, iconDark = dark mode.
+        // The dark slot only takes effect in dark mode; with one slot filled,
+        // the same image serves both modes as before.
+        const effIcon = (document.documentElement.classList.contains('dark') && link.iconDark) ? link.iconDark : (link.icon || '');
+        const cacheKey = link.url + '|' + effIcon + '|' + baseW;
         let resolvedSrc, resolvedSrcset, base;
         if (iconCache.has(cacheKey)) {
             ({ src: resolvedSrc, srcset: resolvedSrcset } = iconCache.get(cacheKey));
         } else {
-            const isCustom = !!(link.icon && link.icon.startsWith('http'));
-            const sourceUrl = isCustom ? link.icon : link.url;
+            const isCustom = effIcon.startsWith('http');
+            const sourceUrl = isCustom ? effIcon : link.url;
             base = imgApi + encodeURIComponent(sourceUrl) + (isCustom ? '&direct=1' : '') + '&w=';
             resolvedSrc = base + baseW;
             resolvedSrcset = \`\${base}\${baseW} 1x, \${base}\${baseW * 2} 2x, \${base}\${baseW * 3} 3x\`;
@@ -2791,7 +2802,7 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
                 // Remember the exact URL the browser picked for this link so
                 // the popup reuses it: same URL = straight from the browser
                 // cache, zero extra fetch when a popup opens.
-                const pickedKey = link.url + '|' + (link.icon || '');
+                const pickedKey = link.url + '|' + effIcon;
                 if (iconPickedUrl.size > 2000) iconPickedUrl.clear();
                 iconPickedUrl.set(pickedKey, this.currentSrc || resolvedSrc);
             };
@@ -3121,6 +3132,7 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
             color: selColor,
             star: false,
             icon: document.getElementById('icon-input').value.trim(),
+            iconDark: document.getElementById('icon-dark-input').value.trim(),
             group: langMode() === 'zh' ? document.getElementById('group-zh-input').value.trim().slice(0, 120) : document.getElementById('group-input').value.trim().slice(0, 120),
             tag: langMode() === 'zh' ? document.getElementById('tag-zh-input').value.trim().slice(0, 30) : document.getElementById('tag-input').value.trim().slice(0, 30),
             isPrivate: document.getElementById('private-checkbox').checked,
@@ -3178,6 +3190,7 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
             color: selColor,
             isDirect: !!oldLink.isDirect,
             icon: document.getElementById('icon-input').value.trim(),
+            iconDark: document.getElementById('icon-dark-input').value.trim(),
             group: langMode() === 'zh' ? (document.getElementById('group-zh-input').value.trim().slice(0, 120) || oldLink.group) : document.getElementById('group-input').value.trim().slice(0, 120),
             tag: langMode() === 'zh' ? (document.getElementById('tag-zh-input').value.trim().slice(0, 30) || oldLink.tag) : document.getElementById('tag-input').value.trim().slice(0, 30),
             category: document.getElementById('category-select-value').value,
@@ -3738,6 +3751,7 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
         selColor = '';
         markColorSel();
         document.getElementById('icon-input').value = '';
+        document.getElementById('icon-dark-input').value = '';
         document.getElementById('private-checkbox').checked = false;
         document.getElementById('group-input').value = '';
         document.getElementById('tag-input').value = '';
@@ -3775,6 +3789,7 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
         selColor = COLOR_KEYS.includes(link.color) ? link.color : '';
         markColorSel();
         document.getElementById('icon-input').value = link.icon || '';
+        document.getElementById('icon-dark-input').value = link.iconDark || '';
         document.getElementById('private-checkbox').checked = link.isPrivate;
 
         const linkCategory = link.category || (() => {
@@ -3893,6 +3908,7 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
         'Button Label (EN)': '按鈕標籤 (英)',
         'Button Label (漢)': '按鈕標籤 (漢)',
         'Icon URL': '圖標網址',
+        'Icon URL (Dark Mode)': '圖標網址 (深色模式)',
         'Group': '分組',
         'Tag': '標籤',
         'Category': '分類',
@@ -3904,6 +3920,7 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
         'Site name': '網站名稱',
         'Optional — shown as the card\\'s second line': '可選 — 顯示於卡片第二行',
         'Leave blank to auto-fetch': '留空以自動抓取',
+        'Leave blank to use the same icon': '留空＝兩模式同一圖',
         'Optional — leave blank for no group': '可選 — 留空為無分組',
         'Optional — leave blank for no tag': '可選 — 留空為無標籤',
         'Optional — Chinese name': '可選 — 中文名',
@@ -4209,12 +4226,13 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
         // browser keeps an <img>'s old picture on screen while a new src
         // loads (~1s through the proxy), which read as a stale cache. Hide
         // the old image, show the spinner, reveal the new one on load.
-        const isCustom = !!(link.icon && link.icon.startsWith('http'));
+        const effIcon = (document.documentElement.classList.contains('dark') && link.iconDark) ? link.iconDark : (link.icon || '');
+        const isCustom = effIcon.startsWith('http');
         const spin = document.getElementById('detail-icon-spin');
         img.style.display = 'none';
         if (spin) spin.style.display = 'flex';
         img.onload = () => { img.style.display = ''; if (spin) spin.style.display = 'none'; };
-        img.src = iconPickedUrl.get(link.url + '|' + (link.icon || '')) || (imgApi + encodeURIComponent(isCustom ? link.icon : link.url) + (isCustom ? '&direct=1' : '') + '&w=64');
+        img.src = iconPickedUrl.get(link.url + '|' + effIcon) || (imgApi + encodeURIComponent(isCustom ? effIcon : link.url) + (isCustom ? '&direct=1' : '') + '&w=64');
         // Re-opening the same card: the image is already in cache, show at once.
         if (img.complete && img.naturalWidth > 0) { img.style.display = ''; if (spin) spin.style.display = 'none'; }
         img.onerror = () => { img.style.display = 'none'; if (spin) spin.style.display = 'none'; };
@@ -6084,6 +6102,7 @@ function sanitizeCategories(raw) {
                 url: String(l.url).slice(0, MAX_URL),
                 tips: l.tips ? String(l.tips).slice(0, MAX_TIPS) : '',
                 icon: l.icon ? String(l.icon).slice(0, MAX_URL) : '',
+                iconDark: l.iconDark ? String(l.iconDark).slice(0, MAX_URL) : '',
                 isPrivate: !!l.isPrivate,
                 isDirect: !!l.isDirect,
                 // Preserve/backfill category ownership: prefer the given value, otherwise fall back to the containing category's key, so a missing link.category doesn't become an "undefined" category
