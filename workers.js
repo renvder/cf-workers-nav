@@ -716,7 +716,11 @@ html:not(.dark) .card-c-fuchsia .card-sub { color:#7f6faa; }
 html:not(.dark) .card-c-orange .card-sub { color:#537fa3; }
 </style>
 <style id="list-view">
-.list-view .list-grid { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 12px; }
+.list-view .list-grid { grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr)); gap: 12px; min-width: 0; }
+.list-view .card { min-width: 0; max-width: 100%; }
+/* Horizontal inset lives on the card itself, so icon/title/subtitle and the detail text share one left edge (and one right edge) */
+.list-view .card-anim { padding-left: 20px; padding-right: 20px; }
+.list-view .card-desc { overflow-wrap: anywhere; }
 .list-view .card { background-color: transparent; border-color: transparent; box-shadow: none; }
 html.dark .list-view .card { background-image: none; }
 .list-view .card:hover { transform: none; background-color: rgba(106,99,179,.07); border-color: rgba(106,99,179,.30); box-shadow: none; }
@@ -724,6 +728,8 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
 @media (max-width: 640px) {
     .list-view .card { border-bottom: 1px solid rgba(106,99,179,.18); border-radius: 0; }
     html.dark .list-view .card { border-bottom-color: rgba(135,123,210,.16); }
+    .list-view .list-grid { grid-template-columns: minmax(0, 1fr); }
+    .list-view .card-anim { padding-left: 22px; padding-right: 22px; }
 }
 </style>
 </head>
@@ -1425,11 +1431,6 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
         });
     }
 
-    function setActiveEngine(engine) {
-        if (!searchEngines.hasOwnProperty(engine) && engine !== 'site') engine = 'site';
-        selectSearchEngine(engine, searchEngineLabels[engine]);
-    }
-
     function updateSearchEngineUI(value) {
         const label = searchEngineLabels[value] || T("This site");
         const icon = searchEngineIcons[value] || searchEngineIcons['site'];
@@ -1640,7 +1641,7 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
     async function loadLinks(skipValidate = false) {
         if (isLoggedIn && !skipValidate) {
             const isValid = await validateToken();
-            if (!isValid) {
+            if (isValid === false) {
                 logout();
                 return;
             }
@@ -1652,7 +1653,7 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
         }
 
         try {
-            const response = await fetchWithAuth('/api/getLinks');
+            const response = await fetchWithAuth('/api/getLinks', { cache: 'no-store' });
             if (!response.ok) throw new Error("HTTP error! status: " + response.status);
 
             const data = await response.json();
@@ -2641,7 +2642,7 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
         renderCategorySections({ renderButtons: true });
     }
 
-    const imgApi = '/api/icon?url=';
+    const imgApi = '/api/icon?v=9&url=';
     const iconCache = new Map();
     // The exact icon URL the browser loaded for a link (srcset picks one by
     // screen density; all sizes return the same bytes). The popup reuses it,
@@ -3926,6 +3927,7 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
         'Your login credentials have expired, please log in again': '登入憑證已過期，請重新登入',
         'Your session has expired, please log in again': '登入階段已過期，請重新登入',
         'Operation failed, please try again': '操作失敗，請再試一次',
+        'Network unavailable, please try again later': '網路無法使用，請稍後再試',
         'This category already exists': '此分類已存在',
         'This name already exists': '此名稱已存在',
         'Group name cannot be empty': '分組名稱不能為空',
@@ -4479,8 +4481,12 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
     async function refreshOnce() {
         if (_refreshing) return _refreshing;
         _refreshing = (async () => {
+            // Three outcomes: a new token; null = the server explicitly rejected
+            // the refresh token (truly expired / revoked); a throw = network error
+            // or 5xx (the session may still be fine, so callers must not log out).
             const r = await fetch('/api/refreshToken', { method: 'POST', credentials: 'include' });
-            if (!r.ok) return null;
+            if (r.status === 401 || r.status === 400) return null;
+            if (!r.ok) throw new Error('REFRESH_UNAVAILABLE');
             const data = await r.json();
             return data && data.accessToken ? data.accessToken : null;
         })();
@@ -4498,17 +4504,16 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
         let res = await fetch(url, options);
 
         if (res.status === 401 && token) {
-            try {
-                const fresh = await refreshOnce();
-                if (fresh) {
-                    localStorage.setItem('authToken', fresh);
-                    headers.Authorization = fresh;
-                    options.headers = headers;
-                    res = await fetch(url, options);
-                } else {
-                    throw new Error('Refresh token expired');
-                }
-            } catch (refreshError) {
+            // A refresh or retry that fails on the network / 5xx simply throws to
+            // the caller (the token is kept; the session is probably still valid).
+            const fresh = await refreshOnce();
+            if (fresh) {
+                localStorage.setItem('authToken', fresh);
+                headers.Authorization = fresh;
+                options.headers = headers;
+                res = await fetch(url, options);
+            } else {
+                // Server explicitly rejected the refresh token: really expired.
                 localStorage.removeItem('authToken');
                 isLoggedIn = false;
                 updateUIState();
@@ -4681,31 +4686,13 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
     }
 
 
-    async function backupUserData() {
-        try {
-            const res = await fetchWithAuth('/api/backupData', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({}),
-            });
-            if(res.status === 401) {
-                logout();
-                await customAlert('Your login credentials have expired, please log in again');
-                return false;
-            }
-            const d = await res.json();
-            return d.success;
-        } catch(e) { return false; }
-    }
-
-    async function reloadCardsAsAdmin() {
-         await loadLinks();
-    }
-
     async function validateTokenOrRedirect() {
         const valid = await validateToken();
+        if (valid === null) {
+            // Could not reach the server: do NOT log out (logout revokes every session)
+            await customAlert('Network unavailable, please try again later');
+            return false;
+        }
         if(!valid) {
             logout();
             await customAlert('Your login credentials have expired, please log in again');
@@ -4714,13 +4701,17 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
         return true;
     }
 
+    // true = valid; false = the server says invalid / expired; null = could not
+    // tell (network error or 5xx). Callers must not log out on null.
     async function validateToken() {
         const t = localStorage.getItem('authToken');
         if(!t) return false;
         try {
             const r = await fetchWithAuth('/api/validateToken');
-            return r.status === 200;
-        } catch(e) { return false; }
+            if (r.status === 200) return true;
+            if (r.status === 401 || r.status === 403) return false;
+            return null;
+        } catch(e) { return (e && e.message === 'Unauthorized') ? false : null; }
     }
 
     function logout() {
@@ -5062,7 +5053,7 @@ async function validateServerToken(authHeader, env) {
         return { isValid: false, status: 401, response: { error: 'Invalid', message: 'Invalid token' } };
     }
 
-    if (payload.exp < Math.floor(Date.now() / 1000)) {
+    if (typeof payload.exp !== 'number' || payload.exp < Math.floor(Date.now() / 1000)) {
         return { isValid: false, status: 401, response: { error: 'Expired', message: 'Token expired' } };
     }
 
@@ -5076,7 +5067,7 @@ async function validateServerToken(authHeader, env) {
         return { isValid: false, status: 503, response: { error: 'Service Unavailable', message: 'KV unavailable, try again later' } };
     }
 
-    if (payload.kid && payload.kid !== gen) {
+    if (!payload.kid || payload.kid !== gen) {
         return { isValid: false, status: 401, response: { error: 'Revoked', message: 'Session invalid, please log in again' } };
     }
 
@@ -5150,32 +5141,39 @@ function cacheKeyFor(url, rev, scope) {
     return new Request(k.toString(), { method: 'GET' });
 }
 
-function ctxSafePut(key, res) {
-    try { caches.default.put(key, res).catch(e => console.warn('cache put failed', e)); }
-    catch (e) { console.warn('cache put failed', e); }
+function ctxSafePut(key, res, ctx) {
+    try {
+        const p = CACHE.put(key, res).catch(e => console.warn('cache put failed', e));
+        if (ctx && ctx.waitUntil) ctx.waitUntil(p); // un-awaited puts can be cancelled once the response is sent
+    } catch (e) { console.warn('cache put failed', e); }
 }
 
-async function sendCached(body, request, cacheKey, cacheable, extraHeaders = {}) {
+async function sendCached(body, request, cacheKey, cacheable, extraHeaders = {}, ctx = null) {
     const headers = {
         'Content-Type': 'application/json',
         ...extraHeaders,
         // Response headers are always no-store: avoids CDN/browsers caching public data by the bare URL; otherwise, after logging in, requests carrying
         // an Authorization header to the same URL would hit this anonymous cache and get filtered data, polluting the authenticated state
         'Cache-Control': 'no-store',
-        'Vary': 'Accept-Encoding',
+        'Vary': 'Accept-Encoding' + (extraHeaders.Vary ? ', ' + extraHeaders.Vary : ''),
     };
     const res = new Response(body, { status: 200, headers });
     if (cacheable) {
         // Store a cacheable copy in the edge cache. The client response is
         // no-store on purpose (login pollution), but storing THAT means the
         // cache never keeps anything: store headers must allow caching.
+        // CORS headers are per-request: never store them in the shared copy.
+        const storeExtra = {};
+        for (const k of Object.keys(extraHeaders)) {
+            if (!/^(access-control-|vary$)/i.test(k)) storeExtra[k] = extraHeaders[k];
+        }
         const storeHeaders = {
             'Content-Type': 'application/json',
-            ...extraHeaders,
+            ...storeExtra,
             'Cache-Control': 'public, max-age=60, s-maxage=60',
             'Vary': 'Accept-Encoding',
         };
-        ctxSafePut(cacheKey, new Response(body, { status: 200, headers: storeHeaders }));
+        ctxSafePut(cacheKey, new Response(body, { status: 200, headers: storeHeaders }), ctx);
     }
     return res;
 }
@@ -5322,7 +5320,7 @@ async function fetchBestIcon(targetUrl) {
                 },
             })
             .on('head', {
-                endTag() { headDone = true; },
+                element(e) { e.onEndTag(() => { headDone = true; }); },
             });
 
         const reader = rewriter.transform(response).body.getReader();
@@ -5364,7 +5362,28 @@ async function fetchBestIcon(targetUrl) {
 }
 
 const ICON_SCHEME_OK = new Set(['http:', 'https:']);
-const HOST_DENY = /(^|\.)(localhost|127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|169\.254\.|metadata\.google|i-1\.internal|\[::1\]|0\.0\.0\.0)/i;
+// Exact-match host check (the old regex also hit public hosts such as
+// 10.com or localhostfoo.com and missed 100.64/10, fc00::/7, fe80::/10).
+const HOST_DENY = {
+    test(host) {
+        const h = String(host || '').toLowerCase().replace(/^\[|\]$/g, '').replace(/\.$/, '');
+        if (!h) return true;
+        if (h === 'localhost' || h.endsWith('.localhost') || h.endsWith('.local') || h.endsWith('.internal')) return true;
+        const m = h.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);
+        if (m) {
+            const a = +m[1], b = +m[2];
+            return a === 0 || a === 10 || a === 127 || (a === 169 && b === 254) ||
+                (a === 172 && b >= 16 && b <= 31) || (a === 192 && b === 168) ||
+                (a === 100 && b >= 64 && b <= 127) || a >= 224;
+        }
+        if (h.includes(':')) {
+            return h === '::' || h === '::1' || h.startsWith('fc') || h.startsWith('fd') ||
+                h.startsWith('fe8') || h.startsWith('fe9') || h.startsWith('fea') || h.startsWith('feb') ||
+                h.startsWith('::ffff:');
+        }
+        return false;
+    }
+};
 // Only bitmaps are accepted; HTML/SVG/XML are never allowed through. SVG is only allowed for "trusted image hosts" (see allowSvg in safeFetchIcon)
 const ICON_CT_OK = /^image\/(png|jpeg|gif|webp|ico|x-icon|vnd\.microsoft\.icon|avif|bmp)/i;
 
@@ -5654,7 +5673,7 @@ async function centerIconPNG(bytes) {
     } catch { return { out: null, opaque: false }; }
 }
 
-async function safeFetchIcon(target, ms = 3500, allowSvg = false) {
+async function safeFetchIcon(target, ms = 3500, allowSvg = false, strict = true) {
     let u;
     try { u = new URL(target); } catch { return null; }
     if (!ICON_SCHEME_OK.has(u.protocol)) return null;
@@ -5705,7 +5724,7 @@ async function safeFetchIcon(target, ms = 3500, allowSvg = false) {
                 // refused (the next transparent source gets a chance), a glyph
                 // with tight margins is re-padded. Pixels are never peeled.
                 const r = await centerIconPNG(bytes);
-                if (r.opaque) return null;
+                if (r.opaque && strict) return null;
                 const pngHeaders = { 'Content-Type': 'image/png' };
                 if (r.tint) pngHeaders['X-Icon-Tint'] = r.tint;
                 return new Response(r.out || bytes, { status: 200, headers: pngHeaders });
@@ -5713,7 +5732,7 @@ async function safeFetchIcon(target, ms = 3500, allowSvg = false) {
         }
         // JPEG and BMP have no alpha channel at all: they are white plates by
         // definition. Refuse them so the next transparent source gets a chance.
-        if (/^image\/(jpeg|bmp)/.test(ct)) return null;
+        if (strict && /^image\/(jpeg|bmp)/.test(ct)) return null;
         if (ct === 'image/svg+xml') {
             // Snapshot tiles (Google s2, DuckDuckGo) are full-canvas white rect SVGs.
             // Drop the white rect so the glyph floats on the tile background instead
@@ -5721,11 +5740,12 @@ async function safeFetchIcon(target, ms = 3500, allowSvg = false) {
             // logo) are left alone.
             try {
                 const text = await res.text();
-                const stripped = stripWhiteSvg(text);
-                if (stripped) {
-                    return new Response(stripped, { status: 200, headers: { 'Content-Type': 'image/svg+xml' } });
-                }
-            } catch { }
+                // The body is consumed here: always return a fresh Response.
+                // Falling through to `return res` threw "body disturbed" for
+                // SVGs that stripWhiteSvg declines (large / no path shapes).
+                const stripped = stripWhiteSvg(text) || text;
+                return new Response(stripped, { status: 200, headers: { 'Content-Type': 'image/svg+xml' } });
+            } catch { return null; }
         }
         return res;
     } catch (e) {
@@ -5753,7 +5773,9 @@ async function handleIconProxy(request, ctx) {
     // Version stamp: bump when the fetch pipeline changes so stale cache entries
     // (e.g. icons captured by the old resize pipeline) stop being served.
     const cacheUrl = new URL(url.toString());
-    cacheUrl.searchParams.set('_v', '8');
+    // `w` never changes the bytes: drop it so 1x/2x/3x share one cache entry
+    cacheUrl.searchParams.delete('w');
+    cacheUrl.searchParams.set('_v', '9');
     const cacheKey = new Request(cacheUrl.toString(), request);
     const cache = caches.default;
 
@@ -5775,7 +5797,7 @@ async function handleIconProxy(request, ctx) {
     // For an upstream Response that already passed the safeFetchIcon allowlist (bitmap/SVG), return it with its real content type.
     const buildRespFromUpstream = (upstream, extraHeaders = {}) => {
         const rawCt = (upstream.headers.get('content-type') || '').toLowerCase();
-        const okCt = /^image\/(png|jpeg|gif|webp|avif|svg\+xml|x-icon|vnd\.microsoft\.icon)/;
+        const okCt = /^image\/(png|jpeg|gif|webp|avif|bmp|svg\+xml|x-icon|vnd\.microsoft\.icon)/;
         const ct = okCt.test(rawCt) ? rawCt.split(';')[0].trim() : 'image/png';
         const tintVal = upstream.headers.get('X-Icon-Tint') || '';
         const tintHeader = /^#[0-9a-f]{6}$/.test(tintVal) ? { 'X-Icon-Tint': tintVal } : {};
@@ -5787,7 +5809,7 @@ async function handleIconProxy(request, ctx) {
     } else {
         let upstreamResponse = null;
         if (isDirect) {
-            upstreamResponse = await safeFetchIcon(targetUrl, 3500, true);
+            upstreamResponse = await safeFetchIcon(targetUrl, 3500, true, false);
         } else {
             // Site's own designed icon first: HTML link discovery (apple-touch-icon
             // etc.) is high-resolution and the site's brand icon. Then the
@@ -5994,7 +6016,7 @@ function validateCategories(raw) {
 
     let total = 0;
     for (const name of keys) {
-        if (typeof name !== 'string' || name.length === 0 || name.length > MAX_NAME) {
+        if (typeof name !== 'string' || name.length === 0 || name.length > MAX_NAME || name === '__proto__') {
             return { ok: false, reason: 'BAD_CATEGORY_NAME' };
         }
         const cat = raw[name];
@@ -6132,8 +6154,11 @@ async function readJsonBody(request, maxBytes = 8 * 1024 * 1024) {
     let text;
     try { text = await request.text(); } catch { return { ok: false, reason: 'READ_FAILED' }; }
     if (text.length > maxBytes) return { ok: false, reason: 'TOO_LARGE' };
-    try { return { ok: true, data: JSON.parse(text) }; }
+    let data;
+    try { data = JSON.parse(text); }
     catch { return { ok: false, reason: 'BAD_JSON' }; }
+    if (!data || typeof data !== 'object' || Array.isArray(data)) return { ok: false, reason: 'BAD_JSON' };
+    return { ok: true, data };
 }
 
 export default {
@@ -6174,7 +6199,7 @@ export default {
                     // never leak into the edge cache key.
                     return new Response(JSON.stringify({ error: 'METHOD_NOT_ALLOWED' }), { status: 405, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' } });
                 }
-                return handleIconProxy(request, ctx);
+                return await handleIconProxy(request, ctx);
             }
 
         if (url.pathname === '/' || url.pathname === '/index.html') {
@@ -6194,7 +6219,9 @@ export default {
             }
 
             // Edge cache hit -> 0 origin requests
-            const cacheKey = new Request(url.origin + '/', { method: 'GET' });
+            // Key carries the content hash: after a redeploy the new HTML is served
+            // at once instead of the previous version until s-maxage expires.
+            const cacheKey = new Request(url.origin + '/?__h=' + encodeURIComponent(etag), { method: 'GET' });
             const hit = await caches.default.match(cacheKey);
             if (hit) return hit;
 
@@ -6371,6 +6398,15 @@ export default {
                 if (hit) {
                     const r = new Response(hit.body, hit);
                     r.headers.set('X-KV-Cache', 'HIT');
+                    // The stored copy is public/max-age=60; the client must still get
+                    // no-store (a browser-cached anon body would shadow the post-login
+                    // authed response) and this request's own CORS headers.
+                    r.headers.set('Cache-Control', 'no-store');
+                    r.headers.delete('Access-Control-Allow-Origin');
+                    r.headers.delete('Access-Control-Allow-Credentials');
+                    const cors = corsHeaders(request, env);
+                    for (const k of Object.keys(cors)) r.headers.set(k, cors[k]);
+                    r.headers.set('Vary', 'Accept-Encoding' + (cors.Vary ? ', ' + cors.Vary : ''));
                     return r;
                 }
             }
@@ -6397,7 +6433,7 @@ export default {
                 body = JSON.stringify({ categories: filterPublic(data.categories) });
                 cacheable = true;
             }
-            return sendCached(body, request, cacheKey, cacheable, { 'X-KV-Cache': 'MISS', ...corsHeaders(request, env) });
+            return sendCached(body, request, cacheKey, cacheable, { 'X-KV-Cache': 'MISS', ...corsHeaders(request, env) }, ctx);
         }
 
         if (url.pathname === '/api/saveData' && request.method === 'POST') {
@@ -6443,25 +6479,6 @@ export default {
             } catch (e) {
                 return new Response(JSON.stringify({ error: 'SAVE_FAILED' }), { status: 500, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
             }
-        }
-
-        if (url.pathname === '/api/backupData' && request.method === 'POST') {
-            const validation = await validateServerToken(request.headers.get('Authorization'), env);
-            if (!validation.isValid) return new Response(JSON.stringify(validation.response), { status: validation.status, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
-
-            const sourceData = await env.CARD_ORDER.get(DEFAULT_USER);
-
-            if(sourceData) {
-                 const now = Date.now();
-                 const date = new Date(now + 8 * 3600 * 1000);
-                 const dateStr = date.toISOString().replace(/[:.]/g, '-');
-                 await env.CARD_ORDER.put(`backup_${DEFAULT_USER}_${dateStr}`, sourceData, {
-                     metadata: { timestamp: now }
-                 });
-
-                 return new Response(JSON.stringify({ success: true }), { status: 200, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
-            }
-            return new Response(JSON.stringify({ success: false, error: 'User data not found' }), { status: 404, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
         }
 
         if (url.pathname === '/api/logo' && request.method === 'GET') {
