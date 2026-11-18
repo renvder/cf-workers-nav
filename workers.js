@@ -721,6 +721,15 @@ html:not(.dark) .card-c-orange .card-sub { color:#537fa3; }
 /* Horizontal inset lives on the card itself, so icon/title/subtitle and the detail text share one left edge (and one right edge) */
 .list-view .card-anim { padding-left: 20px; padding-right: 20px; }
 .list-view .card-desc { overflow-wrap: anywhere; }
+/* Mobile list rows are one full-width column; the grid text shrink (<=767px:
+   12/10/10) was tuned for narrow grid cards and reads too small here.
+   Restored sizes follow mobile reading norms: 15px title, 12px subtitle,
+   13px description (13px is the accepted readable floor for secondary text). */
+@media (max-width:767px) {
+    .list-view .card-container .card-title { font-size: 15px; }
+    .list-view .card-container .card-sub { font-size: 12px; }
+    .list-view .card-container .card-desc { font-size: 13px; }
+}
 .list-view .card { background-color: transparent; border-color: transparent; box-shadow: none; }
 html.dark .list-view .card { background-image: none; }
 .list-view .card:hover { transform: none; background-color: rgba(106,99,179,.07); border-color: rgba(106,99,179,.30); box-shadow: none; }
