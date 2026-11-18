@@ -128,6 +128,9 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 
 ## 📝 Changelog
 
+**2026-11-18**
+* List view on phones: text in list rows is enlarged (title 15px, subtitle 12px, description 13px) to reach mobile-readable sizes; grid-view cards keep their compact text.
+
 **2026-11-17**
 * Session reliability: a network blip (offline, WiFi switch, temporary server failure) is no longer treated as "session expired" and logged out; logout now happens only when the server explicitly rejects the session.
 * Icon reliability and freshness: SVG icons that failed to show now display; icons and the page update immediately after a redeploy (icon URLs carry a version stamp, the page cache key carries a content hash); one icon keeps one cached copy, not three.
