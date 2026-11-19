@@ -446,19 +446,24 @@ const HTML_CONTENT = `
                login, logo and edit dialog fields all triggered it on phones.
                Every text box on mobile is therefore 16px. */
             input, textarea, select { font-size: 16px; }
-            /* Mobile detail popup as a bottom sheet: the sheet is docked at
-               the bottom and grows upward with its content, so the full
-               detail text shows instead of scrolling inside a fixed box.
-               The Open Link button drops to its own row below the title,
-               right-aligned, its width fitting the label — a longer custom
-               label grows leftward from the right edge. */
+            /* Mobile detail popup as a bottom sheet (Option B): the sheet is
+               docked at the bottom and grows upward with its content, so the
+               full detail text shows instead of scrolling inside a fixed box.
+               The header button is hidden; the full-width button at the
+               bottom of the sheet is the thumb target instead. */
             #detail-overlay { align-items: flex-end; padding: 0; }
             #detail-box { max-width: 100%; border-radius: 1rem 1rem 0 0; padding: 1rem 1rem 1.25rem; max-height: 86vh; overflow-y: auto; padding-bottom: calc(1.25rem + env(safe-area-inset-bottom)); }
-            #detail-box > .flex.items-start { display: grid; grid-template-columns: auto minmax(0, 1fr); }
-            #detail-box #detail-open-btn { grid-column: 2; justify-self: end; align-self: start; font-size: 14px; padding: 6px 10px; }
+            #detail-box .icon-bg { width: 56px; height: 56px; }
+            #detail-box #detail-open-btn { display: none; }
             #detail-title { font-size: 17px; }
             #detail-sub { font-size: 15px; }
             #detail-text { font-size: 14px; max-height: none; overflow-y: visible; margin-bottom: 0; }
+            /* Two IDs on purpose: the base rule below hides this div on
+               desktop, and it sits AFTER this media block in the file — with
+               equal specificity the later rule would win and the button would
+               stay hidden on phones too. */
+            #detail-box #detail-actions-mobile { display: block; margin-top: 16px; }
+            #detail-open-btn-mobile { width: 100%; height: 48px; font-size: 15px; }
         }
         /* Phase 1: detail popup border themed to match the site: light = soft
            slate, dark = purple glow. */
@@ -478,6 +483,10 @@ const HTML_CONTENT = `
            only bottom gap, so top and bottom padding stay symmetric. */
         #detail-text { margin-bottom: 0; }
         #detail-open-btn:hover { filter: brightness(1.12); }
+        /* Mobile-only bottom button (Option B): hidden on desktop, where the
+           header button is used. Shown by the mobile media query below. */
+        #detail-actions-mobile { display: none; }
+        #detail-open-btn-mobile:hover { filter: brightness(1.12); }
 
         /* Phase 1: the edit dialog has more fields now, so its height is
            capped to the viewport and the form area scrolls — header and
@@ -1113,6 +1122,11 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
                 <button id="detail-open-btn" class="rounded-xl text-sm font-medium text-white bg-emerald-500 shadow-lg shadow-emerald-500/25 transition-all">Open Link</button>
             </div>
             <div id="detail-text" class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-wrap break-words mb-6 max-h-48 overflow-y-auto custom-scrollbar"></div>
+            <!-- Mobile only (Option B): full-width Open Link button at the
+                 bottom of the sheet. Hidden on desktop, where the header
+                 button is used instead. Both buttons get the same label,
+                 tint and click handler from showDetailPopup. -->
+            <div id="detail-actions-mobile"><button id="detail-open-btn-mobile" class="rounded-xl text-sm font-medium text-white bg-emerald-500 shadow-lg shadow-emerald-500/25 transition-all">Open Link</button></div>
         </div>
     </div>
 
@@ -4246,6 +4260,18 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
         return LANG === 'zh' ? (link.detailZh || '') : (link.detail || '');
     }
 
+    // The popup has two Open Link buttons — header (desktop) and full-width
+    // bottom (mobile) — and CSS shows exactly one. Both always carry the
+    // same label and tint; pass null for the half you don't want to change.
+    function setDetailOpenButtons(label, bg) {
+        for (const id of ['detail-open-btn', 'detail-open-btn-mobile']) {
+            const b = document.getElementById(id);
+            if (!b) continue;
+            if (label !== null) b.textContent = label;
+            if (bg !== null) b.style.background = bg;
+        }
+    }
+
     function showDetailPopup(link) {
         currentDetailLink = link;
         const titleEl = document.getElementById('detail-title');
@@ -4280,9 +4306,9 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
         if (img.complete && img.naturalWidth > 0) { img.style.display = ''; if (spin) spin.style.display = 'none'; }
         img.onerror = () => { img.style.display = 'none'; if (spin) spin.style.display = 'none'; };
 
-        // Tint the Open Link button with the card's color. Solid swatch colors
+        // Tint the Open Link buttons with the card's color. Solid swatch colors
         // keep white text; an uncolored card resets to the CSS green.
-        document.getElementById('detail-open-btn').style.background = COLOR_BUTTON[link.color] || '';
+        setDetailOpenButtons(null, COLOR_BUTTON[link.color] || '');
 
         // Bilingual label, fixed (v33): the old rule keyed on langMode() and
         // 'both' fell to the EN side, so a custom Chinese label never showed
@@ -4290,7 +4316,7 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
         // zh shows the zh label first, en shows English. Base text is written
         // as the English original so applyLang restores it when zh is off.
         const openLabel = LANG === 'zh' ? (link.btnLabelZh || link.btnLabel) : link.btnLabel;
-        document.getElementById('detail-open-btn').textContent = openLabel || 'Open Link';
+        setDetailOpenButtons(openLabel || 'Open Link', null);
         if (LANG === 'zh') applyLang();
 
         toggleOverlay('detail-overlay', true);
@@ -4503,8 +4529,10 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
     }
 
     /* No Close button (v33): the dimmed overlay and Escape already close.
-       The Open Link button lives in the header row, right of title/sub. */
+       The Open Link button lives in the header row on desktop, and as a
+       full-width button at the bottom of the sheet on mobile. */
     document.getElementById('detail-open-btn').onclick = openDetailLink;
+    document.getElementById('detail-open-btn-mobile').onclick = openDetailLink;
     document.getElementById('detail-overlay').addEventListener('mousedown', (e) => {
         if (e.target === document.getElementById('detail-overlay')) closeDetailPopup();
     });

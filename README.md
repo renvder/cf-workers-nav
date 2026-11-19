@@ -138,7 +138,7 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 * Removed: the manual "backup now" API (`/api/backupData`) — automatic backups on save/import remain.
 * Preview: the two APP-view screenshots still show the old icon view — they will be re-shot for List view.
 * Mobile list view: tapping a card now opens the detail popup first, like grid view (desktop list view still opens the link directly), and list rows on phones hide the detail text — the full detail shows in the popup.
-* Mobile popup reworked: the bottom sheet now grows upward with the detail text so it is fully shown instead of scrolling inside a fixed box (the whole sheet scrolls only past 86% of the screen height); the Open Link button sits on its own row, right-aligned, its width fitting the label; the subtitle is slightly larger (15px).
+* Mobile popup reworked: the bottom sheet now grows upward with the detail text so it is fully shown instead of scrolling inside a fixed box (the whole sheet scrolls only past 86% of the screen height); the Open Link button is a full-width 48px button at the bottom of the sheet, easiest to reach with the thumb; the popup icon is larger on phones (56px) and the subtitle is slightly larger (15px).
 * Mobile default: phones now load in list view on first visit (no stored choice); a stored layout choice always wins, desktop is unaffected.
 
 **2026-11-13**
