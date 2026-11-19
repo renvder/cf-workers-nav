@@ -36,12 +36,12 @@
 ### 淺色模式
 | 卡片視圖 | 簡約視圖 |
 |-|-|
-| ![Desktop Preview](images/light-card-zh.webp)| ![Minimal View](images/light-minimal-zh.webp)|
+| ![Desktop Preview](images/light-card-tw.webp)| ![Minimal View](images/light-minimal-tw.webp)|
 
 ### 深色模式
 | 卡片視圖 | 簡約視圖 |
 |-|-|
-| ![Desktop Preview (Dark Mode)](images/dark-card-zh.webp)| ![Minimal View](images/dark-minimal-zh.webp)|
+| ![Desktop Preview (Dark Mode)](images/dark-card-tw.webp)| ![Minimal View](images/dark-minimal-tw.webp)|
 
 ## 部署方式
 
