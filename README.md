@@ -21,7 +21,7 @@
 
 * **⚡️ Serverless Architecture**: Runs entirely on Cloudflare Workers with zero server setup or maintenance.
 * **💾 Cloudflare KV Storage**: Reliable, persistent key-value storage for all your links and settings.
-* **🎨 Clean, Modern UI**: Built with Tailwind CSS (precompiled and embedded in the page, so no external CDN is needed), with a responsive layout for desktop and mobile, plus two display styles (Card view and List view).
+* **🎨 Clean, Modern UI**: Built with Tailwind CSS (precompiled and embedded in the page, so no external CDN is needed), with a responsive layout for desktop and mobile, plus two display styles (Card view and Minimal view).
 * **🚀 Light Startup**: No external scripts run on the page, web fonts load in the background without blocking it, and the "Loading…" indicator appears right away.
 * **🌗 Dark Mode That Follows Your System**: Automatically matches your device's light/dark setting on desktop and mobile, and switches live when the system switches (e.g. scheduled day/night mode). You can also toggle it manually from the Settings menu; a manual choice is only remembered across visits if **Remember Settings** is turned on.
 * **🖱️ Drag-and-Drop Reordering**: Rearrange categories and bookmark cards via mouse drag on desktop or long-press on mobile.
@@ -34,14 +34,14 @@
 ## Interface Preview
 
 ### Light Mode
-| Card View | List View |
+| Card View | Minimal View |
 |-|-|
-| ![Desktop Preview](images/69bcc641f5194220aba98e128326ff9f.webp)| ![List View](images/5a5b09901a3b4f81b104fc9f94983299.webp)|
+| ![Desktop Preview](images/69bcc641f5194220aba98e128326ff9f.webp)| ![Minimal View](images/5a5b09901a3b4f81b104fc9f94983299.webp)|
 
 ### Dark Mode
-| Card View | List View |
+| Card View | Minimal View |
 |-|-|
-| ![Desktop Preview (Dark Mode)](images/439d9791b4024c2bb46faadf9e974cf4.webp)| ![List View](images/83814f619d014d3f945eefdcf7adec2d.webp)|
+| ![Desktop Preview (Dark Mode)](images/439d9791b4024c2bb46faadf9e974cf4.webp)| ![Minimal View](images/83814f619d014d3f945eefdcf7adec2d.webp)|
 
 ## Deployment
 
@@ -130,16 +130,17 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 * Custom site logo: the top-bar icon and favicon now follow one setting — a preset glyph tinted with a palette color, or an image URL — stored separately in KV and carried by export/import.
 * Card detail popup: a card's full description now opens in a popup instead of only showing as a tooltip.
 * Card colors: each card can carry a subtle color tint picked from swatches in the editor.
-* List view replaces APP view: the second display style is now a list layout instead of the icon grid; the preference is stored under a new `listLayout` key (an old APP-view preference is ignored).
+* Minimal view replaces APP view: the second display style is now a minimal flat layout instead of the icon grid; the preference is stored under a new `listLayout` key (an old APP-view preference is ignored).
 * Icon pipeline reworked: Cloudflare Image Resizing is no longer used — icons are served as original bytes, so the deployed page renders exactly like the local preview. Off-center favicons are re-padded so the glyph sits centered, white-background plates are skipped in favor of the next transparent source, and the tile tint is derived from the icon's own colors.
 * Security hardening: icon fetches now follow redirects manually and re-check every hop against the private-host denylist (a public site can no longer bounce the fetch to an internal host); the denylist now matches hosts exactly instead of by regex; request bodies are size-capped; a stored dataset that no longer parses returns HTTP 500 instead of an empty page.
 * Empty-overwrite guard fixed: an empty save/import over an unparseable stored dataset is now refused (HTTP 409) instead of silently overwriting it; a fresh empty namespace still accepts its first save.
 * Backups: two backups written in the same second no longer overwrite each other (unique keys), and pre-overwrite snapshots prune themselves to the latest 10.
 * Removed: the manual "backup now" API (`/api/backupData`) — automatic backups on save/import remain.
-* Preview: the two APP-view screenshots still show the old icon view — they will be re-shot for List view.
-* Mobile list view: tapping a card now opens the detail popup first, like grid view (desktop list view still opens the link directly), and list rows on phones hide the detail text — the full detail shows in the popup.
+* Preview: the two APP-view screenshots still show the old icon view — they will be re-shot for Minimal view.
+* Mobile minimal view: tapping a card now opens the detail popup first, like grid view (desktop minimal view still opens the link directly), and rows on phones hide the detail text — the full detail shows in the popup.
 * Mobile popup reworked: the bottom sheet now grows upward with the detail text so it is fully shown instead of scrolling inside a fixed box (the whole sheet scrolls only past 86% of the screen height); the Open Link button is a full-width 48px button at the bottom of the sheet, easiest to reach with the thumb; the popup icon is larger on phones (56px) and the subtitle is slightly larger (15px).
-* Mobile default: phones now load in list view on first visit (no stored choice); a stored layout choice always wins, desktop is unaffected.
+* Mobile default: phones now load in minimal view on first visit (no stored choice); a stored layout choice always wins, desktop is unaffected.
+* Renamed: List view is now Minimal view （簡約視圖） — the view itself is unchanged.
 
 **2026-11-13**
 * Sub-groups: a category can now hold named sub-groups. Create an empty group first via the "+ New Group" button, then add links into it (or drag cards across groups); groups can be renamed or deleted (deleting a group ungroups its links, never deletes them). Empty groups survive save and reload.

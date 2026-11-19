@@ -912,7 +912,7 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
                                                 <rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect>
                                                 <rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect>
                                             </svg>
-                                            List View
+                                            Minimal View
                                         </span>
                                         <label class="relative inline-flex items-center cursor-pointer">
                                             <input type="checkbox" id="layout-switch-checkbox" onchange="toggleListLayout()" class="sr-only peer">
@@ -3915,7 +3915,7 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
         'Export Config': '匯出配置',
         'Import Config': '匯入配置',
         'APP View': 'APP 視圖',
-        'List View': '列表视图',
+        'Minimal View': '簡約視圖',
         'Dark Mode': '深色模式',
         'Remember Settings': '記憶設置',
         'Login': '登入',
