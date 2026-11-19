@@ -36,12 +36,12 @@
 ### 淺色模式
 | 卡片視圖 | 簡約視圖 |
 |-|-|
-| ![Desktop Preview](images/light-card-en.webp)| ![Minimal View](images/light-minimal-en.webp)|
+| ![Desktop Preview](images/light-card-zh.webp)| ![Minimal View](images/light-minimal-zh.webp)|
 
 ### 深色模式
 | 卡片視圖 | 簡約視圖 |
 |-|-|
-| ![Desktop Preview (Dark Mode)](images/dark-card-en.webp)| ![Minimal View](images/dark-minimal-en.webp)|
+| ![Desktop Preview (Dark Mode)](images/dark-card-zh.webp)| ![Minimal View](images/dark-minimal-zh.webp)|
 
 ## 部署方式
 
@@ -136,7 +136,7 @@
 * 空覆蓋保護修復：存著的數據損壞時，空的保存/導入現在會被拒絕（HTTP 409），不會悄悄蓋掉；全新的空命名空間第一次保存不受影響。
 * 備份：同一秒寫入的兩份備份不會再互相覆蓋（鍵名唯一），導入前的備份快照會自己清理到最新 10 份。
 * 移除：手動備份接口（`/api/backupData`）——保存/導入時的自動備份還在。
-* 預覽圖：四張預覽截圖現在是簡約視圖（英文界面）。
+* 預覽圖：四張預覽截圖現在是簡約視圖（中文界面）。
 * 手機簡約視圖：點卡片現在會先彈出詳情彈窗，和網格視圖一樣（桌面簡約視圖還是直接打開連結），手機上的簡約卡片不再顯示詳情文字，完整詳情在彈窗裡看。
 * 手機彈窗重做：底部彈窗現在跟著詳情文字向上長高，文字完整顯示，不再在固定框裡滾動（超過 86% 屏高才整個彈窗滾動）；打開連結按鈕是底部一整行的 48px 按鈕，拇指最好點；手機上彈窗圖標更大（56px），副標題稍大（15px）。
 * 手機默認簡約視圖：手機第一次打開默認就是簡約視圖（沒存過選擇時）；存過的選擇優先，桌面不受影響。
