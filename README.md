@@ -34,14 +34,14 @@
 ## Interface Preview
 
 ### Light Mode
-| Card View | Minimal View |
+| Card View | APP View |
 |-|-|
-| ![Desktop Preview](images/69bcc641f5194220aba98e128326ff9f.webp)| ![Minimal View](images/5a5b09901a3b4f81b104fc9f94983299.webp)|
+| ![Desktop Preview](images/69bcc641f5194220aba98e128326ff9f.webp)| ![APP View](images/5a5b09901a3b4f81b104fc9f94983299.webp)|
 
 ### Dark Mode
-| Card View | Minimal View |
+| Card View | APP View |
 |-|-|
-| ![Desktop Preview (Dark Mode)](images/439d9791b4024c2bb46faadf9e974cf4.webp)| ![Minimal View](images/83814f619d014d3f945eefdcf7adec2d.webp)|
+| ![Desktop Preview (Dark Mode)](images/439d9791b4024c2bb46faadf9e974cf4.webp)| ![APP View](images/83814f619d014d3f945eefdcf7adec2d.webp)|
 
 ## Deployment
 
@@ -149,7 +149,7 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 * Group headers: more space between groups, and group titles are smaller and muted so they read as subordinate to the category title.
 * Tag length: the filter-tag limit is now 30 characters (was 20), so tags are no longer cut off on save.
 * Group panels: each named group is now shown inside a rounded panel (light mode: translucent white fill with a soft violet border; dark mode: a violet tint with a stronger violet border). The panel hides together with its group when a filter leaves it empty; ungrouped links and search results have no panel.
-* Panel titles: the group title now sits on the panel's top border, and the border breaks evenly around it. In APP view the panel's top padding is slightly larger, so the icon tiles and the link names sit the same distance from the panel's top and bottom edges.
+* Panel titles: the group title now sits on the panel's top border, and the border breaks evenly around it. In Minimal view the panel's top padding is slightly larger, so the icon tiles and the link names sit the same distance from the panel's top and bottom edges.
 * Panel background removed: the group panels now have no fill in either mode — only the border outline shows, with the page background showing through.
 * One-tag filters: a category with only one filter tag now shows its pills row (previously the row only appeared with two or more tags, so a single tag had no visible UI).
 * Panel spacing: the gap between group panels inside a category is now 32px (was 56px) — tighter, matching the gap between the filter pills and the first panel.
@@ -159,9 +159,6 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 * Reliability: if the KV namespace is deleted or unreadable, `/api/getLinks` now returns HTTP 500 instead of a silently empty page; saving or importing an empty dataset over existing links is refused (HTTP 409) unless explicitly forced, and import backs up the current data first.
 * Offsite backup: binding a second KV namespace as `CARD_ORDER_BACKUP` keeps a timestamped copy of your data on every save/import (latest 10 kept), so links survive losing the main namespace.
 * Fixes: cookie parsing, UTF-8-safe base64 helpers, link matching by URL + name, icon cache cap, and security headers on HTML responses.
-
-**2026-09-23**
-* Icons: `/api/icon` now accepts a `w` size parameter and resizes/re-encodes icons at the edge via Cloudflare Image Resizing (AVIF/WebP when the browser supports it), each size and format cached separately. The page requests icons through `srcset` at 1x/2x/3x so Retina/4K/5K screens get a sharp icon without oversized downloads on ordinary screens. Custom icon URLs saved on a link are now also routed through the proxy (previously they bypassed it entirely, loading the original file at full size with no caching).
 
 **2026-09-20**
 * Performance: Tailwind CSS is now precompiled and embedded in the page instead of being loaded from `cdn.tailwindcss.com`; Google Fonts no longer blocks the page from starting; the login check no longer runs twice at startup; the "Loading…" indicator shows from the first paint; idle dialog overlays are fully hidden (`display: none`) instead of sitting invisibly on top of the page.
