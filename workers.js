@@ -4388,6 +4388,7 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
         try { localStorage.setItem('logo_cache', JSON.stringify({ s: logoState, f: fav ? fav.href : '' })); } catch (e) {}
         const nameEl = document.getElementById('site-name');
         if (nameEl) nameEl.textContent = logoState.name || 'RENVDER NAV';
+        document.title = logoState.name || 'RENVDER NAV';
         const preview = document.getElementById('logo-preview');
         if (preview) {
             preview.className = 'w-8 h-8 flex items-center justify-center text-white overflow-hidden';
