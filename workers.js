@@ -446,16 +446,19 @@ const HTML_CONTENT = `
                login, logo and edit dialog fields all triggered it on phones.
                Every text box on mobile is therefore 16px. */
             input, textarea, select { font-size: 16px; }
-            /* Mobile detail popup as a bottom sheet (v33): phones are tall,
-               the thumb works at the screen bottom, and the centered card's
-               small right-aligned buttons sat out of reach. Full-width sheet
-               docked at the bottom, top corners rounded, Open Link first and
-               Close below, both full-width — every step in thumb range. */
+            /* Mobile detail popup as a bottom sheet: the sheet is docked at
+               the bottom and grows upward with its content, so the full
+               detail text shows instead of scrolling inside a fixed box.
+               The Open Link button drops to its own row below the title,
+               right-aligned, its width fitting the label — a longer custom
+               label grows leftward from the right edge. */
             #detail-overlay { align-items: flex-end; padding: 0; }
-            #detail-box { max-width: 100%; border-radius: 1rem 1rem 0 0; padding: 1rem 1rem 1.25rem; max-height: 86vh; padding-bottom: calc(1.25rem + env(safe-area-inset-bottom)); }
+            #detail-box { max-width: 100%; border-radius: 1rem 1rem 0 0; padding: 1rem 1rem 1.25rem; max-height: 86vh; overflow-y: auto; padding-bottom: calc(1.25rem + env(safe-area-inset-bottom)); }
+            #detail-box > .flex.items-start { display: grid; grid-template-columns: auto minmax(0, 1fr); }
+            #detail-box #detail-open-btn { grid-column: 2; justify-self: end; align-self: start; font-size: 14px; padding: 6px 10px; }
             #detail-title { font-size: 17px; }
-            #detail-text { font-size: 14px; max-height: 60vh; margin-bottom: 0; }
-            #detail-box #detail-open-btn { font-size: 14px; padding: 6px 10px; }
+            #detail-sub { font-size: 15px; }
+            #detail-text { font-size: 14px; max-height: none; overflow-y: visible; margin-bottom: 0; }
         }
         /* Phase 1: detail popup border themed to match the site: light = soft
            slate, dark = purple glow. */
@@ -749,7 +752,9 @@ html:not(.dark) .card-c-orange .card-sub { color:#537fa3; }
 @media (max-width:767px) {
     .list-view .card-container .card-title { font-size: 15px; }
     .list-view .card-container .card-sub { font-size: 12px; }
-    .list-view .card-container .card-desc { font-size: 13px; }
+    /* Mobile list rows hide the detail text: tapping a row opens the popup,
+       where the full detail shows. */
+    .list-view .card-container .card-desc { display: none; }
 }
 .list-view .card { background-color: transparent; border-color: transparent; box-shadow: none; }
 html.dark .list-view .card { background-image: none; }
@@ -1208,7 +1213,12 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
     <script>
     let isEditMode = false;
     let isLoggedIn = false;
-    let isListLayout = localStorage.getItem('listLayout') === 'true';
+    // No stored choice yet: phones (<=767px, the same breakpoint as the
+    // bottom-sheet CSS) default to list view; a stored choice always wins.
+    const storedLayout = localStorage.getItem('listLayout');
+    let isListLayout = storedLayout === null
+        ? window.matchMedia('(max-width: 767px)').matches
+        : storedLayout === 'true';
     localStorage.removeItem('appLayout'); // v27: old key from the APP-view toggle, no longer read
 
     let editCardMode = false;
@@ -2961,10 +2971,15 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
             };
             // Row mode (v4): no buttons at all. Clicking the icon, the title
             // or anywhere on the row opens the link in a new window; Ctrl/Cmd
-            // and middle-click do the same. The detail text shows in full.
+            // and middle-click do the same. On desktop the detail text shows
+            // in full on the row; on a phone the row hides it and a tap opens
+            // the detail popup first, like grid view.
             card.onclick = (e) => {
-                if (isListLayout) { openDirect(); return; }
                 if (e.ctrlKey || e.metaKey) { openDirect(); return; }
+                // List view opens the link directly on desktop, but on a phone
+                // (<=767px, the same breakpoint as the bottom-sheet CSS) a tap
+                // opens the detail popup first, like grid view.
+                if (isListLayout && !window.matchMedia('(max-width: 767px)').matches) { openDirect(); return; }
                 showDetailPopup(link);
             };
             card.addEventListener('auxclick', (e) => {

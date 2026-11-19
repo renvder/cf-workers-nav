@@ -137,6 +137,9 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 * Backups: two backups written in the same second no longer overwrite each other (unique keys), and pre-overwrite snapshots prune themselves to the latest 10.
 * Removed: the manual "backup now" API (`/api/backupData`) — automatic backups on save/import remain.
 * Preview: the two APP-view screenshots still show the old icon view — they will be re-shot for List view.
+* Mobile list view: tapping a card now opens the detail popup first, like grid view (desktop list view still opens the link directly), and list rows on phones hide the detail text — the full detail shows in the popup.
+* Mobile popup reworked: the bottom sheet now grows upward with the detail text so it is fully shown instead of scrolling inside a fixed box (the whole sheet scrolls only past 86% of the screen height); the Open Link button sits on its own row, right-aligned, its width fitting the label; the subtitle is slightly larger (15px).
+* Mobile default: phones now load in list view on first visit (no stored choice); a stored layout choice always wins, desktop is unaffected.
 
 **2026-11-13**
 * Sub-groups: a category can now hold named sub-groups. Create an empty group first via the "+ New Group" button, then add links into it (or drag cards across groups); groups can be renamed or deleted (deleting a group ungroups its links, never deletes them). Empty groups survive save and reload.
