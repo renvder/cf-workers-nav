@@ -3,7 +3,7 @@ const HTML_CONTENT = `
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="color-scheme" content="light dark">
     <meta name="theme-color" content="#f3edfb">
     <title>RENVDER NAV</title>
@@ -49,6 +49,13 @@ const HTML_CONTENT = `
             z-index: 50;
             position: relative;
         }
+
+        /* Phones must not zoom (v33): double-taps on non-link spots (gaps,
+           titles, margins) triggered the browser default zoom, and the user
+           reported the page jumping to a zoomed state mid-tap. meta caps the
+           viewport and this blocks pinch/double-tap gestures on iOS 13–16,
+           where Apple ignores user-scalable. Vertical scroll stays. */
+        html, body { touch-action: pan-y; }
 
         .edit-mode .card {
             /* touch-action: none; */
@@ -439,6 +446,16 @@ const HTML_CONTENT = `
                login, logo and edit dialog fields all triggered it on phones.
                Every text box on mobile is therefore 16px. */
             input, textarea, select { font-size: 16px; }
+            /* Mobile detail popup as a bottom sheet (v33): phones are tall,
+               the thumb works at the screen bottom, and the centered card's
+               small right-aligned buttons sat out of reach. Full-width sheet
+               docked at the bottom, top corners rounded, Open Link first and
+               Close below, both full-width — every step in thumb range. */
+            #detail-overlay { align-items: flex-end; padding: 0; }
+            #detail-box { max-width: 100%; border-radius: 1rem 1rem 0 0; padding: 1rem 1rem 1.25rem; max-height: 86vh; padding-bottom: calc(1.25rem + env(safe-area-inset-bottom)); }
+            #detail-title { font-size: 17px; }
+            #detail-text { font-size: 14px; max-height: 60vh; margin-bottom: 0; }
+            #detail-box #detail-open-btn { font-size: 14px; padding: 6px 10px; }
         }
         /* Phase 1: detail popup border themed to match the site: light = soft
            slate, dark = purple glow. */
@@ -453,6 +470,10 @@ const HTML_CONTENT = `
         /* The Open Link button is tinted with the card's color by JS. Inline
            background beats the Tailwind hover class, so hover feedback is a
            brightness lift that works for every color and for the plain green. */
+        #detail-open-btn { align-self: center; flex-shrink: 0; padding: 10px 16px; }
+        /* Zero text bottom margin (v33): the box's own 24px padding is the
+           only bottom gap, so top and bottom padding stay symmetric. */
+        #detail-text { margin-bottom: 0; }
         #detail-open-btn:hover { filter: brightness(1.12); }
 
         /* Phase 1: the edit dialog has more fields now, so its height is
@@ -1084,12 +1105,9 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
                     <h3 id="detail-title" class="text-base font-bold text-slate-800 dark:text-slate-100 leading-snug break-words"></h3>
                     <div id="detail-sub" class="text-sm text-slate-500 dark:text-slate-400 mt-1 break-words hidden"></div>
                 </div>
+                <button id="detail-open-btn" class="rounded-xl text-sm font-medium text-white bg-emerald-500 shadow-lg shadow-emerald-500/25 transition-all">Open Link</button>
             </div>
             <div id="detail-text" class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-wrap break-words mb-6 max-h-48 overflow-y-auto custom-scrollbar"></div>
-            <div class="flex justify-end gap-3">
-                <button id="detail-close-btn" class="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 transition-colors">Close</button>
-                <button id="detail-open-btn" class="px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-emerald-500 hover:bg-emerald-600 shadow-lg shadow-emerald-500/25 transition-all hover:translate-y-[-1px]">Open Link</button>
-            </div>
         </div>
     </div>
 
@@ -1190,7 +1208,8 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
     <script>
     let isEditMode = false;
     let isLoggedIn = false;
-    let isListLayout = localStorage.getItem('appLayout') === 'true';
+    let isListLayout = localStorage.getItem('listLayout') === 'true';
+    localStorage.removeItem('appLayout'); // v27: old key from the APP-view toggle, no longer read
 
     let editCardMode = false;
     let isEditCategoryMode = false;
@@ -1385,7 +1404,7 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
 
     function toggleListLayout() {
         isListLayout = !isListLayout;
-        localStorage.setItem('appLayout', isListLayout);
+        localStorage.setItem('listLayout', isListLayout);
         document.documentElement.classList.toggle('list-view', isListLayout);
 
         const checkbox = document.getElementById('layout-switch-checkbox');
@@ -4250,10 +4269,14 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
         // keep white text; an uncolored card resets to the CSS green.
         document.getElementById('detail-open-btn').style.background = COLOR_BUTTON[link.color] || '';
 
-        // Bilingual label, same language rule as the card/popup detail:
-        // zh picks the zh label first, en picks English, default T('Open Link').
-        const btnMode = langMode();
-        document.getElementById('detail-open-btn').textContent = btnMode === 'zh' ? (link.btnLabelZh || T('Open Link')) : (link.btnLabel || T('Open Link'));
+        // Bilingual label, fixed (v33): the old rule keyed on langMode() and
+        // 'both' fell to the EN side, so a custom Chinese label never showed
+        // in zh mode — the labels read as reversed. Pick by the UI language:
+        // zh shows the zh label first, en shows English. Base text is written
+        // as the English original so applyLang restores it when zh is off.
+        const openLabel = LANG === 'zh' ? (link.btnLabelZh || link.btnLabel) : link.btnLabel;
+        document.getElementById('detail-open-btn').textContent = openLabel || 'Open Link';
+        if (LANG === 'zh') applyLang();
 
         toggleOverlay('detail-overlay', true);
     }
@@ -4464,7 +4487,8 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
         if (target) window.open(target, '_blank', 'noopener,noreferrer');
     }
 
-    document.getElementById('detail-close-btn').onclick = closeDetailPopup;
+    /* No Close button (v33): the dimmed overlay and Escape already close.
+       The Open Link button lives in the header row, right of title/sub. */
     document.getElementById('detail-open-btn').onclick = openDetailLink;
     document.getElementById('detail-overlay').addEventListener('mousedown', (e) => {
         if (e.target === document.getElementById('detail-overlay')) closeDetailPopup();
@@ -6484,8 +6508,9 @@ export default {
                 const parsed = safeJsonParse(currentData, null);
                 // An unparseable stored blob must NOT count as empty: that
                 // would let an empty incoming payload overwrite it unforced.
-                const existingCount = parsed.data ? countLinks(parsed.data.categories) : -1;
-                if (countLinks(categories) === 0 && existingCount > 0 && !body.data.force) {
+                // Null means nothing was ever stored (fresh namespace) -> 0.
+                const existingCount = currentData == null ? 0 : (parsed.data ? countLinks(parsed.data.categories) : -1);
+                if (countLinks(categories) === 0 && existingCount !== 0 && !body.data.force) {
                     return new Response(JSON.stringify({ error: 'REFUSE_EMPTY_OVERWRITE', detail: 'incoming data is empty but stored data has ' + existingCount + ' links' }), { status: 409, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
                 }
 
@@ -6588,8 +6613,9 @@ export default {
              const parsed = safeJsonParse(currentData, null);
              // Same rule as the save path: an unparseable stored blob is
              // never a safe empty target for an empty import.
-             const existingCount = parsed.data ? countLinks(parsed.data.categories) : -1;
-             if (countLinks(categories) === 0 && existingCount > 0 && !bodyObj.data.force) {
+             // Null means nothing was ever stored (fresh namespace) -> 0.
+             const existingCount = currentData == null ? 0 : (parsed.data ? countLinks(parsed.data.categories) : -1);
+             if (countLinks(categories) === 0 && existingCount !== 0 && !bodyObj.data.force) {
                  return new Response(JSON.stringify({ error: 'REFUSE_EMPTY_OVERWRITE', detail: 'imported data is empty but stored data has ' + existingCount + ' links' }), { status: 409, headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json'} });
              }
 
