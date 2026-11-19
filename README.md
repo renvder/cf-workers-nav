@@ -34,14 +34,14 @@
 ## Interface Preview
 
 ### Light Mode
-| Card View | APP View |
+| Card View | Minimal View |
 |-|-|
-| ![Desktop Preview](images/69bcc641f5194220aba98e128326ff9f.webp)| ![APP View](images/5a5b09901a3b4f81b104fc9f94983299.webp)|
+| ![Desktop Preview](images/light-card-en.webp)| ![Minimal View](images/light-minimal-en.webp)|
 
 ### Dark Mode
-| Card View | APP View |
+| Card View | Minimal View |
 |-|-|
-| ![Desktop Preview (Dark Mode)](images/439d9791b4024c2bb46faadf9e974cf4.webp)| ![APP View](images/83814f619d014d3f945eefdcf7adec2d.webp)|
+| ![Desktop Preview (Dark Mode)](images/dark-card-en.webp)| ![Minimal View](images/dark-minimal-en.webp)|
 
 ## Deployment
 
@@ -136,7 +136,7 @@ The page's Tailwind CSS is precompiled and stored in the `<style id="tw-compiled
 * Empty-overwrite guard fixed: an empty save/import over an unparseable stored dataset is now refused (HTTP 409) instead of silently overwriting it; a fresh empty namespace still accepts its first save.
 * Backups: two backups written in the same second no longer overwrite each other (unique keys), and pre-overwrite snapshots prune themselves to the latest 10.
 * Removed: the manual "backup now" API (`/api/backupData`) — automatic backups on save/import remain.
-* Preview: the two APP-view screenshots still show the old icon view — they will be re-shot for Minimal view.
+* Preview: the four preview screenshots now show Minimal view (English UI).
 * Mobile minimal view: tapping a card now opens the detail popup first, like grid view (desktop minimal view still opens the link directly), and rows on phones hide the detail text — the full detail shows in the popup.
 * Mobile popup reworked: the bottom sheet now grows upward with the detail text so it is fully shown instead of scrolling inside a fixed box (the whole sheet scrolls only past 86% of the screen height); the Open Link button is a full-width 48px button at the bottom of the sheet, easiest to reach with the thumb; the popup icon is larger on phones (56px) and the subtitle is slightly larger (15px).
 * Mobile default: phones now load in minimal view on first visit (no stored choice); a stored layout choice always wins, desktop is unaffected.
