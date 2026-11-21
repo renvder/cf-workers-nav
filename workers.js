@@ -912,7 +912,7 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
                                                 <rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect>
                                                 <rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect>
                                             </svg>
-                                            Minimal View
+                                            List View
                                         </span>
                                         <label class="relative inline-flex items-center cursor-pointer">
                                             <input type="checkbox" id="layout-switch-checkbox" onchange="toggleListLayout()" class="sr-only peer">
@@ -3915,7 +3915,7 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
         'Export Config': '匯出配置',
         'Import Config': '匯入配置',
         'APP View': 'APP 視圖',
-        'Minimal View': '簡約視圖',
+        'List View': '列表视图',
         'Dark Mode': '深色模式',
         'Remember Settings': '記憶設置',
         'Login': '登入',
@@ -4388,7 +4388,6 @@ html.dark .list-view .card:hover { background-color: rgba(135,123,210,.10); bord
         try { localStorage.setItem('logo_cache', JSON.stringify({ s: logoState, f: fav ? fav.href : '' })); } catch (e) {}
         const nameEl = document.getElementById('site-name');
         if (nameEl) nameEl.textContent = logoState.name || 'RENVDER NAV';
-        document.title = logoState.name || 'RENVDER NAV';
         const preview = document.getElementById('logo-preview');
         if (preview) {
             preview.className = 'w-8 h-8 flex items-center justify-center text-white overflow-hidden';
@@ -5757,7 +5756,6 @@ async function centerIconPNG(bytes) {
         // so a full-bleed circle (margins ~0, looks edge-clipped in the white tile) shrinks
         // slightly and shows a clean white ring around it.
         let side = Math.max(bw, bh) + 8;
-        if (side > 216) side = 216;
         const ox = Math.floor((side - bw) / 2), oy = Math.floor((side - bh) / 2);
         const canvas = new Uint8Array(side * side * 4);
         for (let y = 0; y < bh; y++) {
@@ -5766,6 +5764,33 @@ async function centerIconPNG(bytes) {
         }
         return { out: await pngEncode(side, side, canvas), opaque: false, tint };
     } catch { return { out: null, opaque: false }; }
+}
+
+// SVG <img> clips everything outside the viewBox, so a circle that overshoots
+// the box by a hair shows a flat edge. Grow the viewBox by 4% per side (shapes
+// keep their size relative to each other, the glyph just gets breathing room).
+function padSvgViewBox(text) {
+    try {
+        const m = text.match(/<svg\b[^>]*>/i);
+        if (!m) return text;
+        const tag = m[0];
+        const vb = tag.match(/\sviewBox\s*=\s*["']\s*([-+\d.eE]+)[\s,]+([-+\d.eE]+)[\s,]+([-+\d.eE]+)[\s,]+([-+\d.eE]+)\s*["']/i);
+        let x, y, w, h;
+        if (vb) {
+            x = +vb[1]; y = +vb[2]; w = +vb[3]; h = +vb[4];
+        } else {
+            const wm = tag.match(/\swidth\s*=\s*["']\s*([\d.]+)(?:px)?\s*["']/i);
+            const hm = tag.match(/\sheight\s*=\s*["']\s*([\d.]+)(?:px)?\s*["']/i);
+            if (!wm || !hm) return text;
+            x = 0; y = 0; w = +wm[1]; h = +hm[1];
+        }
+        if (![x, y, w, h].every(Number.isFinite) || w <= 0 || h <= 0) return text;
+        const pad = Math.max(w, h) * 0.04;
+        const f = (n) => +n.toFixed(3);
+        const nv = 'viewBox="' + [f(x - pad), f(y - pad), f(w + 2 * pad), f(h + 2 * pad)].join(' ') + '"';
+        const newTag = vb ? tag.replace(vb[0], ' ' + nv) : tag.replace(/<svg/i, '<svg ' + nv);
+        return text.replace(tag, newTag);
+    } catch { return text; }
 }
 
 async function safeFetchIcon(target, ms = 3500, allowSvg = false, strict = true) {
@@ -5838,7 +5863,7 @@ async function safeFetchIcon(target, ms = 3500, allowSvg = false, strict = true)
                 // The body is consumed here: always return a fresh Response.
                 // Falling through to `return res` threw "body disturbed" for
                 // SVGs that stripWhiteSvg declines (large / no path shapes).
-                const stripped = stripWhiteSvg(text) || text;
+                const stripped = padSvgViewBox(stripWhiteSvg(text) || text);
                 return new Response(stripped, { status: 200, headers: { 'Content-Type': 'image/svg+xml' } });
             } catch { return null; }
         }
@@ -5870,7 +5895,7 @@ async function handleIconProxy(request, ctx) {
     const cacheUrl = new URL(url.toString());
     // `w` never changes the bytes: drop it so 1x/2x/3x share one cache entry
     cacheUrl.searchParams.delete('w');
-    cacheUrl.searchParams.set('_v', '9');
+    cacheUrl.searchParams.set('_v', '10');
     const cacheKey = new Request(cacheUrl.toString(), request);
     const cache = caches.default;
 
