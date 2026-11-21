@@ -3,6 +3,12 @@
 // Build: npx tailwindcss@3.4.17 -c tailwind.config.js -i input.css -o out.css --minify
 module.exports = {
   content: ['./page.html'], // the page's HTML saved to a file
+  // Classes the final workers.js uses (HTML + JS-built strings) that a saved page.html
+  // may not contain; without these the embedded CSS misses them.
+  safelist: [
+    'flex-wrap', 'gap-0.5', 'min-w-0', 'ml-1', 'mt-6',
+    'object-cover', 'text-base', 'hover:bg-white/60',
+  ],
 
             darkMode: 'class',
             theme: {
